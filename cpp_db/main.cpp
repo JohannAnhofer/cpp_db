@@ -1,13 +1,10 @@
 #include "nullable.h"
 #include "nullable_types.h"
 
-#include <QCoreApplication>
 #include <iostream>
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication app(argc, argv);
-
     std::cout << std::endl;
 
     try
