@@ -10,6 +10,14 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="nullable.h" />
+    <ClInclude Include="nullable_types.h" />
+    <ClInclude Include="value_is_null.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9B986CAE-23B7-4CB6-B547-00F7C1C4663B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

@@ -1,1 +1,5 @@
 *.pro.*
+*.opensdf
+*.sdf
+Debug/
+cpp_db/Debug
