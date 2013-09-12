@@ -14,6 +14,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="key_value_pair.h" />
     <ClInclude Include="nullable.h" />
     <ClInclude Include="nullable_types.h" />
     <ClInclude Include="value_is_null.h" />

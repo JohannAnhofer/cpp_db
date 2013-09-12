@@ -29,5 +29,8 @@
     <ClInclude Include="value_is_null.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="key_value_pair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
