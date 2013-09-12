@@ -1,7 +1,9 @@
 #include "nullable.h"
 #include "nullable_types.h"
+#include "key_value_pair.h"
 
 #include <iostream>
+#include <memory>
 
 int main(int argc, char *argv[])
 {
@@ -27,6 +29,13 @@ int main(int argc, char *argv[])
         cpp_db::null_type null;
 
         std::cout << "Is null ? " << std::boolalpha << null.is_null() << std::endl;
+
+        std::unique_ptr<cpp_db::connection_option> p(cpp_db::make_key_value_pair(std::string("driver"), std::string("QIBASE")));
+
+        std::cout << p->key<std::string, std::string>()
+                  << "=\"" << p->value<std::string, std::string>() << "\""
+                  << std::endl;
+
     }
     catch(const std::exception &ex)
     {
