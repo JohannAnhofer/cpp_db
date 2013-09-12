@@ -20,4 +20,5 @@ SOURCES += main.cpp
 HEADERS += \
     nullable.h \
     value_is_null.h \
-    nullable_types.h
+    nullable_types.h \
+    key_value_pair.h
