@@ -16,5 +16,6 @@
 *.pro.*
 *.opensdf
 *.sdf
+*.suo
 Debug/
 cpp_db/Debug
