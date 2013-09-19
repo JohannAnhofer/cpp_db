@@ -28,9 +28,17 @@ int main(int , char *[])
             std::cout << "Equal!!!\n";
 
         int b = a;
+        cpp_db::nullable_int d;
+        const cpp_db::nullable_int e(10), f;
 
         std::cout << "b=" << b << ", c=" << c << std::endl;
-
+        std::cout << std::boolalpha
+                  << "a is null: "      << cpp_db::is_null(a) << " " << a.is_null()
+                  << "\nd is null: "    << cpp_db::is_null(d) << " " << d.is_null()
+                  << "\ne is null: "    << cpp_db::is_null(e) << " " << e.is_null()
+                  << "\nf is null: "    << cpp_db::is_null(f) << " " << f.is_null()
+                  << "\nnull is null: " << cpp_db::is_null(cpp_db::nullable_int()) << " " << cpp_db::nullable_int().is_null()
+                  << std::endl;
 		{
             using namespace cpp_db;
 			null_type null;

@@ -2,6 +2,7 @@
 #define CPP_DB_NULLABLE_TYPES_H
 
 #include "nullable.h"
+
 #include <string>
 
 namespace cpp_db
@@ -34,14 +35,6 @@ namespace cpp_db
     typedef nullable<std::wstring>  nullable_wstring;
 
     // date/time types
-
-    // NULL
-    template<>
-    class nullable<void>
-    {
-    public:
-        bool is_null() const {return true;}
-    };
 }
 
 #endif // CPP_DB_NULLABLE_TYPES_H
