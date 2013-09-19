@@ -2,6 +2,7 @@
 #define CPP_DB_NULLABLE_H
 
 #include "value_is_null.h"
+#include "null.h"
 
 namespace cpp_db
 {
@@ -121,6 +122,24 @@ private:
     T value_;
     bool is_null_;
 };
+
+template<typename T>
+bool is_null(const nullable<T> &value)
+{
+    return value.is_null();
+}
+
+template<typename T>
+bool is_null(nullable<T> &value)
+{
+    return value.is_null();
+}
+
+template<typename T>
+bool is_null(nullable<T> &&value)
+{
+    return value.is_null();
+}
 
 } // namespace cpp_db
 

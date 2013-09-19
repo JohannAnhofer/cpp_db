@@ -23,5 +23,6 @@ HEADERS += \
     value_is_null.h \
     nullable_types.h \
     key_value_pair.h \
-    coalesce.h
+    coalesce.h \
+    null.h
 
