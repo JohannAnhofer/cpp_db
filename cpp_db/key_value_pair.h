@@ -1,13 +1,18 @@
 #ifndef CPP_DB_KEY_VALUE_PAIR_H
 #define CPP_DB_KEY_VALUE_PAIR_H
 
+#include <stdexcept>
+
 namespace cpp_db
 {
+
+template<typename K, typename V>
+class key_value_pair;
 
 class connection_option
 {
 public:
-    virtual ~connection_option() = 0 {}
+    virtual ~connection_option() = 0;
 
     template<typename K, typename V>
     K key() const
@@ -16,7 +21,7 @@ public:
         if (kvp const *pkvp = dynamic_cast<kvp const *>(this))
             return pkvp->key();
         else
-            throw std::exception("Invalid key or value type");
+            throw std::invalid_argument("Invalid key or value type");
     }
 
     template<typename K, typename V>
@@ -26,9 +31,13 @@ public:
         if (kvp const *pkvp = dynamic_cast<kvp const *>(this))
             return pkvp->value();
         else
-            throw std::exception("Invalid key or value type");
+            throw std::invalid_argument("Invalid key or value type");
     }
 };
+
+inline connection_option::~connection_option()
+{
+}
 
 template<typename K, typename V>
 class key_value_pair : public connection_option
