@@ -4,3 +4,4 @@
 *.suo
 Debug/
 cpp_db/Debug
+build-*-debug/
