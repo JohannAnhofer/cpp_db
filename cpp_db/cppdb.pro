@@ -11,6 +11,7 @@ QT       -= gui
 TARGET = cppdb
 CONFIG   += console
 CONFIG   -= app_bundle
+CONFIG += c++11
 
 TEMPLATE = app
 
@@ -21,4 +22,6 @@ HEADERS += \
     nullable.h \
     value_is_null.h \
     nullable_types.h \
-    key_value_pair.h
+    key_value_pair.h \
+    coalesce.h
+

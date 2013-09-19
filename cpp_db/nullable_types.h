@@ -42,8 +42,6 @@ namespace cpp_db
     public:
         bool is_null() const {return true;}
     };
-
-    typedef nullable<void> null_type;
 }
 
 #endif // CPP_DB_NULLABLE_TYPES_H

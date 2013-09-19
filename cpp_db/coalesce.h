@@ -1,7 +1,7 @@
 #ifndef CPP_DB_COALESCE_H
 #define CPP_DB_COALESCE_H
 
-namespace cpp_db1
+namespace cpp_db
 {
 
 struct null_type {};
@@ -34,26 +34,27 @@ struct coalesce_trait<T>
 	typedef T type;
 };
 
+// head is non null
+template<typename T, typename...Ts>
+T coalesce(T&& t, Ts...)
+{
+    return std::forward<T>(t);
+}
+
+// last argument is non null
+template<typename T>
+T coalesce(T&& t)
+{
+    return std::forward<T>(t);
+}
+
 // head is null
 template<typename...Ts>
-auto coalesce(null_type, Ts... ts) -> decltype(typename coalesce_trait<ts...>::type)
+typename coalesce_trait<Ts...>::type coalesce(null_type, Ts... ts)
 {
 	return coalesce(ts...);
 }
 
-// head is non null
-template<typename T, typename...Ts>
-T coalesce(T&& t, Ts... ts)
-{
-	return std::forward<T>(t);
-}
-
-// last argument is non null 
-template<typename T>
-T coalesce(T&& t)
-{
-	return std::forward<T>(t);
-}
 
 // last argument is null case
 null_type coalesce(null_type nt)
