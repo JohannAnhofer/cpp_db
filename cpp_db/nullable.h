@@ -122,16 +122,6 @@ private:
     bool is_null_;
 };
 
-template<typename T>
-T coalesce(const nullable<T> &first, const nullable<T> &second)
-{
-    if (!first.is_null())
-        return first.value();
-    if (!second.is_null())
-        return second.value();
-    return T();
-}
-
 } // namespace cpp_db
 
 #endif // CPP_DB_NULLABLE_H
