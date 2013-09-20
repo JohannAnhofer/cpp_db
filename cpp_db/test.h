@@ -30,7 +30,7 @@ void test_condition(const std::string &name, bool cond)
 	test_stream() << (cond ? namefor_ok : namefor_nok) << " : " << name << std::endl;
 }
 
-void test_condition(const std::string &name, std::function<bool()> cond)
+void test_condition(const std::string &name, bool (*cond)())
 {
 	try
 	{
@@ -68,8 +68,8 @@ void test_not_equal(TL &&tl, TR &&tr, const std::string &name)
 	}
 }
 
-#define TEST_EQUAL(left, right) test_equal(left, right, #left##"=="###right)
-#define TEST_NOT_EQUAL(left, right) test_not_equal(left, right, #left##"!="###right)
+#define TEST_EQUAL(left, right) test_equal(left, right, #left"=="#right)
+#define TEST_NOT_EQUAL(left, right) test_not_equal(left, right, #left"!="#right)
 #define TEST_VERIFY(cond) test_condition(#cond, cond)
 
 #endif 

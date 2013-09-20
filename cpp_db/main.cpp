@@ -18,8 +18,8 @@ int main(int , char *[])
 	test_message("---------- Test testfunctions ----------");
 	test_condition("TRUE-Test success", true);
 	test_condition("TRUE-Test failed", false);
-	test_condition("EXCEPTIONS-Test", []() {if (false) return true; else throw std::runtime_error("This is a test!"); });
-	TEST_VERIFY([]() {if (false) return true; else throw std::runtime_error("This is a test!"); });
+    test_condition("EXCEPTIONS-Test", []() {if (false) return true; else throw std::runtime_error("This is a test!"); });
+    TEST_VERIFY([]() {if (false) return true; else throw std::runtime_error("This is a test!"); });
 	TEST_EQUAL(3, 4711);
 	TEST_EQUAL(4, 4);
 	TEST_NOT_EQUAL(3, 4711);

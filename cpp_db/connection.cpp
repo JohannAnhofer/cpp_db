@@ -1,7 +1,7 @@
 #include "connection.h"
 #include "db_exception.h"
 
-#include "..\sqlite\sqlite3.h"
+#include "sqlite3.h"
 
 #include <string>
 
@@ -34,16 +34,16 @@ namespace cpp_db
 		if (pimpl->db)
 			close();
 
-		if (int error_code = sqlite3_open(":memory", &pimpl->db))
+        if (sqlite3_open(database.c_str(), &pimpl->db))
 			throw db_exception(sqlite3_errmsg(pimpl->db));
 	}
 
 	void connection::close()
 	{
-		if (int error_code = sqlite3_close(pimpl->db))
+        if (sqlite3_close(pimpl->db))
 			throw db_exception(sqlite3_errmsg(pimpl->db));
 		else
-			pimpl->db = nullptr;
+			pimpl->db = nullptr;       
 	}
 
 }
