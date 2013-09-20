@@ -7,12 +7,6 @@
 #include <memory>
 #include <functional>
 
-std::ostream &operator<<(std::ostream &out, cpp_db::null_type)
-{
-	out << "<NULL>";
-	return out;
-}
-
 int main(int , char *[])
 {
     std::cout << std::endl;
