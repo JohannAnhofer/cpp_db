@@ -16,7 +16,9 @@ CONFIG += c++11
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    connection.cpp \
+    ../sqlite/sqlite3.c
 
 HEADERS += \
     nullable.h \
@@ -25,5 +27,7 @@ HEADERS += \
     key_value_pair.h \
     coalesce.h \
     null.h \
-    test.h
+    test.h \
+    connection.h
 
+INCLUDEPATH += ../sqlite
