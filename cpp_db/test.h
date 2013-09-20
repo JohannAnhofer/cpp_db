@@ -10,20 +10,35 @@ static const char namefor_ok [] = "ok ";
 static const char namefor_nok [] = "NOK";
 static const char namefor_exception [] = "EXCEPTION";
 
+std::ostream & test_stream(std::ostream *os = nullptr)
+{
+	static std::ostream *output = &std::cout;
+	
+	if (os)
+		output = os;
+
+	return *output;
+}
+
+void test_message(const std::string &msg)
+{
+	test_stream() << msg << std::endl;
+}
+
 void test_condition(const std::string &name, bool cond)
 {
-	std::cout << (cond ? namefor_ok : namefor_nok) << " : " << name << std::endl;
+	test_stream() << (cond ? namefor_ok : namefor_nok) << " : " << name << std::endl;
 }
 
 void test_condition(const std::string &name, std::function<bool()> cond)
 {
 	try
 	{
-		std::cout << (cond() ? namefor_ok : namefor_nok) << " : " << name << std::endl;
+		test_stream() << (cond() ? namefor_ok : namefor_nok) << " : " << name << std::endl;
 	}
 	catch (const std::exception &ex)
 	{
-		std::cout << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
+		test_stream() << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
 	}
 }
 
@@ -36,7 +51,7 @@ void test_equal(TL &&tl, TR &&tr, const std::string &name)
 	}
 	catch (const std::exception &ex)
 	{
-		std::cout << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
+		test_stream() << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
 	}
 }
 
@@ -49,7 +64,7 @@ void test_not_equal(TL &&tl, TR &&tr, const std::string &name)
 	}
 	catch (const std::exception &ex)
 	{
-		std::cout << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
+		test_stream() << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
 	}
 }
 

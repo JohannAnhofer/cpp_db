@@ -17,7 +17,9 @@ int main(int , char *[])
 {
     std::cout << std::endl;
 
-	std::cout << "---------- Test testfunctions ----------" << std::endl;
+    test_stream(&std::cerr);
+
+	test_message("---------- Test testfunctions ----------");
 	test_condition("TRUE-Test success", true);
 	test_condition("TRUE-Test failed", false);
 	test_condition("EXCEPTIONS-Test", []() {if (false) return true; else throw std::runtime_error("This is a test!"); });
@@ -27,7 +29,7 @@ int main(int , char *[])
 	TEST_NOT_EQUAL(3, 4711);
 	TEST_NOT_EQUAL(4, 4);
 
-	std::cout << "========== Test starts ==========" << std::endl;
+	test_message("========== Test starts ==========");
 
     try
     {
@@ -39,7 +41,7 @@ int main(int , char *[])
         cpp_db::nullable_int d;
         const cpp_db::nullable_int e(10), f;
 
-		std::cout << "---------- Test nullable ----------" << std::endl;
+		test_message("---------- Test nullable ----------");
 
 		TEST_NOT_EQUAL(a, 13);
 		TEST_EQUAL(a, 4711);
@@ -47,7 +49,7 @@ int main(int , char *[])
 		TEST_EQUAL(b, 4711);
 		TEST_EQUAL(c, 815);
 
-		std::cout << "---------- Test is_null() ----------" << std::endl;
+		test_message("---------- Test is_null() ----------");
 
 		test_condition("a is non null: ", !cpp_db::is_null(a) && !a.is_null());
 		test_condition("d is null: ", cpp_db::is_null(d) && d.is_null());
@@ -60,7 +62,7 @@ int main(int , char *[])
 		TEST_VERIFY(cpp_db::is_null(null));
 		TEST_VERIFY(!cpp_db::is_null(1));
 
-		std::cout << "---------- Test coalesce ----------" << std::endl;
+		test_message("---------- Test coalesce ----------");
 
         cpp_db::coalesce_trait<int, double, float>::type x0(0);
         cpp_db::coalesce_trait<cpp_db::null_type, double, float>::type x1(0.0);
@@ -90,7 +92,7 @@ int main(int , char *[])
 		TEST_EQUAL( (p->key<std::string, std::string>()), "driver");
 		TEST_EQUAL( (p->value<std::string, std::string>()) , std::string("QIBASE"));
 
-		std::cout << "========== Test ends ==========" << std::endl;
+		test_message("========== Test ends ==========");
     }
     catch(const std::exception &ex)
     {
