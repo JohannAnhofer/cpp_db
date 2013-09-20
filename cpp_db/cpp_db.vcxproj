@@ -11,10 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\sqlite\sqlite3.c" />
+    <ClCompile Include="connection.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\sqlite\sqlite3.h" />
+    <ClInclude Include="..\sqlite\sqlite3ext.h" />
     <ClInclude Include="coalesce.h" />
+    <ClInclude Include="connection.h" />
+    <ClInclude Include="db_exception.h" />
     <ClInclude Include="key_value_pair.h" />
     <ClInclude Include="null.h" />
     <ClInclude Include="nullable.h" />
