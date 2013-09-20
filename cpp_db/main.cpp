@@ -3,6 +3,8 @@
 #include "coalesce.h"
 #include "test.h"
 
+#include "connection.h"
+
 #include <iostream>
 #include <memory>
 #include <functional>
@@ -87,7 +89,10 @@ int main(int , char *[])
 		TEST_EQUAL( (p->value<std::string, std::string>()) , std::string("QIBASE"));
 
 		test_message("========== Test ends ==========");
-    }
+
+		cpp_db::connection con;
+		con.open(":memory:");
+	}
     catch(const std::exception &ex)
     {
         std::cout << "Exception: " << ex.what() << std::endl;
