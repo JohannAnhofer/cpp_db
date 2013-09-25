@@ -4,6 +4,7 @@
 #include "test.h"
 
 #include "connection.h"
+#include "sql_statement.h"
 
 #include <iostream>
 #include <memory>
@@ -92,6 +93,11 @@ int main(int , char *[])
 
         cpp_db::connection con("sqlite");
 		con.open(":memory:");
+        cpp_db::sql_statement sql("create table TEST_TABLE(COL1 INT, COL2 VARCHAR(50));", con);
+        sql.execute();
+        cpp_db::sql_statement("select COL1, COL2, COL3 from TEST_TABLE;", con);
+        sql.execute();
+
 	}
     catch(const std::exception &ex)
     {
