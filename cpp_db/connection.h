@@ -10,11 +10,15 @@ namespace cpp_db
 class connection
 {
 public:
+    typedef void * handle;
+
     connection(const std::string &drivername);
 	~connection();
 
 	void open(const std::string &database);
 	void close();
+    bool is_open() const;
+    handle get_handle() const;
 
 private:
 	struct impl;

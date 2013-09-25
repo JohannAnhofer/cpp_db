@@ -9,7 +9,7 @@ namespace cpp_db
 class db_exception : public std::runtime_error
 {
 public:
-	explicit db_exception(const std::string &message) 
+    explicit db_exception(const std::string &message)
 		: std::runtime_error(message)
 	{
 	}
