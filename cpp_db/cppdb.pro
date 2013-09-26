@@ -17,8 +17,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    connection.cpp \
-    ../sqlite/sqlite3.c
+            connection.cpp \
+            ../sqlite/sqlite3.c
 
 HEADERS += \
     nullable.h \
@@ -28,6 +28,8 @@ HEADERS += \
     coalesce.h \
     null.h \
     test.h \
-    connection.h
+    connection.h \
+    cpp11_defines.h \
+    db_exception.h
 
 INCLUDEPATH += ../sqlite

@@ -60,7 +60,7 @@ typename coalesce_trait<Ts...>::type coalesce(null_type, Ts... ts)
 }
 
 // tail is null case --> return null, because all other types where null
-null_type coalesce(null_type nt)
+CONSTEXPR null_type coalesce(null_type nt)
 {
 	return nt;
 }

@@ -59,5 +59,8 @@
     <ClInclude Include="..\sqlite\sqlite3ext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cpp11_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
