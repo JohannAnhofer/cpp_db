@@ -18,8 +18,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="connection.cpp" />
     <ClCompile Include="..\sqlite\sqlite3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="connection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
