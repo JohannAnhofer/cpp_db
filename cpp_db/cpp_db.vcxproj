@@ -20,6 +20,7 @@
     <ClInclude Include="..\sqlite\sqlite3ext.h" />
     <ClInclude Include="coalesce.h" />
     <ClInclude Include="connection.h" />
+    <ClInclude Include="cpp11_defines.h" />
     <ClInclude Include="db_exception.h" />
     <ClInclude Include="key_value_pair.h" />
     <ClInclude Include="null.h" />
