@@ -10,7 +10,7 @@ namespace cpp_db
 class connection
 {
 public:
-	connection();
+    connection(const std::string &drivername);
 	~connection();
 
 	void open(const std::string &database);
