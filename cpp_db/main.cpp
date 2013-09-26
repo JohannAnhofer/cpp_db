@@ -90,7 +90,7 @@ int main(int , char *[])
 
 		test_message("========== Test ends ==========");
 
-		cpp_db::connection con;
+        cpp_db::connection con("sqlite");
 		con.open(":memory:");
 	}
     catch(const std::exception &ex)

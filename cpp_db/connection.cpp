@@ -18,9 +18,11 @@ namespace cpp_db
 		sqlite3 *db;
 	};
 
-	connection::connection()
+    connection::connection(const std::string &drivername)
 		: pimpl(new impl)
-	{		
+    {
+        if (drivername != "sqlite")
+            throw db_exception("Only sqlite supported for now!");
 	}
 
 	connection::~connection()
