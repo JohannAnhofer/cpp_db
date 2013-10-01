@@ -18,6 +18,6 @@
 *.sdf
 *.suo
 Debug/
-cpp_db/Debug
+Release/
 build-*-debug/
 *.vcxproj.user
