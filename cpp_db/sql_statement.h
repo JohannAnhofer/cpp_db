@@ -2,6 +2,7 @@
 #define CPP_DB_SQL_STATEMENT_H
 
 #include <memory>
+#include <string>
 
 namespace cpp_db
 {

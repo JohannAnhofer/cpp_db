@@ -39,8 +39,11 @@ sql_statement::~sql_statement()
 
 void sql_statement::execute()
 {
-    if (int error_code = sqlite3_step(pimpl->stmt))
-        throw_db_exception(error_code, pimpl->db);
+	if (int error_code = sqlite3_step(pimpl->stmt))
+	{
+		if (error_code != SQLITE_DONE)
+			throw_db_exception(error_code, pimpl->db);
+	}
 }
 
 }

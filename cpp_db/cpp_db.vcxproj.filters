@@ -24,6 +24,9 @@
     <ClCompile Include="connection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sql_statement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nullable.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cpp11_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sql_statement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
