@@ -5,3 +5,4 @@ CONFIG += ordered
 SUBDIRS += sqlite \
            cpp_db
 
+cache()
