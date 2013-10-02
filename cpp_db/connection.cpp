@@ -22,6 +22,45 @@ namespace cpp_db
 			: db(nullptr)
 		{
 		}
+
+        ~impl()
+        {
+            if (db)
+                sqlite3_close(db);
+        }
+
+        void open(const std::string &database)
+        {
+            close();
+
+            if (int error_code = sqlite3_open_v2(database.c_str(), &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr))
+                throw_db_exception(error_code, db);
+        }
+
+        void close()
+        {
+            if (db)
+            {
+                if (int error_code = sqlite3_close(db))
+                    throw_db_exception(error_code, db);
+                else
+                    db = nullptr;
+            }
+        }
+
+        bool is_open() const
+        {
+            return db != nullptr;
+        }
+
+        void *get_handle() const
+        {
+            if (db)
+                return db;
+            else
+                throw std::runtime_error("database not open");
+        }
+
 		sqlite3 *db;
 	};
 
@@ -34,38 +73,26 @@ namespace cpp_db
 
 	connection::~connection()
 	{
-		if (pimpl->db)
-			sqlite3_close(pimpl->db);
 	}
 
 	void connection::open(const std::string &database)
 	{
-		if (pimpl->db)
-			close();
-
-        if (int error_code = sqlite3_open_v2(database.c_str(), &pimpl->db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr))
-            throw_db_exception(error_code, pimpl->db);
+        pimpl->open(database);
 	}
 
 	void connection::close()
 	{
-        if (int error_code = sqlite3_close(pimpl->db))
-            throw_db_exception(error_code, pimpl->db);
-		else
-            pimpl->db = nullptr;
+        pimpl->close();
     }
 
     bool connection::is_open() const
     {
-        return pimpl->db != nullptr;
+        return pimpl->is_open();
     }
 
     connection::handle connection::get_handle() const
     {
-        if (pimpl->db)
-            return pimpl->db;
-        else
-            throw std::runtime_error("database not open");
+        return pimpl->get_handle();
     }
 
 }

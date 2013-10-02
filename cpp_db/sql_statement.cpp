@@ -14,12 +14,20 @@ extern void throw_db_exception(int error_code, sqlite3 *db);
 
 struct sql_statement::impl
 {
-	impl()
+    impl(connection &con)
 		: stmt(nullptr)
-		, db(nullptr)
+        , db(static_cast<sqlite3*>(con.get_handle()))
 		, tail(nullptr)
 	{
+        if (db == nullptr)
+            throw db_exception("No database connection for statement!");
 	}
+
+    ~impl()
+    {
+        finalize();
+    }
+
 	sqlite3_stmt *stmt;
 	sqlite3 *db;
 	const char *tail;
@@ -79,14 +87,46 @@ struct sql_statement::impl
 	{
 		bind(find_param_pos(name), value);
 	}
+
+    void prepare(const std::string &sqlcmd)
+    {
+        sqlite3_stmt *stmt_new = nullptr;
+        const char *tail_new = nullptr;
+
+        int error_code = sqlite3_prepare_v2(db, sqlcmd.c_str(), sqlcmd.size(), &stmt_new, &tail_new);
+        if (error_code != SQLITE_OK)
+            throw_db_exception(error_code, db);
+
+        finalize();
+        stmt = stmt_new;
+        tail = tail_new;
+    }
+
+    bool is_prepared() const
+    {
+        return stmt != nullptr;
+    }
+
+    int execute()
+    {
+        if (!is_prepared())
+            throw db_exception("Statement not prepared!");
+
+        if (int error_code = sqlite3_step(stmt))
+        {
+            if (error_code != SQLITE_DONE && error_code != SQLITE_ROW)
+                throw_db_exception(error_code, db);
+            else
+                return error_code;
+        }
+        return SQLITE_OK;
+    }
+
 };
 
 sql_statement::sql_statement(connection &conn)
-    : pimpl(new impl)
+    : pimpl(new impl(conn))
 {
-    pimpl->db = static_cast<sqlite3*>(conn.get_handle());
-    if (!pimpl->db)
-        throw db_exception("No database connection for statement!");
 }
 
 sql_statement::sql_statement(const std::string &sqlcmd, connection &conn)
@@ -97,21 +137,11 @@ sql_statement::sql_statement(const std::string &sqlcmd, connection &conn)
 
 sql_statement::~sql_statement()
 {
-    pimpl->finalize();
 }
 
 void sql_statement::prepare(const std::string &sqlcmd)
 {
-    sqlite3_stmt *stmt = nullptr;
-    const char *tail = nullptr;
-
-    int error_code = sqlite3_prepare_v2(pimpl->db, sqlcmd.c_str(), sqlcmd.size(), &stmt, &tail);
-    if (error_code != SQLITE_OK)
-        throw_db_exception(error_code, pimpl->db);
-
-    pimpl->finalize();
-    pimpl->stmt = stmt;
-    pimpl->tail = tail;
+    pimpl->prepare(sqlcmd);
 }
 
 void sql_statement::execute_ddl()
@@ -126,19 +156,12 @@ void sql_statement::execute_non_query()
 
 void sql_statement::execute()
 {
-    if (!is_prepared())
-        throw db_exception("Statement not prepared!");
-
-	if (int error_code = sqlite3_step(pimpl->stmt))
-	{
-		if (error_code != SQLITE_DONE && error_code != SQLITE_ROW)
-			throw_db_exception(error_code, pimpl->db);
-	}
+    pimpl->execute();
 }
 
 bool sql_statement::is_prepared() const
 {
-    return pimpl->stmt != nullptr;
+    return pimpl->is_prepared();
 }
 
 }
