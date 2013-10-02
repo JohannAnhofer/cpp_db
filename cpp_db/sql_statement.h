@@ -15,7 +15,9 @@ public:
     sql_statement(const std::string &sqlcmd, connection &conn);
     ~sql_statement();
 
-    void execute();
+    void executeDDL();
+	void executeNonQuery();
+	void execute();
 
 private:
     struct impl;
