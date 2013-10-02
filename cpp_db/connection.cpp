@@ -18,50 +18,49 @@ namespace cpp_db
 
 	struct connection::impl
 	{
-		impl() 
-			: db(nullptr)
+        std::shared_ptr<sqlite3> db;
+
+        impl()
 		{
 		}
 
         ~impl()
         {
-            if (db)
-                sqlite3_close(db);
+            try
+            {
+                db.reset();
+            }
+            catch(...)
+            {
+            }
         }
 
         void open(const std::string &database)
         {
-            close();
+            if (is_open())
+                throw std::runtime_error("Database already open");
 
-            if (int error_code = sqlite3_open_v2(database.c_str(), &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr))
-                throw_db_exception(error_code, db);
+            sqlite3 *dbptr(nullptr);
+            if (int error_code = sqlite3_open_v2(database.c_str(), &dbptr, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr))
+                throw_db_exception(error_code, dbptr);
+            db.reset(dbptr, [](sqlite3 *db)
+                            {
+                                printf("Closing: %p", db);
+                                if (int error_code = sqlite3_close(db))
+                                    throw_db_exception(error_code, db);
+                            }
+                );
         }
 
         void close()
         {
-            if (db)
-            {
-                if (int error_code = sqlite3_close(db))
-                    throw_db_exception(error_code, db);
-                else
-                    db = nullptr;
-            }
+            db.reset();
         }
 
         bool is_open() const
         {
             return db != nullptr;
         }
-
-        void *get_handle() const
-        {
-            if (db)
-                return db;
-            else
-                throw std::runtime_error("database not open");
-        }
-
-		sqlite3 *db;
 	};
 
     connection::connection(const std::string &drivername)
@@ -92,7 +91,7 @@ namespace cpp_db
 
     connection::handle connection::get_handle() const
     {
-        return pimpl->get_handle();
+        return std::static_pointer_cast<void>(pimpl->db);
     }
 
 }

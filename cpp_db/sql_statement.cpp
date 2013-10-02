@@ -12,64 +12,61 @@ namespace cpp_db
 
 extern void throw_db_exception(int error_code, sqlite3 *db);
 
+static int debug_finalize(sqlite3_stmt *stmt)
+{
+    printf("finalize: %s\n", sqlite3_sql(stmt));
+    sqlite3_finalize(stmt);
+    return SQLITE_OK;
+}
+
 struct sql_statement::impl
 {
+    std::unique_ptr<sqlite3_stmt, int(*)(sqlite3_stmt *)> stmt;
+    std::weak_ptr<sqlite3> db;
+    const char *tail;
+
     impl(connection &con)
-		: stmt(nullptr)
-        , db(static_cast<sqlite3*>(con.get_handle()))
-		, tail(nullptr)
+        : stmt(0, debug_finalize)
+        , db(std::static_pointer_cast<sqlite3>(con.get_handle()))
+        , tail(nullptr)
 	{
-        if (db == nullptr)
+        if (db.expired())
             throw db_exception("No database connection for statement!");
 	}
 
     ~impl()
     {
-        finalize();
     }
-
-	sqlite3_stmt *stmt;
-	sqlite3 *db;
-	const char *tail;
-
-	void finalize()
-	{
-		if (stmt != nullptr)
-		{
-			sqlite3_finalize(stmt);
-			stmt = nullptr;
-		}
-	}
 
 	// bind positional parameter
 	int bind_pos(int pos, double value)
 	{
-		return sqlite3_bind_double(stmt, pos, value);
+        return sqlite3_bind_double(stmt.get(), pos, value);
 	}
 	int bind_pos(int pos, int value)
 	{
-		return sqlite3_bind_int(stmt, pos, value);
+        return sqlite3_bind_int(stmt.get(), pos, value);
 	}
 	int bind_pos(int pos, long long value)
 	{
-		return sqlite3_bind_int64(stmt, pos, value);
+        return sqlite3_bind_int64(stmt.get(), pos, value);
 	}
 	int bind_pos(int pos, const std::string &value)
 	{
-		return sqlite3_bind_text(stmt, pos, value.c_str(), value.length(), SQLITE_TRANSIENT);
+        return sqlite3_bind_text(stmt.get(), pos, value.c_str(), value.length(), SQLITE_TRANSIENT);
 	}
 	int bind_pos(int pos, const std::vector<char> &value)
 	{
-		return sqlite3_bind_blob(stmt, pos, value.data(), value.size(), SQLITE_TRANSIENT);
+        return sqlite3_bind_blob(stmt.get(), pos, value.data(), value.size(), SQLITE_TRANSIENT);
 	}
 	int bind_pos(int pos, const null_type &)
 	{
-		return sqlite3_bind_null(stmt, pos);
+        return sqlite3_bind_null(stmt.get(), pos);
 	}
 
 	int find_param_pos(const std::string &name) const
 	{
-		if (int pos = sqlite3_bind_parameter_index(stmt, name.c_str()))
+        if (int pos = sqlite3_bind_parameter_index(stmt.get(), name.c_str()))
 			return pos;
 		else
 			throw db_exception("Index for SQL parameter '" + name + "' not found!");
@@ -79,7 +76,7 @@ struct sql_statement::impl
 	void bind(int pos, T && value)
 	{
 		if (int error_code = bind(pos, value))
-			throw_db_exception(error_code, db);
+            throw_db_exception(error_code, db.lock().get());
 	}
 
 	template<typename T>
@@ -93,12 +90,11 @@ struct sql_statement::impl
         sqlite3_stmt *stmt_new = nullptr;
         const char *tail_new = nullptr;
 
-        int error_code = sqlite3_prepare_v2(db, sqlcmd.c_str(), sqlcmd.size(), &stmt_new, &tail_new);
+        int error_code = sqlite3_prepare_v2(db.lock().get(), sqlcmd.c_str(), sqlcmd.size(), &stmt_new, &tail_new);
         if (error_code != SQLITE_OK)
-            throw_db_exception(error_code, db);
+            throw_db_exception(error_code, db.lock().get());
 
-        finalize();
-        stmt = stmt_new;
+        stmt.reset(stmt_new);
         tail = tail_new;
     }
 
@@ -112,10 +108,10 @@ struct sql_statement::impl
         if (!is_prepared())
             throw db_exception("Statement not prepared!");
 
-        if (int error_code = sqlite3_step(stmt))
+        if (int error_code = sqlite3_step(stmt.get()))
         {
             if (error_code != SQLITE_DONE && error_code != SQLITE_ROW)
-                throw_db_exception(error_code, db);
+                throw_db_exception(error_code, db.lock().get());
             else
                 return error_code;
         }
