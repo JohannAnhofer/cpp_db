@@ -12,8 +12,11 @@ class connection
 public:
     typedef void * handle;
 
-    connection(const std::string &drivername);
+    explicit connection(const std::string &drivername);
 	~connection();
+
+	connection(const connection &other) = delete;
+	connection &operator=(const connection &other) = delete;
 
 	void open(const std::string &database);
 	void close();

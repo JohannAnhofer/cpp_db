@@ -15,6 +15,9 @@ public:
     sql_statement(const std::string &sqlcmd, connection &conn);
     ~sql_statement();
 
+	sql_statement(const sql_statement&other) = delete;
+	sql_statement &operator=(const sql_statement &other) = delete;
+
     void executeDDL();
 	void executeNonQuery();
 	void execute();
