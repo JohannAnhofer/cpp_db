@@ -3,12 +3,11 @@
 #include "coalesce.h"
 #include "test.h"
 
-#include "connection.h"
-#include "sql_statement.h"
-
 #include <iostream>
 #include <memory>
 #include <functional>
+
+void test_cpp_db();
 
 int main(int , char *[])
 {
@@ -20,7 +19,7 @@ int main(int , char *[])
 	test_condition("TRUE-Test success", true);
 	test_condition("TRUE-Test failed", false);
     test_condition("EXCEPTIONS-Test", []() {if (false) return true; else throw std::runtime_error("This is a test!"); });
-    TEST_VERIFY([]() {if (false) return true; else throw std::runtime_error("This is a test!"); });
+    TEST_VERIFY_RESULT(if (false) return true; else throw std::runtime_error("This is a test!"));
 	TEST_EQUAL(3, 4711);
 	TEST_EQUAL(4, 4);
 	TEST_NOT_EQUAL(3, 4711);
@@ -91,16 +90,10 @@ int main(int , char *[])
 
 		test_message("========== Test ends ==========");
 
-        cpp_db::connection con("sqlite");
-		con.open(":memory:");
-        cpp_db::sql_statement sql("create table TEST_TABLE(COL1 INT, COL2 VARCHAR(50));", con);
-        sql.execute();
-        cpp_db::sql_statement("select COL1, COL2, COL3 from TEST_TABLE;", con);
-        sql.execute();
-
+		test_cpp_db();
 	}
     catch(const std::exception &ex)
     {
-        std::cout << "Exception: " << ex.what() << std::endl;
-    }
+		test_message(std::string("Exception: ") + ex.what());
+	}
 }

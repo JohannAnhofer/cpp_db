@@ -37,11 +37,21 @@ sql_statement::~sql_statement()
         sqlite3_finalize(pimpl->stmt);
 }
 
+void sql_statement::executeDDL()
+{
+	execute();
+}
+
+void sql_statement::executeNonQuery()
+{
+	execute();
+}
+
 void sql_statement::execute()
 {
 	if (int error_code = sqlite3_step(pimpl->stmt))
 	{
-		if (error_code != SQLITE_DONE)
+		if (error_code != SQLITE_DONE && error_code != SQLITE_ROW)
 			throw_db_exception(error_code, pimpl->db);
 	}
 }

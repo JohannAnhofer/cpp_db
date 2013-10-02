@@ -14,6 +14,7 @@
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="sql_statement.cpp" />
+    <ClCompile Include="test_cpp_db.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\sqlite\sqlite3.h" />
