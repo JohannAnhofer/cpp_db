@@ -11,7 +11,8 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     connection.cpp \
-    sql_statement.cpp
+    sql_statement.cpp \
+    test_cpp_db.cpp
 
 HEADERS += \
     nullable.h \
