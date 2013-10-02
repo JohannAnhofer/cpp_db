@@ -17,8 +17,6 @@
     <ClCompile Include="test_cpp_db.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\sqlite\sqlite3.h" />
-    <ClInclude Include="..\sqlite\sqlite3ext.h" />
     <ClInclude Include="coalesce.h" />
     <ClInclude Include="connection.h" />
     <ClInclude Include="cpp11_defines.h" />

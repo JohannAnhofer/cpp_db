@@ -56,12 +56,6 @@
     <ClInclude Include="db_exception.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\sqlite\sqlite3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sqlite\sqlite3ext.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="cpp11_defines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
