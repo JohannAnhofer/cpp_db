@@ -8,7 +8,7 @@ namespace cpp_db
 
 struct null_type {};
 
-CONSTEXPR bool is_null(null_type)
+inline CONSTEXPR bool is_null(null_type)
 {
     return true;
 }
