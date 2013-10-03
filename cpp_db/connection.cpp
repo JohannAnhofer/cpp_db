@@ -20,8 +20,14 @@ namespace cpp_db
 	{
         std::shared_ptr<sqlite3> db;
 
+        impl()
+        {
+            printf("connection::%s: %p\n", __FUNCTION__, this);
+        }
+
         ~impl()
         {
+            printf("connection::%s: %p\n", __FUNCTION__, this);
             try
             {
                 db.reset();
