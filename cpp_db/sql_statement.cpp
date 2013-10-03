@@ -71,7 +71,7 @@ struct sql_statement::impl
 	template<typename T>
 	void bind(int pos, T && value)
 	{
-		if (int error_code = bind(pos, value))
+		if (int error_code = bind_pos(pos, value))
             throw_db_exception(error_code, db.lock().get());
 	}
 
