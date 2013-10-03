@@ -95,13 +95,14 @@ struct sql_statement::impl
         sqlite3_stmt *stmt_new = nullptr;
         const char *tail_new = nullptr;
 
+        printf("Accquire statement: %s\n", sqlcmd.c_str());
         int error_code = sqlite3_prepare_v2(db.lock().get(), sqlcmd.c_str(), sqlcmd.size(), &stmt_new, &tail_new);
         if (error_code != SQLITE_OK)
             throw_db_exception(error_code, db.lock().get());
 
 		stmt.reset(stmt_new, [&](sqlite3_stmt *stmt) 
 								{
-									//printf("Releasing statement: %s\n", sqlite3_sql(stmt));
+                                    printf("Releasing statement: %s\n", sqlite3_sql(stmt));
 									if (int error_code = sqlite3_finalize(stmt)) 
 										throw_db_exception(error_code, db.lock().get());
 								}
