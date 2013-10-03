@@ -45,7 +45,6 @@ namespace cpp_db
                 throw_db_exception(error_code, dbptr);
             db.reset(dbptr, [](sqlite3 *db)
                             {
-                                printf("Closing: %p", db);
                                 if (int error_code = sqlite3_close(db))
                                     throw_db_exception(error_code, db);
                             }
