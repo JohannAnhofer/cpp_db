@@ -8,7 +8,6 @@ namespace cpp_db
 {
 
 class connection;
-class record;
 
 class sql_statement
 {
@@ -26,7 +25,6 @@ public:
 
     void execute_ddl();
     void execute_non_query();
-	record execute();
 
     bool is_prepared() const;
 	handle get_handle() const;

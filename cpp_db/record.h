@@ -12,7 +12,7 @@ class sql_statement;
 class record
 {
 public:
-	explicit record(const sql_statement &sql);
+    explicit record(const sql_statement &stmt);
 	~record();
 
 	int get_column_count() const;

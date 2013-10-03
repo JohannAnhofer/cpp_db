@@ -1,7 +1,6 @@
 #include "sql_statement.h"
 #include "connection.h"
 #include "db_exception.h"
-#include "record.h"
 
 #include "null.h"
 
@@ -27,13 +26,15 @@ struct sql_statement::impl
 		: db(std::static_pointer_cast<sqlite3>(con.get_handle()))
         , tail(nullptr)
 	{
+        printf("sql_statement::%s: %p\n", __FUNCTION__, this);
         if (db.expired())
             throw db_exception("No database connection for statement!");
 	}
 
     ~impl()
     {
-		try
+        printf("sql_statement::%s: %p %s\n", __FUNCTION__, this, sqlite3_sql(stmt.get()));
+        try
 		{
 			stmt.reset();
 		}
@@ -155,14 +156,6 @@ void sql_statement::execute_ddl()
 void sql_statement::execute_non_query()
 {
 	pimpl->execute();
-}
-
-record sql_statement::execute()
-{
-	if (!is_prepared())
-		throw db_exception("Statement not prepared!");
-
-	return record(*this);
 }
 
 bool sql_statement::is_prepared() const

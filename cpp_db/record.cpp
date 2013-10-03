@@ -18,15 +18,19 @@ struct record::impl
 		: stmt(std::static_pointer_cast<sqlite3_stmt>(sqlstmt.get_handle()))
 		, row_status(SQLITE_DONE)
 	{
-	}
+        printf("record::%s: %p %s\n", __FUNCTION__, this, sqlite3_sql(stmt.get()));
+    }
+
+    ~impl()
+    {
+        printf("record::%s: %p %s\n", __FUNCTION__, this, sqlite3_sql(stmt.get()));
+    }
 
 	void next()
 	{
-		if (row_status = sqlite3_step(stmt.get()))
-		{
-			if (row_status != SQLITE_DONE && row_status != SQLITE_ROW)
-				throw_db_exception(row_status, sqlite3_db_handle(stmt.get()));
-		}
+        row_status = sqlite3_step(stmt.get());
+        if (row_status != SQLITE_DONE && row_status != SQLITE_ROW)
+            throw_db_exception(row_status, sqlite3_db_handle(stmt.get()));
 	}
 
 	void prev()
@@ -51,10 +55,13 @@ struct record::impl
 	}
 };
 
-record::record(const sql_statement&stmt)
+record::record(const sql_statement &stmt)
 	: pimpl(new impl(stmt))
 {
-	pimpl->next();
+    if (!stmt.is_prepared())
+        throw db_exception("Statement not prepared!");
+
+    pimpl->next();
 }
 
 record::~record()
@@ -93,6 +100,7 @@ std::string record::get_field_value(int field) const
 
 std::string record::get_field_value(const std::string &field) const
 {
+    (void)field;
 	return std::string();
 }
 
