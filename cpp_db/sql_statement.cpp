@@ -12,13 +12,6 @@ namespace cpp_db
 
 extern void throw_db_exception(int error_code, sqlite3 *db);
 
-static int debug_finalize(sqlite3_stmt *stmt)
-{
-    printf("finalize: %s\n", sqlite3_sql(stmt));
-    sqlite3_finalize(stmt);
-    return SQLITE_OK;
-}
-
 struct sql_statement::impl
 {
     std::unique_ptr<sqlite3_stmt, int(*)(sqlite3_stmt *)> stmt;
@@ -26,7 +19,7 @@ struct sql_statement::impl
     const char *tail;
 
     impl(connection &con)
-        : stmt(0, debug_finalize)
+		: stmt(0, sqlite3_finalize)
         , db(std::static_pointer_cast<sqlite3>(con.get_handle()))
         , tail(nullptr)
 	{
