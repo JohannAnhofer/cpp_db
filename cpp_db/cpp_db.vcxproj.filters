@@ -27,6 +27,9 @@
     <ClCompile Include="test_cpp_db.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="record.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nullable.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sql_statement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="record.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

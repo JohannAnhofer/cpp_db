@@ -1,6 +1,8 @@
 #include "sql_statement.h"
 #include "connection.h"
 #include "db_exception.h"
+#include "record.h"
+
 #include "null.h"
 
 #include "sqlite3.h"
@@ -17,13 +19,12 @@ typedef std::vector<uint8_t> blob;
 
 struct sql_statement::impl
 {
-    std::unique_ptr<sqlite3_stmt, int(*)(sqlite3_stmt *)> stmt;
+    std::shared_ptr<sqlite3_stmt> stmt;
     std::weak_ptr<sqlite3> db;
     const char *tail;
 
     impl(connection &con)
-		: stmt(0, sqlite3_finalize)
-        , db(std::static_pointer_cast<sqlite3>(con.get_handle()))
+		: db(std::static_pointer_cast<sqlite3>(con.get_handle()))
         , tail(nullptr)
 	{
         if (db.expired())
@@ -32,6 +33,13 @@ struct sql_statement::impl
 
     ~impl()
     {
+		try
+		{
+			stmt.reset();
+		}
+		catch (...)
+		{
+		}
     }
 
 	// bind positional parameter
@@ -90,7 +98,13 @@ struct sql_statement::impl
         if (error_code != SQLITE_OK)
             throw_db_exception(error_code, db.lock().get());
 
-        stmt.reset(stmt_new);
+		stmt.reset(stmt_new, [&](sqlite3_stmt *stmt) 
+								{
+									//printf("Releasing statement: %s\n", sqlite3_sql(stmt));
+									if (int error_code = sqlite3_finalize(stmt)) 
+										throw_db_exception(error_code, db.lock().get());
+								}
+					);
         tail = tail_new;
     }
 
@@ -99,19 +113,16 @@ struct sql_statement::impl
         return stmt != nullptr;
     }
 
-    int execute()
+    void execute()
     {
-        if (!is_prepared())
-            throw db_exception("Statement not prepared!");
+		if (!is_prepared())
+			throw db_exception("Statement not prepared!");
 
-        if (int error_code = sqlite3_step(stmt.get()))
+		if (int error_code = sqlite3_step(stmt.get()))
         {
             if (error_code != SQLITE_DONE && error_code != SQLITE_ROW)
                 throw_db_exception(error_code, db.lock().get());
-            else
-                return error_code;
         }
-        return SQLITE_OK;
     }
 
 };
@@ -138,22 +149,30 @@ void sql_statement::prepare(const std::string &sqlcmd)
 
 void sql_statement::execute_ddl()
 {
-	execute();
+	pimpl->execute();
 }
 
 void sql_statement::execute_non_query()
 {
-	execute();
+	pimpl->execute();
 }
 
-void sql_statement::execute()
+record sql_statement::execute()
 {
-    pimpl->execute();
+	if (!is_prepared())
+		throw db_exception("Statement not prepared!");
+
+	return record(*this);
 }
 
 bool sql_statement::is_prepared() const
 {
     return pimpl->is_prepared();
+}
+
+sql_statement::handle sql_statement::get_handle() const
+{
+	return std::static_pointer_cast<void>(pimpl->stmt);
 }
 
 }

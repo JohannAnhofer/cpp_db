@@ -8,10 +8,13 @@ namespace cpp_db
 {
 
 class connection;
+class record;
 
 class sql_statement
 {
 public:
+	typedef std::shared_ptr<void> handle;
+
     sql_statement(const std::string &sqlcmd, connection &conn);
     explicit sql_statement(connection &conn);
     ~sql_statement();
@@ -23,9 +26,10 @@ public:
 
     void execute_ddl();
     void execute_non_query();
-	void execute();
+	record execute();
 
     bool is_prepared() const;
+	handle get_handle() const;
 
 private:
     struct impl;
