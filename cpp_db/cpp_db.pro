@@ -12,6 +12,7 @@ TEMPLATE = app
 SOURCES += main.cpp \
     connection.cpp \
     sql_statement.cpp \
+    record.cpp \
     test_cpp_db.cpp
 
 HEADERS += \
@@ -24,6 +25,7 @@ HEADERS += \
     test.h \
     connection.h \
     sql_statement.h \
+    record.h \
     cpp11_defines.h \
     db_exception.h
 
