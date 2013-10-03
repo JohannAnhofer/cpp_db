@@ -20,10 +20,6 @@ namespace cpp_db
 	{
         std::shared_ptr<sqlite3> db;
 
-        impl()
-		{
-		}
-
         ~impl()
         {
             try
