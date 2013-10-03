@@ -6,11 +6,14 @@
 #include "sqlite3.h"
 
 #include <vector>
+#include <cstdint>
 
 namespace cpp_db
 {
 
 extern void throw_db_exception(int error_code, sqlite3 *db);
+
+typedef std::vector<uint8_t> blob;
 
 struct sql_statement::impl
 {
@@ -48,7 +51,7 @@ struct sql_statement::impl
 	{
         return sqlite3_bind_text(stmt.get(), pos, value.c_str(), value.length(), SQLITE_TRANSIENT);
 	}
-	int bind_pos(int pos, const std::vector<char> &value)
+	int bind_pos(int pos, const blob &value)
 	{
         return sqlite3_bind_blob(stmt.get(), pos, value.data(), value.size(), SQLITE_TRANSIENT);
 	}
