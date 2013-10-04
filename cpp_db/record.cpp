@@ -18,12 +18,6 @@ struct record::impl
 		: stmt(std::static_pointer_cast<sqlite3_stmt>(sqlstmt.get_handle()))
 		, row_status(SQLITE_DONE)
 	{
-        printf("record::%s: %p %s\n", __FUNCTION__, this, sqlite3_sql(stmt.get()));
-    }
-
-    ~impl()
-    {
-        printf("record::%s: %p %s\n", __FUNCTION__, this, sqlite3_sql(stmt.get()));
     }
 
 	void next()
