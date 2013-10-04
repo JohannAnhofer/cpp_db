@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.20827.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp_db", "cpp_db\cpp_db.vcxproj", "{9B986CAE-23B7-4CB6-B547-00F7C1C4663B}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite", "sqlite\sqlite.vcxproj", "{ED69C9EA-C51A-4262-A525-4FF95B838BA3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "tools\tools.vcxproj", "{F6B28BEA-8480-428F-AE98-5BC3C85CAF8C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main", "main\main.vcxproj", "{6F006815-C6F9-48C4-AB62-BFB5683CA27C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp_db", "cpp_db\cpp_db.vcxproj", "{5512C29A-99CF-4EB2-906D-04B52C831511}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +17,6 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9B986CAE-23B7-4CB6-B547-00F7C1C4663B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{9B986CAE-23B7-4CB6-B547-00F7C1C4663B}.Debug|Win32.Build.0 = Debug|Win32
-		{9B986CAE-23B7-4CB6-B547-00F7C1C4663B}.Release|Win32.ActiveCfg = Release|Win32
-		{9B986CAE-23B7-4CB6-B547-00F7C1C4663B}.Release|Win32.Build.0 = Release|Win32
 		{ED69C9EA-C51A-4262-A525-4FF95B838BA3}.Debug|Win32.ActiveCfg = Debug|Win32
 		{ED69C9EA-C51A-4262-A525-4FF95B838BA3}.Debug|Win32.Build.0 = Debug|Win32
 		{ED69C9EA-C51A-4262-A525-4FF95B838BA3}.Release|Win32.ActiveCfg = Release|Win32
@@ -27,6 +25,14 @@ Global
 		{F6B28BEA-8480-428F-AE98-5BC3C85CAF8C}.Debug|Win32.Build.0 = Debug|Win32
 		{F6B28BEA-8480-428F-AE98-5BC3C85CAF8C}.Release|Win32.ActiveCfg = Release|Win32
 		{F6B28BEA-8480-428F-AE98-5BC3C85CAF8C}.Release|Win32.Build.0 = Release|Win32
+		{6F006815-C6F9-48C4-AB62-BFB5683CA27C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6F006815-C6F9-48C4-AB62-BFB5683CA27C}.Debug|Win32.Build.0 = Debug|Win32
+		{6F006815-C6F9-48C4-AB62-BFB5683CA27C}.Release|Win32.ActiveCfg = Release|Win32
+		{6F006815-C6F9-48C4-AB62-BFB5683CA27C}.Release|Win32.Build.0 = Release|Win32
+		{5512C29A-99CF-4EB2-906D-04B52C831511}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5512C29A-99CF-4EB2-906D-04B52C831511}.Debug|Win32.Build.0 = Debug|Win32
+		{5512C29A-99CF-4EB2-906D-04B52C831511}.Release|Win32.ActiveCfg = Release|Win32
+		{5512C29A-99CF-4EB2-906D-04B52C831511}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

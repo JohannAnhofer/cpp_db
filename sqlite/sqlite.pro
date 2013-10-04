@@ -1,10 +1,4 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2013-10-01T13:22:40
-#
-#-------------------------------------------------
-
-QT       -= core gui
+include(../common.pri)
 
 TARGET = sqlite
 TEMPLATE = lib
