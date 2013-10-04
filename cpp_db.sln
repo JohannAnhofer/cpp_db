@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp_db", "cpp_db\cpp_db.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite", "sqlite\sqlite.vcxproj", "{ED69C9EA-C51A-4262-A525-4FF95B838BA3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "tools\tools.vcxproj", "{F6B28BEA-8480-428F-AE98-5BC3C85CAF8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,10 @@ Global
 		{ED69C9EA-C51A-4262-A525-4FF95B838BA3}.Debug|Win32.Build.0 = Debug|Win32
 		{ED69C9EA-C51A-4262-A525-4FF95B838BA3}.Release|Win32.ActiveCfg = Release|Win32
 		{ED69C9EA-C51A-4262-A525-4FF95B838BA3}.Release|Win32.Build.0 = Release|Win32
+		{F6B28BEA-8480-428F-AE98-5BC3C85CAF8C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F6B28BEA-8480-428F-AE98-5BC3C85CAF8C}.Debug|Win32.Build.0 = Debug|Win32
+		{F6B28BEA-8480-428F-AE98-5BC3C85CAF8C}.Release|Win32.ActiveCfg = Release|Win32
+		{F6B28BEA-8480-428F-AE98-5BC3C85CAF8C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,4 @@
-QT       += core
-QT       -= gui
+QT       -= core gui
 
 TARGET = cppdb
 CONFIG   += console
@@ -16,17 +15,10 @@ SOURCES += main.cpp \
     test_cpp_db.cpp
 
 HEADERS += \
-    nullable.h \
-    value_is_null.h \
-    nullable_types.h \
-    key_value_pair.h \
-    coalesce.h \
-    null.h \
     test.h \
     connection.h \
     statement.h \
     record.h \
-    cpp11_defines.h \
     db_exception.h
 
 # dump OS info
@@ -44,24 +36,24 @@ llvm:   message(Compiling with LLVM)
 # use sqlite static lib
 
 # add include path and dependend to sqlite library
-INCLUDEPATH += $$PWD/../sqlite
-DEPENDPATH += $$PWD/../sqlite
+INCLUDEPATH += $$PWD/../sqlite $$PWD/../tools
+DEPENDPATH += $$PWD/../sqlite $$PWD/../tools
 
 # add sqlite library to LIBS
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../sqlite/release/ -lsqlite
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../sqlite/debug/ -lsqlite
-else:unix: LIBS += -L$$OUT_PWD/../sqlite/ -lsqlite
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../sqlite/release/ -lsqlite -L$$OUT_PWD/../tools/release/ -ltools
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../sqlite/debug/ -lsqlite -L$$OUT_PWD/../tools/debug/ -ltools
+else:unix: LIBS += -L$$OUT_PWD/../sqlite/ -lsqlite -L$$OUT_PWD/../tools/ -ltools
 
 # add sqlite to pre targetdeps
 win32 {
     mingw {
-        CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../sqlite/release/libsqlite.a
-        CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../sqlite/debug/libsqlite.a
+        CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../sqlite/release/libsqlite.a $$OUT_PWD/../tools/release/libtools.a
+        CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../sqlite/debug/libsqlite.a $$OUT_PWD/../tools/debug/libtools.a
     }
     msvc {
-        CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../sqlite/release/sqlite.lib
-        CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../sqlite/debug/sqlite.lib
+        CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../sqlite/release/sqlite.lib $$OUT_PWD/../tools/release/tools.lib
+        CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../sqlite/debug/sqlite.lib $$OUT_PWD/../tools/debug/tools.lib
     }
 }
-unix: PRE_TARGETDEPS += $$OUT_PWD/../sqlite/libsqlite.a
+unix: PRE_TARGETDEPS += $$OUT_PWD/../sqlite/libsqlite.a $$OUT_PWD/../tools/libtools.a
 

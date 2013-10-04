@@ -1,5 +1,5 @@
-#ifndef CPP11_DEFINES_H
-#define CPP11_DEFINES_H
+#ifndef TOOLS_CPP11_DEFINES_H
+#define TOOLS_CPP11_DEFINES_H
 
 // gcc supports constexpr since 4.6
 #ifdef __GNUG__
@@ -28,4 +28,4 @@
     #define CONSTEXPR
 #endif
 
-#endif  // CPP11_DEFINES_H
+#endif  // TOOLS_CPP11_DEFINES_H

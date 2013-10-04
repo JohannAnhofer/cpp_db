@@ -1,9 +1,9 @@
-#ifndef CPP_DB_NULL_H
-#define CPP_DB_NULL_H
+#ifndef TOOLS_NULL_H
+#define TOOLS_NULL_H
 
 #include "cpp11_defines.h"
 
-namespace cpp_db
+namespace tools
 {
 
 struct null_type {};
@@ -21,4 +21,4 @@ CONSTEXPR bool is_null(T &&)
 
 }
 
-#endif // CPP_DB_NULL_H
+#endif // TOOLS_NULL_H

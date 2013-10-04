@@ -1,9 +1,9 @@
-#ifndef CPP_DB_KEY_VALUE_PAIR_H
-#define CPP_DB_KEY_VALUE_PAIR_H
+#ifndef TOOLS_KEY_VALUE_PAIR_H
+#define TOOLS_KEY_VALUE_PAIR_H
 
 #include <stdexcept>
 
-namespace cpp_db
+namespace tools
 {
 
 template<typename K, typename V>
@@ -63,6 +63,6 @@ connection_option *make_key_value_pair(const K &key, const V &value)
 }
 
 
-} // namespace cpp_db
+} // namespace tools
 
-#endif // CPP_DB_KEY_VALUE_PAIR_H
+#endif // TOOLS_KEY_VALUE_PAIR_H

@@ -1,11 +1,11 @@
-#ifndef CPP_DB_NULLABLE_TYPES_H
-#define CPP_DB_NULLABLE_TYPES_H
+#ifndef TOOLS_NULLABLE_TYPES_H
+#define TOOLS_NULLABLE_TYPES_H
 
 #include "nullable.h"
 
 #include <string>
 
-namespace cpp_db
+namespace tools
 {
     // char types
     typedef nullable<char>          nullable_char;
@@ -37,4 +37,4 @@ namespace cpp_db
     // date/time types
 }
 
-#endif // CPP_DB_NULLABLE_TYPES_H
+#endif // TOOLS_NULLABLE_TYPES_H
