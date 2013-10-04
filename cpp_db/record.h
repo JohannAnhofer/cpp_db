@@ -7,12 +7,12 @@
 namespace cpp_db
 {
 
-class sql_statement;
+class statement;
 
 class record
 {
 public:
-    explicit record(const sql_statement &stmt);
+    explicit record(const statement &stmt);
 	~record();
 
 	record(const record &) = delete;
