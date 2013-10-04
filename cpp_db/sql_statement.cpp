@@ -26,14 +26,12 @@ struct sql_statement::impl
 		: db(std::static_pointer_cast<sqlite3>(con.get_handle()))
         , tail(nullptr)
 	{
-        printf("sql_statement::%s: %p\n", __FUNCTION__, this);
         if (db.expired())
             throw db_exception("No database connection for statement!");
 	}
 
     ~impl()
     {
-        printf("sql_statement::%s: %p %s\n", __FUNCTION__, this, sqlite3_sql(stmt.get()));
         stmt.reset();
     }
 
@@ -89,7 +87,6 @@ struct sql_statement::impl
         sqlite3_stmt *stmt_new = nullptr;
         const char *tail_new = nullptr;
 
-        printf("Accquire statement: %s\n", sqlcmd.c_str());
         int error_code = sqlite3_prepare_v2(db.lock().get(), sqlcmd.c_str(), sqlcmd.size(), &stmt_new, &tail_new);
         if (error_code != SQLITE_OK)
             throw_db_exception(error_code, db.lock().get());

@@ -20,14 +20,8 @@ namespace cpp_db
 	{
         std::shared_ptr<sqlite3> db;
 
-        impl()
-        {
-            printf("connection::%s: %p\n", __FUNCTION__, this);
-        }
-
         ~impl()
         {
-            printf("connection::%s: %p\n", __FUNCTION__, this);
             try
             {
                 db.reset();
@@ -47,7 +41,6 @@ namespace cpp_db
                 throw_db_exception(error_code, dbptr);
             db.reset(dbptr, [](sqlite3 *db)
                             {
-								//printf("Releasing connection\n");
                                 if (int error_code = sqlite3_close(db))
                                     throw_db_exception(error_code, db);
                             }
