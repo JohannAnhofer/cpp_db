@@ -72,14 +72,14 @@ struct sql_statement::impl
 	template<typename T>
 	void bind(int pos, T && value)
 	{
-		if (int error_code = bind_pos(pos, value))
+        if (int error_code = bind_pos(pos, std::forward(value)))
             throw_db_exception(error_code, db.lock().get());
 	}
 
 	template<typename T>
 	void bind(const std::string &name, T && value)
 	{
-		bind(find_param_pos(name), value);
+        bind(find_param_pos(name), std::forward(value));
 	}
 
     void prepare(const std::string &sqlcmd)
