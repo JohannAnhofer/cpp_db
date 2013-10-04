@@ -1,5 +1,5 @@
-#ifndef CPP_DB_SQL_STATEMENT_H
-#define CPP_DB_SQL_STATEMENT_H
+#ifndef CPP_DB_STATEMENT_H
+#define CPP_DB_STATEMENT_H
 
 #include <memory>
 #include <string>
@@ -9,17 +9,17 @@ namespace cpp_db
 
 class connection;
 
-class sql_statement
+class statement
 {
 public:
 	typedef std::shared_ptr<void> handle;
 
-    sql_statement(const std::string &sqlcmd, connection &conn);
-    explicit sql_statement(connection &conn);
-    ~sql_statement();
+    statement(const std::string &sqlcmd, connection &conn);
+    explicit statement(connection &conn);
+    ~statement();
 
-	sql_statement(const sql_statement&other) = delete;
-	sql_statement &operator=(const sql_statement &other) = delete;
+    statement(const statement&other) = delete;
+    statement &operator=(const statement &other) = delete;
 
     void prepare(const std::string &sqlcmd);
 
@@ -36,4 +36,4 @@ private:
 
 }
 
-#endif // CPP_DB_SQL_STATEMENT_H
+#endif // CPP_DB_STATEMENT_H

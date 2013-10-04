@@ -1,4 +1,4 @@
-#include "sql_statement.h"
+#include "statement.h"
 #include "connection.h"
 #include "db_exception.h"
 
@@ -16,7 +16,7 @@ extern void throw_db_exception(int error_code, sqlite3 *db);
 
 typedef std::vector<uint8_t> blob;
 
-struct sql_statement::impl
+struct statement::impl
 {
     std::shared_ptr<sqlite3_stmt> stmt;
     std::weak_ptr<sqlite3> db;
@@ -114,42 +114,42 @@ struct sql_statement::impl
 
 };
 
-sql_statement::sql_statement(connection &conn)
+statement::statement(connection &conn)
     : pimpl(new impl(conn))
 {
 }
 
-sql_statement::sql_statement(const std::string &sqlcmd, connection &conn)
-    : sql_statement(conn)
+statement::statement(const std::string &sqlcmd, connection &conn)
+    : statement(conn)
 {
     prepare(sqlcmd);
 }
 
-sql_statement::~sql_statement()
+statement::~statement()
 {
 }
 
-void sql_statement::prepare(const std::string &sqlcmd)
+void statement::prepare(const std::string &sqlcmd)
 {
     pimpl->prepare(sqlcmd);
 }
 
-void sql_statement::execute_ddl()
+void statement::execute_ddl()
 {
 	pimpl->execute();
 }
 
-void sql_statement::execute_non_query()
+void statement::execute_non_query()
 {
 	pimpl->execute();
 }
 
-bool sql_statement::is_prepared() const
+bool statement::is_prepared() const
 {
     return pimpl->is_prepared();
 }
 
-sql_statement::handle sql_statement::get_handle() const
+statement::handle statement::get_handle() const
 {
 	return std::static_pointer_cast<void>(pimpl->stmt);
 }

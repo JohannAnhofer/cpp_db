@@ -1,5 +1,5 @@
 #include "record.h"
-#include "sql_statement.h"
+#include "statement.h"
 #include "db_exception.h"
 
 #include "sqlite3.h"
@@ -14,7 +14,7 @@ struct record::impl
 	std::shared_ptr<sqlite3_stmt> stmt;
 	int row_status;
 
-	impl(const sql_statement &sqlstmt)
+    impl(const statement &sqlstmt)
 		: stmt(std::static_pointer_cast<sqlite3_stmt>(sqlstmt.get_handle()))
 		, row_status(SQLITE_DONE)
 	{
@@ -49,7 +49,7 @@ struct record::impl
 	}
 };
 
-record::record(const sql_statement &stmt)
+record::record(const statement &stmt)
 	: pimpl(new impl(stmt))
 {
     if (!stmt.is_prepared())
