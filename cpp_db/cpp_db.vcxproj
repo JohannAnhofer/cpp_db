@@ -14,7 +14,7 @@
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="record.cpp" />
-    <ClCompile Include="sql_statement.cpp" />
+    <ClCompile Include="statement.cpp" />
     <ClCompile Include="test_cpp_db.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -27,7 +27,7 @@
     <ClInclude Include="nullable.h" />
     <ClInclude Include="nullable_types.h" />
     <ClInclude Include="record.h" />
-    <ClInclude Include="sql_statement.h" />
+    <ClInclude Include="statement.h" />
     <ClInclude Include="test.h" />
     <ClInclude Include="value_is_null.h" />
   </ItemGroup>
