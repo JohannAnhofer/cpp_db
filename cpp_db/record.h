@@ -15,6 +15,9 @@ public:
     explicit record(const sql_statement &stmt);
 	~record();
 
+	record(const record &) = delete;
+	record &operator=(const record &) = delete;
+
 	int get_column_count() const;
 
 	bool is_eof() const;

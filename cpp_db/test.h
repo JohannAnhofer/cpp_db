@@ -36,7 +36,7 @@ inline void test_condition(const std::string &name, Callable && callable, Args &
 {
 	try
 	{
-		test_stream() << (callable(args...) ? namefor_ok : namefor_nok) << " : " << name << std::endl;
+        test_stream() << (callable(std::forward(args)...) ? namefor_ok : namefor_nok) << " : " << name << std::endl;
 	}
 	catch (const std::exception &ex)
 	{
@@ -75,7 +75,7 @@ void test_for_exception(const std::string &exceptionname, Callable &&code, Args 
 {
 	try
 	{
-		code(args...);
+        code(std::forward(args)...);
 		test_condition("Expected exception of type '" + exceptionname + "' not occured!", false);
 	}
 	catch (const Exception &ex)
@@ -89,7 +89,7 @@ void test_for_no_exception(const std::string &message, Callable &&code, Args &&.
 {
 	try
 	{
-		code(args...);
+        code(std::forward(args)...);
 		test_condition(message, true);
 	}
 	catch (const std::exception &ex)
