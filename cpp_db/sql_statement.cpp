@@ -34,13 +34,7 @@ struct sql_statement::impl
     ~impl()
     {
         printf("sql_statement::%s: %p %s\n", __FUNCTION__, this, sqlite3_sql(stmt.get()));
-        try
-		{
-			stmt.reset();
-		}
-		catch (...)
-		{
-		}
+        stmt.reset();
     }
 
 	// bind positional parameter
@@ -100,13 +94,7 @@ struct sql_statement::impl
         if (error_code != SQLITE_OK)
             throw_db_exception(error_code, db.lock().get());
 
-		stmt.reset(stmt_new, [&](sqlite3_stmt *stmt) 
-								{
-                                    printf("Releasing statement: %s\n", sqlite3_sql(stmt));
-									if (int error_code = sqlite3_finalize(stmt)) 
-										throw_db_exception(error_code, db.lock().get());
-								}
-					);
+        stmt.reset(stmt_new, sqlite3_finalize);
         tail = tail_new;
     }
 
