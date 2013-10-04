@@ -56,7 +56,7 @@ struct statement::impl
 	{
         return sqlite3_bind_blob(stmt.get(), pos, value.data(), value.size(), SQLITE_TRANSIENT);
 	}
-	int bind_pos(int pos, const null_type &)
+	int bind_pos(int pos, const tools::null_type &)
 	{
         return sqlite3_bind_null(stmt.get(), pos);
 	}

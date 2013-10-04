@@ -1,10 +1,9 @@
-#ifndef CPP_DB_NULLABLE_H
-#define CPP_DB_NULLABLE_H
+#ifndef TOOLS_NULLABLE_H
+#define TOOLS_NULLABLE_H
 
 #include "value_is_null.h"
-#include "null.h"
 
-namespace cpp_db
+namespace tools
 {
 
 template<typename T>
@@ -141,6 +140,6 @@ bool is_null(nullable<T> &&value)
     return value.is_null();
 }
 
-} // namespace cpp_db
+} // namespace tools
 
-#endif // CPP_DB_NULLABLE_H
+#endif // TOOLS_NULLABLE_H

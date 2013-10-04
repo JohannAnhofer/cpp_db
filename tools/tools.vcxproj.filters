@@ -15,37 +15,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="connection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="test_cpp_db.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="record.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="statement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="cpp11_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="key_value_pair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nullable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nullable_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="value_is_null.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="coalesce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="null.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="test.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="connection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="db_exception.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="record.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="statement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="value_is_null.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
