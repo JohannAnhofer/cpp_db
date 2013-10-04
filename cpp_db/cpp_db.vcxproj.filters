@@ -21,13 +21,13 @@
     <ClCompile Include="connection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sql_statement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="test_cpp_db.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="record.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="statement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,10 +62,10 @@
     <ClInclude Include="cpp11_defines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sql_statement.h">
+    <ClInclude Include="record.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="record.h">
+    <ClInclude Include="statement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
