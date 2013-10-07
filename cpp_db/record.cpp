@@ -18,6 +18,10 @@ struct record::impl
 		: stmt(std::static_pointer_cast<sqlite3_stmt>(sqlstmt.get_handle()))
 		, row_status(SQLITE_DONE)
 	{
+		if (!sqlstmt.is_prepared())
+			throw db_exception("Statement not prepared!");
+
+		next();
     }
 
 	void next()
@@ -52,10 +56,6 @@ struct record::impl
 record::record(const statement &stmt)
 	: pimpl(new impl(stmt))
 {
-    if (!stmt.is_prepared())
-        throw db_exception("Statement not prepared!");
-
-    pimpl->next();
 }
 
 record::~record()
