@@ -15,11 +15,14 @@
     <ClInclude Include="db_exception.h" />
     <ClInclude Include="record.h" />
     <ClInclude Include="statement.h" />
+    <ClInclude Include="transaction.h" />
+    <ClInclude Include="transaction_scope.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="record.cpp" />
     <ClCompile Include="statement.cpp" />
+    <ClCompile Include="transaction.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5512C29A-99CF-4EB2-906D-04B52C831511}</ProjectGuid>

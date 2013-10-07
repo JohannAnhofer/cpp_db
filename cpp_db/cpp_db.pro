@@ -7,13 +7,16 @@ CONFIG += staticlib
 SOURCES += \
     connection.cpp \
     statement.cpp \
-    record.cpp
+    record.cpp \
+    transaction.cpp
 
 HEADERS += \
     connection.h \
     statement.h \
     record.h \
-    db_exception.h
+    db_exception.h \
+    transaction_scope.h \
+    transaction.h
 
 INCLUDEPATH += \
     $$PWD/../tools \
