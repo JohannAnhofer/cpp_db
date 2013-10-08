@@ -67,10 +67,10 @@ namespace cpp_db
 		{
 			virtual ~abstract_holder() {}
 			virtual void const * get_value() const = 0;
-			virtual const type_info &get_value_type() const = 0;
+            virtual const std::type_info &get_value_type() const = 0;
 			virtual void const * get_index() const = 0;
-			virtual const type_info &get_index_type() const = 0;
-		};
+            virtual const std::type_info &get_index_type() const = 0;
+        };
 
 		template<typename IndexType, typename ValueType>
 		struct concrete_holder : public abstract_holder
@@ -88,7 +88,7 @@ namespace cpp_db
 				return &value;
 			}
 
-			const type_info &get_value_type() const override
+            const std::type_info &get_value_type() const override
 			{
 				return value_type;
 			}
@@ -98,14 +98,14 @@ namespace cpp_db
 				return &index;
 			}
 
-			const type_info & get_index_type() const override
+            const std::type_info & get_index_type() const override
 			{
 				return index_type;
 			}
 
 			IndexType index;
 			ValueType value;
-			const type_info &index_type, &value_type;
+            const std::type_info &index_type, &value_type;
 		};
 
 		std::unique_ptr<abstract_holder> pholder;
