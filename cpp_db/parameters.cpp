@@ -68,7 +68,7 @@ namespace cpp_db
 		void bind(int pos, T && value)
 		{
 			if (int error_code = bind_pos(pos, std::forward(value)))
-				throw_db_exception(error_code, db.lock().get());
+                throw_db_exception(error_code, sqlite3_db_handle(stmt.lock().get()));
 		}
 
 		template<typename T>

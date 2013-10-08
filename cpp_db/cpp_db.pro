@@ -8,7 +8,8 @@ SOURCES += \
     connection.cpp \
     statement.cpp \
     record.cpp \
-    transaction.cpp
+    transaction.cpp \
+    parameters.cpp
 
 HEADERS += \
     connection.h \
@@ -16,7 +17,9 @@ HEADERS += \
     record.h \
     db_exception.h \
     transaction_scope.h \
-    transaction.h
+    transaction.h \
+    parameter.h \
+    parameters.h
 
 INCLUDEPATH += \
     $$PWD/../tools \
