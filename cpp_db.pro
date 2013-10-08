@@ -5,7 +5,7 @@ unix:   message(Running under unix/linux)
 macx:   message(Running under Mac OS X)
 
 # dump Compiler info
-g++:    message(Compiling with GCC)
+gcc:    message(Compiling with GCC)
 msvc:   message(Compiling with MS VC)
 mingw:  message(Compiling with MinGW)
 clang:  message(Compiling with Clang)
