@@ -8,6 +8,21 @@
 
 #include <cmath>
 
+class test_cpp_db: public Test
+{
+public:
+    test_cpp_db()
+    {
+        add_test_function([&](){test_connection();});
+    }
+
+protected:
+    void test_connection()
+    {
+
+    }
+};
+
 void test_cpp_db()
 {
 	test_message("========== Database test starts ==========");

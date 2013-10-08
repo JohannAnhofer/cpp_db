@@ -6,6 +6,7 @@
 #include <functional>
 #include <exception>
 #include <sstream>
+#include <vector>
 
 static const char namefor_ok [] = "ok ";
 static const char namefor_nok [] = "NOK";
@@ -106,5 +107,66 @@ void test_for_no_exception(const std::string &message, Callable &&code, Args &&.
 #define TEST_VERIFY_RESULT(code) test_condition(#code, [&](){code;})
 #define TEST_FOR_EXCEPTION(code, excpt) test_for_exception<excpt>(#excpt, [&](){code;})
 #define TEST_FOR_NO_EXCPTION(code) test_for_no_exception(#code, [&](){code;})
+
+
+class Test
+{
+public:
+    Test() :
+        functionCount(0)
+      , failCount(0)
+      , successCount(0)
+      , exceptionCount(0)
+      , output(&std::cout)
+    {}
+
+    virtual ~Test() {}
+    virtual void init_class() {}
+    virtual void cleanup_class() {}
+    virtual void init() {}
+    virtual void cleanup() {}
+
+    void add_test_function(std::function<void()> fkt)
+    {
+        functions.push_back(fkt);
+    }
+
+    void run()
+    {
+        init_class();
+        for(auto f : functions)
+        {
+            functionCount++;
+            try
+            {
+                init();
+                f();
+                cleanup();
+            }
+            catch(...)
+            {
+                exceptionCount++;
+            }
+        }
+        cleanup_class();
+    }
+
+    void set_test_stream(std::ostream *os)
+    {
+        if (os)
+            output = os;
+    }
+
+protected:
+    inline void test_message(const std::string &msg)
+    {
+        *output << msg << std::endl;
+    }
+
+private:
+    int functionCount, failCount, successCount, exceptionCount;
+    std::ostream *output;
+    std::vector< std::function<void()> > functions;
+};
 
 #endif 
