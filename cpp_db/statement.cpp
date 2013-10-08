@@ -2,19 +2,12 @@
 #include "connection.h"
 #include "db_exception.h"
 
-#include "null.h"
-
 #include "sqlite3.h"
-
-#include <vector>
-#include <cstdint>
 
 namespace cpp_db
 {
 
 extern void throw_db_exception(int error_code, sqlite3 *db);
-
-typedef std::vector<uint8_t> blob;
 
 struct statement::impl
 {
@@ -28,58 +21,6 @@ struct statement::impl
 	{
         if (db.expired())
             throw db_exception("No database connection for statement!");
-	}
-
-    ~impl()
-    {
-        stmt.reset();
-    }
-
-	// bind positional parameter
-	int bind_pos(int pos, double value)
-	{
-        return sqlite3_bind_double(stmt.get(), pos, value);
-	}
-	int bind_pos(int pos, int value)
-	{
-        return sqlite3_bind_int(stmt.get(), pos, value);
-	}
-	int bind_pos(int pos, long long value)
-	{
-        return sqlite3_bind_int64(stmt.get(), pos, value);
-	}
-	int bind_pos(int pos, const std::string &value)
-	{
-        return sqlite3_bind_text(stmt.get(), pos, value.c_str(), value.length(), SQLITE_TRANSIENT);
-	}
-	int bind_pos(int pos, const blob &value)
-	{
-        return sqlite3_bind_blob(stmt.get(), pos, value.data(), value.size(), SQLITE_TRANSIENT);
-	}
-	int bind_pos(int pos, const tools::null_type &)
-	{
-        return sqlite3_bind_null(stmt.get(), pos);
-	}
-
-	int find_param_pos(const std::string &name) const
-	{
-        if (int pos = sqlite3_bind_parameter_index(stmt.get(), name.c_str()))
-			return pos;
-		else
-			throw db_exception("Index for SQL parameter '" + name + "' not found!");
-	}
-
-	template<typename T>
-	void bind(int pos, T && value)
-	{
-        if (int error_code = bind_pos(pos, std::forward(value)))
-            throw_db_exception(error_code, db.lock().get());
-	}
-
-	template<typename T>
-	void bind(const std::string &name, T && value)
-	{
-        bind(find_param_pos(name), std::forward(value));
 	}
 
     void prepare(const std::string &sqlcmd)

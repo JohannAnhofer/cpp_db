@@ -13,6 +13,8 @@
   <ItemGroup>
     <ClInclude Include="connection.h" />
     <ClInclude Include="db_exception.h" />
+    <ClInclude Include="parameter.h" />
+    <ClInclude Include="parameters.h" />
     <ClInclude Include="record.h" />
     <ClInclude Include="statement.h" />
     <ClInclude Include="transaction.h" />
@@ -20,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp" />
+    <ClCompile Include="parameters.cpp" />
     <ClCompile Include="record.cpp" />
     <ClCompile Include="statement.cpp" />
     <ClCompile Include="transaction.cpp" />
