@@ -64,5 +64,6 @@ unix {
     LIBS += \
         -L$$OUT_PWD/../cpp_db/ -lcpp_db \
         -L$$OUT_PWD/../sqlite/ -lsqlite \
-        -L$$OUT_PWD/../tools/  -ltools
+        -L$$OUT_PWD/../tools/  -ltools \
+        -ldl
 }
