@@ -14,7 +14,7 @@ namespace test
 class abstract_test
 {
 public:
-	abstract_test(const std::string &class_name);
+    explicit abstract_test(const std::string &class_name);
 	virtual ~abstract_test() = 0;
 
 	void set_test_stream(std::ostream *os);
