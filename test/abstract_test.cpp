@@ -59,20 +59,26 @@ void abstract_test::add_test_function(std::function<void()> fkt, const std::stri
 void abstract_test::run()
 {
 	init_class_internal();
-	for (auto fn : functions)
+    for (auto name_and_function : functions)
 	{
 		function_count++;
-		try
+        init_internal(name_and_function.first);
+        try
 		{
-			init_internal(fn.first);
-			fn.second();
-			cleanup_internal(fn.first);
+            name_and_function.second();
 		}
-		catch (...)
+        catch (const std::exception &ex)
+        {
+            *output << "Exception '" << ex.what() << "' occured" << std::endl;
+            exception_count++;
+        }
+        catch (...)
 		{
+            *output << "Unknow exception occured" << std::endl;
 			exception_count++;
 		}
-	}
+        cleanup_internal(name_and_function.first);
+    }
 	cleanup_class_internal();
 }
 
@@ -107,6 +113,13 @@ void abstract_test::cleanup_class_internal()
 
 	test_message(separator);
 	test_message("Finished " + test_class_name);
+    *output << function_count << " test functions called" << std::endl
+            << success_count + fail_count << " test cases executed" << std::endl
+            << fail_count << " test cases failed" << std::endl
+            << success_count << " test cases succeded" << std::endl
+            << exception_count << " exceptions occured and "
+            << expected_exception_count << " where expected" << std::endl;
+
 	test_message(separator);
 }
 
