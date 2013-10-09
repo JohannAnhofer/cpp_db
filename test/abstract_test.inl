@@ -10,6 +10,7 @@ void test::abstract_test::test_condition(const std::string &name, Callable && ca
 	catch (const std::exception &ex)
 	{
 		exception_count++;
+        fail_count++;
 		*output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
 	}
 }
@@ -24,7 +25,8 @@ void test::abstract_test::test_equal(TL &&tl, TR &&tr, const std::string &name)
 	catch (const std::exception &ex)
 	{
 		exception_count++;
-		*output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
+        fail_count++;
+        *output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
 	}
 }
 
@@ -38,7 +40,8 @@ void test::abstract_test::test_not_equal(TL &&tl, TR &&tr, const std::string &na
 	catch (const std::exception &ex)
 	{
 		exception_count++;
-		*output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
+        fail_count++;
+        *output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
 	}
 }
 
@@ -53,6 +56,8 @@ void test::abstract_test::test_for_exception(const std::string &exceptionname, C
 	catch (const Exception &ex)
 	{
 		test_condition(std::string("Expected exception of type '" + exceptionname + "' occured : ") + ex.what(), true);
+        exception_count++;
+        expected_exception_count++;
 	}
 }
 
@@ -66,9 +71,9 @@ void test::abstract_test::test_for_no_exception(const std::string &message, Call
 	}
 	catch (const std::exception &ex)
 	{
-		exception_count++;
 		std::stringstream str;
 		str << namefor_exception << " : " << message << " : '" << ex.what() << "'";
 		test_condition(str.str(), false);
-	}
+        exception_count++;
+    }
 }
