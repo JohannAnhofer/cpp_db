@@ -5,9 +5,13 @@ CONFIG   += console
 CONFIG   -= app_bundle
 TEMPLATE = app
 
+HEADERS += \
+    test_cpp_db_class.h \
+    test_tools_class.h
+
 SOURCES += main.cpp \
-    test_cpp_db.cpp \
-    test_tools.cpp
+    test_tools_class.cpp \
+    test_cpp_db_class.cpp
 
 # add include path and dependend to sqlite library
 INCLUDEPATH += \

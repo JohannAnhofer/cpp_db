@@ -79,8 +79,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="test_cpp_db.cpp" />
-    <ClCompile Include="test_tools.cpp" />
+    <ClCompile Include="test_cpp_db_class.cpp" />
+    <ClCompile Include="test_tools_class.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cpp_db\cpp_db.vcxproj">
@@ -95,6 +95,10 @@
     <ProjectReference Include="..\tools\tools.vcxproj">
       <Project>{f6b28bea-8480-428f-ae98-5bc3c85caf8c}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="test_cpp_db_class.h" />
+    <ClInclude Include="test_tools_class.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
