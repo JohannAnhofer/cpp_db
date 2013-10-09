@@ -5,6 +5,8 @@
 
 #include <string>
 #include <memory>
+#include <typeinfo>
+#include <typeindex>
 
 namespace cpp_db
 {
@@ -67,9 +69,9 @@ namespace cpp_db
 		{
 			virtual ~abstract_holder() {}
 			virtual void const * get_value() const = 0;
-            virtual const std::type_info &get_value_type() const = 0;
+            virtual std::type_index get_value_type() const = 0;
 			virtual void const * get_index() const = 0;
-            virtual const std::type_info &get_index_type() const = 0;
+            virtual std::type_index get_index_type() const = 0;
         };
 
 		template<typename IndexType, typename ValueType>
@@ -88,7 +90,7 @@ namespace cpp_db
 				return &value;
 			}
 
-            const std::type_info &get_value_type() const override
+            std::type_index get_value_type() const override
 			{
 				return value_type;
 			}
@@ -98,14 +100,14 @@ namespace cpp_db
 				return &index;
 			}
 
-            const std::type_info & get_index_type() const override
+			std::type_index get_index_type() const override
 			{
 				return index_type;
 			}
 
 			IndexType index;
 			ValueType value;
-            const std::type_info &index_type, &value_type;
+			std::type_index index_type, value_type;
 		};
 
 		std::unique_ptr<abstract_holder> pholder;
