@@ -18,6 +18,7 @@ CONFIG += ordered
 SUBDIRS += sqlite \
            tools \
            cpp_db \
+           test \
            main
 
 cache()
