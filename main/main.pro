@@ -6,10 +6,13 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    test_cpp_db.cpp
+    abstract_test.cpp \
+    test_cpp_db.cpp \
+    test_tools.cpp
 
 HEADERS += \
-    test.h
+    abstract_test.h \
+    abstract_inl.h
 
 # add include path and dependend to sqlite library
 INCLUDEPATH += \
