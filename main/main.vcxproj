@@ -78,8 +78,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="abstract_test.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="test_cpp_db.cpp" />
+    <ClCompile Include="test_tools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cpp_db\cpp_db.vcxproj">
@@ -93,7 +95,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="test.h" />
+    <ClInclude Include="abstract_test.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="abstract_test.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
