@@ -42,7 +42,7 @@ public:
 	void execute_ddl(Args&& ...args)
 	{
 		reset();
-		bind_pos_param<1>([&](){execute_non_ddl(); }, args...);
+        bind_pos_param<1>([&](){execute_ddl(); }, args...);
 	}
 
     void bind_param(const parameter &param);
