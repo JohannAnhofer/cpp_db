@@ -7,6 +7,25 @@
 
 #include <cmath>
 
+std::ostream &operator<<(std::ostream &output, cpp_db::record &record)
+{
+	record.move_first();
+	output << "\t";
+	for (int i = 0; i < record.get_column_count(); ++i)
+		output << record.get_field_name(i) << "\t|\t";
+	output << "\n" << std::string(80, '-') << "\n";
+
+	while (!record.is_eof())
+	{
+		output << "\t";
+		for (int i = 0; i < record.get_column_count(); ++i)
+			output << record.get_field_value(i) << "\t|\t";
+		output << "\n";
+		record.move_next();
+	}
+	return output;
+}
+
 void test_cpp_db_class::init_class()
 {
     con.reset(new cpp_db::connection("sqlite"));
@@ -85,4 +104,14 @@ void test_cpp_db_class::test_parameter()
 	cpp_db::record result(cpp_db::statement("select count(*) from TEST_TABLE where (COL1 = 4 and COL2 = 'four') OR (COL1 = 5 and COL2 = 'five')", *con.get()));
 	TEST_EQUAL(result.get_column_count(), 1);
 	TEST_EQUAL(result.get_field_value(0), "2");
+
+	TEST_FOR_NO_EXCPTION(stmt.prepare("insert into TEST_TABLE(COL1, COL2) VALUES(99, 'Unknown')"));
+	TEST_FOR_NO_EXCPTION(stmt.execute_non_query());
+	TEST_FOR_NO_EXCPTION(stmt.execute_non_query());
+	TEST_FOR_NO_EXCPTION(stmt.execute_non_query());
+
+	cpp_db::record result1(cpp_db::statement("select count(*) from TEST_TABLE where COL1=99 and COL2='Unknown'", *con.get()));
+	TEST_EQUAL(result1.get_column_count(), 1);
+	TEST_EQUAL(result1.get_field_value(0), "3");
+
 }
