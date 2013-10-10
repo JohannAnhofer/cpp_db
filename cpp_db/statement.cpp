@@ -9,6 +9,8 @@
 #include <vector>
 #include <string>
 
+#include <cstring>
+
 namespace cpp_db
 {
 
