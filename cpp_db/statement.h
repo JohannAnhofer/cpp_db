@@ -27,7 +27,8 @@ public:
 	bool is_prepared() const;
 	handle get_handle() const;
 
-    void execute_non_query();
+	void execute_ddl();
+	void execute_non_query();
 
     template<typename ...Args>
     void execute_non_query(Args&& ...args)
@@ -35,15 +36,6 @@ public:
 		reset();
 		bind_pos_param<1>([&](){execute_non_query(); }, args...);
     }
-
-	void execute_ddl();
-
-	template<typename ...Args>
-	void execute_ddl(Args&& ...args)
-	{
-		reset();
-        bind_pos_param<1>([&](){execute_ddl(); }, args...);
-	}
 
     void bind_param(const parameter &param);
 
