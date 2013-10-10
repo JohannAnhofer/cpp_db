@@ -77,4 +77,12 @@ void test_cpp_db_class::test_parameter()
     TEST_VERIFY(std::fabs(param2.get_value<double>() - 27.85) < 0.000001);
 
     TEST_FOR_EXCEPTION(param1.get_value<int>(), cpp_db::db_exception);
+
+    cpp_db::statement stmt(*con.get());
+    TEST_FOR_NO_EXCPTION(stmt.prepare("insert into TEST_TABLE(COL1, COL2) VALUES(?, ?)"));
+	TEST_FOR_NO_EXCPTION(stmt.execute_non_query(4, "four"));
+	TEST_FOR_NO_EXCPTION(stmt.execute_non_query(5, "five"));
+	cpp_db::record result(cpp_db::statement("select count(*) from TEST_TABLE where (COL1 = 4 and COL2 = 'four') OR (COL1 = 5 and COL2 = 'five')", *con.get()));
+	TEST_EQUAL(result.get_column_count(), 1);
+	TEST_EQUAL(result.get_field_value(0), "2");
 }

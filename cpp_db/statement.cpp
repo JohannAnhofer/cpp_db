@@ -1,8 +1,13 @@
 #include "statement.h"
 #include "connection.h"
 #include "db_exception.h"
+#include "null.h"
 
 #include "sqlite3.h"
+
+#include <iostream>
+#include <vector>
+#include <string>
 
 namespace cpp_db
 {
@@ -14,6 +19,12 @@ struct statement::impl
     std::shared_ptr<sqlite3_stmt> stmt;
     std::weak_ptr<sqlite3> db;
     const char *tail;
+
+	template<typename ElementType>
+	static void delete_array(void *data)
+	{
+		delete [] reinterpret_cast<ElementType *>(data);
+	}
 
     impl(connection &con)
 		: db(std::static_pointer_cast<sqlite3>(con.get_handle()))
@@ -53,6 +64,55 @@ struct statement::impl
         }
     }
 
+
+	int find_param_pos(const std::string &name) const
+	{
+		if (int pos = sqlite3_bind_parameter_index(stmt.get(), name.c_str()))
+			return pos;
+		else
+			throw db_exception("Index for SQL parameter '" + name + "' not found!");
+	}
+
+    void bind(const parameter &param)
+    {
+		using blob = std::vector<uint8_t>;
+
+		int index = param.has_index() ? param.get_index() : find_param_pos(param.get_name());
+		if (param.has_value_of_type<int>())
+			sqlite3_bind_int(stmt.get(), index, param.get_value<int>());
+		else if (param.has_value_of_type<double>())
+			sqlite3_bind_double(stmt.get(), index, param.get_value<double>());
+		else if (param.has_value_of_type<const char *>())
+		{	
+			const char *source = param.get_value<const char *>();
+			char * value = new char[strlen(source) + 1];
+			strcpy(value, source);
+			sqlite3_bind_text(stmt.get(), index, value, strlen(source), delete_array<char *>);
+		}
+		else if (param.has_value_of_type<std::string>())
+		{
+			std::string source(param.get_value<std::string>());
+			char * value = new char[source.length() + 1];
+			strcpy(value, source.c_str());
+			sqlite3_bind_text(stmt.get(), index, value, source.length(), delete_array<char *>);
+		}
+		else if (param.has_value_of_type<blob>())
+		{
+			blob source(param.get_value<blob>());
+			uint8_t *value = new uint8_t[source.size()];
+			memcpy(value, source.data(), source.size());
+			sqlite3_bind_blob(stmt.get(), index, value, source.size(), delete_array<uint8_t *>);
+		}
+		else if (param.has_value_of_type<int64_t>())
+			sqlite3_bind_int64(stmt.get(), index, param.get_value<int64_t>());
+		else if (param.has_value_of_type<tools::null_type>())
+			sqlite3_bind_null(stmt.get(), index);
+	}
+
+	void reset()
+	{
+		sqlite3_reset(stmt.get());
+	}
 };
 
 statement::statement(connection &conn)
@@ -93,6 +153,16 @@ bool statement::is_prepared() const
 statement::handle statement::get_handle() const
 {
 	return std::static_pointer_cast<void>(pimpl->stmt);
+}
+
+void statement::bind_param(const parameter &param)
+{
+    pimpl->bind(param);
+}
+
+void statement::reset()
+{
+	pimpl->reset();
 }
 
 }

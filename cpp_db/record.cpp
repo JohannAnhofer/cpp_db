@@ -89,7 +89,10 @@ void record::move_prev()
 
 std::string record::get_field_value(int field) const
 {	
-	return reinterpret_cast<const char *>(sqlite3_column_text(pimpl->stmt.get(), field));
+	if (const unsigned char *value = sqlite3_column_text(pimpl->stmt.get(), field))
+		return reinterpret_cast<const char *>(value);
+	else
+		return "<null>";
 }
 
 std::string record::get_field_value(const std::string &field) const
