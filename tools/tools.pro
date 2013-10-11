@@ -7,10 +7,11 @@ CONFIG += staticlib
 HEADERS += \
     coalesce.h \
     cpp11_defines.h \
+    key_value_pair.h \
+    null.h \
     nullable.h \
     nullable_types.h \
-    value_is_null.h \
-    null.h
+    value_is_null.h
 
 SOURCES += \
     value_is_null.cpp
