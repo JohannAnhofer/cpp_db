@@ -37,6 +37,12 @@ protected:
 	template<typename Exception, typename Callable, typename... Args> void test_for_exception(const std::string &exceptionname, Callable &&code, Args &&... args);
 	template<typename Callable, typename... Args> void test_for_no_exception(const std::string &message, Callable &&code, Args &&... args);
 
+	// overloads for character arrays 
+	void test_equal(const char * tl, const char * tr, const std::string &name);
+	void test_equal(const wchar_t * tl, const wchar_t * tr, const std::string &name);
+	void test_not_equal(const char * tl, const char * tr, const std::string &name);
+	void test_not_equal(const wchar_t * tl, const wchar_t * tr, const std::string &name);
+
 private:
 	void init_class_internal();
 	void cleanup_class_internal();

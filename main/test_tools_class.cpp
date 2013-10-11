@@ -17,13 +17,170 @@ void test_tools_class::test_test_functions()
     TEST_EQUAL(4, 4);
     TEST_NOT_EQUAL(3, 4711);
     TEST_NOT_EQUAL(4, 4);
+}
 
-	TEST_EQUAL("Hello", "Hello");
-	char l [] = "World", r [] = "World";
-	TEST_EQUAL(l, r);
-	TEST_EQUAL(L"Hello", L"Hello");
-	wchar_t wl [] = L"World", wr [] = L"World";
-	TEST_EQUAL(wl, wr);
+void test_tools_class::test_char_compare()
+{
+	char l1 [] = "World";
+	char r1 [] = "World";
+	const char l2 [] = "World", r2 [] = "World";
+	const char *l3 = "World";
+	const char *r3 = "World";
+	const char * const l4 = "World";
+	const char * const r4 = "World";
+
+	TEST_EQUAL("World", "World");
+	TEST_EQUAL("World", r1);
+	TEST_EQUAL("World", r2);
+	TEST_EQUAL("World", r3);
+	TEST_EQUAL("World", r4);
+
+	TEST_EQUAL(l1, "World");
+	TEST_EQUAL(l1, r1);
+	TEST_EQUAL(l1, r2);
+	TEST_EQUAL(l1, r3);
+	TEST_EQUAL(l1, r4);
+
+	TEST_EQUAL(l2, "World");
+	TEST_EQUAL(l2, r1);
+	TEST_EQUAL(l2, r2);
+	TEST_EQUAL(l2, r3);
+	TEST_EQUAL(l2, r4);
+
+	TEST_EQUAL(l3, "World");
+	TEST_EQUAL(l3, r1);
+	TEST_EQUAL(l3, r2);
+	TEST_EQUAL(l3, r3);
+	TEST_EQUAL(l3, r4);
+
+	TEST_EQUAL(l4, "World");
+	TEST_EQUAL(l4, r1);
+	TEST_EQUAL(l4, r2);
+	TEST_EQUAL(l4, r3);
+	TEST_EQUAL(l4, r4);
+}
+
+void test_tools_class::test_wchar_t_compare()
+{
+	wchar_t l1 [] = L"World";
+	wchar_t r1 [] = L"World";
+	const wchar_t l2 [] = L"World", r2 [] = L"World";
+	const wchar_t *l3 = L"World";
+	const wchar_t *r3 = L"World";
+	const wchar_t * const l4 = L"World";
+	const wchar_t * const r4 = L"World";
+
+	TEST_EQUAL(L"World", L"World");
+	TEST_EQUAL(L"World", r1);
+	TEST_EQUAL(L"World", r2);
+	TEST_EQUAL(L"World", r3);
+	TEST_EQUAL(L"World", r4);
+
+	TEST_EQUAL(l1, L"World");
+	TEST_EQUAL(l1, r1);
+	TEST_EQUAL(l1, r2);
+	TEST_EQUAL(l1, r3);
+	TEST_EQUAL(l1, r4);
+
+	TEST_EQUAL(l2, L"World");
+	TEST_EQUAL(l2, r1);
+	TEST_EQUAL(l2, r2);
+	TEST_EQUAL(l2, r3);
+	TEST_EQUAL(l2, r4);
+
+	TEST_EQUAL(l3, L"World");
+	TEST_EQUAL(l3, r1);
+	TEST_EQUAL(l3, r2);
+	TEST_EQUAL(l3, r3);
+	TEST_EQUAL(l3, r4);
+
+	TEST_EQUAL(l4, L"World");
+	TEST_EQUAL(l4, r1);
+	TEST_EQUAL(l4, r2);
+	TEST_EQUAL(l4, r3);
+	TEST_EQUAL(l4, r4);
+}
+
+void test_tools_class::test_char_neq_compare()
+{
+	char l1 [] = "Hello";
+	char r1 [] = "World";
+	const char l2 [] = "Hello", r2 [] = "World";
+	const char *l3 = "Hello";
+	const char *r3 = "World";
+	const char * const l4 = "Hello";
+	const char * const r4 = "World";
+
+	TEST_NOT_EQUAL("Hello", "World");
+	TEST_NOT_EQUAL("Hello", r1);
+	TEST_NOT_EQUAL("Hello", r2);
+	TEST_NOT_EQUAL("Hello", r3);
+	TEST_NOT_EQUAL("Hello", r4);
+
+	TEST_NOT_EQUAL(l1, "World");
+	TEST_NOT_EQUAL(l1, r1);
+	TEST_NOT_EQUAL(l1, r2);
+	TEST_NOT_EQUAL(l1, r3);
+	TEST_NOT_EQUAL(l1, r4);
+
+	TEST_NOT_EQUAL(l2, "World");
+	TEST_NOT_EQUAL(l2, r1);
+	TEST_NOT_EQUAL(l2, r2);
+	TEST_NOT_EQUAL(l2, r3);
+	TEST_NOT_EQUAL(l2, r4);
+
+	TEST_NOT_EQUAL(l3, "World");
+	TEST_NOT_EQUAL(l3, r1);
+	TEST_NOT_EQUAL(l3, r2);
+	TEST_NOT_EQUAL(l3, r3);
+	TEST_NOT_EQUAL(l3, r4);
+
+	TEST_NOT_EQUAL(l4, "World");
+	TEST_NOT_EQUAL(l4, r1);
+	TEST_NOT_EQUAL(l4, r2);
+	TEST_NOT_EQUAL(l4, r3);
+	TEST_NOT_EQUAL(l4, r4);
+}
+
+void test_tools_class::test_wchar_t_neq_compare()
+{
+	wchar_t l1 [] = L"Hello";
+	wchar_t r1 [] = L"World";
+	const wchar_t l2 [] = L"Hello", r2 [] = L"World";
+	const wchar_t *l3 = L"Hello";
+	const wchar_t *r3 = L"World";
+	const wchar_t * const l4 = L"Hello";
+	const wchar_t * const r4 = L"World";
+
+	TEST_NOT_EQUAL(L"Hello", L"World");
+	TEST_NOT_EQUAL(L"Hello", r1);
+	TEST_NOT_EQUAL(L"Hello", r2);
+	TEST_NOT_EQUAL(L"Hello", r3);
+	TEST_NOT_EQUAL(L"Hello", r4);
+
+	TEST_NOT_EQUAL(l1, L"World");
+	TEST_NOT_EQUAL(l1, r1);
+	TEST_NOT_EQUAL(l1, r2);
+	TEST_NOT_EQUAL(l1, r3);
+	TEST_NOT_EQUAL(l1, r4);
+
+	TEST_NOT_EQUAL(l2, L"World");
+	TEST_NOT_EQUAL(l2, r1);
+	TEST_NOT_EQUAL(l2, r2);
+	TEST_NOT_EQUAL(l2, r3);
+	TEST_NOT_EQUAL(l2, r4);
+
+	TEST_NOT_EQUAL(l3, L"World");
+	TEST_NOT_EQUAL(l3, r1);
+	TEST_NOT_EQUAL(l3, r2);
+	TEST_NOT_EQUAL(l3, r3);
+	TEST_NOT_EQUAL(l3, r4);
+
+	TEST_NOT_EQUAL(l4, L"World");
+	TEST_NOT_EQUAL(l4, r1);
+	TEST_NOT_EQUAL(l4, r2);
+	TEST_NOT_EQUAL(l4, r3);
+	TEST_NOT_EQUAL(l4, r4);
 }
 
 void test_tools_class::test_nullable()
