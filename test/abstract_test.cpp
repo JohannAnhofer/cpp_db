@@ -139,4 +139,24 @@ void abstract_test::cleanup_internal(const std::string &fkt_name)
 	test_message(separator);
 }
 
+void abstract_test::test_equal(const char * tl, const char * tr, const std::string &name)
+{
+	test_condition(name, std::string(tl) == std::string(tr));
+}
+
+void abstract_test::test_equal(const wchar_t * tl, const wchar_t * tr, const std::string &name)
+{
+	test_condition(name, std::wstring(tl) == std::wstring(tr));
+}
+
+void abstract_test::test_not_equal(const char * tl, const char * tr, const std::string &name)
+{
+	test_condition(name, std::string(tl) != std::string(tr));
+}
+
+void abstract_test::test_not_equal(const wchar_t * tl, const wchar_t * tr, const std::string &name)
+{
+	test_condition(name, std::wstring(tl) != std::wstring(tr));
+}
+
 }

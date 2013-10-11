@@ -12,7 +12,11 @@ public:
     DECLARE_TEST_FUNCTION(test_is_null)
     DECLARE_TEST_FUNCTION(test_coalesce)
     DECLARE_TEST_FUNCTION(test_key_value_pair)
-    END_DECLARE_TEST_CLASS()
+	DECLARE_TEST_FUNCTION(test_char_compare)
+	DECLARE_TEST_FUNCTION(test_wchar_t_compare)
+	DECLARE_TEST_FUNCTION(test_char_neq_compare)
+	DECLARE_TEST_FUNCTION(test_wchar_t_neq_compare)
+	END_DECLARE_TEST_CLASS()
 
 protected:
     void test_test_functions();
@@ -20,6 +24,10 @@ protected:
     void test_is_null();
     void test_coalesce();
     void test_key_value_pair();
+	void test_char_compare();
+	void test_wchar_t_compare();
+	void test_char_neq_compare();
+	void test_wchar_t_neq_compare();
 };
 
 #endif // TEST_TOOLS_CLASS_H
