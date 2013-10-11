@@ -19,7 +19,8 @@ HEADERS += \
     transaction_scope.h \
     transaction.h \
     parameter.h \
-    parameters.h
+    parameters.h \
+    value.h
 
 INCLUDEPATH += \
     $$PWD/../tools \

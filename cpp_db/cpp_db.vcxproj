@@ -19,6 +19,7 @@
     <ClInclude Include="statement.h" />
     <ClInclude Include="transaction.h" />
     <ClInclude Include="transaction_scope.h" />
+    <ClInclude Include="value.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp" />

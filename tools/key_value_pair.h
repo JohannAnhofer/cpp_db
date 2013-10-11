@@ -17,7 +17,7 @@ public:
     template<typename K, typename V>
     K key() const
     {
-        typedef key_value_pair<K,V> kvp;
+        using kvp = key_value_pair<K,V>;
         if (kvp const *pkvp = dynamic_cast<kvp const *>(this))
             return pkvp->key();
         else
@@ -27,7 +27,7 @@ public:
     template<typename K, typename V>
     V value() const
     {
-        typedef key_value_pair<K,V> kvp;
+        using kvp = key_value_pair<K,V>;
         if (kvp const *pkvp = dynamic_cast<kvp const *>(this))
             return pkvp->value();
         else
