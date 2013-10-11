@@ -17,6 +17,13 @@ void test_tools_class::test_test_functions()
     TEST_EQUAL(4, 4);
     TEST_NOT_EQUAL(3, 4711);
     TEST_NOT_EQUAL(4, 4);
+
+	TEST_EQUAL("Hello", "Hello");
+	char l [] = "World", r [] = "World";
+	TEST_EQUAL(l, r);
+	TEST_EQUAL(L"Hello", L"Hello");
+	wchar_t wl [] = L"World", wr [] = L"World";
+	TEST_EQUAL(wl, wr);
 }
 
 void test_tools_class::test_nullable()

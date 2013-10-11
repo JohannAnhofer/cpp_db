@@ -1,6 +1,7 @@
 #include "statement.h"
 #include "connection.h"
 #include "db_exception.h"
+#include "value_is_null.h"
 #include "null.h"
 
 #include "sqlite3.h"
@@ -23,9 +24,15 @@ struct statement::impl
     const char *tail;
 
 	template<typename ElementType>
-	static void delete_array(void *data)
+	static void delete_array(void *array)
 	{
-		delete [] reinterpret_cast<ElementType *>(data);
+		delete [] reinterpret_cast<ElementType *>(array);
+	}
+
+	template<typename ObjectType>
+	static void delete_object(void *object)
+	{
+		delete reinterpret_cast<ObjectType *>(object);
 	}
 
     impl(connection &con)
@@ -89,26 +96,40 @@ struct statement::impl
 			const char *source = param.get_value<const char *>();
 			char * value = new char[strlen(source) + 1];
 			strcpy(value, source);
-			sqlite3_bind_text(stmt.get(), index, value, strlen(source), delete_array<char *>);
+			sqlite3_bind_text(stmt.get(), index, value, strlen(source), delete_array<char>);
 		}
 		else if (param.has_value_of_type<std::string>())
 		{
 			std::string source(param.get_value<std::string>());
 			char * value = new char[source.length() + 1];
 			strcpy(value, source.c_str());
-			sqlite3_bind_text(stmt.get(), index, value, source.length(), delete_array<char *>);
+			sqlite3_bind_text(stmt.get(), index, value, source.length(), delete_array<char>);
 		}
 		else if (param.has_value_of_type<blob>())
 		{
 			blob source(param.get_value<blob>());
 			uint8_t *value = new uint8_t[source.size()];
 			memcpy(value, source.data(), source.size());
-			sqlite3_bind_blob(stmt.get(), index, value, source.size(), delete_array<uint8_t *>);
+			sqlite3_bind_blob(stmt.get(), index, value, source.size(), delete_array<uint8_t>);
 		}
 		else if (param.has_value_of_type<int64_t>())
 			sqlite3_bind_int64(stmt.get(), index, param.get_value<int64_t>());
 		else if (param.has_value_of_type<tools::null_type>())
 			sqlite3_bind_null(stmt.get(), index);
+	}
+
+	std::string fetch_first_column_off_first_row()
+	{
+		if (!is_prepared())
+			throw db_exception("Statement not prepared!");
+
+		int row_status = sqlite3_step(stmt.get());
+		if (row_status != SQLITE_ROW && row_status != SQLITE_DONE)
+			throw_db_exception(row_status, sqlite3_db_handle(stmt.get()));
+		if (const unsigned char *value = sqlite3_column_text(stmt.get(), 0))
+			return reinterpret_cast<const char *>(value);
+		else
+			throw tools::value_is_null();
 	}
 
 	void reset()
@@ -145,6 +166,11 @@ void statement::execute_ddl()
 void statement::execute_non_query()
 {
 	pimpl->execute();
+}
+
+std::string statement::execute_scalar()
+{
+	return pimpl->fetch_first_column_off_first_row();
 }
 
 bool statement::is_prepared() const

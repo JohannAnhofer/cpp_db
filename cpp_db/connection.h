@@ -10,7 +10,7 @@ namespace cpp_db
 class connection
 {
 public:
-    typedef std::shared_ptr<void> handle;
+    using handle = std::shared_ptr<void>;
 
     explicit connection(const std::string &drivername);
 	~connection();

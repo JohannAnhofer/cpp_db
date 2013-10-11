@@ -14,7 +14,7 @@ class connection;
 class statement
 {
 public:
-	typedef std::shared_ptr<void> handle;
+    using handle = std::shared_ptr<void>;
 
     statement(const std::string &sqlcmd, connection &conn);
     explicit statement(connection &conn);
@@ -27,35 +27,52 @@ public:
 	bool is_prepared() const;
 	handle get_handle() const;
 
+	void reset();
+
 	void execute_ddl();
 	void execute_non_query();
+	std::string execute_scalar();
+
+    template<typename ...Args>
+    void execute_ddl(Args&& ...args)
+    {
+        execute_with_params<void>([&](){execute_ddl();}, args...);
+    }
 
     template<typename ...Args>
     void execute_non_query(Args&& ...args)
     {
-		reset();
-		bind_pos_param<1>([&](){execute_non_query(); }, args...);
+		execute_with_params<void>([&]() {execute_non_query();}, args...);
+    }
+
+    template<typename ...Args>
+    std::string execute_scalar(Args&& ...args)
+    {
+        return execute_with_params<std::string>([&](){return execute_scalar();}, args...);
     }
 
     void bind_param(const parameter &param);
 
 private:
-	typedef void(statement::*member_function)();
-
-	template<int pos, typename Function, typename Arg, typename...Args>
-	void bind_pos_param(Function function, Arg &&arg, Args && ...args)
+    template<int pos, typename Arg, typename...Args>
+    void bind_pos_param(Arg &&arg, Args && ...args)
 	{
 		bind_param(parameter(pos, arg));
-		bind_pos_param<pos+1>(function, args...);
+        bind_pos_param<pos+1>(args...);
 	}
 
-	template<int, typename Function>
-	void bind_pos_param(Function function)
+    template<int>
+    void bind_pos_param()
 	{
-		function();
 	}
 
-	void reset();
+	template<typename ResultType, typename FunctionType, typename ...Args>
+    ResultType execute_with_params(FunctionType function, Args&& ...args)
+    {
+        reset();
+        bind_pos_param<1>(args...);
+        return function();
+    }
 
     struct impl;
     std::unique_ptr<impl> pimpl;
