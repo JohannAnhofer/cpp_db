@@ -8,31 +8,31 @@
 namespace tools
 {
     // char types
-    typedef nullable<char>          nullable_char;
-    typedef nullable<unsigned char> nullable_uchar;
-    typedef nullable<signed char>   nullable_schar;
-    typedef nullable<wchar_t>       nullable_wchar_t;
+    using nullable_char = nullable<char>;
+    using nullable_uchar = nullable<unsigned char>;
+    using nullable_schar = nullable<signed char>;
+    using nullable_wchar_t = nullable<wchar_t>;
 
     // signed integer types
-    typedef nullable<short>     nullable_short;
-    typedef nullable<int>       nullable_int;
-    typedef nullable<long>      nullable_long;
-    typedef nullable<long long> nullable_long_long;
+    using nullable_short = nullable<short>;
+    using nullable_int = nullable<int>;
+    using nullable_long = nullable<long>;
+    using nullable_long_long = nullable<long long>;
 
     // unsigned integer types
-    typedef nullable<unsigned short>     nullable_ushort;
-    typedef nullable<unsigned int>       nullable_uint;
-    typedef nullable<unsigned long>      nullable_ulong;
-    typedef nullable<unsigned long long> nullable_ulong_long;
+    using nullable_ushort = nullable<unsigned short>;
+    using nullable_uint = nullable<unsigned int>;
+    using nullable_ulong = nullable<unsigned long>;
+    using nullable_ulong_long = nullable<unsigned long long>;
 
     // floating point types
-    typedef nullable<float>         nullable_float;
-    typedef nullable<double>        nullable_double;
-    typedef nullable<long double>   nullable_long_double;
+    using nullable_float = nullable<float>;
+    using nullable_double = nullable<double>;
+    using nullable_long_double = nullable<long double>;
 
     // string types
-    typedef nullable<std::string>   nullable_string;
-    typedef nullable<std::wstring>  nullable_wstring;
+    using nullable_string = nullable<std::string>;
+    using nullable_wstring = nullable<std::wstring>;
 
     // date/time types
 }
