@@ -17,6 +17,7 @@ abstract_test::abstract_test(const std::string &class_name)
 	, namefor_ok("ok")
 	, namefor_nok("NOK")
 	, namefor_exception("EXCEPTION")
+    , tiny_output_mode(false)
 {
 }
 
@@ -32,7 +33,12 @@ void abstract_test::operator()()
 void abstract_test::set_test_stream(std::ostream *os)
 {
 	if (os)
-		output = os;
+        output = os;
+}
+
+void abstract_test::set_tiny_mode(bool on)
+{
+    tiny_output_mode = on;
 }
 
 void abstract_test::init_class() 
@@ -69,13 +75,20 @@ void abstract_test::run()
 		}
         catch (const std::exception &ex)
         {
-            *output << "Exception '" << ex.what() << "' occured" << std::endl;
+            if (tiny_output_mode)
+                *output << "E";
+            else
+                *output << "Exception '" << ex.what() << "' occured" << std::endl;
+
             exception_count++;
         }
         catch (...)
 		{
-            *output << "Unknow exception occured" << std::endl;
-			exception_count++;
+            if (tiny_output_mode)
+                *output << "U";
+            else
+                *output << "Unknow exception occured" << std::endl;
+            exception_count++;
 		}
         cleanup_internal(name_and_function.first);
     }
@@ -84,13 +97,17 @@ void abstract_test::run()
 
 void abstract_test::test_message(const std::string &msg)
 {
-	*output << msg << std::endl;
+    if (!tiny_output_mode)
+        *output << msg << std::endl;
 }
 
 void abstract_test::test_condition(const std::string &name, bool cond)
 {
 	(cond ? success_count : fail_count)++;
-	*output << (cond ? namefor_ok : namefor_nok) << " : " << name << std::endl;
+    if (tiny_output_mode)
+        *output << (cond ? '.' : 'F');
+    else
+        *output << (cond ? namefor_ok : namefor_nok) << " : " << name << std::endl;
 }
 
 void abstract_test::init_class_internal()
@@ -104,7 +121,7 @@ void abstract_test::init_class_internal()
 	test_message("Starting " + test_class_name + "...");
 	test_message(separator);
 
-	TEST_FOR_NO_EXCPTION(init_class());
+    TEST_FOR_NO_EXCPTION(init_class());
 }
 
 void abstract_test::cleanup_class_internal()
@@ -113,12 +130,15 @@ void abstract_test::cleanup_class_internal()
 
 	test_message(separator);
 	test_message("Finished " + test_class_name);
-    *output << function_count << " test functions called" << std::endl
-            << success_count + fail_count << " test cases executed" << std::endl
-            << fail_count << " test cases failed" << std::endl
-            << success_count << " test cases succeded" << std::endl
-            << exception_count << " exceptions occured and "
-            << expected_exception_count << " where expected" << std::endl;
+    if (tiny_output_mode)
+        *output << std::endl;
+    else
+        *output << function_count << " test functions called" << std::endl
+                << success_count + fail_count << " test cases executed" << std::endl
+                << fail_count << " test cases failed" << std::endl
+                << success_count << " test cases succeded" << std::endl
+                << exception_count << " exceptions occured and "
+                << expected_exception_count << " where expected" << std::endl;
 
 	test_message(separator);
 }

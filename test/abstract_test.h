@@ -18,6 +18,8 @@ public:
 	virtual ~abstract_test() = 0;
 
 	void set_test_stream(std::ostream *os);
+    void set_tiny_mode(bool on);
+
 	void operator()();
 
 protected:
@@ -58,6 +60,7 @@ private:
 	test_functions functions;
 	std::string test_class_name, separator;
 	std::string namefor_ok, namefor_nok, namefor_exception;
+    bool tiny_output_mode;
 };
 
 }
