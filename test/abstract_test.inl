@@ -5,13 +5,19 @@ void test::abstract_test::test_condition(const std::string &name, Callable && ca
 	{
 		bool result = callable(std::forward(args)...);
 		(result ? success_count : fail_count)++;
-		*output << (result ? namefor_ok : namefor_nok) << " : " << name << std::endl;
+        if (tiny_output_mode)
+            *output << (result ? '.' : 'F');
+        else
+            *output << (result ? namefor_ok : namefor_nok) << " : " << name << std::endl;
 	}
 	catch (const std::exception &ex)
 	{
 		exception_count++;
         fail_count++;
-		*output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
+        if (tiny_output_mode)
+            *output << 'E';
+        else
+            *output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
 	}
 }
 
@@ -26,7 +32,10 @@ void test::abstract_test::test_equal(TL &&tl, TR &&tr, const std::string &name)
 	{
 		exception_count++;
         fail_count++;
-        *output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
+        if (tiny_output_mode)
+            *output << 'E';
+        else
+            *output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
 	}
 }
 
@@ -41,7 +50,10 @@ void test::abstract_test::test_not_equal(TL &&tl, TR &&tr, const std::string &na
 	{
 		exception_count++;
         fail_count++;
-        *output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
+        if (tiny_output_mode)
+            *output << 'E';
+        else
+            *output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
 	}
 }
 
