@@ -111,4 +111,11 @@ void test_cpp_db_class::test_parameter()
 	TEST_EQUAL(cpp_db::statement("select count(*) from TEST_TABLE where COL1=99 and COL2='Unknown'", *con.get()).execute_scalar().get_value<int64_t>(), 3);
 
 	TEST_EQUAL(cpp_db::statement("select count(*) from TEST_TABLE where COL1=? and COL2=?", *con.get()).execute_scalar(99, "Unknown").get_value<int64_t>(), 3);
+
+	tools::null_type null;
+	cpp_db::value vnull(null);
+	TEST_VERIFY(is_null(vnull));	
+
+	cpp_db::parameter pnull(0, null);
+	TEST_VERIFY(is_null(pnull));
 }
