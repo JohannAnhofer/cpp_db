@@ -39,9 +39,6 @@ namespace cpp_db
 			throw std::runtime_error("Invalid value type.");
 		}
 
-		template<>
-		tools::null_type get_value() const = delete;
-
 		template<typename T>
 		bool has_value_of_type() const
 		{
@@ -88,6 +85,8 @@ namespace cpp_db
 		std::unique_ptr<abstract_holder> pholder;
 	};
 
+    template<>
+    tools::null_type value::get_value<tools::null_type>() const = delete;
 
 	inline bool is_null(const value &data)
 	{

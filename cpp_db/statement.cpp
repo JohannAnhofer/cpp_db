@@ -94,14 +94,14 @@ struct statement::impl
 		{	
 			const char *source = param.get_value<const char *>();
 			char * value = new char[strlen(source) + 1];
-			strcpy(value, source);
+			memcpy(value, source, strlen(source) + 1);
 			sqlite3_bind_text(stmt.get(), index, value, strlen(source), delete_array<char>);
 		}
 		else if (param.has_value_of_type<std::string>())
 		{
 			std::string source(param.get_value<std::string>());
 			char * value = new char[source.length() + 1];
-			strcpy(value, source.c_str());
+			memcpy(value, source.c_str(), source.length() + 1);
 			sqlite3_bind_text(stmt.get(), index, value, source.length(), delete_array<char>);
 		}
 		else if (param.has_value_of_type<blob>())

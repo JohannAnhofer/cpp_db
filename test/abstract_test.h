@@ -70,7 +70,7 @@ private:
 #define TEST_EQUAL(left, right) test_equal(left, right, #left"=="#right)
 #define TEST_NOT_EQUAL(left, right) test_not_equal(left, right, #left"!="#right)
 #define TEST_VERIFY(cond) test_condition(#cond, cond)
-#define TEST_VERIFY_RESULT(code) test_condition(#code, [&](){code;})
+#define TEST_VERIFY_RESULT(code) test_condition(#code, [&]() -> bool {code;})
 #define TEST_FOR_EXCEPTION(code, excpt) test_for_exception<excpt>(#excpt, [&](){code;})
 #define TEST_FOR_NO_EXCPTION(code) test_for_no_exception(#code, [&](){code;})
 
