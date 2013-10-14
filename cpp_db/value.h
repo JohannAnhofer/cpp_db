@@ -1,6 +1,8 @@
 #ifndef CPP_DB_VALUE_H
 #define CPP_DB_VALUE_H
 
+#include "null.h"
+
 #include <memory>
 #include <typeinfo>
 #include <typeindex>
@@ -18,7 +20,7 @@ namespace cpp_db
 		}
 
 		value(const value  &other)
-			: pholder(pholder->clone())
+			: pholder(other.pholder->clone())
 		{
 		}
 
@@ -36,6 +38,9 @@ namespace cpp_db
 				return *reinterpret_cast<T const *>(pholder->get_value());
 			throw std::runtime_error("Invalid value type.");
 		}
+
+		template<>
+		tools::null_type get_value() const = delete;
 
 		template<typename T>
 		bool has_value_of_type() const
@@ -82,6 +87,12 @@ namespace cpp_db
 
 		std::unique_ptr<abstract_holder> pholder;
 	};
+
+
+	inline bool is_null(const value &data)
+	{
+		return data.has_value_of_type<tools::null_type>();
+	}
 
 }
 

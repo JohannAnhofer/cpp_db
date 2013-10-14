@@ -2,6 +2,7 @@
 #define CPP_DB_PARAMETER_H
 
 #include "db_exception.h"
+#include "null.h"
 
 #include <string>
 #include <memory>
@@ -45,6 +46,9 @@ namespace cpp_db
 				return *reinterpret_cast<T const *>(pholder->get_value());
 			throw db_exception("Invalid value type for parameter.");
 		}
+
+		template<>
+		tools::null_type get_value() const = delete;
 
 		bool has_index() const
 		{
@@ -131,6 +135,10 @@ namespace cpp_db
 		std::unique_ptr<abstract_holder> pholder;
 	};
 
+	inline bool is_null(const parameter &arg)
+	{
+		return arg.has_value_of_type<tools::null_type>();
+	}
 }
 
 #endif
