@@ -26,6 +26,18 @@ namespace cpp_db
 		{
 		}
 
+		parameter(const parameter &other)
+			: pholder(other.pholder->clone())
+		{
+		}
+
+		parameter &operator=(const parameter &other)
+		{
+			if (this != &other)
+				pholder.reset(other.pholder->clone());
+			return *this;
+		}
+
 		template<typename T>
 		T get_value() const
 		{
@@ -72,6 +84,7 @@ namespace cpp_db
             virtual std::type_index get_value_type() const = 0;
 			virtual void const * get_index() const = 0;
             virtual std::type_index get_index_type() const = 0;
+			virtual abstract_holder *clone() const = 0;
         };
 
 		template<typename IndexType, typename ValueType>
@@ -103,6 +116,11 @@ namespace cpp_db
 			std::type_index get_index_type() const override
 			{
 				return index_type;
+			}
+
+			concrete_holder *clone() const override
+			{
+				return new concrete_holder(index, value);
 			}
 
 			IndexType index;

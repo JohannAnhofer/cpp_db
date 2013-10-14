@@ -24,7 +24,9 @@ namespace cpp_db
 
 		value &operator=(const value &other)
 		{
-			pholder.reset(other.pholder->clone());
+			if (this != &other)
+				pholder.reset(other.pholder->clone());
+			return *this;
 		}
 
 		template<typename T>
