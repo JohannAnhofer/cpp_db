@@ -17,6 +17,16 @@ namespace cpp_db
 		{
 		}
 
+		value(const value  &other)
+			: pholder(pholder->clone())
+		{
+		}
+
+		value &operator=(const value &other)
+		{
+			pholder.reset(other.pholder->clone());
+		}
+
 		template<typename T>
 		T get_value() const
 		{
@@ -37,6 +47,7 @@ namespace cpp_db
 			virtual ~abstract_holder() {}
 			virtual void const * get_value() const = 0;
 			virtual std::type_index get_value_type() const = 0;
+			virtual abstract_holder *clone() const = 0;
 		};
 
 		template<typename ValueType>
@@ -56,6 +67,11 @@ namespace cpp_db
 			std::type_index get_value_type() const override
 			{
 				return value_type;
+			}
+
+			concrete_holder *clone() const override
+			{
+				return new concrete_holder(value);
 			}
 
 			ValueType value;

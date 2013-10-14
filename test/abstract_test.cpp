@@ -79,7 +79,7 @@ void abstract_test::run()
                 *output << "E";
             else
                 *output << "Exception '" << ex.what() << "' occured" << std::endl;
-
+			fail_count++;
             exception_count++;
         }
         catch (...)
@@ -88,7 +88,8 @@ void abstract_test::run()
                 *output << "U";
             else
                 *output << "Unknow exception occured" << std::endl;
-            exception_count++;
+			fail_count++;
+			exception_count++;
 		}
         cleanup_internal(name_and_function.first);
     }
