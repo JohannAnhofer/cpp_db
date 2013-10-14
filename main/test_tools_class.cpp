@@ -2,7 +2,6 @@
 
 #include "nullable_types.h"
 #include "key_value_pair.h"
-#include "coalesce.h"
 
 #include <memory>
 #include <functional>
@@ -209,40 +208,6 @@ void test_tools_class::test_is_null()
     test_condition("e is non null: ", !tools::is_null(e) && !e.is_null());
     test_condition("f is null: ", tools::is_null(f) && f.is_null());
     test_condition("null is null: ", tools::is_null(tools::nullable_int()) && tools::nullable_int().is_null());
-
-    tools::null_type null;
-
-    TEST_VERIFY(tools::is_null(null));
-    TEST_VERIFY(!tools::is_null(1));
-}
-
-void test_tools_class::test_coalesce()
-{
-    tools::coalesce_trait<int, double, float>::type x0(0);
-    tools::coalesce_trait<tools::null_type, double, float>::type x1(0.0);
-    tools::coalesce_trait<int, tools::null_type, float>::type x2(0);
-    tools::coalesce_trait<tools::null_type, tools::null_type, float>::type x3(0.0f);
-    tools::coalesce_trait<int, double, tools::null_type>::type x4(0);
-    tools::coalesce_trait<tools::null_type, double, tools::null_type>::type x5(0.0f);
-    tools::coalesce_trait<int, tools::null_type, tools::null_type>::type x6(0);
-    tools::coalesce_trait<tools::null_type, tools::null_type, tools::null_type>::type x7;
-
-    tools::null_type null;
-
-    TEST_EQUAL(tools::coalesce(1, 2, 3, 4), 1);
-    TEST_EQUAL(tools::coalesce(tools::null_type(), 2, 3, 4), 2);
-    TEST_VERIFY(tools::is_null(tools::coalesce(null, null, null)));
-    TEST_EQUAL(tools::coalesce(1, null, null, null), 1);
-    TEST_EQUAL(tools::coalesce(null, 2, null, 4), 2);
-
-    TEST_EQUAL(x0, 0);
-    TEST_EQUAL(x1, 0.0);
-    TEST_EQUAL(x2, 0);
-    TEST_EQUAL(x3, 0.0f);
-    TEST_EQUAL(x4, 0);
-    TEST_EQUAL(x5, 0.0f);
-    TEST_EQUAL(x6, 0);
-    TEST_VERIFY(is_null(x7));
 }
 
 void test_tools_class::test_key_value_pair()

@@ -1,9 +1,10 @@
-#ifndef TOOLS_COALESCE_H
-#define TOOLS_COALESCE_H
+#ifndef CPP_DB_COALESCE_H
+#define CPP_DB_COALESCE_H
 
+#include "cpp11_defines.h"
 #include "null.h"
 
-namespace tools
+namespace cpp_db
 {
 
 // first we need a trait structure to deduce the return type of coalesce

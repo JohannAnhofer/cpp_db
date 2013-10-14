@@ -10,7 +10,6 @@ public:
     DECLARE_TEST_FUNCTION(test_test_functions)
     DECLARE_TEST_FUNCTION(test_nullable)
     DECLARE_TEST_FUNCTION(test_is_null)
-    DECLARE_TEST_FUNCTION(test_coalesce)
     DECLARE_TEST_FUNCTION(test_key_value_pair)
 	DECLARE_TEST_FUNCTION(test_char_compare)
 	DECLARE_TEST_FUNCTION(test_wchar_t_compare)
@@ -22,7 +21,6 @@ protected:
     void test_test_functions();
     void test_nullable();
     void test_is_null();
-    void test_coalesce();
     void test_key_value_pair();
 	void test_char_compare();
 	void test_wchar_t_compare();
