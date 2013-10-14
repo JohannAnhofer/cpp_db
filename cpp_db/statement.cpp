@@ -16,10 +16,11 @@ namespace cpp_db
 {
 
 extern void throw_db_exception(int error_code, sqlite3 *db);
+using blob = std::vector<uint8_t>;
 
 struct statement::impl
 {
-    std::shared_ptr<sqlite3_stmt> stmt;
+	std::shared_ptr<sqlite3_stmt> stmt;
     std::weak_ptr<sqlite3> db;
     const char *tail;
 
@@ -84,8 +85,6 @@ struct statement::impl
 
     void bind(const parameter &param)
     {
-		using blob = std::vector<uint8_t>;
-
 		int index = param.has_index() ? param.get_index() : find_param_pos(param.get_name());
 		if (param.has_value_of_type<int>())
 			sqlite3_bind_int(stmt.get(), index, param.get_value<int>());
@@ -118,7 +117,31 @@ struct statement::impl
 			sqlite3_bind_null(stmt.get(), index);
 	}
 
-	std::string fetch_first_column_off_first_row()
+	value get_value_from_column(int column)
+	{
+		sqlite3_stmt *pstmt = stmt.get();
+
+		switch (sqlite3_column_type(pstmt, column))
+		{
+		case SQLITE_INTEGER:	// int64
+			return sqlite3_column_int64(pstmt, column);
+		case SQLITE_FLOAT:		// double
+			return sqlite3_column_double(pstmt, column);
+		case SQLITE_BLOB:		// void *
+			{
+				const uint8_t *data = static_cast<const uint8_t*>(sqlite3_column_blob(pstmt, column));
+				return blob(data, data + sqlite3_column_bytes(pstmt, column));
+			}
+		case SQLITE_TEXT:		// const char *
+			return std::string(reinterpret_cast<const char *>(sqlite3_column_text(pstmt, column)), sqlite3_column_bytes(pstmt, column));
+		case SQLITE_NULL:		// 
+		default:
+			break;
+		}
+		return tools::null_type();
+	}
+
+	value fetch_first_column_off_first_row()
 	{
 		if (!is_prepared())
 			throw db_exception("Statement not prepared!");
@@ -126,10 +149,7 @@ struct statement::impl
 		int row_status = sqlite3_step(stmt.get());
 		if (row_status != SQLITE_ROW && row_status != SQLITE_DONE)
 			throw_db_exception(row_status, sqlite3_db_handle(stmt.get()));
-		if (const unsigned char *value = sqlite3_column_text(stmt.get(), 0))
-			return reinterpret_cast<const char *>(value);
-		else
-			throw tools::value_is_null();
+		return get_value_from_column(0);
 	}
 
 	void reset()
@@ -168,7 +188,7 @@ void statement::execute_non_query()
 	pimpl->execute();
 }
 
-std::string statement::execute_scalar()
+value statement::execute_scalar()
 {
 	return pimpl->fetch_first_column_off_first_row();
 }

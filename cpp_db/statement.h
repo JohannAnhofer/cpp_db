@@ -2,6 +2,7 @@
 #define CPP_DB_STATEMENT_H
 
 #include "parameter.h"
+#include "value.h"
 
 #include <memory>
 #include <string>
@@ -31,7 +32,7 @@ public:
 
 	void execute_ddl();
 	void execute_non_query();
-	std::string execute_scalar();
+	value execute_scalar();
 
     template<typename ...Args>
     void execute_ddl(Args&& ...args)
@@ -46,9 +47,9 @@ public:
     }
 
     template<typename ...Args>
-    std::string execute_scalar(Args&& ...args)
+    value execute_scalar(Args&& ...args)
     {
-        return execute_with_params<std::string>([&](){return execute_scalar();}, args...);
+        return execute_with_params<value>([&](){return execute_scalar();}, args...);
     }
 
     void bind_param(const parameter &param);
