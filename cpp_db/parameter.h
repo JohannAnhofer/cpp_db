@@ -47,9 +47,6 @@ namespace cpp_db
 			throw db_exception("Invalid value type for parameter.");
 		}
 
-		template<>
-		tools::null_type get_value() const = delete;
-
 		bool has_index() const
 		{
 			return pholder->get_index_type() == typeid(int);
@@ -134,6 +131,9 @@ namespace cpp_db
 
 		std::unique_ptr<abstract_holder> pholder;
 	};
+
+    template<>
+    tools::null_type parameter::get_value<tools::null_type>() const = delete;
 
 	inline bool is_null(const parameter &arg)
 	{

@@ -11,7 +11,8 @@ HEADERS += \
     null.h \
     nullable.h \
     nullable_types.h \
-    value_is_null.h
+    value_is_null.h \
+    compiler_specific.h
 
 SOURCES += \
     value_is_null.cpp
