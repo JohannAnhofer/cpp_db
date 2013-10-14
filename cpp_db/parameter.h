@@ -133,11 +133,11 @@ namespace cpp_db
 	};
 
     template<>
-    tools::null_type parameter::get_value<tools::null_type>() const = delete;
+    null_type parameter::get_value<null_type>() const = delete;
 
 	inline bool is_null(const parameter &arg)
 	{
-		return arg.has_value_of_type<tools::null_type>();
+		return arg.has_value_of_type<null_type>();
 	}
 }
 

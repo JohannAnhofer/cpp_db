@@ -113,7 +113,7 @@ struct statement::impl
 		}
 		else if (param.has_value_of_type<int64_t>())
 			sqlite3_bind_int64(stmt.get(), index, param.get_value<int64_t>());
-		else if (param.has_value_of_type<tools::null_type>())
+		else if (param.has_value_of_type<null_type>())
 			sqlite3_bind_null(stmt.get(), index);
 	}
 
@@ -138,7 +138,7 @@ struct statement::impl
 		default:
 			break;
 		}
-		return tools::null_type();
+		return null_type();
 	}
 
 	value fetch_first_column_off_first_row()
