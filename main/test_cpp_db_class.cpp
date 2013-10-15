@@ -10,24 +10,26 @@
 
 #include <cmath>
 
+/*
 std::ostream &operator<<(std::ostream &output, cpp_db::record &record)
 {
 	record.move_first();
 	output << "\t";
 	for (int i = 0; i < record.get_column_count(); ++i)
-		output << record.get_field_name(i) << "\t|\t";
+		output << record.get_column_name(i) << "\t|\t";
 	output << "\n" << std::string(80, '-') << "\n";
 
 	while (!record.is_eof())
 	{
 		output << "\t";
 		for (int i = 0; i < record.get_column_count(); ++i)
-			output << record.get_field_value(i) << "\t|\t";
+			output << record.get_column_value(i) << "\t|\t";
 		output << "\n";
 		record.move_next();
 	}
 	return output;
 }
+*/
 
 void test_cpp_db_class::init_class()
 {
@@ -103,24 +105,26 @@ void test_cpp_db_class::test_result()
 {
     cpp_db::record result(cpp_db::statement("select COL1, COL2 from TEST_TABLE;", *con.get()));
     TEST_EQUAL(result.get_column_count(), 2);
-    TEST_EQUAL(result.get_field_name(0), "COL1");
-    TEST_EQUAL(result.get_field_name(1), "COL2");
-    TEST_VERIFY(!result.is_eof());
-    TEST_EQUAL(result.get_field_value(0), "1");
-    TEST_EQUAL(result.get_field_value(1), "first");
+    TEST_EQUAL(result.get_column_name(0), "COL1");
+    TEST_EQUAL(result.get_column_name(1), "COL2");
+	TEST_EQUAL(result.get_column_index("COL1"), 0);
+	TEST_EQUAL(result.get_column_index("COL2"), 1);
+	TEST_VERIFY(!result.is_eof());
+    TEST_EQUAL(result.get_column_value(0).get_value<int64_t>(), 1);
+    TEST_EQUAL(result.get_column_value(1).get_value<std::string>(), "first");
     TEST_FOR_NO_EXCPTION(result.move_next());
     TEST_VERIFY(!result.is_eof());
-    TEST_EQUAL(result.get_field_value(0), "2");
-    TEST_EQUAL(result.get_field_value(1), "second");
+	TEST_EQUAL(result.get_column_value("COL1").get_value<int64_t>(), 2);
+	TEST_EQUAL(result.get_column_value("COL2").get_value<std::string>(), "second");
     TEST_FOR_NO_EXCPTION(result.move_next());
     TEST_VERIFY(!result.is_eof());
-    TEST_EQUAL(result.get_field_value(0), "3");
-    TEST_EQUAL(result.get_field_value(1), "third");
+	TEST_EQUAL(result.get_column_value(0).get_value<int64_t>(), 3);
+	TEST_EQUAL(result.get_column_value(1).get_value<std::string>(), "third");
     TEST_FOR_NO_EXCPTION(result.move_next());
     TEST_VERIFY(result.is_eof());
     TEST_FOR_NO_EXCPTION(result.move_first());
-    TEST_EQUAL(result.get_field_value(0), "1");
-    TEST_EQUAL(result.get_field_value(1), "first");
+	TEST_EQUAL(result.get_column_value(0).get_value<int64_t>(), 1);
+	TEST_EQUAL(result.get_column_value(1).get_value<std::string>(), "first");
 
     TEST_FOR_EXCEPTION(cpp_db::record(cpp_db::statement(*con.get())), cpp_db::db_exception);
 }

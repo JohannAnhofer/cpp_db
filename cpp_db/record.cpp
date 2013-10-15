@@ -4,6 +4,12 @@
 
 #include "sqlite3.h"
 
+#include <sstream>
+#include <vector>
+#include <unordered_map>
+
+#include <cstdint>
+
 namespace cpp_db
 {
 
@@ -13,6 +19,7 @@ struct record::impl
 {
 	std::shared_ptr<sqlite3_stmt> stmt;
 	int row_status;
+	std::unordered_map<std::string, int> column_names;
 
     impl(const statement &sqlstmt)
 		: stmt(std::static_pointer_cast<sqlite3_stmt>(sqlstmt.get_handle()))
@@ -22,6 +29,9 @@ struct record::impl
 			throw db_exception("Statement not prepared!");
 
 		next();
+
+		for (int column = 0; column < get_column_count(); ++column)
+			column_names.emplace(sqlite3_column_name(stmt.get(), column), column);
     }
 
 	void next()
@@ -47,10 +57,63 @@ struct record::impl
 	{
 	}
 
+	bool is_eof() const
+	{
+		return row_status == SQLITE_DONE;
+	}
+
 	int get_column_count() const
 	{
 		return sqlite3_column_count(stmt.get());
 	}
+
+	std::string get_column_name(int column) const
+	{
+		if (const char *column_name = sqlite3_column_name(stmt.get(), column))
+			return column_name;
+		else
+		{
+			std::stringstream message;
+			message << "Column " << column << " not found!";
+			throw db_exception(message.str());
+		}
+	}
+
+	value get_column_value(int column) const
+	{
+		sqlite3_stmt *pstmt = stmt.get();
+		using blob = std::vector<uint8_t>;
+
+		switch (sqlite3_column_type(pstmt, column))
+		{
+		case SQLITE_INTEGER:	// int64
+			return sqlite3_column_int64(pstmt, column);
+		case SQLITE_FLOAT:		// double
+			return sqlite3_column_double(pstmt, column);
+		case SQLITE_BLOB:		// void *
+			{
+				const uint8_t *data = static_cast<const uint8_t*>(sqlite3_column_blob(pstmt, column));
+				return blob(data, data + sqlite3_column_bytes(pstmt, column));
+								}
+		case SQLITE_TEXT:		// const char *
+			return std::string(reinterpret_cast<const char *>(sqlite3_column_text(pstmt, column)), sqlite3_column_bytes(pstmt, column));
+		case SQLITE_NULL:		// 
+		default:
+			break;
+		}
+		return null_type();
+	}
+
+	int get_column_index(const std::string &column_name) const
+	{
+		auto pos = column_names.find(column_name);
+		if (pos != column_names.end())
+			return pos->second;
+		std::stringstream message;
+		message << "Column '" << column_name << "' not found!";
+		throw db_exception(message.str());
+	}
+
 };
 
 record::record(const statement &stmt)
@@ -69,7 +132,7 @@ int record::get_column_count() const
 
 bool record::is_eof() const
 {
-	return pimpl->row_status == SQLITE_DONE;
+	return pimpl->is_eof();
 }
 
 void record::move_first()
@@ -87,26 +150,24 @@ void record::move_prev()
 	pimpl->prev();
 }
 
-std::string record::get_field_value(int field) const
+value record::get_column_value(int column) const
 {	
-	if (const unsigned char *value = sqlite3_column_text(pimpl->stmt.get(), field))
-		return reinterpret_cast<const char *>(value);
-	else
-		return "<null>";
+	return pimpl->get_column_value(column);
 }
 
-std::string record::get_field_value(const std::string &field) const
+value record::get_column_value(const std::string &column_name) const
 {
-    (void)field;
-	return std::string();
+	return pimpl->get_column_value(get_column_index(column_name));
 }
 
-std::string record::get_field_name(int field) const
+std::string record::get_column_name(int column) const
 {
-	if (const char *field_name = sqlite3_column_name(pimpl->stmt.get(), field))
-		return field_name;
-	else
-		throw db_exception(std::string("Field not found!"));
+	return pimpl->get_column_name(column);
+}
+
+int record::get_column_index(const std::string &column_name) const
+{
+	return pimpl->get_column_index(column_name);
 }
 
 }
