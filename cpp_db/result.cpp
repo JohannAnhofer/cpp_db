@@ -1,4 +1,4 @@
-#include "record.h"
+#include "result.h"
 #include "statement.h"
 #include "db_exception.h"
 
@@ -15,7 +15,7 @@ namespace cpp_db
 
 extern void throw_db_exception(int error_code, sqlite3 *db);
 
-struct record::impl
+struct result::impl
 {
 	std::shared_ptr<sqlite3_stmt> stmt;
 	int row_status;
@@ -112,68 +112,68 @@ struct record::impl
 
 };
 
-record::record(const statement_handle &stmt_handle)
+result::result(const statement_handle &stmt_handle)
     : pimpl(new impl(stmt_handle))
 {
 }
 
-record::record(record &&other)
+result::result(result &&other)
     : pimpl(std::move(other.pimpl))
 {
 }
 
-record::~record()
+result::~result()
 {
 }
 
-record &record::operator=(record &&other)
+result &result::operator=(result &&other)
 {
     if (this != &other)
         pimpl = std::move(other.pimpl);
     return *this;
 }
 
-int record::get_column_count() const
+int result::get_column_count() const
 {
 	return pimpl->get_column_count();
 }
 
-bool record::is_eof() const
+bool result::is_eof() const
 {
 	return pimpl->is_eof();
 }
 
-void record::move_first()
+void result::move_first()
 {
 	pimpl->first();
 }
 
-void record::move_next()
+void result::move_next()
 {
 	pimpl->next();
 }
 
-void record::move_prev()
+void result::move_prev()
 {
 	pimpl->prev();
 }
 
-value record::get_column_value(int column) const
+value result::get_column_value(int column) const
 {	
 	return pimpl->get_column_value(column);
 }
 
-value record::get_column_value(const std::string &column_name) const
+value result::get_column_value(const std::string &column_name) const
 {
 	return pimpl->get_column_value(get_column_index(column_name));
 }
 
-std::string record::get_column_name(int column) const
+std::string result::get_column_name(int column) const
 {
 	return pimpl->get_column_name(column);
 }
 
-int record::get_column_index(const std::string &column_name) const
+int result::get_column_index(const std::string &column_name) const
 {
 	return pimpl->get_column_index(column_name);
 }

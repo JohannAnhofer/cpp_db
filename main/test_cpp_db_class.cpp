@@ -2,7 +2,7 @@
 
 #include "db_exception.h"
 #include "statement.h"
-#include "record.h"
+#include "result.h"
 #include "parameter.h"
 #include "null.h"
 #include "coalesce.h"
@@ -13,21 +13,21 @@
 #include <cmath>
 
 /*
-std::ostream &operator<<(std::ostream &output, cpp_db::record &record)
+std::ostream &operator<<(std::ostream &output, cpp_db::result &r)
 {
-	record.move_first();
+    r.move_first();
 	output << "\t";
-	for (int i = 0; i < record.get_column_count(); ++i)
-		output << record.get_column_name(i) << "\t|\t";
+    for (int i = 0; i < r.get_column_count(); ++i)
+        output << r.get_column_name(i) << "\t|\t";
 	output << "\n" << std::string(80, '-') << "\n";
 
-	while (!record.is_eof())
+    while (!r.is_eof())
 	{
 		output << "\t";
-		for (int i = 0; i < record.get_column_count(); ++i)
-			output << record.get_column_value(i) << "\t|\t";
+        for (int i = 0; i < r.get_column_count(); ++i)
+            output << r.get_column_value(i) << "\t|\t";
 		output << "\n";
-		record.move_next();
+        r.move_next();
 	}
 	return output;
 }
@@ -105,30 +105,30 @@ void test_cpp_db_class::test_statement()
 
 void test_cpp_db_class::test_result()
 {
-    cpp_db::record result(cpp_db::statement("select COL1, COL2 from TEST_TABLE;", *con.get()).execute());
-    TEST_EQUAL(result.get_column_count(), 2);
-    TEST_EQUAL(result.get_column_name(0), "COL1");
-    TEST_EQUAL(result.get_column_name(1), "COL2");
-	TEST_EQUAL(result.get_column_index("COL1"), 0);
-	TEST_EQUAL(result.get_column_index("COL2"), 1);
-	TEST_VERIFY(!result.is_eof());
-    TEST_EQUAL(result.get_column_value(0).get_value<int64_t>(), 1);
-    TEST_EQUAL(result.get_column_value(1).get_value<std::string>(), "first");
-    TEST_FOR_NO_EXCPTION(result.move_next());
-    TEST_VERIFY(!result.is_eof());
-	TEST_EQUAL(result.get_column_value("COL1").get_value<int64_t>(), 2);
-	TEST_EQUAL(result.get_column_value("COL2").get_value<std::string>(), "second");
-    TEST_FOR_NO_EXCPTION(result.move_next());
-    TEST_VERIFY(!result.is_eof());
-	TEST_EQUAL(result.get_column_value(0).get_value<int64_t>(), 3);
-	TEST_EQUAL(result.get_column_value(1).get_value<std::string>(), "third");
-    TEST_FOR_NO_EXCPTION(result.move_next());
-    TEST_VERIFY(result.is_eof());
-    TEST_FOR_NO_EXCPTION(result.move_first());
-	TEST_EQUAL(result.get_column_value(0).get_value<int64_t>(), 1);
-	TEST_EQUAL(result.get_column_value(1).get_value<std::string>(), "first");
+    cpp_db::result r(cpp_db::statement("select COL1, COL2 from TEST_TABLE;", *con.get()).execute());
+    TEST_EQUAL(r.get_column_count(), 2);
+    TEST_EQUAL(r.get_column_name(0), "COL1");
+    TEST_EQUAL(r.get_column_name(1), "COL2");
+    TEST_EQUAL(r.get_column_index("COL1"), 0);
+    TEST_EQUAL(r.get_column_index("COL2"), 1);
+    TEST_VERIFY(!r.is_eof());
+    TEST_EQUAL(r.get_column_value(0).get_value<int64_t>(), 1);
+    TEST_EQUAL(r.get_column_value(1).get_value<std::string>(), "first");
+    TEST_FOR_NO_EXCPTION(r.move_next());
+    TEST_VERIFY(!r.is_eof());
+    TEST_EQUAL(r.get_column_value("COL1").get_value<int64_t>(), 2);
+    TEST_EQUAL(r.get_column_value("COL2").get_value<std::string>(), "second");
+    TEST_FOR_NO_EXCPTION(r.move_next());
+    TEST_VERIFY(!r.is_eof());
+    TEST_EQUAL(r.get_column_value(0).get_value<int64_t>(), 3);
+    TEST_EQUAL(r.get_column_value(1).get_value<std::string>(), "third");
+    TEST_FOR_NO_EXCPTION(r.move_next());
+    TEST_VERIFY(r.is_eof());
+    TEST_FOR_NO_EXCPTION(r.move_first());
+    TEST_EQUAL(r.get_column_value(0).get_value<int64_t>(), 1);
+    TEST_EQUAL(r.get_column_value(1).get_value<std::string>(), "first");
 
-    TEST_FOR_EXCEPTION(cpp_db::record(cpp_db::statement(*con.get()).execute()), cpp_db::db_exception);
+    TEST_FOR_EXCEPTION(cpp_db::result(cpp_db::statement(*con.get()).execute()), cpp_db::db_exception);
 }
 
 void test_cpp_db_class::test_parameter()
@@ -196,7 +196,7 @@ void test_cpp_db_class::test_transaction_rollback()
 void test_cpp_db_class::test_execute()
 {
     TEST_EQUAL(cpp_db::execute_scalar(*con.get(), "select count(*) from TEST_TABLE").get_value<int64_t>(), 5);
-    cpp_db::record r = cpp_db::execute(*con.get(), "select * from TEST_TABLE where COL1 in (?, ?)", 1, 2);
+    cpp_db::result r = cpp_db::execute(*con.get(), "select * from TEST_TABLE where COL1 in (?, ?)", 1, 2);
     int sum = 0;
     std::string names;
     while(!r.is_eof())

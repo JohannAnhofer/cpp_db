@@ -3,7 +3,7 @@
 
 #include "parameter.h"
 #include "value.h"
-#include "record.h"
+#include "result.h"
 
 #include <memory>
 #include <string>
@@ -33,7 +33,7 @@ public:
 
 	void execute_non_query();
 	value execute_scalar();
-	record execute();
+    result execute();
 
     template<typename ...Args>
     void execute_non_query(Args&& ...args)
@@ -48,9 +48,9 @@ public:
     }
 
 	template<typename ...Args>
-	record execute(Args&& ...args)
+    result execute(Args&& ...args)
 	{
-        return execute_with_params<record>([&](){return execute(); }, args...);
+        return execute_with_params<result>([&](){return execute(); }, args...);
 	}
 
     void bind_param(const parameter &param);

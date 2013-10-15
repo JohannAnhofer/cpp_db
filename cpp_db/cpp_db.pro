@@ -7,7 +7,7 @@ CONFIG += staticlib
 SOURCES += \
     connection.cpp \
     parameters.cpp \
-    record.cpp \
+    result.cpp \
     statement.cpp \
     transaction.cpp
 
@@ -16,7 +16,7 @@ HEADERS += \
     db_exception.h \
     parameter.h \
     parameters.h \
-    record.h \
+    result.h \
     statement.h \
     transaction.h \
     value.h \
