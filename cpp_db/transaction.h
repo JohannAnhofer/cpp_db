@@ -12,6 +12,7 @@ class transaction
 {
 public:
 	explicit transaction(const connection &conn);
+    ~transaction();
 
 	void begin();
 	void commit();

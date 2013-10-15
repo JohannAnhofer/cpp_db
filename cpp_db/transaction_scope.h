@@ -23,8 +23,14 @@ namespace cpp_db
 
 		~transaction_scope()
 		{
+            try
+            {
 			if (trans.is_open())
 				trans.commit();
+            }
+            catch(...)
+            {
+            }
 		}
 
 	private:
