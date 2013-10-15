@@ -1,6 +1,8 @@
 #ifndef CPP_DB_RECORD_H
 #define CPP_DB_RECORD_H
 
+#include "value.h"
+
 #include <memory>
 #include <string>
 
@@ -26,10 +28,11 @@ public:
 	void move_next();
 	void move_prev();
 
-	std::string get_field_value(int field) const;
-	std::string get_field_value(const std::string &field) const;
+	value get_column_value(int column) const;
+	value get_column_value(const std::string &column_name) const;
 
-	std::string get_field_name(int field) const;
+	std::string get_column_name(int column) const;
+	int get_column_index(const std::string &column_name) const;
 
 private:
 	struct impl;

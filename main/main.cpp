@@ -7,15 +7,10 @@ int main(int , char *[])
 {
     std::cout << std::endl;
 
-    test_tools_class tt;
-    test_cpp_db_class tcd;
-
-//    tt.set_tiny_mode(true);
-//    tt.set_test_stream(&std::cerr);
-//    tcd.set_tiny_mode(true);
-
-    tcd();
-    tt();
+	run_tests(std::cout, false
+			, test_tools_class()
+			, test_cpp_db_class()
+			);
 
 	return 0;
 }
