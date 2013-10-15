@@ -1,5 +1,5 @@
-#ifndef CPP_DB_RECORD_H
-#define CPP_DB_RECORD_H
+#ifndef CPP_DB_RESULT_H
+#define CPP_DB_RESULT_H
 
 #include "value.h"
 
@@ -9,15 +9,15 @@
 namespace cpp_db
 {
 
-class record
+class result
 {
 public:
-	~record();
+    ~result();
 
-	record(const record &) = delete;
-	record &operator=(const record &) = delete;
-    record(record &&);
-    record &operator=(record &&);
+    result(const result &) = delete;
+    result &operator=(const result &) = delete;
+    result(result &&);
+    result &operator=(result &&);
 
 	int get_column_count() const;
 
@@ -35,7 +35,7 @@ public:
 
 private:
     using statement_handle = std::shared_ptr<void>;
-    explicit record(const statement_handle &stmt_handle);
+    explicit result(const statement_handle &stmt_handle);
     friend class statement;
 
     struct impl;

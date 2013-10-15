@@ -2,7 +2,7 @@
 #define CPP_DB_EXECUTE_H
 
 #include "connection.h"
-#include "record.h"
+#include "result.h"
 #include "statement.h"
 #include "value.h"
 
@@ -28,7 +28,7 @@ namespace cpp_db
 	}
 
 	template<typename ...Args>
-    record execute(connection &conn, const std::string &sql, Args && ...args)
+    result execute(connection &conn, const std::string &sql, Args && ...args)
 	{
 		statement stmt(conn);
 		stmt.prepare(sql);

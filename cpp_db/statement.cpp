@@ -3,7 +3,7 @@
 #include "db_exception.h"
 #include "value_is_null.h"
 #include "null.h"
-#include "record.h"
+#include "result.h"
 
 #include "sqlite3.h"
 
@@ -154,15 +154,15 @@ value statement::execute_scalar()
     if (!is_prepared())
         throw db_exception("Statement not prepared!");
 
-    return record(get_handle()).get_column_value(0);
+    return result(get_handle()).get_column_value(0);
 }
 
-record statement::execute()
+result statement::execute()
 {
     if (!is_prepared())
         throw db_exception("Statement not prepared!");
 
-    return record(get_handle());
+    return result(get_handle());
 }
 
 bool statement::is_prepared() const
