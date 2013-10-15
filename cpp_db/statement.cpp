@@ -156,7 +156,18 @@ void statement::execute_non_query()
 
 value statement::execute_scalar()
 {
-	return record(*this).get_column_value(0);
+    if (!is_prepared())
+        throw db_exception("Statement not prepared!");
+
+    return record(get_handle()).get_column_value(0);
+}
+
+record statement::execute()
+{
+    if (!is_prepared())
+        throw db_exception("Statement not prepared!");
+
+    return record(get_handle());
 }
 
 bool statement::is_prepared() const

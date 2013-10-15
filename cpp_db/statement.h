@@ -3,6 +3,7 @@
 
 #include "parameter.h"
 #include "value.h"
+#include "record.h"
 
 #include <memory>
 #include <string>
@@ -33,6 +34,7 @@ public:
 	void execute_ddl();
 	void execute_non_query();
 	value execute_scalar();
+	record execute();
 
     template<typename ...Args>
     void execute_ddl(Args&& ...args)
@@ -51,6 +53,12 @@ public:
     {
         return execute_with_params<value>([&](){return execute_scalar();}, args...);
     }
+
+	template<typename ...Args>
+	record execute(Args&& ...args)
+	{
+		return execute_with_params<value>([&](){return execute(); }, args...);
+	}
 
     void bind_param(const parameter &param);
 
