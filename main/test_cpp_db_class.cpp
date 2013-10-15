@@ -8,6 +8,7 @@
 #include "coalesce.h"
 #include "value.h"
 #include "transaction.h"
+#include "execute.h"
 
 #include <cmath>
 
@@ -88,7 +89,7 @@ void test_cpp_db_class::test_is_null()
 
 void test_cpp_db_class::test_connection()
 {
-    TEST_FOR_NO_EXCPTION(cpp_db::statement("create table TEST_TABLE(COL1 INT NOT NULL, COL2 VARCHAR(50));", *con.get()).execute_ddl());
+    TEST_FOR_NO_EXCPTION(cpp_db::statement("create table TEST_TABLE(COL1 INT NOT NULL, COL2 VARCHAR(50));", *con.get()).execute_non_query());
     TEST_FOR_NO_EXCPTION(cpp_db::statement("insert into TEST_TABLE(COL1, COL2) VALUES(1, 'first')", *con.get()).execute_non_query());
     TEST_FOR_NO_EXCPTION(cpp_db::statement("insert into TEST_TABLE(COL1, COL2) VALUES(2, 'second')", *con.get()).execute_non_query());
     TEST_FOR_NO_EXCPTION(cpp_db::statement("insert into TEST_TABLE(COL1, COL2) VALUES(3, 'third')", *con.get()).execute_non_query());
@@ -190,4 +191,26 @@ void test_cpp_db_class::test_transaction_rollback()
 	TEST_EQUAL(cpp_db::statement("select count(*) from TEST_TABLE", *con.get()).execute_scalar().get_value<int64_t>(), 3);
 	TEST_FOR_NO_EXCPTION(tran.rollback());
 	TEST_EQUAL(cpp_db::statement("select count(*) from TEST_TABLE", *con.get()).execute_scalar().get_value<int64_t>(), 5);
+}
+
+void test_cpp_db_class::test_execute()
+{
+    TEST_EQUAL(cpp_db::execute_scalar(*con.get(), "select count(*) from TEST_TABLE").get_value<int64_t>(), 5);
+    cpp_db::record r = cpp_db::execute(*con.get(), "select * from TEST_TABLE where COL1 in (?, ?)", 1, 2);
+    int sum = 0;
+    std::string names;
+    while(!r.is_eof())
+    {
+        sum += r.get_column_value(0).get_value<int64_t>();
+        names.append(r.get_column_value(1).get_value<std::string>());
+        r.move_next();
+    }
+    TEST_EQUAL(sum, 3);
+    TEST_EQUAL(names, "firstsecond");
+
+    TEST_EQUAL(cpp_db::execute_scalar(*con.get(), "select count(*) from TEST_TABLE where COL1 in (?, ?) and COL2 in (?, ?)", 1, 2, "first", "second").get_value<int64_t>(), 2);
+    TEST_FOR_NO_EXCPTION(cpp_db::execute_non_query(*con.get(), "delete from TEST_TABLE where COL1 = ?", 1));
+    TEST_EQUAL(cpp_db::execute_scalar(*con.get(), "select count(*) from TEST_TABLE").get_value<int64_t>(), 4);
+    TEST_FOR_NO_EXCPTION(cpp_db::execute_non_query(*con.get(), "delete from TEST_TABLE"));
+    TEST_EQUAL(cpp_db::execute_scalar(*con.get(), "select count(*) from TEST_TABLE").get_value<int64_t>(), 0);
 }
