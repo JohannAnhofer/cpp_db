@@ -30,9 +30,6 @@
     <ClInclude Include="transaction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="transaction_scope.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="parameters.h">
       <Filter>Header Files</Filter>
     </ClInclude>

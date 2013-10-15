@@ -19,7 +19,6 @@ HEADERS += \
     record.h \
     statement.h \
     transaction.h \
-    transaction_scope.h \
     value.h \
     null.h \
     coalesce.h

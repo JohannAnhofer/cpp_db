@@ -7,6 +7,7 @@
 #include "null.h"
 #include "coalesce.h"
 #include "value.h"
+#include "transaction.h"
 
 #include <cmath>
 
@@ -161,4 +162,32 @@ void test_cpp_db_class::test_parameter()
 	TEST_EQUAL(cpp_db::statement("select count(*) from TEST_TABLE where COL1=99 and COL2='Unknown'", *con.get()).execute_scalar().get_value<int64_t>(), 3);
 
 	TEST_EQUAL(cpp_db::statement("select count(*) from TEST_TABLE where COL1=? and COL2=?", *con.get()).execute_scalar(99, "Unknown").get_value<int64_t>(), 3);
+}
+
+void test_cpp_db_class::test_transaction_commit()
+{
+	cpp_db::transaction tran(*con.get());
+	TEST_EQUAL(cpp_db::statement("select count(*) from TEST_TABLE", *con.get()).execute_scalar().get_value<int64_t>(), 8);
+
+	TEST_FOR_NO_EXCPTION(tran.begin());
+	cpp_db::statement stmt(*con.get());
+	TEST_FOR_NO_EXCPTION(stmt.prepare("delete from TEST_TABLE where COL1 = ?"));
+	TEST_FOR_NO_EXCPTION(stmt.execute_non_query(99));
+	TEST_EQUAL(cpp_db::statement("select count(*) from TEST_TABLE", *con.get()).execute_scalar().get_value<int64_t>(), 5);
+	TEST_FOR_NO_EXCPTION(tran.commit());
+	TEST_EQUAL(cpp_db::statement("select count(*) from TEST_TABLE", *con.get()).execute_scalar().get_value<int64_t>(), 5);
+}
+
+void test_cpp_db_class::test_transaction_rollback()
+{
+	cpp_db::transaction tran(*con.get());
+	TEST_EQUAL(cpp_db::statement("select count(*) from TEST_TABLE", *con.get()).execute_scalar().get_value<int64_t>(), 5);
+
+	TEST_FOR_NO_EXCPTION(tran.begin());
+	cpp_db::statement stmt(*con.get());
+	TEST_FOR_NO_EXCPTION(stmt.prepare("delete from TEST_TABLE where COL1 > ?"));
+	TEST_FOR_NO_EXCPTION(stmt.execute_non_query(3));
+	TEST_EQUAL(cpp_db::statement("select count(*) from TEST_TABLE", *con.get()).execute_scalar().get_value<int64_t>(), 3);
+	TEST_FOR_NO_EXCPTION(tran.rollback());
+	TEST_EQUAL(cpp_db::statement("select count(*) from TEST_TABLE", *con.get()).execute_scalar().get_value<int64_t>(), 5);
 }
