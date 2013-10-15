@@ -9,16 +9,15 @@
 namespace cpp_db
 {
 
-class statement;
-
 class record
 {
 public:
-    explicit record(const statement &stmt);
 	~record();
 
 	record(const record &) = delete;
 	record &operator=(const record &) = delete;
+    record(record &&);
+    record &operator=(record &&);
 
 	int get_column_count() const;
 
@@ -35,7 +34,11 @@ public:
 	int get_column_index(const std::string &column_name) const;
 
 private:
-	struct impl;
+    using statement_handle = std::shared_ptr<void>;
+    explicit record(const statement_handle &stmt_handle);
+    friend class statement;
+
+    struct impl;
 	std::unique_ptr<impl> pimpl;
 };
 

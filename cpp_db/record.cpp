@@ -21,15 +21,11 @@ struct record::impl
 	int row_status;
 	std::unordered_map<std::string, int> column_names;
 
-    impl(const statement &sqlstmt)
-		: stmt(std::static_pointer_cast<sqlite3_stmt>(sqlstmt.get_handle()))
+    impl(const statement_handle &stmt_handle)
+        : stmt(std::static_pointer_cast<sqlite3_stmt>(stmt_handle))
 		, row_status(SQLITE_DONE)
 	{
-		if (!sqlstmt.is_prepared())
-			throw db_exception("Statement not prepared!");
-
 		next();
-
 		for (int column = 0; column < get_column_count(); ++column)
 			column_names.emplace(sqlite3_column_name(stmt.get(), column), column);
     }
@@ -116,13 +112,25 @@ struct record::impl
 
 };
 
-record::record(const statement &stmt)
-	: pimpl(new impl(stmt))
+record::record(const statement_handle &stmt_handle)
+    : pimpl(new impl(stmt_handle))
+{
+}
+
+record::record(record &&other)
+    : pimpl(std::move(other.pimpl))
 {
 }
 
 record::~record()
 {
+}
+
+record &record::operator=(record &&other)
+{
+    if (this != &other)
+        pimpl = std::move(other.pimpl);
+    return *this;
 }
 
 int record::get_column_count() const

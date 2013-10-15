@@ -103,7 +103,7 @@ void test_cpp_db_class::test_statement()
 
 void test_cpp_db_class::test_result()
 {
-    cpp_db::record result(cpp_db::statement("select COL1, COL2 from TEST_TABLE;", *con.get()));
+    cpp_db::record result(cpp_db::statement("select COL1, COL2 from TEST_TABLE;", *con.get()).execute());
     TEST_EQUAL(result.get_column_count(), 2);
     TEST_EQUAL(result.get_column_name(0), "COL1");
     TEST_EQUAL(result.get_column_name(1), "COL2");
@@ -126,7 +126,7 @@ void test_cpp_db_class::test_result()
 	TEST_EQUAL(result.get_column_value(0).get_value<int64_t>(), 1);
 	TEST_EQUAL(result.get_column_value(1).get_value<std::string>(), "first");
 
-    TEST_FOR_EXCEPTION(cpp_db::record(cpp_db::statement(*con.get())), cpp_db::db_exception);
+    TEST_FOR_EXCEPTION(cpp_db::record(cpp_db::statement(*con.get()).execute()), cpp_db::db_exception);
 }
 
 void test_cpp_db_class::test_parameter()
