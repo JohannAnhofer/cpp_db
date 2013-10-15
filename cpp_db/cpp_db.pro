@@ -21,7 +21,8 @@ HEADERS += \
     transaction.h \
     value.h \
     null.h \
-    coalesce.h
+    coalesce.h \
+    execute.h
 
 INCLUDEPATH += \
     $$PWD/../tools \

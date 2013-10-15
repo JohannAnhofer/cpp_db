@@ -31,16 +31,9 @@ public:
 
 	void reset();
 
-	void execute_ddl();
 	void execute_non_query();
 	value execute_scalar();
 	record execute();
-
-    template<typename ...Args>
-    void execute_ddl(Args&& ...args)
-    {
-        execute_with_params<void>([&](){execute_ddl();}, args...);
-    }
 
     template<typename ...Args>
     void execute_non_query(Args&& ...args)
@@ -57,7 +50,7 @@ public:
 	template<typename ...Args>
 	record execute(Args&& ...args)
 	{
-		return execute_with_params<value>([&](){return execute(); }, args...);
+        return execute_with_params<record>([&](){return execute(); }, args...);
 	}
 
     void bind_param(const parameter &param);

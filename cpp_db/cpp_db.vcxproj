@@ -14,6 +14,7 @@
     <ClInclude Include="coalesce.h" />
     <ClInclude Include="connection.h" />
     <ClInclude Include="db_exception.h" />
+    <ClInclude Include="execute.h" />
     <ClInclude Include="null.h" />
     <ClInclude Include="parameter.h" />
     <ClInclude Include="parameters.h" />

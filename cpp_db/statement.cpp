@@ -144,11 +144,6 @@ void statement::prepare(const std::string &sqlcmd)
     pimpl->prepare(sqlcmd);
 }
 
-void statement::execute_ddl()
-{
-	pimpl->execute();
-}
-
 void statement::execute_non_query()
 {
 	pimpl->execute();

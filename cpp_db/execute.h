@@ -1,0 +1,39 @@
+#ifndef CPP_DB_EXECUTE_H
+#define CPP_DB_EXECUTE_H
+
+#include "connection.h"
+#include "record.h"
+#include "statement.h"
+#include "value.h"
+
+#include <string>
+
+namespace cpp_db
+{
+
+	template<typename ...Args>
+    void execute_non_query(connection &conn, const std::string &sql, Args && ...args)
+	{
+		statement stmt(conn);
+		stmt.prepare(sql);
+        stmt.execute_non_query(args...);
+	}
+
+	template<typename ...Args>
+    value execute_scalar(connection &conn, const std::string &sql, Args &&...args)
+	{
+		statement stmt(conn);
+		stmt.prepare(sql);
+        return stmt.execute_scalar(args...);
+	}
+
+	template<typename ...Args>
+    record execute(connection &conn, const std::string &sql, Args && ...args)
+	{
+		statement stmt(conn);
+		stmt.prepare(sql);
+        return stmt.execute(args...);
+	}
+}
+
+#endif

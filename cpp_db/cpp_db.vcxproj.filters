@@ -45,6 +45,9 @@
     <ClInclude Include="coalesce.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="execute.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp">

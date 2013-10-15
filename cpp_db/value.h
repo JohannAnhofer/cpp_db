@@ -14,8 +14,8 @@ namespace cpp_db
 	{
 	public:
 		template<typename T>
-		value(T value)
-			: pholder(new concrete_holder<T>(value))
+        value(T val)
+            : pholder(new concrete_holder<T>(val))
 		{
 		}
 
