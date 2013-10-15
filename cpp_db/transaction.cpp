@@ -42,6 +42,17 @@ transaction::transaction(const connection &conn)
 {
 }
 
+transaction::~transaction()
+{
+    try
+    {
+        pimpl->rollback();
+    }
+    catch(...)
+    {
+    }
+}
+
 void transaction::begin()
 {
 	pimpl->begin();
