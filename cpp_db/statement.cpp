@@ -3,6 +3,7 @@
 #include "db_exception.h"
 #include "value_is_null.h"
 #include "null.h"
+#include "record.h"
 
 #include "sqlite3.h"
 
@@ -117,41 +118,6 @@ struct statement::impl
 			sqlite3_bind_null(stmt.get(), index);
 	}
 
-	value get_value_from_column(int column)
-	{
-		sqlite3_stmt *pstmt = stmt.get();
-
-		switch (sqlite3_column_type(pstmt, column))
-		{
-		case SQLITE_INTEGER:	// int64
-			return sqlite3_column_int64(pstmt, column);
-		case SQLITE_FLOAT:		// double
-			return sqlite3_column_double(pstmt, column);
-		case SQLITE_BLOB:		// void *
-			{
-				const uint8_t *data = static_cast<const uint8_t*>(sqlite3_column_blob(pstmt, column));
-				return blob(data, data + sqlite3_column_bytes(pstmt, column));
-			}
-		case SQLITE_TEXT:		// const char *
-			return std::string(reinterpret_cast<const char *>(sqlite3_column_text(pstmt, column)), sqlite3_column_bytes(pstmt, column));
-		case SQLITE_NULL:		// 
-		default:
-			break;
-		}
-		return null_type();
-	}
-
-	value fetch_first_column_off_first_row()
-	{
-		if (!is_prepared())
-			throw db_exception("Statement not prepared!");
-
-		int row_status = sqlite3_step(stmt.get());
-		if (row_status != SQLITE_ROW && row_status != SQLITE_DONE)
-			throw_db_exception(row_status, sqlite3_db_handle(stmt.get()));
-		return get_value_from_column(0);
-	}
-
 	void reset()
 	{
 		sqlite3_reset(stmt.get());
@@ -190,7 +156,7 @@ void statement::execute_non_query()
 
 value statement::execute_scalar()
 {
-	return pimpl->fetch_first_column_off_first_row();
+	return record(*this).get_column_value(0);
 }
 
 bool statement::is_prepared() const
