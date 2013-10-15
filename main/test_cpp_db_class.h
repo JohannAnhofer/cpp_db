@@ -16,6 +16,8 @@ public:
     DECLARE_TEST_FUNCTION(test_statement)
     DECLARE_TEST_FUNCTION(test_result)
     DECLARE_TEST_FUNCTION(test_parameter)
+	DECLARE_TEST_FUNCTION(test_transaction_commit)
+	DECLARE_TEST_FUNCTION(test_transaction_rollback)
     END_DECLARE_TEST_CLASS()
 
 protected:
@@ -27,6 +29,8 @@ protected:
     void test_statement();
     void test_result();
     void test_parameter();
+	void test_transaction_commit();
+	void test_transaction_rollback();
 
 private:
     std::unique_ptr<cpp_db::connection> con;
