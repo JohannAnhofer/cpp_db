@@ -18,15 +18,16 @@
     <ClInclude Include="null.h" />
     <ClInclude Include="parameter.h" />
     <ClInclude Include="parameters.h" />
-    <ClInclude Include="record.h" />
+    <ClInclude Include="result.h" />
     <ClInclude Include="statement.h" />
+    <ClInclude Include="statement.inl.h" />
     <ClInclude Include="transaction.h" />
     <ClInclude Include="value.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="parameters.cpp" />
-    <ClCompile Include="record.cpp" />
+    <ClCompile Include="result.cpp" />
     <ClCompile Include="statement.cpp" />
     <ClCompile Include="transaction.cpp" />
   </ItemGroup>

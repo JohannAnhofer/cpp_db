@@ -19,7 +19,7 @@ public:
     using handle = std::shared_ptr<void>;
 
     statement(const std::string &sqlcmd, connection &conn);
-    explicit statement(connection &conn);
+    explicit statement(const connection &conn);
     ~statement();
 
     statement(const statement&other) = delete;
@@ -35,51 +35,28 @@ public:
 	value execute_scalar();
     result execute();
 
-    template<typename ...Args>
-    void execute_non_query(Args&& ...args)
-    {
-		execute_with_params<void>([&]() {execute_non_query();}, args...);
-    }
-
-    template<typename ...Args>
-    value execute_scalar(Args&& ...args)
-    {
-        return execute_with_params<value>([&](){return execute_scalar();}, args...);
-    }
-
-	template<typename ...Args>
-    result execute(Args&& ...args)
-	{
-        return execute_with_params<result>([&](){return execute(); }, args...);
-	}
+    template<typename ...Args> void execute_non_query(Args&& ...args);
+    template<typename ...Args> value execute_scalar(Args&& ...args);
+	template<typename ...Args> result execute(Args&& ...args);
 
     void bind_param(const parameter &param);
 
 private:
     template<int pos, typename Arg, typename...Args>
-    void bind_pos_param(Arg &&arg, Args && ...args)
-	{
-		bind_param(parameter(pos, arg));
-        bind_pos_param<pos+1>(args...);
-	}
+	void bind_pos_param(Arg &&arg, Args && ...args);
 
     template<int>
-    void bind_pos_param()
-	{
-	}
+	void bind_pos_param();
 
 	template<typename ResultType, typename FunctionType, typename ...Args>
-    ResultType execute_with_params(FunctionType function, Args&& ...args)
-    {
-        reset();
-        bind_pos_param<1>(args...);
-        return function();
-    }
+	ResultType execute_with_params(FunctionType function, Args&& ...args);
 
     struct impl;
     std::unique_ptr<impl> pimpl;
 };
 
 }
+
+#include "statement.inl.h"
 
 #endif // CPP_DB_STATEMENT_H

@@ -197,7 +197,7 @@ void test_cpp_db_class::test_execute()
 {
     TEST_EQUAL(cpp_db::execute_scalar(*con.get(), "select count(*) from TEST_TABLE").get_value<int64_t>(), 5);
     cpp_db::result r = cpp_db::execute(*con.get(), "select * from TEST_TABLE where COL1 in (?, ?)", 1, 2);
-    int sum = 0;
+	int64_t sum = 0;
     std::string names;
     while(!r.is_eof())
     {

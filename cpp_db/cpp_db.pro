@@ -22,7 +22,8 @@ HEADERS += \
     value.h \
     null.h \
     coalesce.h \
-    execute.h
+    execute.h \
+    statement.inl.h
 
 INCLUDEPATH += \
     $$PWD/../tools \

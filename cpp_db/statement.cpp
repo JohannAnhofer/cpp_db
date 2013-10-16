@@ -37,7 +37,7 @@ struct statement::impl
 		delete reinterpret_cast<ObjectType *>(object);
 	}
 
-    impl(connection &con)
+    impl(const connection &con)
 		: db(std::static_pointer_cast<sqlite3>(con.get_handle()))
         , tail(nullptr)
 	{
@@ -124,7 +124,7 @@ struct statement::impl
 	}
 };
 
-statement::statement(connection &conn)
+statement::statement(const connection &conn)
     : pimpl(new impl(conn))
 {
 }
