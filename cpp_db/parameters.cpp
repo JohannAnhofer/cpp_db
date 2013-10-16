@@ -20,6 +20,18 @@ namespace cpp_db
 	{
 		std::weak_ptr<sqlite3_stmt> stmt;
 
+		template<typename ElementType>
+		static void delete_array(void *array)
+		{
+			delete [] reinterpret_cast<ElementType *>(array);
+		}
+
+		template<typename ObjectType>
+		static void delete_object(void *object)
+		{
+			delete reinterpret_cast<ObjectType *>(object);
+		}
+
 		explicit impl(const statement &stmt)
 			: stmt(std::static_pointer_cast<sqlite3_stmt>(stmt.get_handle()))
 		{
@@ -28,32 +40,6 @@ namespace cpp_db
 		int get_count() const
 		{
 			return sqlite3_bind_parameter_count(stmt.lock().get());
-		}
-	
-		// bind positional parameter
-		int bind_pos(int pos, double value)
-		{
-			return sqlite3_bind_double(stmt.lock().get(), pos, value);
-		}
-		int bind_pos(int pos, int value)
-		{
-			return sqlite3_bind_int(stmt.lock().get(), pos, value);
-		}
-		int bind_pos(int pos, long long value)
-		{
-			return sqlite3_bind_int64(stmt.lock().get(), pos, value);
-		}
-		int bind_pos(int pos, const std::string &value)
-		{
-			return sqlite3_bind_text(stmt.lock().get(), pos, value.c_str(), value.length(), SQLITE_TRANSIENT);
-		}
-		int bind_pos(int pos, const blob &value)
-		{
-			return sqlite3_bind_blob(stmt.lock().get(), pos, value.data(), value.size(), SQLITE_TRANSIENT);
-		}
-		int bind_pos(int pos, const null_type &)
-		{
-			return sqlite3_bind_null(stmt.lock().get(), pos);
 		}
 
 		int find_param_pos(const std::string &name) const
@@ -64,23 +50,57 @@ namespace cpp_db
 				throw db_exception("Index for SQL parameter '" + name + "' not found!");
 		}
 
-		template<typename T>
-		void bind(int pos, T && value)
+		void bind(const parameter &param)
 		{
-			if (int error_code = bind_pos(pos, std::forward(value)))
-                throw_db_exception(error_code, sqlite3_db_handle(stmt.lock().get()));
+			int index = param.has_index() ? param.get_index() : find_param_pos(param.get_name());
+			if (param.has_value_of_type<int>())
+				sqlite3_bind_int(stmt.lock().get(), index, param.get_value<int>());
+			else if (param.has_value_of_type<double>())
+				sqlite3_bind_double(stmt.lock().get(), index, param.get_value<double>());
+			else if (param.has_value_of_type<const char *>())
+			{
+				const char *source = param.get_value<const char *>();
+				char * value = new char[strlen(source) + 1];
+				memcpy(value, source, strlen(source) + 1);
+				sqlite3_bind_text(stmt.lock().get(), index, value, strlen(source), delete_array<char>);
+			}
+			else if (param.has_value_of_type<std::string>())
+			{
+				std::string source(param.get_value<std::string>());
+				char * value = new char[source.length() + 1];
+				memcpy(value, source.c_str(), source.length() + 1);
+				sqlite3_bind_text(stmt.lock().get(), index, value, source.length(), delete_array<char>);
+			}
+			else if (param.has_value_of_type<blob>())
+			{
+				blob source(param.get_value<blob>());
+				uint8_t *value = new uint8_t[source.size()];
+				memcpy(value, source.data(), source.size());
+				sqlite3_bind_blob(stmt.lock().get(), index, value, source.size(), delete_array<uint8_t>);
+			}
+			else if (param.has_value_of_type<int64_t>())
+				sqlite3_bind_int64(stmt.lock().get(), index, param.get_value<int64_t>());
+			else if (param.has_value_of_type<null_type>())
+				sqlite3_bind_null(stmt.lock().get(), index);
 		}
 
-		template<typename T>
-		void bind(const std::string &name, T && value)
-		{
-			bind(find_param_pos(name), std::forward(value));
-		}
 	};
 
 	parameters::parameters(const statement &stmt)
 		: pimpl(new impl(stmt))
 	{
+	}
+
+	parameters::parameters(parameters && other)
+		: pimpl(std::move(other.pimpl))
+	{
+	}
+
+	parameters &parameters::operator=(parameters &&other)
+	{
+		if (this != &other)
+			pimpl = std::move(other.pimpl);
+		return *this;
 	}
 
 	parameters::~parameters()
@@ -94,6 +114,6 @@ namespace cpp_db
 
 	void parameters::bind(const parameter &param)
 	{
-		(void) param;
+		pimpl->bind(param);
 	}
 }

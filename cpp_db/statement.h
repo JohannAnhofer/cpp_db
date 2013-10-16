@@ -2,6 +2,7 @@
 #define CPP_DB_STATEMENT_H
 
 #include "parameter.h"
+#include "parameters.h"
 #include "value.h"
 #include "result.h"
 
@@ -39,7 +40,7 @@ public:
     template<typename ...Args> value execute_scalar(Args&& ...args);
 	template<typename ...Args> result execute(Args&& ...args);
 
-    void bind_param(const parameter &param);
+	parameters get_parameters() const;
 
 private:
     template<int pos, typename Arg, typename...Args>

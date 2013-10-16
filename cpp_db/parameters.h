@@ -14,8 +14,12 @@ class statement;
 class parameters
 {
 public:
-	explicit parameters(const statement &stmt);
 	~parameters();
+	parameters(const parameters &) = delete;
+	parameters &operator=(const parameters &) = delete;
+
+	parameters(parameters && other);
+	parameters &operator=(parameters &&other);
 
 	int get_count() const;
 
@@ -31,11 +35,14 @@ public:
 		bind(parameter(name, value));
 	}
 
+	void bind(const parameter &param);
+
 private:
+	explicit parameters(const statement &stmt);
+	friend class statement;
+
 	struct impl;
 	std::unique_ptr<impl> pimpl;
-
-	void bind(const parameter &param);
 };
 
 }

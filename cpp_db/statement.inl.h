@@ -25,7 +25,7 @@ result statement::execute(Args&& ...args)
 template<int pos, typename Arg, typename...Args>
 void statement::bind_pos_param(Arg &&arg, Args && ...args)
 {
-	bind_param(parameter(pos, arg));
+	parameters(*this).bind(parameter(pos, arg));
 	bind_pos_param<pos + 1>(args...);
 }
 
