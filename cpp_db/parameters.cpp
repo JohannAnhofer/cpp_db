@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <cstdint>
+#include <cstring>
 
 namespace cpp_db
 {

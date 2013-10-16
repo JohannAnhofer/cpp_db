@@ -43,15 +43,6 @@ public:
 	parameters get_parameters() const;
 
 private:
-    template<int pos, typename Arg, typename...Args>
-	void bind_pos_param(Arg &&arg, Args && ...args);
-
-    template<int>
-	void bind_pos_param();
-
-	template<typename ResultType, typename FunctionType, typename ...Args>
-	ResultType execute_with_params(FunctionType function, Args&& ...args);
-
     struct impl;
     std::unique_ptr<impl> pimpl;
 };
