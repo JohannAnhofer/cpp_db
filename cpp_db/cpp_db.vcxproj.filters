@@ -21,9 +21,6 @@
     <ClInclude Include="db_exception.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="record.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="statement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -48,12 +45,15 @@
     <ClInclude Include="execute.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="result.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="statement.inl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="record.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="statement.cpp">
@@ -63,6 +63,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="parameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="result.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
