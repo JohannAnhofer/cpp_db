@@ -11,13 +11,10 @@
 #include <vector>
 #include <string>
 
-#include <cstring>
-
 namespace cpp_db
 {
 
 extern void throw_db_exception(int error_code, sqlite3 *db);
-using blob = std::vector<uint8_t>;
 
 struct statement::impl
 {
