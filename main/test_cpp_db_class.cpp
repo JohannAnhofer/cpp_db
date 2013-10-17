@@ -1,4 +1,5 @@
 ﻿#include "test_cpp_db_class.h"
+#include "sqlite_driver.h"
 
 #include "db_exception.h"
 #include "statement.h"
@@ -34,7 +35,7 @@ std::ostream &operator<<(std::ostream &output, cpp_db::result &r)
 
 void test_cpp_db_class::init_class()
 {
-    con.reset(new cpp_db::connection("sqlite"));
+    con.reset(new cpp_db::connection(new cpp_db::sqlite_driver));
     TEST_FOR_NO_EXCPTION(con->open(":memory:"));
 }
 

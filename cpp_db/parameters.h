@@ -10,6 +10,7 @@ namespace cpp_db
 {
 
 class statement;
+struct parameters_interface;
 
 class parameters
 {
@@ -41,8 +42,7 @@ private:
 	explicit parameters(const statement &stmt);
 	friend class statement;
 
-	struct impl;
-	std::unique_ptr<impl> pimpl;
+	std::unique_ptr<parameters_interface> pparameters;
 };
 
 }
