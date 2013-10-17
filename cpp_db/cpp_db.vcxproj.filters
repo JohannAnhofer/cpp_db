@@ -39,9 +39,6 @@
     <ClInclude Include="null.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="coalesce.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="execute.h">
       <Filter>Header Files</Filter>
     </ClInclude>
