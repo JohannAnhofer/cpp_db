@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="coalesce.h" />
     <ClInclude Include="cpp11_defines.h" />
     <ClInclude Include="key_value_pair.h" />
     <ClInclude Include="nullable.h" />

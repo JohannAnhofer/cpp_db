@@ -10,7 +10,8 @@ HEADERS += \
     nullable.h \
     nullable_types.h \
     value_is_null.h \
-    compiler_specific.h
+    compiler_specific.h \
+    coalesce.h
 
 SOURCES += \
     value_is_null.cpp

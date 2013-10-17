@@ -10,7 +10,6 @@ class test_cpp_db_class: public test::abstract_test
 {
 public:
     BEGIN_DECLARE_TEST_CLASS(test_cpp_db_class)
-	DECLARE_TEST_FUNCTION(test_coalesce)
 	DECLARE_TEST_FUNCTION(test_is_null)
 	DECLARE_TEST_FUNCTION(test_connection)
     DECLARE_TEST_FUNCTION(test_statement)
@@ -24,7 +23,6 @@ public:
 protected:
     void init_class() override;
     void cleanup_class() override;
-	void test_coalesce();
 	void test_is_null();
 	void test_connection();
     void test_statement();

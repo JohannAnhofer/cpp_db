@@ -21,7 +21,6 @@ HEADERS += \
     transaction.h \
     value.h \
     null.h \
-    coalesce.h \
     execute.h \
     statement.inl.h \
     driver.h

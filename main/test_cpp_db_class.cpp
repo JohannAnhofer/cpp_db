@@ -5,7 +5,6 @@
 #include "result.h"
 #include "parameter.h"
 #include "null.h"
-#include "coalesce.h"
 #include "value.h"
 #include "transaction.h"
 #include "execute.h"
@@ -42,35 +41,6 @@ void test_cpp_db_class::init_class()
 void test_cpp_db_class::cleanup_class()
 {
     con.reset();
-}
-
-void test_cpp_db_class::test_coalesce()
-{
-	cpp_db::coalesce_trait<int, double, float>::type x0(0);
-	cpp_db::coalesce_trait<cpp_db::null_type, double, float>::type x1(0.0);
-	cpp_db::coalesce_trait<int, cpp_db::null_type, float>::type x2(0);
-	cpp_db::coalesce_trait<cpp_db::null_type, cpp_db::null_type, float>::type x3(0.0f);
-	cpp_db::coalesce_trait<int, double, cpp_db::null_type>::type x4(0);
-	cpp_db::coalesce_trait<cpp_db::null_type, double, cpp_db::null_type>::type x5(0.0f);
-	cpp_db::coalesce_trait<int, cpp_db::null_type, cpp_db::null_type>::type x6(0);
-	cpp_db::coalesce_trait<cpp_db::null_type, cpp_db::null_type, cpp_db::null_type>::type x7;
-
-	cpp_db::null_type null;
-
-	TEST_EQUAL(cpp_db::coalesce(1, 2, 3, 4), 1);
-	TEST_EQUAL(cpp_db::coalesce(cpp_db::null_type(), 2, 3, 4), 2);
-	TEST_VERIFY(cpp_db::is_null(cpp_db::coalesce(null, null, null)));
-	TEST_EQUAL(cpp_db::coalesce(1, null, null, null), 1);
-	TEST_EQUAL(cpp_db::coalesce(null, 2, null, 4), 2);
-
-	TEST_EQUAL(x0, 0);
-	TEST_EQUAL(x1, 0.0);
-	TEST_EQUAL(x2, 0);
-	TEST_EQUAL(x3, 0.0f);
-	TEST_EQUAL(x4, 0);
-	TEST_EQUAL(x5, 0.0f);
-	TEST_EQUAL(x6, 0);
-	TEST_VERIFY(is_null(x7));
 }
 
 void test_cpp_db_class::test_is_null()

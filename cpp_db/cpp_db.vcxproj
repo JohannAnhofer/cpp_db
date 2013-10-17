@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="coalesce.h" />
     <ClInclude Include="connection.h" />
     <ClInclude Include="db_exception.h" />
     <ClInclude Include="driver.h" />
