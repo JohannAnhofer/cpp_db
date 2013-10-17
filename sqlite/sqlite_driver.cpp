@@ -3,6 +3,13 @@
 #include "parameter.h"
 #include "null.h"
 #include "value.h"
+#include "usings.h"
+
+#include "connection_interface.h"
+#include "statement_interface.h"
+#include "parameters_interface.h"
+#include "result_interface.h"
+#include "transaction_interface.h"
 
 #include "sqlite3.h"
 
@@ -194,8 +201,6 @@ namespace cpp_db
 		}
 	};
 
-	using blob = std::vector<uint8_t>;
-
 	struct sqlite_parameters : public parameters_interface
 	{
 		std::weak_ptr<sqlite3_stmt> stmt;
@@ -325,7 +330,6 @@ namespace cpp_db
 		value get_column_value(int column) const override
 		{
 			sqlite3_stmt *pstmt = stmt.get();
-			using blob = std::vector<uint8_t>;
 
 			switch (sqlite3_column_type(pstmt, column))
 			{

@@ -1,4 +1,5 @@
 #include "transaction.h"
+#include "transaction_interface.h"
 #include "connection.h"
 #include "driver.h"
 
