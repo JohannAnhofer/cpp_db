@@ -1,4 +1,5 @@
 #include "result.h"
+#include "result_interface.h"
 #include "statement.h"
 #include "driver.h"
 

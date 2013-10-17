@@ -1,6 +1,8 @@
 #ifndef CPP_DB_CONNECTION_H
 #define CPP_DB_CONNECTION_H
 
+#include "usings.h"
+
 #include <memory>
 #include <string>
 
@@ -9,7 +11,6 @@ namespace cpp_db
 
 class driver;
 struct connection_interface;
-using handle = std::shared_ptr<void>;
 
 class connection
 {

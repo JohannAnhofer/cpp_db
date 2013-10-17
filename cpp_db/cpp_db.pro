@@ -23,7 +23,13 @@ HEADERS += \
     null.h \
     execute.h \
     statement.inl.h \
-    driver.h
+    driver.h \
+    usings.h \
+    connection_interface.h \
+    statement_interface.h \
+    parameters_interface.h \
+    result_interface.h \
+    transaction_interface.h
 
 INCLUDEPATH += \
     $$PWD/../tools \

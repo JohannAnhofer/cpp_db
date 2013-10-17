@@ -1,4 +1,5 @@
 #include "statement.h"
+#include "statement_interface.h"
 #include "connection.h"
 #include "db_exception.h"
 #include "result.h"

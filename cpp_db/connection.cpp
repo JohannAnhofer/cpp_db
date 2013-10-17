@@ -1,4 +1,5 @@
 #include "connection.h"
+#include "connection_interface.h"
 #include "driver.h"
 
 namespace cpp_db

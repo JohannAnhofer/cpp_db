@@ -6,6 +6,7 @@
 #include "value.h"
 #include "result.h"
 
+#include "usings.h"
 
 #include <memory>
 #include <string>
@@ -16,8 +17,6 @@ namespace cpp_db
 class connection;
 class driver;
 struct statement_interface;
-
-using handle = std::shared_ptr<void>;
 
 class statement
 {
