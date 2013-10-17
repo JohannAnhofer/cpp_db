@@ -7,6 +7,7 @@ namespace cpp_db
 {
 
 class connection;
+struct transaction_interface;
 
 class transaction
 {
@@ -21,8 +22,7 @@ public:
 	bool is_open() const;
 
 private:
-	struct impl;
-	std::unique_ptr<impl> pimpl;
+	std::unique_ptr<transaction_interface> ptransaction;
 };
 
 }

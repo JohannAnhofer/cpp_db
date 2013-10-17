@@ -6,6 +6,7 @@
 #include "value.h"
 #include "result.h"
 
+
 #include <memory>
 #include <string>
 
@@ -13,12 +14,14 @@ namespace cpp_db
 {
 
 class connection;
+class driver;
+struct statement_interface;
+
+using handle = std::shared_ptr<void>;
 
 class statement
 {
 public:
-    using handle = std::shared_ptr<void>;
-
     statement(const std::string &sqlcmd, connection &conn);
     explicit statement(const connection &conn);
     ~statement();
@@ -42,9 +45,11 @@ public:
 
 	parameters get_parameters() const;
 
+	driver * get_driver() const;
+
 private:
-    struct impl;
-    std::unique_ptr<impl> pimpl;
+	driver *pdriver;
+	std::unique_ptr<statement_interface> pstatement;
 };
 
 }

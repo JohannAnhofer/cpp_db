@@ -9,6 +9,9 @@
 namespace cpp_db
 {
 
+class statement;
+struct result_interface;
+
 class result
 {
 public:
@@ -34,12 +37,9 @@ public:
 	int get_column_index(const std::string &column_name) const;
 
 private:
-    using statement_handle = std::shared_ptr<void>;
-    explicit result(const statement_handle &stmt_handle);
+	explicit result(const statement &stmt);
     friend class statement;
-
-    struct impl;
-	std::unique_ptr<impl> pimpl;
+	std::unique_ptr<result_interface> presult;
 };
 
 }

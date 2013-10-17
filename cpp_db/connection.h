@@ -7,12 +7,14 @@
 namespace cpp_db
 {
 
+class driver;
+struct connection_interface;
+using handle = std::shared_ptr<void>;
+
 class connection
 {
 public:
-    using handle = std::shared_ptr<void>;
-
-    explicit connection(const std::string &drivername);
+    explicit connection(driver *sql_driver);
 	~connection();
 
 	connection(const connection &other) = delete;
@@ -23,9 +25,11 @@ public:
     bool is_open() const;
     handle get_handle() const;
 
+	std::shared_ptr<driver> get_driver() const;
+
 private:
-	struct impl;
-	std::unique_ptr<impl> pimpl;
+	std::shared_ptr<driver> pdriver;
+	std::unique_ptr<connection_interface> pconnection;
 };
 
 }
