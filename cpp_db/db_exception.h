@@ -2,6 +2,7 @@
 #define CPP_DB_DB_EXCEPTION_H
 
 #include <stdexcept>
+#include <string>
 
 namespace cpp_db
 {
