@@ -2,8 +2,6 @@
 #include "parameter.h"
 #include "db_exception.h"
 
-#include "sqlite3.h"
-
 #include <cstring>
 
 namespace cpp_db

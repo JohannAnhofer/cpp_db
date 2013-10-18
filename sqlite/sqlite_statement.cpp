@@ -1,8 +1,6 @@
 #include "sqlite_statement.h"
 #include "db_exception.h"
 
-#include "sqlite3.h"
-
 namespace cpp_db
 {
 

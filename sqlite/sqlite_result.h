@@ -4,13 +4,10 @@
 #include "result_interface.h"
 #include "usings.h"
 
+#include "sqlite3.h"
+
 #include <unordered_map>
 #include <memory>
-
-extern "C"
-{
-    typedef struct sqlite3_stmt sqlite3_stmt;
-}
 
 namespace cpp_db
 {
