@@ -21,4 +21,6 @@ SUBDIRS += sqlite \
            test \
            main
 
+OTHER_FILES += todo.txt
+
 cache()

@@ -1,0 +1,8 @@
+18.10.2013:
+ - Include Directory für gemeinsame Header
+ - Connection options bei connection
+ - identity_token bei connection fuer Datenbankauthentifizierung (no_user, user_pwd, ...)
+ - Firebird driver
+ - MySql driver
+ - Odbc driver
+ -
