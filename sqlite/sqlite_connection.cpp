@@ -1,7 +1,5 @@
 #include "sqlite_connection.h"
 
-#include "sqlite3.h"
-
 #include <stdexcept>
 
 namespace cpp_db

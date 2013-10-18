@@ -4,10 +4,7 @@
 #include "usings.h"
 #include "transaction_interface.h"
 
-extern "C"
-{
-typedef struct sqlite3 sqlite3;
-}
+#include "sqlite3.h"
 
 #include <memory>
 

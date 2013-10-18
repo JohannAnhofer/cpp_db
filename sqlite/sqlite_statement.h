@@ -3,13 +3,9 @@
 
 #include "statement_interface.h"
 
-#include <memory>
+#include "sqlite3.h"
 
-extern "C"
-{
-struct sqlite3_stmt;
-struct sqlite3;
-}
+#include <memory>
 
 namespace cpp_db
 {

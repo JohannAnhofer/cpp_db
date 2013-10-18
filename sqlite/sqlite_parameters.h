@@ -4,14 +4,10 @@
 #include "usings.h"
 #include "parameters_interface.h"
 
+#include "sqlite3.h"
+
 #include <memory>
 #include <string>
-
-extern "C"
-{
-    typedef struct sqlite3 sqlite3;
-    typedef struct sqlite3_stmt sqlite3_stmt;
-}
 
 namespace cpp_db
 {
