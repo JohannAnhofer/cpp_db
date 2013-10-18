@@ -24,26 +24,29 @@ public:
 
 	int get_count() const;
 
-	template<typename T>
-	void bind(int pos, T && value)
-	{
-		bind(parameter(pos, value));
-	}
-
-	template<typename T>
-	void bind(const std::string &name, T && value)
-	{
-		bind(parameter(name, value));
-	}
-
+	template<typename T> void bind(int pos, T && value);
+	template<typename T> void bind(const std::string &name, T && value);
 	void bind(const parameter &param);
 
 private:
 	explicit parameters(const statement &stmt);
 	friend class statement;
 
-	std::unique_ptr<parameters_interface> pparameters;
+	std::unique_ptr<parameters_interface> params_impl;
 };
+
+
+template<typename T>
+void parameters::bind(int pos, T && value)
+{
+	bind(parameter(pos, value));
+}
+
+template<typename T>
+void parameters::bind(const std::string &name, T && value)
+{
+	bind(parameter(name, value));
+}
 
 }
 

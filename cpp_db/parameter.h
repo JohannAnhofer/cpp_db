@@ -1,13 +1,13 @@
 #ifndef CPP_DB_PARAMETER_H
 #define CPP_DB_PARAMETER_H
 
-#include "db_exception.h"
 #include "null.h"
 
 #include <string>
 #include <memory>
 #include <typeinfo>
 #include <typeindex>
+#include <stdexcept>
 
 namespace cpp_db
 {
@@ -44,7 +44,7 @@ namespace cpp_db
 		{
 			if (pholder->get_value_type() == typeid(T))
 				return *reinterpret_cast<T const *>(pholder->get_value());
-			throw db_exception("Invalid value type for parameter.");
+			throw std::runtime_error("Invalid value type for parameter.");
 		}
 
 		bool has_index() const
@@ -67,14 +67,14 @@ namespace cpp_db
 		{
 			if (pholder->get_index_type() == typeid(int))
 				return *reinterpret_cast<int const *>(pholder->get_index());
-			throw db_exception("Invalid index type for parameter.");
+			throw std::runtime_error("Invalid index type for parameter.");
 		}
 
 		std::string get_name() const
 		{
 			if (pholder->get_index_type() == typeid(std::string))
 				return *reinterpret_cast<std::string const *>(pholder->get_index());
-			throw db_exception("Invalid index type for parameter.");
+			throw std::runtime_error("Invalid index type for parameter.");
 		}
 
 	private:

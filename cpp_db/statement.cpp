@@ -9,9 +9,11 @@ namespace cpp_db
 {
 
 statement::statement(const connection &conn)
-: pdriver(conn.get_driver().get())
-, pstatement(pdriver->make_statement(conn.get_handle()))
+	: driver_impl(conn.get_driver())	// a connection without a valid driver, cannot be constructed, so no need to check here 
+	, stmt_impl(driver_impl.lock()->make_statement(conn.get_handle()))
 {
+	if (!stmt_impl)
+		throw std::runtime_error("No statement object from driver!");
 }
 
 statement::statement(const std::string &sqlcmd, connection &conn)
@@ -26,12 +28,15 @@ statement::~statement()
 
 void statement::prepare(const std::string &sqlcmd)
 {
-	pstatement->prepare(sqlcmd);
+	stmt_impl->prepare(sqlcmd);
 }
 
 void statement::execute_non_query()
 {
-	pstatement->execute();
+	if (!is_prepared())
+		throw db_exception("Statement not prepared!");
+
+	stmt_impl->execute();
 }
 
 value statement::execute_scalar()
@@ -52,12 +57,12 @@ result statement::execute()
 
 bool statement::is_prepared() const
 {
-	return pstatement->is_prepared();
+	return stmt_impl->is_prepared();
 }
 
 handle statement::get_handle() const
 {
-	return pstatement->get_handle();
+	return stmt_impl->get_handle();
 }
 
 parameters statement::get_parameters() const
@@ -70,12 +75,12 @@ parameters statement::get_parameters() const
 
 void statement::reset()
 {
-	pstatement->reset();
+	stmt_impl->reset();
 }
 
-driver * statement::get_driver() const
+std::shared_ptr<driver> statement::get_driver() const
 {
-	return pdriver;
+	return driver_impl.lock();
 }
 
 }

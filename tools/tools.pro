@@ -11,7 +11,8 @@ HEADERS += \
     nullable_types.h \
     value_is_null.h \
     compiler_specific.h \
-    coalesce.h
+    coalesce.h \
+    check_pointer.h
 
 SOURCES += \
     value_is_null.cpp

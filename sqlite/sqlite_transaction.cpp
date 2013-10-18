@@ -3,6 +3,8 @@
 
 #include "sqlite3.h"
 
+#include <cstring>
+
 namespace cpp_db
 {
 

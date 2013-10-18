@@ -3,22 +3,26 @@
 #include "statement.h"
 #include "driver.h"
 
+#include <stdexcept>
+
 namespace cpp_db
 {
 	parameters::parameters(const statement &stmt)
-		: pparameters(stmt.get_driver()->make_parameters(stmt.get_handle()))
+		: params_impl(stmt.get_driver()->make_parameters(stmt.get_handle()))
 	{
+		if (!params_impl)
+			throw std::runtime_error("No parameters object from driver!");
 	}
 
 	parameters::parameters(parameters && other)
-		: pparameters(std::move(other.pparameters))
+		: params_impl(std::move(other.params_impl))
 	{
 	}
 
 	parameters &parameters::operator=(parameters &&other)
 	{
 		if (this != &other)
-			pparameters = std::move(other.pparameters);
+			params_impl = std::move(other.params_impl);
 		return *this;
 	}
 
@@ -28,11 +32,11 @@ namespace cpp_db
 
 	int parameters::get_count() const
 	{
-		return pparameters->get_count();
+		return params_impl->get_count();
 	}
 
 	void parameters::bind(const parameter &param)
 	{
-		pparameters->bind(param);
+		params_impl->bind(param);
 	}
 }

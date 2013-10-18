@@ -19,6 +19,7 @@ public:
 
     result(const result &) = delete;
     result &operator=(const result &) = delete;
+
     result(result &&);
     result &operator=(result &&);
 
@@ -39,7 +40,7 @@ public:
 private:
 	explicit result(const statement &stmt);
     friend class statement;
-	std::unique_ptr<result_interface> presult;
+	std::unique_ptr<result_interface> result_impl;
 };
 
 }

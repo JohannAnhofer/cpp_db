@@ -3,12 +3,16 @@
 #include "connection.h"
 #include "driver.h"
 
+#include <stdexcept>
+
 namespace cpp_db
 {
 
 transaction::transaction(const connection &conn)
-	: ptransaction(conn.get_driver()->make_transaction(conn.get_handle()))
+	: trans_impl(conn.get_driver()->make_transaction(conn.get_handle()))
 {
+	if (!trans_impl)
+		throw std::runtime_error("No transaction object from driver!");
 }
 
 transaction::~transaction()
@@ -17,22 +21,22 @@ transaction::~transaction()
 
 void transaction::begin()
 {
-	ptransaction->begin();
+	trans_impl->begin();
 }
 
 void transaction::commit()
 {
-	ptransaction->commit();
+	trans_impl->commit();
 }
 
 void transaction::rollback()
 {
-	ptransaction->rollback();
+	trans_impl->rollback();
 }
 
 bool transaction::is_open() const
 {
-	return ptransaction->is_open();
+	return trans_impl->is_open();
 }
 
 }
