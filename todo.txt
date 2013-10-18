@@ -1,8 +1,10 @@
-18.10.2013:
- - Include Directory für gemeinsame Header
- - Connection options bei connection
- - identity_token bei connection fuer Datenbankauthentifizierung (no_user, user_pwd, ...)
+﻿18.10.2013:
+ - Include directory for common headers
+ - Connection options for connection
+ - identity_token for connection to handle database authentification (no_user, user_pwd, ...)
  - Firebird driver
  - MySql driver
  - Odbc driver
- -
+ - Analyse parameters from query string (type, value for outputparaemter)
+ - Support output parameters
+ - add testcase for named parameters
