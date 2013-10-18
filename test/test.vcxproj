@@ -19,6 +19,11 @@
   <ItemGroup>
     <None Include="abstract_test.inl" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\tools\tools.vcxproj">
+      <Project>{f6b28bea-8480-428f-ae98-5bc3c85caf8c}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5F7C81F9-2421-401E-84B2-01BA4B9E31D2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -49,12 +54,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -69,7 +74,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <BuildLog>
-      <Path>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+      <Path>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -89,7 +94,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <BuildLog>
-      <Path>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+      <Path>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

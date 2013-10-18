@@ -31,6 +31,11 @@
     <ClCompile Include="statement.cpp" />
     <ClCompile Include="transaction.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\tools\tools.vcxproj">
+      <Project>{f6b28bea-8480-428f-ae98-5bc3c85caf8c}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5512C29A-99CF-4EB2-906D-04B52C831511}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -61,12 +66,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</IntDir>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</IntDir>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -76,13 +83,14 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../sqlite;../tools</AdditionalIncludeDirectories>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <BuildLog>
-      <Path>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+      <Path>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -95,6 +103,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../sqlite;../tools</AdditionalIncludeDirectories>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -103,7 +112,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <BuildLog>
-      <Path>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+      <Path>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
