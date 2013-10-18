@@ -12,12 +12,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sqlite3.c" />
+    <ClCompile Include="sqlite_connection.cpp" />
     <ClCompile Include="sqlite_driver.cpp" />
+    <ClCompile Include="sqlite_parameters.cpp" />
+    <ClCompile Include="sqlite_result.cpp" />
+    <ClCompile Include="sqlite_statement.cpp" />
+    <ClCompile Include="sqlite_transaction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sqlite3.h" />
     <ClInclude Include="sqlite3ext.h" />
+    <ClInclude Include="sqlite_connection.h" />
     <ClInclude Include="sqlite_driver.h" />
+    <ClInclude Include="sqlite_parameters.h" />
+    <ClInclude Include="sqlite_result.h" />
+    <ClInclude Include="sqlite_statement.h" />
+    <ClInclude Include="sqlite_transaction.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\tools\tools.vcxproj">
+      <Project>{f6b28bea-8480-428f-ae98-5bc3c85caf8c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ED69C9EA-C51A-4262-A525-4FF95B838BA3}</ProjectGuid>
@@ -49,12 +64,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -70,7 +85,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <BuildLog>
-      <Path>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+      <Path>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -91,7 +106,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <BuildLog>
-      <Path>$(SolutionDir)\..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+      <Path>$(SolutionDir)..\cpp_db_msvc_2013_build\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
