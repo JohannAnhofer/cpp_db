@@ -15,6 +15,9 @@ public:
 	explicit transaction(const connection &conn);
     ~transaction();
 
+	transaction(const transaction &) = delete;
+	transaction &operator=(const transaction &) = delete;
+
 	void begin();
 	void commit();
 	void rollback();
@@ -22,7 +25,7 @@ public:
 	bool is_open() const;
 
 private:
-	std::unique_ptr<transaction_interface> ptransaction;
+	std::unique_ptr<transaction_interface> trans_impl;
 };
 
 }

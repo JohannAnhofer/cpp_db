@@ -1,15 +1,15 @@
 #ifndef CPP_DB_EXECUTE_H
 #define CPP_DB_EXECUTE_H
 
-#include "connection.h"
-#include "result.h"
 #include "statement.h"
 #include "value.h"
+#include "result.h"
 
 #include <string>
 
 namespace cpp_db
 {
+	class connection;
 
 	template<typename ...Args>
     void execute_non_query(connection &conn, const std::string &sql, Args && ...args)

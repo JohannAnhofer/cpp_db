@@ -35,7 +35,7 @@ std::ostream &operator<<(std::ostream &output, cpp_db::result &r)
 
 void test_cpp_db_class::init_class()
 {
-    con.reset(new cpp_db::connection(new cpp_db::sqlite_driver));
+    con.reset(new cpp_db::connection(std::make_shared<cpp_db::sqlite_driver>()));
     TEST_FOR_NO_EXCPTION(con->open(":memory:"));
 }
 
@@ -118,7 +118,7 @@ void test_cpp_db_class::test_parameter()
     TEST_EQUAL(param1.get_value<std::string>(), "Hello world!");
     TEST_VERIFY(std::fabs(param2.get_value<double>() - 27.85) < 0.000001);
 
-    TEST_FOR_EXCEPTION(param1.get_value<int>(), cpp_db::db_exception);
+    TEST_FOR_EXCEPTION(param1.get_value<int>(), std::runtime_error);
 
     cpp_db::statement stmt(*con.get());
     TEST_FOR_NO_EXCPTION(stmt.prepare("insert into TEST_TABLE(COL1, COL2) VALUES(?, ?)"));
