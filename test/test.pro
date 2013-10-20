@@ -6,7 +6,8 @@ CONFIG += staticlib
 
 HEADERS += \
     abstract_test.h \
-    abstract_test.inl
+    abstract_test.inl \
+    test_app.h
 
 SOURCES += \
     abstract_test.cpp
