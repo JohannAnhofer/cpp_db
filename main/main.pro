@@ -7,11 +7,13 @@ TEMPLATE = app
 
 HEADERS += \
     test_cpp_db_class.h \
-    test_tools_class.h
+    test_tools_class.h \
+    test_test_class.h
 
 SOURCES += main.cpp \
     test_tools_class.cpp \
-    test_cpp_db_class.cpp
+    test_cpp_db_class.cpp \
+    test_test_class.cpp
 
 # add include path and dependend to sqlite library
 INCLUDEPATH += \

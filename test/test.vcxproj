@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="abstract_test.cpp" />
+    <ClCompile Include="test_app.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abstract_test.h" />

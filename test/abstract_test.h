@@ -7,6 +7,7 @@
 #include <exception>
 #include <sstream>
 #include <vector>
+#include <unordered_set>
 
 namespace test
 {
@@ -21,6 +22,7 @@ public:
     void set_tiny_mode(bool on);
 
 	void operator()();
+    void operator()(const std::unordered_set<std::string> &filter);
 
 protected:
 	virtual void init_class();
@@ -50,7 +52,7 @@ private:
 	void cleanup_class_internal();
 	void init_internal(const std::string &fkt_name);
 	void cleanup_internal(const std::string &fkt_name);
-	void run();
+    void run(const std::unordered_set<std::string> &filter);
 
 private:
     int function_count, fail_count, success_count, exception_count, expected_exception_count;

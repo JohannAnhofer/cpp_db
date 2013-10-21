@@ -10,4 +10,5 @@ HEADERS += \
     test_app.h
 
 SOURCES += \
-    abstract_test.cpp
+    abstract_test.cpp \
+    test_app.cpp
