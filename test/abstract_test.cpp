@@ -25,9 +25,14 @@ abstract_test::~abstract_test()
 {
 }
 
+void abstract_test::operator()(const std::unordered_set<std::string> &filter)
+{
+    run(filter);
+}
+
 void abstract_test::operator()()
 {
-	run();
+    run(std::unordered_set<std::string>());
 }
 
 void abstract_test::set_test_stream(std::ostream *os)
@@ -62,38 +67,41 @@ void abstract_test::add_test_function(std::function<void()> fkt, const std::stri
 	functions.push_back(std::make_pair(name, fkt));
 }
 
-void abstract_test::run()
+void abstract_test::run(const std::unordered_set<std::string> &filter)
 {
-	init_class_internal();
+    init_class_internal();
     for (auto name_and_function : functions)
-	{
-		function_count++;
-        init_internal(name_and_function.first);
-        try
-		{
-            name_and_function.second();
-		}
-        catch (const std::exception &ex)
+    {
+        if (filter.empty() || (filter.find(name_and_function.first) != std::end(filter)))
         {
-            if (tiny_output_mode)
-                *output << "E";
-            else
-                *output << "Exception '" << ex.what() << "' occured" << std::endl;
-			fail_count++;
-            exception_count++;
+            function_count++;
+            init_internal(name_and_function.first);
+            try
+            {
+                name_and_function.second();
+            }
+            catch (const std::exception &ex)
+            {
+                if (tiny_output_mode)
+                    *output << "E";
+                else
+                    *output << "Exception '" << ex.what() << "' occured" << std::endl;
+                fail_count++;
+                exception_count++;
+            }
+            catch (...)
+            {
+                if (tiny_output_mode)
+                    *output << "U";
+                else
+                    *output << "Unknow exception occured" << std::endl;
+                fail_count++;
+                exception_count++;
+            }
+            cleanup_internal(name_and_function.first);
         }
-        catch (...)
-		{
-            if (tiny_output_mode)
-                *output << "U";
-            else
-                *output << "Unknow exception occured" << std::endl;
-			fail_count++;
-			exception_count++;
-		}
-        cleanup_internal(name_and_function.first);
     }
-	cleanup_class_internal();
+    cleanup_class_internal();
 }
 
 void abstract_test::test_message(const std::string &msg)

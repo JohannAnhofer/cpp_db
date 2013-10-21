@@ -1,7 +1,9 @@
 #ifndef TEST_TESTAPP_H
 #define TEST_TESTAPP_H
 
-#include <map>
+#include <vector>
+#include <utility>
+#include <unordered_set>
 #include <string>
 #include <iostream>
 
@@ -11,23 +13,28 @@ namespace test
 class test_app
 {
 public:
-    test_app(int argc, char *argv[]) {(void)argc;(void)argv;}
+    test_app(int argc, char *argv[]);
 
     template<typename T>
     void add_test_class(const std::string &class_name)
     {
-        classes[class_name] = [](){T tc; tc();};
+		auto call = [](const filter_type &filter){T tc; tc(filter); };
+        classes.push_back(std::make_pair(class_name, call));
     }
 
-    void run()
-    {
-        for(auto test_class: classes)
-            test_class.second();
-    }
+    void run();
 
 private:
-    using test_classes = std::map<std::string, void (*)()>;
+	using filter_type = std::unordered_set<std::string>;
+	using test_class = std::pair<std::string, void(*)(const filter_type &)>;
+    using test_classes = std::vector<test_class>;
     test_classes classes;
+	filter_type filter_classes;
+	filter_type filter_functions;
+
+private:
+    test_classes::const_iterator find_test_class(const std::string &tc_name) const;
+	filter_type extract_filter(std::vector<std::string> &args, const std::string &filter_command);
 };
 
 }
