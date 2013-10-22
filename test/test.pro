@@ -12,3 +12,6 @@ HEADERS += \
 SOURCES += \
     abstract_test.cpp \
     test_app.cpp
+
+OTHER_FILES += \
+    junit.xsd
