@@ -136,6 +136,15 @@ void test_cpp_db_class::test_parameter()
 	TEST_EQUAL(cpp_db::statement("select count(*) from TEST_TABLE where COL1=? and COL2=?", *con.get()).execute_scalar(99, "Unknown").get_value<int64_t>(), 3);
 }
 
+void test_cpp_db_class::test_named_parameter()
+{
+	cpp_db::statement stmt("select count(*) from TEST_TABLE where COL1=@COL1 and COL2=@COL2", *con.get());
+	cpp_db::parameters params(stmt.get_parameters());
+	params.bind(cpp_db::parameter("@COL1", 99));
+	params.bind(cpp_db::parameter("@COL2", "Unknown"));
+	TEST_EQUAL(stmt.execute_scalar().get_value<int64_t>(), 3);
+}
+
 void test_cpp_db_class::test_transaction_commit()
 {
 	cpp_db::transaction tran(*con.get());
