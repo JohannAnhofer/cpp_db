@@ -22,7 +22,7 @@ public:
 
 private:
 	using filter_type = std::unordered_set<std::string>;
-	using test_class = std::pair<std::string, void(*)(const filter_type &)>;
+    using test_class = std::pair<std::string, void(*)(const filter_type &, std::ostream *, bool)>;
     using test_classes = std::vector<test_class>;
 
     test_classes classes;
@@ -31,12 +31,20 @@ private:
 
 private:
 	bool help_requested, junit_requested;
+    std::ostream *output;
+    bool tiny_mode;
 };
 
 template<typename T>
 void test_app::add_test_class(const std::string &class_name)
 {
-	auto call = [](const filter_type &filter){T tc; tc(filter); };
+    auto call = [](const filter_type &filter, std::ostream *output_to, bool show_tiny)
+                {
+                    T tc;
+                    tc.set_test_stream(output_to);
+                    tc.set_tiny_mode(show_tiny);
+                    tc(filter);
+                };
 	classes.push_back(std::make_pair(class_name, call));
 }
 
