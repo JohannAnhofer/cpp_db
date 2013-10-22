@@ -16,11 +16,7 @@ public:
     test_app(int argc, char *argv[]);
 
     template<typename T>
-    void add_test_class(const std::string &class_name)
-    {
-		auto call = [](const filter_type &filter){T tc; tc(filter); };
-        classes.push_back(std::make_pair(class_name, call));
-    }
+	void add_test_class(const std::string &class_name);
 
     void run();
 
@@ -28,14 +24,21 @@ private:
 	using filter_type = std::unordered_set<std::string>;
 	using test_class = std::pair<std::string, void(*)(const filter_type &)>;
     using test_classes = std::vector<test_class>;
+
     test_classes classes;
 	filter_type filter_classes;
 	filter_type filter_functions;
 
 private:
-    test_classes::const_iterator find_test_class(const std::string &tc_name) const;
-	filter_type extract_filter(std::vector<std::string> &args, const std::string &filter_command);
+	bool help_requested, junit_requested;
 };
+
+template<typename T>
+void test_app::add_test_class(const std::string &class_name)
+{
+	auto call = [](const filter_type &filter){T tc; tc(filter); };
+	classes.push_back(std::make_pair(class_name, call));
+}
 
 }
 
