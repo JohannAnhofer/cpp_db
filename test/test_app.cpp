@@ -59,7 +59,7 @@ void test_app::run()
 			{
 				if (filter_classes.empty() || (filter_classes.find(tc.first) != std::end(filter_classes)))
                 {
-                    tc.second(filter_functions, output, tiny_mode);
+                    tc.second();
                     tc_count++;
                 }
             }
