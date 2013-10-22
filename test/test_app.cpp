@@ -23,7 +23,7 @@ static const char ARG_SHORT_JUNIT_OUTPUT[] = "-j";
 static stringlist::const_iterator locate_command(const stringlist &args, const std::string &command, const std::string &short_command);
 static bool contains(const stringlist &args, const std::string &command, const std::string &short_command);
 static void show_usage();
-static filter_type extract_filter(stringlist &args, const std::string &filter_command, const std::string &short_filter_command);
+static filter_type extract_filter(const stringlist &args, const std::string &filter_command, const std::string &short_filter_command);
 
 test_app::test_app(int argc, char *argv[])
 	: help_requested(false)
@@ -74,16 +74,14 @@ void show_usage()
 	std::cout << std::endl;
 }
 
-filter_type extract_filter(stringlist &args, const std::string &filter_command, const std::string &short_filter_command)
+filter_type extract_filter(const stringlist &args, const std::string &filter_command, const std::string &short_filter_command)
 {
-	auto start_filter = locate_command(args, filter_command, short_filter_command);
+    auto start_filter = locate_command(args, filter_command, short_filter_command);
     if (start_filter != std::end(args))
     {
         auto start_filter_args = start_filter + 1;
-        auto end_filter = std::find_if(start_filter_args, std::cend(args), [](const std::string &arg){return arg.substr(0,1) == ARG_SHORT_COMMAND_PREFIX;});
-		filter_type result(start_filter_args, end_filter);
-        args.erase(start_filter, end_filter);
-		return result;
+        auto end_filter = std::find_if(start_filter_args, std::end(args), [](const std::string &arg){return arg.substr(0,1) == ARG_SHORT_COMMAND_PREFIX;});
+        return filter_type(start_filter_args, end_filter);
     }
     return filter_type();
 }
