@@ -65,25 +65,6 @@ private:
     bool tiny_output_mode;
 };
 
-template <typename TestClass>
-void run_test(std::ostream &output, bool tiny_mode, TestClass &&test)
-{
-	test.set_tiny_mode(tiny_mode);
-	test.set_test_stream(&output);
-	test();
-}
-
-inline void run_tests(std::ostream &, bool)
-{
-}
-
-template<typename TestClass, typename ...TestClasses>
-void run_tests(std::ostream &output, bool tiny_mode, TestClass &&tc, TestClasses &&...tcs)
-{
-	run_test(output, tiny_mode, tc);
-	run_tests(output, tiny_mode, tcs...);
-}
-
 }
 
 #include "abstract_test.inl"
