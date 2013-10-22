@@ -27,7 +27,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Xsd Include="junit.xsd" />
+    <Xsd Include="junit.xsd">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Xsd>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5F7C81F9-2421-401E-84B2-01BA4B9E31D2}</ProjectGuid>
