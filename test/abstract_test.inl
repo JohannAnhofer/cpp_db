@@ -4,20 +4,17 @@ void test::abstract_test::test_condition(const std::string &name, Callable && ca
 	try
 	{
 		bool result = callable(std::forward(args)...);
-		(result ? success_count : fail_count)++;
-        if (tiny_output_mode)
-            *output << (result ? '.' : 'F');
+        (result ? statistics.success_count : statistics.fail_count)++;
+        if (result)
+            output->output_success(name);
         else
-            *output << (result ? namefor_ok : namefor_nok) << " : " << name << std::endl;
+            output->output_failure(name);
 	}
 	catch (const std::exception &ex)
 	{
-		exception_count++;
-        fail_count++;
-        if (tiny_output_mode)
-            *output << 'E';
-        else
-            *output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
+        statistics.exception_count++;
+        statistics.fail_count++;
+        output->output_exception(ex.what());
 	}
 }
 
@@ -30,13 +27,10 @@ void test::abstract_test::test_equal(TL &&tl, TR &&tr, const std::string &name)
 	}
 	catch (const std::exception &ex)
 	{
-		exception_count++;
-        fail_count++;
-        if (tiny_output_mode)
-            *output << 'E';
-        else
-            *output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
-	}
+        statistics.exception_count++;
+        statistics.fail_count++;
+        output->output_exception(ex.what());
+    }
 }
 
 template<typename TL, typename TR>
@@ -48,13 +42,10 @@ void test::abstract_test::test_not_equal(TL &&tl, TR &&tr, const std::string &na
 	}
 	catch (const std::exception &ex)
 	{
-		exception_count++;
-        fail_count++;
-        if (tiny_output_mode)
-            *output << 'E';
-        else
-            *output << namefor_exception << " : " << name << " : '" << ex.what() << "'" << std::endl;
-	}
+        statistics.exception_count++;
+        statistics.fail_count++;
+        output->output_exception(ex.what());
+    }
 }
 
 template<typename Exception, typename Callable, typename... Args>
@@ -68,8 +59,8 @@ void test::abstract_test::test_for_exception(const std::string &exceptionname, C
 	catch (const Exception &ex)
 	{
 		test_condition(std::string("Expected exception of type '" + exceptionname + "' occured : ") + ex.what(), true);
-        exception_count++;
-        expected_exception_count++;
+        statistics.exception_count++;
+        statistics.expected_exception_count++;
 	}
 }
 
@@ -83,9 +74,8 @@ void test::abstract_test::test_for_no_exception(const std::string &message, Call
 	}
 	catch (const std::exception &ex)
 	{
-		std::stringstream str;
-		str << namefor_exception << " : " << message << " : '" << ex.what() << "'";
-		test_condition(str.str(), false);
-        exception_count++;
+        output->output_exception(ex.what());
+        statistics.fail_count++;
+        statistics.exception_count++;
     }
 }

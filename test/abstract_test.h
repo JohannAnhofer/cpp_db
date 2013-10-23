@@ -1,6 +1,8 @@
 #ifndef TEST_ABSTRACT_TEST_H
 #define TEST_ABSTRACT_TEST_H
 
+#include "test_output.h"
+
 #include <iostream>
 #include <string>
 #include <functional>
@@ -8,6 +10,7 @@
 #include <sstream>
 #include <vector>
 #include <unordered_set>
+#include <memory>
 
 namespace test
 {
@@ -18,11 +21,12 @@ public:
     explicit abstract_test(const std::string &class_name);
 	virtual ~abstract_test() = 0;
 
-	void set_test_stream(std::ostream *os);
-    void set_tiny_mode(bool on);
-
 	void operator()();
     void operator()(const std::unordered_set<std::string> &filter);
+
+    void set_output(const std::shared_ptr<test_output> &poutput);
+
+    test_class_statistics get_statistics() const;
 
 protected:
 	virtual void init_class();
@@ -33,7 +37,6 @@ protected:
 	using test_function = std::function<void()>;
 	void add_test_function(test_function fkt, const std::string &name);
 
-	void test_message(const std::string &msg);
 	void test_condition(const std::string &name, bool cond);
 	template<typename Callable, typename ...Args> void test_condition(const std::string &name, Callable && callable, Args && ...args);
 	template<typename TL, typename TR> void test_equal(TL &&tl, TR &&tr, const std::string &name);
@@ -55,14 +58,12 @@ private:
     void run(const std::unordered_set<std::string> &filter);
 
 private:
-    int function_count, fail_count, success_count, exception_count, expected_exception_count;
-    std::ostream *output;
+    test_class_statistics statistics;
+    std::shared_ptr<test_output> output;
 	using test_function_and_name = std::pair<std::string, test_function>;
 	using test_functions = std::vector< test_function_and_name >;
 	test_functions functions;
-	std::string test_class_name, separator;
-	std::string namefor_ok, namefor_nok, namefor_exception;
-    bool tiny_output_mode;
+    std::string test_class_name;
 };
 
 }
