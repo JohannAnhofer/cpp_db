@@ -43,7 +43,7 @@ void normal_output::end_function(const std::string &, const std::string &functio
 void normal_output::end_class(const std::string &class_name, const test_class_statistics &stats)
 {
     *output << separator << "\n"
-            << "Finished " << class_name << "\n"
+            << "Summary for " << class_name << ":\n"
             << stats.function_count << " test functions called\n"
             << stats.success_count + stats.fail_count << " test cases executed\n"
             << stats.fail_count << " test cases failed\n"
@@ -53,9 +53,16 @@ void normal_output::end_class(const std::string &class_name, const test_class_st
             << separator << "\n";
 }
 
-void normal_output::end(int class_count, const test_class_statistics &)
+void normal_output::end(int class_count, const test_class_statistics &stats)
 {
-    *output << class_count << " classe(s) executed\n"
+    *output << "Summary:\n"
+            << class_count << " classe(s) executed\n"
+            << stats.function_count << " test functions called\n"
+            << stats.success_count + stats.fail_count << " test cases executed\n"
+            << stats.fail_count << " test cases failed\n"
+            << stats.success_count << " test cases succeded\n"
+            << stats.exception_count << " exceptions occured and "
+            << stats.expected_exception_count << " where expected\n"
             << separator << "\n";
 }
 
