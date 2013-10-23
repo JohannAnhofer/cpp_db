@@ -21,7 +21,6 @@ public:
     explicit abstract_test(const std::string &class_name);
 	virtual ~abstract_test() = 0;
 
-	void operator()();
     void operator()(const std::unordered_set<std::string> &filter);
 
     void set_output(const std::shared_ptr<test_output> &poutput);

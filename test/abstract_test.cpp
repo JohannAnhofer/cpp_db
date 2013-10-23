@@ -29,11 +29,6 @@ test_class_statistics abstract_test::get_statistics() const
     return statistics;
 }
 
-void abstract_test::operator()()
-{
-    run(std::unordered_set<std::string>());
-}
-
 void abstract_test::init_class() 
 {
 }
