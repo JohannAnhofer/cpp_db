@@ -16,6 +16,7 @@ tiny_output::tiny_output(std::ostream *output_stream)
 
 void tiny_output::start()
 {
+    *output << "\n";
 }
 
 void tiny_output::start_class(const std::string &)
@@ -32,6 +33,7 @@ void tiny_output::end_function(const std::string &, const std::string &)
 
 void tiny_output::end_class(const std::string &, const test_class_statistics &)
 {
+    *output << "\n";
 }
 
 void tiny_output::end(int, const test_class_statistics &)
