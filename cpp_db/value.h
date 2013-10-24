@@ -36,7 +36,7 @@ namespace cpp_db
 		{
 			if (pholder->get_value_type() == typeid(T))
 				return *reinterpret_cast<T const *>(pholder->get_value());
-			throw std::runtime_error("Invalid value type.");
+            throw std::runtime_error(std::string("Invalid value type (")+pholder->get_value_type().name()+")");
 		}
 
 		template<typename T>
