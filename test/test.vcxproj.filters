@@ -21,12 +21,39 @@
     <ClCompile Include="test_app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="junit_output.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="normal_output.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tiny_output.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test_class_statistics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abstract_test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="test_app.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="junit_output.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="normal_output.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test_output.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tiny_output.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test_class_statistics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
