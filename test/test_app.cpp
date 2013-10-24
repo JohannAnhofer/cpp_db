@@ -14,23 +14,23 @@ namespace test
 using stringlist = std::vector<std::string>;
 using filter_type = std::unordered_set<std::string>;
 
-static const char ARG_COMMAND_PREFIX[] = "--";
-static const char ARG_FILTER_CLASSES_LIST[] = "--classes";
-static const char ARG_FILTER_FUNCTIONS_LIST[] = "--functions";
-static const char ARG_HELP[] = "--help";
-static const char ARG_JUNIT_OUTPUT[] = "--junit";
-static const char ARG_CERR[] = "--cerr";
-static const char ARG_TINY_MODE[] = "--tiny";
-static const char ARG_OUTPUT_TO_FILE[] = "--file";
+static const char arg_command_prefix[] = "--";
+static const char arg_filter_classes_list[] = "--classes";
+static const char arg_filter_functions_list[] = "--functions";
+static const char arg_help[] = "--help";
+static const char arg_junit_output[] = "--junit";
+static const char arg_cerr[] = "--cerr";
+static const char arg_tiny_mode[] = "--tiny";
+static const char arg_output_to_file[] = "--file";
 
-static const char ARG_SHORT_COMMAND_PREFIX[] = "-";
-static const char ARG_SHORT_FILTER_CLASSES_LIST[] = "-c";
-static const char ARG_SHORT_FILTER_FUNCTIONS_LIST[] = "-f";
-static const char ARG_SHORT_HELP[] = "-h";
-static const char ARG_SHORT_JUNIT_OUTPUT[] = "-j";
-static const char ARG_SHORT_CERR[] = "-r";
-static const char ARG_SHORT_TINY_MODE[] = "-t";
-static const char ARG_SHORT_OUTPUT_TO_FILE[] = "-f";
+static const char arg_short_command_prefix[] = "-";
+static const char arg_short_filter_classes_list[] = "-c";
+static const char arg_short_filter_functions_list[] = "-f";
+static const char arg_short_help[] = "-h";
+static const char arg_short_junit_output[] = "-j";
+static const char arg_short_cerr[] = "-r";
+static const char arg_short_tiny_mode[] = "-t";
+static const char arg_short_output_to_file[] = "-f";
 
 static stringlist::const_iterator locate_command(const stringlist &args, const std::string &command, const std::string &short_command);
 static bool contains(const stringlist &args, const std::string &command, const std::string &short_command);
@@ -42,18 +42,18 @@ test_app::test_app(int argc, char *argv[])
 {
     stringlist args(argv + 1, argv + argc);
 
-    help_requested = contains(args, ARG_HELP, ARG_SHORT_HELP);
+    help_requested = contains(args, arg_help, arg_short_help);
 
-	filter_classes = extract_filter(args, ARG_FILTER_CLASSES_LIST, ARG_SHORT_FILTER_CLASSES_LIST);
-	filter_functions = extract_filter(args, ARG_FILTER_FUNCTIONS_LIST, ARG_SHORT_FILTER_FUNCTIONS_LIST);
-    filter_type files = extract_filter(args, ARG_OUTPUT_TO_FILE, ARG_SHORT_OUTPUT_TO_FILE);
+    filter_classes = extract_filter(args, arg_filter_classes_list, arg_short_filter_classes_list);
+    filter_functions = extract_filter(args, arg_filter_functions_list, arg_short_filter_functions_list);
+    filter_type files = extract_filter(args, arg_output_to_file, arg_short_output_to_file);
 
     if (files.size() > 1)
         throw std::runtime_error("Too much files for output!");
 
-    bool junit_requested = contains(args, ARG_JUNIT_OUTPUT, ARG_SHORT_JUNIT_OUTPUT);
-    bool cerr = contains(args, ARG_CERR, ARG_SHORT_CERR);
-    bool use_tiny_mode = contains(args, ARG_TINY_MODE, ARG_SHORT_TINY_MODE);
+    bool junit_requested = contains(args, arg_junit_output, arg_short_junit_output);
+    bool cerr = contains(args, arg_cerr, arg_short_cerr);
+    bool use_tiny_mode = contains(args, arg_tiny_mode, arg_short_tiny_mode);
     std::ostream *output_stream = cerr ? &std::cerr : &std::cout;
 
     if (!files.empty())
@@ -79,19 +79,20 @@ void test_app::run()
         output->start();
 
         int tc_count(0);
-        test_class_statistics stats;
+        test_class_statistics stats_cumulated;
 
 		std::for_each(std::begin(classes), std::end(classes), 
 			[&](const test_class &tc)
 			{
 				if (filter_classes.empty() || (filter_classes.find(tc.first) != std::end(filter_classes)))
                 {
-                    stats += tc.second();
+					test_class_statistics stats_current_test = tc.second();
+					stats_cumulated += stats_current_test;
                     tc_count++;
                 }
             }
 		);
-        output->end(tc_count, stats);
+		output->end(tc_count, stats_cumulated);
     }
 }
 
@@ -125,7 +126,7 @@ filter_type extract_filter(const stringlist &args, const std::string &filter_com
     if (start_filter != std::end(args))
     {
         auto start_filter_args = start_filter + 1;
-        auto end_filter = std::find_if(start_filter_args, std::end(args), [](const std::string &arg){return arg.substr(0,1) == ARG_SHORT_COMMAND_PREFIX;});
+        auto end_filter = std::find_if(start_filter_args, std::end(args), [](const std::string &arg){return arg.substr(0,1) == arg_short_command_prefix;});
         return filter_type(start_filter_args, end_filter);
     }
     return filter_type();
