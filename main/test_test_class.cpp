@@ -2,9 +2,9 @@
 
 void test_test_class::test_test_functions()
 {
-	test_condition("TRUE-Test success", true);
-	test_condition("TRUE-Test failed", false);
-	test_condition("EXCEPTIONS-Test", []() -> bool {throw std::runtime_error("This is a test!"); });
+	test_condition("TRUE-Test success", true, __LINE__, __FILE__);
+	test_condition("TRUE-Test failed", false, __LINE__, __FILE__);
+	test_condition(__LINE__, __FILE__, "EXCEPTIONS-Test", []() -> bool {throw std::runtime_error("This is a test!"); });
 	TEST_VERIFY_RESULT(throw std::runtime_error("This is a test!"));
 	TEST_EQUAL(3, 4711);
 	TEST_EQUAL(4, 4);
