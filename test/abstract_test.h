@@ -37,18 +37,20 @@ protected:
 	using test_function = std::function<void()>;
 	void add_test_function(test_function fkt, const std::string &name);
 
-	void test_condition(const std::string &name, bool cond);
-	template<typename Callable, typename ...Args> void test_condition(const std::string &name, Callable && callable, Args && ...args);
-	template<typename TL, typename TR> void test_equal(TL &&tl, TR &&tr, const std::string &name);
-	template<typename TL, typename TR> void test_not_equal(TL &&tl, TR &&tr, const std::string &name);
-	template<typename Exception, typename Callable, typename... Args> void test_for_exception(const std::string &exceptionname, Callable &&code, Args &&... args);
-	template<typename Callable, typename... Args> void test_for_no_exception(const std::string &message, Callable &&code, Args &&... args);
+	void test_condition(const std::string &name, bool cond, int line = 0, const char *file = nullptr);
+	template<typename Callable, typename ...Args> void test_condition(int line, const char *file, const std::string &name, Callable && callable, Args && ...args);
+	
+	template<typename TL, typename TR> void test_equal(TL &&tl, TR &&tr, const std::string &name, int line = 0, const char *file = nullptr);
+	template<typename TL, typename TR> void test_not_equal(TL &&tl, TR &&tr, const std::string &name, int line = 0, const char *file = nullptr);
+	
+	template<typename Exception, typename Callable, typename... Args> void test_for_exception(int line, const char *file, const std::string &exceptionname, Callable &&code, Args &&... args);
+	template<typename Callable, typename... Args> void test_for_no_exception(int line, const char *file, const std::string &message, Callable &&code, Args &&... args);
 
 	// overloads for character arrays 
-	void test_equal(const char * tl, const char * tr, const std::string &name);
-	void test_equal(const wchar_t * tl, const wchar_t * tr, const std::string &name);
-	void test_not_equal(const char * tl, const char * tr, const std::string &name);
-	void test_not_equal(const wchar_t * tl, const wchar_t * tr, const std::string &name);
+	void test_equal(const char * tl, const char * tr, const std::string &name, int line = 0, const char *file = nullptr);
+	void test_equal(const wchar_t * tl, const wchar_t * tr, const std::string &name, int line = 0, const char *file = nullptr);
+	void test_not_equal(const char * tl, const char * tr, const std::string &name, int line = 0, const char *file = nullptr);
+	void test_not_equal(const wchar_t * tl, const wchar_t * tr, const std::string &name, int line = 0, const char *file = nullptr);
 
 private:
 	void init_class_internal();
@@ -70,12 +72,12 @@ private:
 
 #include "abstract_test.inl"
 
-#define TEST_EQUAL(left, right) test_equal(left, right, #left"=="#right)
-#define TEST_NOT_EQUAL(left, right) test_not_equal(left, right, #left"!="#right)
-#define TEST_VERIFY(cond) test_condition(#cond, cond)
-#define TEST_VERIFY_RESULT(code) test_condition(#code, [&]() -> bool {code;})
-#define TEST_FOR_EXCEPTION(code, excpt) test_for_exception<excpt>(#excpt, [&](){code;})
-#define TEST_FOR_NO_EXCPTION(code) test_for_no_exception(#code, [&](){code;})
+#define TEST_EQUAL(left, right) test_equal(left, right, #left"=="#right, __LINE__, __FILE__)
+#define TEST_NOT_EQUAL(left, right) test_not_equal(left, right, #left"!="#right, __LINE__, __FILE__)
+#define TEST_VERIFY(cond) test_condition(#cond, cond, __LINE__, __FILE__)
+#define TEST_VERIFY_RESULT(code) test_condition(__LINE__, __FILE__, #code, [&]() -> bool {code;})
+#define TEST_FOR_EXCEPTION(code, excpt) test_for_exception<excpt>(__LINE__, __FILE__, #excpt, [&](){code;})
+#define TEST_FOR_NO_EXCPTION(code) test_for_no_exception(__LINE__, __FILE__, #code, [&](){code;})
 
 #define BEGIN_DECLARE_TEST_CLASS(class_name) class_name() : abstract_test(#class_name) {
 #define DECLARE_TEST_FUNCTION(fkt_name) add_test_function([&](){ fkt_name(); }, #fkt_name);
