@@ -12,11 +12,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="abstract_test.cpp" />
+    <ClCompile Include="junit_output.cpp" />
+    <ClCompile Include="normal_output.cpp" />
     <ClCompile Include="test_app.cpp" />
+    <ClCompile Include="test_class_statistics.cpp" />
+    <ClCompile Include="tiny_output.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abstract_test.h" />
+    <ClInclude Include="junit_output.h" />
+    <ClInclude Include="normal_output.h" />
     <ClInclude Include="test_app.h" />
+    <ClInclude Include="test_class_statistics.h" />
+    <ClInclude Include="test_output.h" />
+    <ClInclude Include="tiny_output.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="abstract_test.inl" />

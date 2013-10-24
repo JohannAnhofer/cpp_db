@@ -1,4 +1,5 @@
 #include "junit_output.h"
+#include "test_class_statistics.h"
 
 #include <stdexcept>
 #include <ostream>

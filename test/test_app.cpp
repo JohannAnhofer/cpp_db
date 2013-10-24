@@ -3,6 +3,7 @@
 #include "tiny_output.h"
 #include "normal_output.h"
 #include "junit_output.h"
+#include "test_class_statistics.h"
 
 #include <algorithm>
 #include <sstream>

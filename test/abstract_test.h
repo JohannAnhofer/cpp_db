@@ -2,6 +2,7 @@
 #define TEST_ABSTRACT_TEST_H
 
 #include "test_output.h"
+#include "test_class_statistics.h"
 
 #include <iostream>
 #include <string>
