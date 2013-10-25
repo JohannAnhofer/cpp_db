@@ -27,11 +27,11 @@ void test_tools_class::test_is_null()
     tools::nullable_int d;
     const tools::nullable_int e(10), f;
 
-    test_condition("a is non null: ", !tools::is_null(a) && !a.is_null());
-    test_condition("d is null: ", tools::is_null(d) && d.is_null());
-    test_condition("e is non null: ", !tools::is_null(e) && !e.is_null());
-    test_condition("f is null: ", tools::is_null(f) && f.is_null());
-    test_condition("null is null: ", tools::is_null(tools::nullable_int()) && tools::nullable_int().is_null());
+    TEST_VERIFY(!tools::is_null(a) && !a.is_null());
+    TEST_VERIFY(tools::is_null(d) && d.is_null());
+    TEST_VERIFY(!tools::is_null(e) && !e.is_null());
+    TEST_VERIFY(tools::is_null(f) && f.is_null());
+    TEST_VERIFY(tools::is_null(tools::nullable_int()) && tools::nullable_int().is_null());
 
     tools::null_type null;
     int ai = 13;

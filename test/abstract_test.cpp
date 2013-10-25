@@ -84,15 +84,6 @@ void abstract_test::run(const std::unordered_set<std::string> &filter)
     cleanup_class_internal();
 }
 
-void abstract_test::test_condition(const std::string &name, bool cond, int line, const char *file)
-{
-    (cond ? statistics.success_count : statistics.fail_count)++;
-    if (cond)
-        output->output_success(name, line, file);
-    else
-		output->output_failure(name, line, file);
-}
-
 void abstract_test::init_class_internal()
 {    
     statistics = test_class_statistics();
@@ -120,24 +111,44 @@ void abstract_test::cleanup_internal(const std::string &fkt_name)
     output->end_function(test_class_name, fkt_name);
 }
 
-void abstract_test::test_equal(const char * tl, const char * tr, const std::string &name, int line, const char *file)
+bool abstract_test::compare(const char *left, const char *right)
 {
-	test_condition(name, std::string(tl) == std::string(tr), line, file);
+    return std::string(left) == right;
 }
 
-void abstract_test::test_equal(const wchar_t * tl, const wchar_t * tr, const std::string &name, int line, const char *file)
+bool abstract_test::compare(char * left, char *right)
 {
-	test_condition(name, std::wstring(tl) == std::wstring(tr), line, file);
+    return std::string(left) == right;
 }
 
-void abstract_test::test_not_equal(const char * tl, const char * tr, const std::string &name, int line, const char *file)
+bool abstract_test::compare(const char * left, char *right)
 {
-	test_condition(name, std::string(tl) != std::string(tr), line, file);
+    return std::string(left) == right;
 }
 
-void abstract_test::test_not_equal(const wchar_t * tl, const wchar_t * tr, const std::string &name, int line, const char *file)
+bool abstract_test::compare(char * left, const char *right)
 {
-	test_condition(name, std::wstring(tl) != std::wstring(tr), line, file);
+    return std::string(left) == right;
+}
+
+bool abstract_test::compare(const wchar_t *left, const wchar_t *right)
+{
+    return std::wstring(left) == right;
+}
+
+bool abstract_test::compare(wchar_t * left, wchar_t * right)
+{
+    return std::wstring(left) == right;
+}
+
+bool abstract_test::compare(const wchar_t * left, wchar_t * right)
+{
+    return std::wstring(left) == right;
+}
+
+bool abstract_test::compare(wchar_t * left, const wchar_t * right)
+{
+    return std::wstring(left) == right;
 }
 
 }
