@@ -7,6 +7,7 @@
 #include <typeinfo>
 #include <typeindex>
 #include <stdexcept>
+#include <string>
 
 namespace cpp_db
 {
@@ -43,7 +44,7 @@ namespace cpp_db
 		U cast_to() const
 		{
 			if (pholder->get_value_type() == typeid(T))
-				return static_cast<concrete_holder<T> *>(pholder.get())->cast_to<U>();
+                return static_cast<concrete_holder<T> *>(pholder.get())->template cast_to<U>();
 			throw std::runtime_error(std::string("Invalid value type (") + +typeid(T).name() + std::string(" != ") + pholder->get_value_type().name() + ")");
 		}
 
