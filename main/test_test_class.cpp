@@ -4,7 +4,7 @@ void test_test_class::test_test_functions()
 {
     TEST_VERIFY(true);
     TEST_VERIFY(false);
-    TEST_VERIFY([]() {throw std::runtime_error("This is a test!");return true;}());
+    TEST_VERIFY([]() -> bool {throw std::runtime_error("This is a test!");}());
 	TEST_EQUAL(3, 4711);
 	TEST_EQUAL(4, 4);
 	TEST_NOT_EQUAL(3, 4711);

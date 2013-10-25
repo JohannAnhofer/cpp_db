@@ -89,12 +89,12 @@ void abstract_test::init_class_internal()
     statistics = test_class_statistics();
     output->start_class(test_class_name);
 
-    TEST_FOR_NO_EXCPTION(init_class());
+	TEST_FOR_NO_EXCEPTION(init_class());
 }
 
 void abstract_test::cleanup_class_internal()
 {
-	TEST_FOR_NO_EXCPTION(cleanup_class());
+	TEST_FOR_NO_EXCEPTION(cleanup_class());
 
     output->end_class(test_class_name, statistics);
 }
@@ -102,12 +102,12 @@ void abstract_test::cleanup_class_internal()
 void abstract_test::init_internal(const std::string &fkt_name)
 {
     output->start_function(test_class_name, fkt_name);
-	TEST_FOR_NO_EXCPTION(init());
+	TEST_FOR_NO_EXCEPTION(init());
 }
 
 void abstract_test::cleanup_internal(const std::string &fkt_name)
 {
-	TEST_FOR_NO_EXCPTION(cleanup());
+	TEST_FOR_NO_EXCEPTION(cleanup());
     output->end_function(test_class_name, fkt_name);
 }
 

@@ -36,7 +36,15 @@ namespace cpp_db
 		{
 			if (pholder->get_value_type() == typeid(T))
 				return *reinterpret_cast<T const *>(pholder->get_value());
-            throw std::runtime_error(std::string("Invalid value type (")+pholder->get_value_type().name()+")");
+            throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + pholder->get_value_type().name()+")");
+		}
+
+		template<typename T, typename U>
+		U cast_to() const
+		{
+			if (pholder->get_value_type() == typeid(T))
+				return static_cast<concrete_holder<T> *>(pholder.get())->cast_to<U>();
+			throw std::runtime_error(std::string("Invalid value type (") + +typeid(T).name() + std::string(" != ") + pholder->get_value_type().name() + ")");
 		}
 
 		template<typename T>
@@ -76,6 +84,12 @@ namespace cpp_db
 			concrete_holder *clone() const override
 			{
 				return new concrete_holder(value);
+			}
+
+			template<typename CastType>
+			CastType cast_to() const
+			{
+				return value;
 			}
 
 			ValueType value;

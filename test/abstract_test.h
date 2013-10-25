@@ -75,7 +75,7 @@ private:
 #define TEST_NOT_EQUAL(left, right) test_condition(__LINE__, __FILE__, #left"!="#right, [&]() -> bool {return !compare(left, right);})
 #define TEST_VERIFY(cond) test_condition(__LINE__, __FILE__, #cond, [&]() -> bool {return cond;})
 #define TEST_FOR_EXCEPTION(code, excpt) test_for_exception<excpt>(__LINE__, __FILE__, #excpt, [&](){code;})
-#define TEST_FOR_NO_EXCPTION(code) test_for_no_exception(__LINE__, __FILE__, #code, [&](){code;})
+#define TEST_FOR_NO_EXCEPTION(code) test_for_no_exception(__LINE__, __FILE__, #code, [&](){code;})
 
 #define BEGIN_DECLARE_TEST_CLASS(class_name) class_name() : abstract_test(#class_name) {
 #define DECLARE_TEST_FUNCTION(fkt_name) add_test_function([&](){ fkt_name(); }, #fkt_name);
