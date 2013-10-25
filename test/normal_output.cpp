@@ -75,13 +75,18 @@ void normal_output::output_success(const std::string &message, int, const char *
 
 void normal_output::output_failure(const std::string &message, int line, const char *file)
 {
-    *output << "NOK : " << message << ": (" << line << ") " << file << std::endl;
+    *output << "NOK : " << message;
+    if (file)
+        *output << ": (" << line << ") " << file;
+    *output << std::endl;
 }
 
 void normal_output::output_exception(const std::string &message, int line, const char *file)
 {
-	*output << "EXCEPTION : " << message << ": (" << line << ") " << file << std::endl;
-}
+    *output << "EXCEPTION : " << message;
+    if (file)
+        *output << ": (" << line << ") " << file;
+    *output << std::endl;}
 
 void normal_output::output_message(const std::string &message, int, const char *)
 {
