@@ -29,7 +29,8 @@ HEADERS += \
     statement_interface.h \
     parameters_interface.h \
     result_interface.h \
-    transaction_interface.h
+    transaction_interface.h \
+    value.inl
 
 INCLUDEPATH += \
     $$PWD/../tools \
