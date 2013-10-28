@@ -66,19 +66,19 @@ namespace cpp_db
 			virtual abstract_holder *clone() const = 0;
 		};
 
-		template<typename ValueType>
-		struct concrete_holder : public abstract_holder
-		{
-			explicit concrete_holder(ValueType value_in)
-				: value(value_in)
-				, value_type(typeid(value_in))
-			{
-			}
+        template<typename ValueType>
+        struct concrete_holder : public abstract_holder
+        {
+            explicit concrete_holder(ValueType value_in)
+                : value(value_in)
+                , value_type(typeid(value_in))
+            {
+            }
 
-			void const * get_value() const override
-			{
-				return &value;
-			}
+            void const * get_value() const override
+            {
+                return &value;
+            }
 
 			std::type_index get_value_type() const override
 			{
@@ -112,5 +112,7 @@ namespace cpp_db
 	}
 
 }
+
+#include "value.inl"
 
 #endif
