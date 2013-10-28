@@ -32,6 +32,9 @@ namespace cpp_db
 			return *this;
 		}
 
+        value(value &&) = default;
+        value &operator=(value &&) = default;
+
 		template<typename T>
 		T get_value() const
 		{
