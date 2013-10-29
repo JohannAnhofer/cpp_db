@@ -32,7 +32,7 @@ namespace cpp_db
 			return *this;
 		}
 
-#if _MSC_VER > 1800
+#if !defined(_MSC_VER) || (_MSC_VER > 1800)
         value(value &&) = default;
         value &operator=(value &&) = default;
 #endif
@@ -40,23 +40,23 @@ namespace cpp_db
 		template<typename T>
 		T get_value() const
 		{
-			if (pholder->get_value_type() == typeid(T))
-				return *reinterpret_cast<T const *>(pholder->get_value());
-            throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + pholder->get_value_type().name()+")");
+            if (pholder->get_type() == typeid(T))
+                return *reinterpret_cast<T const *>(pholder->get_value());
+            throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + pholder->get_type().name()+")");
 		}
 
 		template<typename T, typename U>
 		U cast_to() const
 		{
-			if (pholder->get_value_type() == typeid(T))
+			if (pholder->get_type() == typeid(T))
                 return static_cast<concrete_holder<T> *>(pholder.get())->template cast_to<U>();
-			throw std::runtime_error(std::string("Invalid value type (") + +typeid(T).name() + std::string(" != ") + pholder->get_value_type().name() + ")");
+			throw std::runtime_error(std::string("Invalid value type (") + +typeid(T).name() + std::string(" != ") + pholder->get_type().name() + ")");
 		}
 
 		template<typename T>
 		bool has_value_of_type() const
 		{
-			return pholder->get_value_type() == typeid(T);
+			return pholder->get_type() == typeid(T);
 		}
 
 	private:
@@ -64,27 +64,26 @@ namespace cpp_db
 		{
 			virtual ~abstract_holder() {}
 			virtual void const * get_value() const = 0;
-			virtual std::type_index get_value_type() const = 0;
+			virtual std::type_index get_type() const = 0;
 			virtual abstract_holder *clone() const = 0;
 		};
 
-		template<typename ValueType>
-		struct concrete_holder : public abstract_holder
-		{
-			explicit concrete_holder(ValueType value_in)
-				: value(value_in)
-				, value_type(typeid(value_in))
-			{
-			}
+        template<typename ValueType>
+        struct concrete_holder : public abstract_holder
+        {
+            explicit concrete_holder(ValueType value_in)
+                : value(value_in)
+            {
+            }
 
-			void const * get_value() const override
-			{
-				return &value;
-			}
+            void const * get_value() const override
+            {
+                return &value;
+            }
 
-			std::type_index get_value_type() const override
+			std::type_index get_type() const override
 			{
-				return value_type;
+				return typeid(ValueType);
 			}
 
 			concrete_holder *clone() const override
@@ -99,7 +98,6 @@ namespace cpp_db
 			}
 
 			ValueType value;
-			std::type_index value_type;
 		};
 
 		std::unique_ptr<abstract_holder> pholder;
