@@ -20,6 +20,26 @@ namespace cpp_db
 		{
 		}
 
+        value(const char *val)
+            : pholder(new concrete_holder<std::string>(val))
+        {
+        }
+
+        value(char *val)
+            : pholder(new concrete_holder<std::string>(val))
+        {
+        }
+
+        value(const wchar_t *val)
+            : pholder(new concrete_holder<std::wstring>(val))
+        {
+        }
+
+        value(wchar_t *val)
+            : pholder(new concrete_holder<std::wstring>(val))
+        {
+        }
+
 		value(const value  &other)
 			: pholder(other.pholder->clone())
 		{
