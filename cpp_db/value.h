@@ -20,6 +20,26 @@ namespace cpp_db
 		{
 		}
 
+        value(const char *val)
+            : pholder(new concrete_holder<std::string>(val))
+        {
+        }
+
+        value(char *val)
+            : pholder(new concrete_holder<std::string>(val))
+        {
+        }
+
+        value(const wchar_t *val)
+            : pholder(new concrete_holder<std::wstring>(val))
+        {
+        }
+
+        value(wchar_t *val)
+            : pholder(new concrete_holder<std::wstring>(val))
+        {
+        }
+
 		value(const value  &other)
 			: pholder(other.pholder->clone())
 		{
@@ -71,7 +91,6 @@ namespace cpp_db
         {
             explicit concrete_holder(ValueType value_in)
                 : value(value_in)
-                , value_type(typeid(value_in))
             {
             }
 
@@ -82,7 +101,7 @@ namespace cpp_db
 
 			std::type_index get_value_type() const override
 			{
-				return value_type;
+                return typeid(ValueType);
 			}
 
 			concrete_holder *clone() const override
@@ -97,7 +116,6 @@ namespace cpp_db
 			}
 
 			ValueType value;
-			std::type_index value_type;
 		};
 
 		std::unique_ptr<abstract_holder> pholder;
