@@ -32,8 +32,10 @@ namespace cpp_db
 			return *this;
 		}
 
+#if _MSC_VER > 1800
         value(value &&) = default;
         value &operator=(value &&) = default;
+#endif
 
 		template<typename T>
 		T get_value() const
