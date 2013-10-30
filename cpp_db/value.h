@@ -58,31 +58,35 @@ namespace cpp_db
 		template<typename T>
 		T get_value() const
 		{
-			if (pholder->get_value_type() == typeid(T))
+            if (pholder->get_type() == typeid(T))
 				return *reinterpret_cast<T const *>(pholder->get_value());
-            throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + pholder->get_value_type().name()+")");
+            throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + pholder->get_type().name()+")");
 		}
 
 		template<typename T, typename U>
 		U cast_to() const
 		{
-			if (pholder->get_value_type() == typeid(T))
+            if (pholder->get_type() == typeid(T))
                 return static_cast<concrete_holder<T> *>(pholder.get())->template cast_to<U>();
-			throw std::runtime_error(std::string("Invalid value type (") + +typeid(T).name() + std::string(" != ") + pholder->get_value_type().name() + ")");
+            throw std::runtime_error(std::string("Invalid value type (") + +typeid(T).name() + std::string(" != ") + pholder->get_type().name() + ")");
 		}
 
 		template<typename T>
 		bool has_value_of_type() const
 		{
-			return pholder->get_value_type() == typeid(T);
+            return pholder->get_type() == typeid(T);
 		}
 
+        bool operator==(const value &other) const
+        {
+            return *pholder.get() == *other.pholder.get();
+        }
 	private:
 		struct abstract_holder
 		{
 			virtual ~abstract_holder() {}
 			virtual void const * get_value() const = 0;
-			virtual std::type_index get_value_type() const = 0;
+            virtual std::type_index get_type() const = 0;
 			virtual abstract_holder *clone() const = 0;
 		};
 
@@ -99,7 +103,7 @@ namespace cpp_db
                 return &value;
             }
 
-			std::type_index get_value_type() const override
+            std::type_index get_type() const override
 			{
                 return typeid(ValueType);
 			}
@@ -115,14 +119,19 @@ namespace cpp_db
 				return value;
 			}
 
+            friend bool operator==(const abstract_holder &left, const abstract_holder &right)
+            {
+                if (left.get_type() != right.get_type())
+                    return false;
+                else
+                    return *reinterpret_cast<const ValueType*>(left.get_value()) == *reinterpret_cast<const ValueType*>(right.get_value());
+            }
+
 			ValueType value;
 		};
 
 		std::unique_ptr<abstract_holder> pholder;
 	};
-
-    template<>
-    null_type value::get_value<null_type>() const = delete;
 
 	inline bool is_null(const value &data)
 	{
