@@ -56,7 +56,7 @@ void abstract_test::run(const std::unordered_set<std::string> &filter)
         throw std::runtime_error("No output destination defined!");
 
     init_class_internal();
-    for (auto name_and_function : functions)
+    for (const auto &name_and_function : functions)
     {
         if (filter.empty() || (filter.find(name_and_function.first) != std::end(filter)))
         {
