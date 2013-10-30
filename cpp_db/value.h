@@ -79,6 +79,10 @@ namespace cpp_db
 			return pholder->get_type() == typeid(T);
 		}
 
+        bool operator==(const value &other) const
+        {
+            return *pholder.get() == *other.pholder.get();
+        }
 	private:
 		struct abstract_holder
 		{
@@ -117,14 +121,19 @@ namespace cpp_db
 				return value;
 			}
 
+            friend bool operator==(const abstract_holder &left, const abstract_holder &right)
+            {
+                if (left.get_type() != right.get_type())
+                    return false;
+                else
+                    return *reinterpret_cast<const ValueType*>(left.get_value()) == *reinterpret_cast<const ValueType*>(right.get_value());
+            }
+
 			ValueType value;
 		};
 
 		std::unique_ptr<abstract_holder> pholder;
 	};
-
-    template<>
-    null_type value::get_value<null_type>() const = delete;
 
 	inline bool is_null(const value &data)
 	{

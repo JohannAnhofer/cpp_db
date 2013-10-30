@@ -201,5 +201,9 @@ void test_cpp_db_class::test_value()
 	TEST_FOR_NO_EXCEPTION((cpp_db::value(10).cast_to<int, double>()));
 	TEST_FOR_NO_EXCEPTION((cpp_db::value(10.0).cast_to<double, int64_t>()));
 	TEST_FOR_EXCEPTION((cpp_db::value(10).cast_to<double, int64_t>()), std::runtime_error);
-    cpp_db::value(10.0).cast_to<long double, float>();
+    TEST_FOR_EXCEPTION((cpp_db::value(10.0).cast_to<long double, float>()), std::runtime_error);
+    cpp_db::value v1(cpp_db::null_type{});
+    cpp_db::value v2(cpp_db::null_type{});
+    TEST_VERIFY(v2.has_value_of_type<cpp_db::null_type>());
+    TEST_EQUAL(v1, v2);
 }
