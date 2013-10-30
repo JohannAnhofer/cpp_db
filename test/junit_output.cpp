@@ -15,10 +15,15 @@ using timepoint = std::chrono::time_point<std::chrono::system_clock>;
 static std::string get_current_timestamp_iso8601()
 {
 	time_t now = time(0);
-	const tm  tstruct = *localtime(&now);
+#ifdef _MSC_VER
+	tm tm_now;
+	localtime_s(&tm_now, &now);
+#else
+	const tm  tm_now = *localtime(&now);
+#endif 
 	char buf[80];
 
-	if (strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%S", &tstruct))
+	if (strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%S", &tm_now))
 		return buf;
 	else
 		return std::string();
@@ -212,42 +217,30 @@ void junit_output::end_class(const std::string &class_name, const test_class_sta
 	test_suite.errors = stats.exception_count - stats.expected_exception_count;
 }
 
-void junit_output::end(int class_count, const test_class_statistics &stats)
+void junit_output::end(int /*class_count*/, const test_class_statistics &/*stats*/)
 {
 	pimpl->write_xml();
 	pimpl->test_suites.clear();
 	pimpl->current_test_function = nullptr;
-
-    (void)class_count;
-    (void)stats;
 }
 
 void junit_output::output_success(const std::string &message, int line, const char *file)
 {
 	pimpl->add_test_case(std::string(), message, line, file);
-	(void)line;
-    (void)file;
 }
 
 void junit_output::output_failure(const std::string &message, int line, const char *file)
 {
 	pimpl->add_test_case("failure", message, line, file);
-    (void)line;
-    (void)file;
 }
 
 void junit_output::output_exception(const std::string &message, int line, const char *file)
 {
 	pimpl->add_test_case("error", message, line, file);
-    (void)line;
-    (void)file;
 }
 
-void junit_output::output_message(const std::string &message, int line, const char *file)
+void junit_output::output_message(const std::string &/*message*/, int /*line*/, const char * /*file*/)
 {
-    (void)line;
-    (void)file;
-    (void)message;
 }
 
 } // namespace test
