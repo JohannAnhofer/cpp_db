@@ -10,6 +10,7 @@ namespace test
 {
 
 using timepoint = std::chrono::time_point<std::chrono::system_clock>;
+static const char ISO8601_DATE_TIME_FORMAT[] = "%Y-%m-%dT%H:%M:%S";
 
 // Get current date/time, format is ISO8601
 static std::string get_current_timestamp_iso8601()
@@ -23,7 +24,7 @@ static std::string get_current_timestamp_iso8601()
 #endif 
 	char buf[80];
 
-	if (strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%S", &tm_now))
+	if (strftime(buf, sizeof(buf), ISO8601_DATE_TIME_FORMAT, &tm_now))
 		return buf;
 	else
 		return std::string();
@@ -32,6 +33,40 @@ static std::string get_current_timestamp_iso8601()
 static inline double duration_in_seconds(const timepoint &start, const timepoint &end) 
 {
 	return std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / 1000.0;
+}
+
+std::string encode_for_xml(const std::string &raw_input)
+{
+	std::string result;
+
+	for (auto c : raw_input)
+	{
+		switch (c)
+		{
+		case '<':
+			result.append("&lt;");
+			break;
+		case '>':
+			result.append("&gt;");
+			break;
+		case '&':
+			result.append("&amp;");
+			break;
+		case '"':
+			result.append("&quot;");
+			break;
+		case '\'':
+			result.append("&apos;");
+			break;
+		default:
+			if (c < 32 || c >= 127)
+				result.append("&#" + std::to_string(static_cast<unsigned char>(c)) + ";");
+			else
+				result.append(&c, 1);
+			break;
+		}
+	}
+	return result;
 }
 
 struct test_case
@@ -86,7 +121,8 @@ junit_output::impl::impl(std::ostream *output_stream)
 
 void junit_output::impl::write_xml() const
 {
-	*output << "<?xml version = '1.0' encoding = 'ASCII'?>\n"
+	*output << "<?xml version = '1.0'"
+		<< " encoding = '" << "ASCII" << "'?>\n"
 		<< "<testsuites"
 		<< " xmlns:xsi='" << "http://www.w3.org/2001/XMLSchema-instance" << "'"
 		<< " xsi:noNamespaceSchemaLocation='" << "http://windyroad.org/dl/Open%20Source/JUnit.xsd" << "'"
@@ -96,14 +132,14 @@ void junit_output::impl::write_xml() const
 
 	for (const auto &suite_entry : test_suites)
 	{
-		const test_suite &suite = suite_entry.second;
+		const auto &suite = suite_entry.second;
 
 		*output << "\t<testsuite"
 			<< " id='" << id++ << "'"
 			<< " package='" << suite_entry.first << "'"
 			<< " name='" << suite.name << "'"
 			<< " timestamp='" << suite.timestamp << "'"
-			<< " hostname='" << "localhost" << "'"
+			<< " hostname='" << suite.hostname << "'"
 			<< " tests='" << suite.tests << "'"
 			<< " failures='" << suite.failures << "'"
 			<< " errors='" << suite.errors << "'"
@@ -120,7 +156,7 @@ void junit_output::impl::write_xml() const
 			for (const auto &test_case : test_function.test_cases)
 			{
 				*output << "\t\t<testcase"
-					<< " name='test_case_" << tc_count++ << "_line_" << test_case.line << "'"
+					<< " name='" << "test_case_" << tc_count++ << "_line_" << test_case.line << "'"
 					<< " classname='" << test_function.class_name << "::" << test_function.name << "'"
 					<< " time='" << duration_in_seconds(test_case.start, test_case.end) << "'";
 
@@ -130,7 +166,7 @@ void junit_output::impl::write_xml() const
 					*output << " >\n"
 					<< "\t\t\t<" << test_case.failure_type
 					<< " type='" << test_case.failure_type << "'"
-					<< " message='" << test_case.message << "'"
+					<< " message='" << encode_for_xml(test_case.message) << "'"
 					<< " />\n"
 					<< "\t\t</testcase>\n";
 			}
