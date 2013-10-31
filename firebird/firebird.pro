@@ -12,6 +12,14 @@ HEADERS += firebird_driver.h \
 
 INCLUDEPATH += ../cpp_db \
                ../tools \
-               include
 
-LIBS += $$PWD/lib/fbclient_ms.lib
+win32 {
+INCLUDEPATH += include_win_32
+LIBS += $$PWD/lib_win_32/fbclient_ms.lib
+}
+
+macx {
+INCLUDEPATH += include_macosx_64
+LIBS += $$PWD/lib_macosx_64/fbclient_ms.lib
+}
+
