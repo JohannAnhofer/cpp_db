@@ -57,7 +57,7 @@ void normal_output::end_class(const std::string &class_name, const test_class_st
 void normal_output::end(int class_count, const test_class_statistics &stats)
 {
     *output << "Summary:\n"
-            << class_count << " classe(s) executed\n"
+            << class_count << " class" << (class_count > 1 ? "es" : "") << " executed\n"
             << stats.function_count << " test functions called\n"
             << stats.success_count + stats.fail_count << " test cases executed\n"
             << stats.fail_count << " test cases failed\n"
