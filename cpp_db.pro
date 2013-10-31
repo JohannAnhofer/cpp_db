@@ -1,6 +1,7 @@
 
 # dump OS info
 win32:  message(Running under win32)
+win64:  message(Running under win64)
 unix:   message(Running under unix/linux)
 macx:   message(Running under Mac OS X)
 

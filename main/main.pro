@@ -42,7 +42,7 @@ win32 {
                 -L$$OUT_PWD/../firebird/release/ -lfirebird \
                 -L$$OUT_PWD/../test/release/ -ltest \
                 -L$$OUT_PWD/../tools/release/ -ltools \
-                $$PWD/../firebird/lib/fbclient_ms.lib
+                $$PWD/../firebird/lib_win_32/fbclient_ms.lib
 
             PRE_TARGETDEPS += \
                 $$OUT_PWD/../cpp_db/release/libcpp_db.a \
@@ -60,7 +60,7 @@ win32 {
                 -L$$OUT_PWD/../firebird/debug/ -lfirebird \
                 -L$$OUT_PWD/../test/debug/ -ltest \
                 -L$$OUT_PWD/../tools/debug/ -ltools \
-                $$PWD/../firebird/lib/fbclient_ms.lib
+                $$PWD/../firebird/lib_win_32/fbclient_ms.lib
 
             PRE_TARGETDEPS += \
                 $$OUT_PWD/../cpp_db/debug/libcpp_db.a \
@@ -88,5 +88,11 @@ unix {
         -L$$OUT_PWD/../firebird/ -lfirebird \
         -L$$OUT_PWD/../test/ -ltest \
         -L$$OUT_PWD/../tools/  -ltools \
-#                -L$$PWD/../firebird/lib/ -lfbclient
 }
+
+macx {
+    LIBS += -L$$PWD/../firebird/lib_macosx_64/ -lfbclient
+} else: unix {
+#   LIBS += -L$$PWD/../firebird/lib/ -lfbclient
+}
+
