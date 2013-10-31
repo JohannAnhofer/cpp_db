@@ -53,6 +53,11 @@ namespace cpp_db
         }
     }
     
+    firebird_connection::firebird_connection()
+        : db_handle{0}
+    {
+    }
+
     firebird_connection::~firebird_connection()
     {
         try
@@ -79,16 +84,16 @@ namespace cpp_db
         add_option_to_dpb(option_role,      isc_dpb_sql_role_name, options, params);
 
 		ISC_STATUS status[20] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        isc_db_handle db_handle { 0 };
 		isc_attach_database(status, database.length(), database.c_str(), &db_handle, params.size(), params.data());
 		if (has_error(status))
 			throw_firebird_exception(status);
 
-        db.reset(&db_handle, [](isc_db_handle *db)
+        db.reset(&db_handle, [&](isc_db_handle *db)
 			{
 				ISC_STATUS status[20] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
                 isc_detach_database(status, db);
-				if (has_error(status))
+                db_handle = 0;
+                if (has_error(status))
 					throw_firebird_exception(status);
 			}
 		);

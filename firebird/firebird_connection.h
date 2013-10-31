@@ -3,6 +3,8 @@
 
 #include "connection_interface.h"
 
+#include "ibase.h"
+
 #include <memory>
 
 namespace cpp_db
@@ -11,7 +13,8 @@ namespace cpp_db
 	class firebird_connection : public connection_interface
 	{
 	public:
-		~firebird_connection();
+        firebird_connection();
+        ~firebird_connection();
 
         void open(const std::string &database, const key_value_pair & = key_value_pair{}) override;
 		void close() override;
@@ -20,7 +23,8 @@ namespace cpp_db
 
 	private:
 		std::shared_ptr<void> db;
-	};
+        isc_db_handle db_handle;
+    };
 
 }
 
