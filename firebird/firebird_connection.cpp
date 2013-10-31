@@ -7,22 +7,16 @@
 #include <sstream>
 #include <vector>
 #include <cstdint>
-#include <algorithm>
+#include <iterator>
 
 namespace cpp_db
 {
-	firebird_connection::~firebird_connection()
-	{
-		try
-		{
-			db.reset();
-		}
-		catch (...)
-		{
-		}
-	}
+    static const char option_user_name[] = "user";
+    static const char option_password[] = "password";
+    static const char option_encoding[] = "encoding";
+    static const char option_role[] = "role";
 
-	inline bool has_error(ISC_STATUS status[20])
+    static inline bool has_error(ISC_STATUS status[20])
 	{
 		return status[0] == 1 && status[1] > 0;
 	}
@@ -43,10 +37,32 @@ namespace cpp_db
 		throw cpp_db::db_exception(msg.str());
 	}
 
-    static const char option_user_name[] = "user";
-    static const char option_password[] = "password";
-    static const char option_encoding[] = "encoding";
-    static const char option_role[] = "role";
+    static void add_option_to_dpb(const std::string &option_name, ISC_SCHAR dpb_otpion, const key_value_pair& options, std::vector<ISC_SCHAR> &params, const std::string &default_value = std::string{})
+    {
+        auto pos = options.find(option_name);
+        if (pos != std::end(options) || !default_value.empty())
+        {
+            const auto &value = (pos != std::end(options) && !pos->second.empty()) ? pos->second : default_value;
+            uint8_t len = value.size() > 255 ? 255 : value.size();
+
+            params.push_back(dpb_otpion);
+            params.push_back(len);
+            auto end_it = std::begin(value);
+            std::advance(end_it, len);
+            std::copy(std::begin(value), end_it, std::back_inserter(params));
+        }
+    }
+    
+    firebird_connection::~firebird_connection()
+    {
+        try
+        {
+            db.reset();
+        }
+        catch (...)
+        {
+        }
+    }
 
     void firebird_connection::open(const std::string &database, const key_value_pair & options)
 	{
@@ -57,55 +73,21 @@ namespace cpp_db
 
 		params.push_back(isc_dpb_version1);
 
-        auto pos = options.find(option_user_name);
-        if (pos != std::end(options))
-        {
-            const auto &username = pos->second;
-            params.push_back(isc_dpb_user_name);
-            params.push_back(std::min(username.size(), 255u));
-            std::copy(std::begin(username), std::end(username), std::back_inserter(params));
-        }
-
-        pos = options.find(option_password);
-        if (pos != std::end(options))
-        {
-            const auto &password = pos->second;
-            params.push_back(isc_dpb_password);
-            params.push_back(std::min(password.size(), 255u));
-            std::copy(std::begin(password), std::end(password), std::back_inserter(params));
-        }
-
-        std::string encoding("UNICODE_FSS");
-        pos = options.find(option_encoding);
-        if (pos != std::end(options))
-            encoding = pos->second;
-
-        if (!encoding.empty())
-        {
-            params.push_back(isc_dpb_lc_ctype);
-            params.push_back(std::min(encoding.size(), 255u));
-            std::copy(std::begin(encoding), std::end(encoding), std::back_inserter(params));
-        }
-
-        pos = options.find(option_role);
-        if (pos != std::end(options))
-        {
-            const auto &role = pos->second;
-            params.push_back(isc_dpb_sql_role_name);
-			params.push_back(std::min(role.size(), 255u));
-			std::copy(std::begin(role), std::end(role), std::back_inserter(params));
-		}
+        add_option_to_dpb(option_user_name, isc_dpb_user_name,     options, params);
+        add_option_to_dpb(option_password,  isc_dpb_password,      options, params);
+        add_option_to_dpb(option_encoding,  isc_dpb_lc_ctype,      options, params, "UNICODE_FSS");
+        add_option_to_dpb(option_role,      isc_dpb_sql_role_name, options, params);
 
 		ISC_STATUS status[20] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		isc_db_handle db_handle{ nullptr };
+        isc_db_handle db_handle { 0 };
 		isc_attach_database(status, database.length(), database.c_str(), &db_handle, params.size(), params.data());
 		if (has_error(status))
 			throw_firebird_exception(status);
 
-		db.reset(db_handle, [](isc_db_handle db)
+        db.reset(&db_handle, [](isc_db_handle *db)
 			{
 				ISC_STATUS status[20] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-				isc_detach_database(status, &db);
+                isc_detach_database(status, db);
 				if (has_error(status))
 					throw_firebird_exception(status);
 			}
