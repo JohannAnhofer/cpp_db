@@ -88,11 +88,12 @@ unix {
         -L$$OUT_PWD/../firebird/ -lfirebird \
         -L$$OUT_PWD/../test/ -ltest \
         -L$$OUT_PWD/../tools/  -ltools \
+        -ldl
 }
 
 macx {
     LIBS += -L$$PWD/../firebird/lib_macosx_64/ -lfbclient
 } else: unix {
-#   LIBS += -L$$PWD/../firebird/lib/ -lfbclient
+   LIBS += -L$$PWD/../firebird/lib_linux_64/ -lfbclient
 }
 
