@@ -19,7 +19,8 @@ SUBDIRS += sqlite \
            tools \
            cpp_db \
            test \
-           main
+           main \
+    firebird
 
 OTHER_FILES += todo.txt
 
