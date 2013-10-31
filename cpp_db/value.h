@@ -11,6 +11,12 @@
 
 namespace cpp_db
 {
+    template<typename T>
+    std::type_index type_of(T &&value)
+    {
+        return typeid(value);
+    }
+
 	class value
 	{
 	public:
@@ -61,7 +67,7 @@ namespace cpp_db
 		T get_value() const
 		{
             if (pholder->get_type() == typeid(T))
-                return *reinterpret_cast<T const *>(pholder->get_value());
+				return *reinterpret_cast<T const *>(pholder->get_value());
             throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + pholder->get_type().name()+")");
 		}
 
@@ -78,6 +84,16 @@ namespace cpp_db
 		{
 			return pholder->get_type() == typeid(T);
 		}
+
+        friend inline std::type_index type_of(value &&v)
+        {
+            return v.pholder->get_type();
+        }
+
+        friend inline bool is_null(const value &v)
+        {
+            return v.pholder->get_type() == typeid(null_type);
+        }
 
 	private:
 		struct abstract_holder
@@ -122,15 +138,8 @@ namespace cpp_db
 
 		std::unique_ptr<abstract_holder> pholder;
 	};
-
-    template<>
-    null_type value::get_value<null_type>() const = delete;
-
-	inline bool is_null(const value &data)
-	{
-		return data.has_value_of_type<null_type>();
-	}
-
 }
+
+#include "value.inl"
 
 #endif
