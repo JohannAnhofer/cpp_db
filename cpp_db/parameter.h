@@ -78,15 +78,8 @@ namespace cpp_db
 			throw std::runtime_error("Invalid index type for parameter.");
 		}
 
-        friend inline bool is_null(const parameter &arg)
-        {
-            return arg.pholder->get_value_type() == typeid(null_type);
-        }
-
-        friend inline std::type_index type_of(const parameter &arg)
-        {
-            return arg.pholder->get_value_type();
-        }
+		friend bool is_null(const parameter &arg);
+		friend std::type_index type_of(const parameter &arg);
 
 	private:
 		struct abstract_holder
@@ -105,8 +98,6 @@ namespace cpp_db
 			explicit concrete_holder(IndexType index_in, ValueType value_in)
 				: index(index_in)
 				, value(value_in)
-				, index_type(typeid(index_in))
-				, value_type(typeid(value_in))
 			{
 			}
 
@@ -117,7 +108,7 @@ namespace cpp_db
 
             std::type_index get_value_type() const override
 			{
-				return value_type;
+				return typeid(ValueType);
 			}
 
 			void const * get_index() const override
@@ -127,7 +118,7 @@ namespace cpp_db
 
 			std::type_index get_index_type() const override
 			{
-				return index_type;
+				return typeid(IndexType);
 			}
 
 			concrete_holder *clone() const override
@@ -137,11 +128,20 @@ namespace cpp_db
 
 			IndexType index;
 			ValueType value;
-			std::type_index index_type, value_type;
 		};
 
 		std::unique_ptr<abstract_holder> pholder;
 	};
+
+	inline bool is_null(const parameter &arg)
+	{
+		return arg.pholder->get_value_type() == typeid(null_type);
+	}
+
+	inline std::type_index type_of(const parameter &arg)
+	{
+		return arg.pholder->get_value_type();
+	}
 
     template<>
     null_type parameter::get_value<null_type>() const = delete;
