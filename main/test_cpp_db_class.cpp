@@ -48,14 +48,14 @@ void test_cpp_db_class::test_is_null()
 {
 	cpp_db::null_type null;
 
-	TEST_VERIFY(cpp_db::is_null(null));
+    TEST_VERIFY(is_null(null));
 	TEST_VERIFY(!cpp_db::is_null(1));
 
 	cpp_db::value vnull(null);
 	TEST_VERIFY(is_null(vnull));
 
 	cpp_db::parameter pnull(0, null);
-	TEST_VERIFY(is_null(pnull));
+    TEST_VERIFY(is_null(pnull));
 }
 
 void test_cpp_db_class::test_connection()
