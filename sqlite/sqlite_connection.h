@@ -14,7 +14,7 @@ class sqlite_connection : public connection_interface
 public:
     ~sqlite_connection();
 
-    void open(const std::string &database) override;
+    void open(const std::string &database, const key_value_pair & = key_value_pair{}) override;
     void close() override;
     bool is_open() const override;
     handle get_handle() const override;

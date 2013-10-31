@@ -56,7 +56,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../sqlite;../tools;../cpp_db;../test</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../sqlite;../tools;../cpp_db;../test;../firebird</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -75,7 +75,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../sqlite;../tools;../cpp_db;../test</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../sqlite;../tools;../cpp_db;../test;../firebird</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,12 +90,16 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="test_cpp_db_class.cpp" />
+    <ClCompile Include="test_firebird_class.cpp" />
     <ClCompile Include="test_test_class.cpp" />
     <ClCompile Include="test_tools_class.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cpp_db\cpp_db.vcxproj">
       <Project>{5512c29a-99cf-4eb2-906d-04b52c831511}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\firebird\firebird.vcxproj">
+      <Project>{42d716ed-4b66-4504-815e-beaed23d34b2}</Project>
     </ProjectReference>
     <ProjectReference Include="..\sqlite\sqlite.vcxproj">
       <Project>{ed69c9ea-c51a-4262-a525-4ff95b838ba3}</Project>
@@ -109,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="test_cpp_db_class.h" />
+    <ClInclude Include="test_firebird_class.h" />
     <ClInclude Include="test_test_class.h" />
     <ClInclude Include="test_tools_class.h" />
   </ItemGroup>

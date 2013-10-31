@@ -4,9 +4,14 @@ TARGET = firebird
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += firebird_driver.cpp
+SOURCES += firebird_driver.cpp \
+    firebird_connection.cpp
 
-HEADERS += firebird_driver.h
+HEADERS += firebird_driver.h \
+    firebird_connection.h
 
 INCLUDEPATH += ../cpp_db \
-               ../tools
+               ../tools \
+               include
+
+LIBS += $$PWD/lib/fbclient_ms.lib

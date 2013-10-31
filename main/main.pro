@@ -8,12 +8,14 @@ TEMPLATE = app
 HEADERS += \
     test_cpp_db_class.h \
     test_tools_class.h \
-    test_test_class.h
+    test_test_class.h \
+    test_firebird_class.h
 
 SOURCES += main.cpp \
     test_tools_class.cpp \
     test_cpp_db_class.cpp \
-    test_test_class.cpp
+    test_test_class.cpp \
+    test_firebird_class.cpp
 
 INCLUDEPATH += \
     $$PWD/../tools \
@@ -39,12 +41,13 @@ win32 {
                 -L$$OUT_PWD/../sqlite/release/ -lsqlite \
                 -L$$OUT_PWD/../firebird/release/ -lfirebird \
                 -L$$OUT_PWD/../test/release/ -ltest \
-                -L$$OUT_PWD/../tools/release/ -ltools
+                -L$$OUT_PWD/../tools/release/ -ltools \
+                $$PWD/../firebird/lib/fbclient_ms.lib
 
             PRE_TARGETDEPS += \
                 $$OUT_PWD/../cpp_db/release/libcpp_db.a \
                 $$OUT_PWD/../sqlite/release/libsqlite.a \
-                $$OUT_PWD/../sqlite/release/libfirebird.a \
+                $$OUT_PWD/../firebird/release/libfirebird.a \
                 $$OUT_PWD/../test/release/libtest.a \
                 $$OUT_PWD/../tools/release/libtools.a
         }
@@ -56,7 +59,8 @@ win32 {
                 -L$$OUT_PWD/../sqlite/debug/ -lsqlite \
                 -L$$OUT_PWD/../firebird/debug/ -lfirebird \
                 -L$$OUT_PWD/../test/debug/ -ltest \
-                -L$$OUT_PWD/../tools/debug/ -ltools
+                -L$$OUT_PWD/../tools/debug/ -ltools \
+                $$PWD/../firebird/lib/fbclient_ms.lib
 
             PRE_TARGETDEPS += \
                 $$OUT_PWD/../cpp_db/debug/libcpp_db.a \
@@ -73,7 +77,7 @@ unix {
     PRE_TARGETDEPS += \
         $$OUT_PWD/../cpp_db/libcpp_db.a \
         $$OUT_PWD/../sqlite/libsqlite.a \
-        $$OUT_PWD/../sqlite/libfirebird.a \
+        $$OUT_PWD/../firebird/libfirebird.a \
         $$OUT_PWD/../test/libtest.a \
         $$OUT_PWD/../tools/libtools.a
 
@@ -84,5 +88,5 @@ unix {
         -L$$OUT_PWD/../firebird/ -lfirebird \
         -L$$OUT_PWD/../test/ -ltest \
         -L$$OUT_PWD/../tools/  -ltools \
-        -ldl
+#                -L$$PWD/../firebird/lib/ -lfbclient
 }
