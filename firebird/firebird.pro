@@ -5,10 +5,12 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += firebird_driver.cpp \
-    firebird_connection.cpp
+    firebird_connection.cpp \
+    firebird_statement.cpp
 
 HEADERS += firebird_driver.h \
-    firebird_connection.h
+    firebird_connection.h \
+    firebird_statement.h
 
 INCLUDEPATH += ../cpp_db \
                ../tools \
