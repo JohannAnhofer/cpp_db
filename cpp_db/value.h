@@ -2,10 +2,9 @@
 #define CPP_DB_VALUE_H
 
 #include "null.h"
+#include "type_of.h"
 
 #include <memory>
-#include <typeinfo>
-#include <typeindex>
 #include <stdexcept>
 #include <string>
 
@@ -79,7 +78,12 @@ namespace cpp_db
 			return pholder->get_type() == typeid(T);
 		}
 
-        bool operator==(const value &other) const
+        friend inline std::type_index type_of(const value &v)
+        {
+            return v.pholder->get_type();
+        }
+
+        friend inline bool is_null(const value &v)
         {
             return *pholder.get() == *other.pholder.get();
         }
