@@ -21,7 +21,7 @@ public:
 	connection(const connection &other) = delete;
 	connection &operator=(const connection &other) = delete;
 
-	void open(const std::string &database);
+	void open(const std::string &database, const key_value_pair & options = key_value_pair{});
 	void close();
     bool is_open() const;
     handle get_handle() const;

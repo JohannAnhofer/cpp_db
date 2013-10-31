@@ -1,6 +1,6 @@
 #include "firebird_driver.h"
-/*
 #include "firebird_connection.h"
+/*
 #include "firebird_statement.h"
 #include "firebird_parameters.h"
 #include "firebird_result.h"
@@ -21,8 +21,7 @@ namespace cpp_db
 
     connection_interface *firebird_driver::make_connection() const
     {
-        return nullptr;
-//        return new firebird_connection;
+        return new firebird_connection;
     }
 
     statement_interface *firebird_driver::make_statement(const handle &conn_handle) const

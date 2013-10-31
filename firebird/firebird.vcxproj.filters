@@ -18,9 +18,15 @@
     <ClCompile Include="firebird_driver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="firebird_connection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="firebird_driver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="firebird_connection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
