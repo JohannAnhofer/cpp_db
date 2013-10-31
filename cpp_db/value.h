@@ -78,15 +78,9 @@ namespace cpp_db
 			return pholder->get_type() == typeid(T);
 		}
 
-        friend inline std::type_index type_of(const value &v)
-        {
-            return v.pholder->get_type();
-        }
+		friend std::type_index type_of(const value &v);
+		friend bool is_null(const value &v);
 
-        friend inline bool is_null(const value &v)
-        {
-            return *pholder.get() == *other.pholder.get();
-        }
 	private:
 		struct abstract_holder
 		{
@@ -139,9 +133,14 @@ namespace cpp_db
 		std::unique_ptr<abstract_holder> pholder;
 	};
 
-	inline bool is_null(const value &data)
+	inline std::type_index type_of(const value &v)
 	{
-		return data.has_value_of_type<null_type>();
+		return v.pholder->get_type();
+	}
+
+	inline bool is_null(const value &v)
+	{
+		return v.pholder->get_type() == typeid(null_type);
 	}
 
 }
