@@ -30,7 +30,8 @@ HEADERS += \
     parameters_interface.h \
     result_interface.h \
     transaction_interface.h \
-    value.inl
+    value.inl \
+    type_of.h
 
 INCLUDEPATH += \
     $$PWD/../tools \

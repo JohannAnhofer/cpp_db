@@ -2,6 +2,7 @@
 #define CPP_DB_PARAMETER_H
 
 #include "null.h"
+#include "type_of.h"
 
 #include <string>
 #include <memory>
@@ -77,6 +78,16 @@ namespace cpp_db
 			throw std::runtime_error("Invalid index type for parameter.");
 		}
 
+        friend inline bool is_null(const parameter &arg)
+        {
+            return arg.pholder->get_value_type() == typeid(null_type);
+        }
+
+        friend inline std::type_index type_of(const parameter &arg)
+        {
+            return arg.pholder->get_value_type();
+        }
+
 	private:
 		struct abstract_holder
 		{
@@ -134,11 +145,6 @@ namespace cpp_db
 
     template<>
     null_type parameter::get_value<null_type>() const = delete;
-
-	inline bool is_null(const parameter &arg)
-	{
-		return arg.has_value_of_type<null_type>();
-	}
 }
 
 #endif

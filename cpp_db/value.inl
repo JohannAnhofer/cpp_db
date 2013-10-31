@@ -18,7 +18,7 @@ struct value::concrete_holder<null_type> : public abstract_holder
 
     std::type_index get_type() const override
     {
-        throw std::runtime_error("Value is null");
+        return typeid(null_type);
     }
 
     concrete_holder *clone() const override

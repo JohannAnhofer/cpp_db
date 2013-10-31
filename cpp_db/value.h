@@ -2,21 +2,14 @@
 #define CPP_DB_VALUE_H
 
 #include "null.h"
+#include "type_of.h"
 
 #include <memory>
-#include <typeinfo>
-#include <typeindex>
 #include <stdexcept>
 #include <string>
 
 namespace cpp_db
 {
-    template<typename T>
-    std::type_index type_of(T &&value)
-    {
-        return typeid(value);
-    }
-
 	class value
 	{
 	public:
@@ -85,7 +78,7 @@ namespace cpp_db
 			return pholder->get_type() == typeid(T);
 		}
 
-        friend inline std::type_index type_of(value &&v)
+        friend inline std::type_index type_of(const value &v)
         {
             return v.pholder->get_type();
         }
