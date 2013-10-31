@@ -9,6 +9,7 @@
 #include "value.h"
 #include "transaction.h"
 #include "execute.h"
+#include "type_of.h"
 
 #include <cmath>
 
@@ -204,5 +205,6 @@ void test_cpp_db_class::test_value()
     TEST_FOR_EXCEPTION((cpp_db::value(10.0).cast_to<long double, float>()), std::runtime_error);
 
     TEST_EQUAL(cpp_db::type_of(10), typeid(int));
-    TEST_EQUAL(type_of(cpp_db::value{10}), typeid(int));
+    TEST_EQUAL(cpp_db::type_of(cpp_db::value{10}), typeid(int));
+	TEST_EQUAL(cpp_db::type_of(cpp_db::parameter{ 0, 10 }), typeid(int));
 }
