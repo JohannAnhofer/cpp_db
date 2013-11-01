@@ -16,7 +16,7 @@ namespace cpp_db
     static const char option_encoding[] = "encoding";
     static const char option_role[] = "role";
 
-    static inline bool has_error(ISC_STATUS status[20])
+    bool has_error(ISC_STATUS status[20])
 	{
 		return status[0] == 1 && status[1] > 0;
 	}
