@@ -8,3 +8,6 @@
  - Analyse parameters from query string (type, value for outputparaemter)
  - Support output parameters
  - add testcase for named parameters
+ - Query driver for capabilities
+ - transactions can span multiple databases (in firebird)
+ - transactions can have options
