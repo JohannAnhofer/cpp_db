@@ -71,4 +71,9 @@ bool sqlite_transaction::is_open() const
     return open_count > 0;
 }
 
+handle sqlite_transaction::get_handle() const
+{
+    return handle{};
+}
+
 } // namespace cpp_db
