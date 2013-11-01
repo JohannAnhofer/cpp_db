@@ -21,6 +21,7 @@ public:
     void commit() override;
     void rollback() override;
     bool is_open() const override;
+    virtual handle get_handle() const override;
 
 private:
     void execute(const char *sql);
