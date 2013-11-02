@@ -24,10 +24,8 @@ LIBS += $$PWD/lib_win_32/fbclient_ms.lib
 
 macx {
 INCLUDEPATH += include_macosx_64
-LIBS += $$PWD/lib_macosx_64/fbclient_ms.lib
 }
 
 linux-g++ {
 INCLUDEPATH += include_linux_64
-LIBS += $$PWD/lib_linux_64/libfbclient.so
 }
