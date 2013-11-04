@@ -31,7 +31,10 @@ HEADERS += \
     result_interface.h \
     transaction_interface.h \
     value.inl \
-    type_of.h
+    type_of.h \
+    user_password_authentication.h \
+    no_authentication.h \
+    authentication.h
 
 INCLUDEPATH += \
     $$PWD/../tools \

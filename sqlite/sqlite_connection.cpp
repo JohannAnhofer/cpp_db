@@ -18,7 +18,7 @@ sqlite_connection::~sqlite_connection()
     }
 }
 
-void sqlite_connection::open(const std::string &database, const key_value_pair &)
+void sqlite_connection::open(const std::string &database, const authentication &, const key_value_pair &)
 {
     if (is_open())
         throw std::runtime_error("Database already open");
