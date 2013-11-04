@@ -19,9 +19,12 @@ namespace cpp_db
 		void close() override;
 		bool is_open() const override;
 		handle get_handle() const override;
+        void set_current_transaction(const handle &tr) override;
+        handle get_current_transaction() const override;
 
 	private:
         std::shared_ptr<isc_db_handle> db;
+        handle current_transaction;
     };
 
 }
