@@ -84,6 +84,18 @@ namespace cpp_db
 		return std::static_pointer_cast<void>(db);
 	}
 
+    void firebird_connection::set_current_transaction(const handle &tr)
+    {
+        current_transaction = tr;
+    }
+
+    handle firebird_connection::get_current_transaction() const
+    {
+        return current_transaction;
+    }
+
+    // non-members
+
     static void add_value_to_dpb(ISC_SCHAR name, const std::string &value, std::vector<ISC_SCHAR> &params)
     {
         if (uint8_t len = value.size() > 255 ? 255 : value.size())
