@@ -1,5 +1,6 @@
 #include "firebird_connection.h"
 #include "db_exception.h"
+#include "user_password_authentication.h"
 
 #include "ibase.h"
 
@@ -37,19 +38,25 @@ namespace cpp_db
 		throw cpp_db::db_exception(msg.str());
 	}
 
+	static void add_value_to_dpb(ISC_SCHAR name, const std::string &value, std::vector<ISC_SCHAR> &params)
+	{
+		if (uint8_t len = value.size() > 255 ? 255 : value.size())
+		{
+			params.push_back(name);
+			params.push_back(len);
+			auto end_it = std::begin(value);
+			std::advance(end_it, len);
+			std::copy(std::begin(value), end_it, std::back_inserter(params));
+		}
+	}
+
     static void add_option_to_dpb(const std::string &option_name, ISC_SCHAR dpb_otpion, const key_value_pair& options, std::vector<ISC_SCHAR> &params, const std::string &default_value = std::string{})
     {
         auto pos = options.find(option_name);
         if (pos != std::end(options) || !default_value.empty())
         {
             const auto &value = (pos != std::end(options) && !pos->second.empty()) ? pos->second : default_value;
-            uint8_t len = value.size() > 255 ? 255 : value.size();
-
-            params.push_back(dpb_otpion);
-            params.push_back(len);
-            auto end_it = std::begin(value);
-            std::advance(end_it, len);
-            std::copy(std::begin(value), end_it, std::back_inserter(params));
+			add_value_to_dpb(dpb_otpion, value, params);
         }
     }
     
@@ -69,7 +76,7 @@ namespace cpp_db
         }
     }
 
-    void firebird_connection::open(const std::string &database, const key_value_pair & options)
+	void firebird_connection::open(const std::string &database, const authentication &auth, const key_value_pair & options)
 	{
 		if (is_open())
 			throw std::runtime_error("Database already open");
@@ -78,8 +85,16 @@ namespace cpp_db
 
 		params.push_back(isc_dpb_version1);
 
-        add_option_to_dpb(option_user_name, isc_dpb_user_name,     options, params);
-        add_option_to_dpb(option_password,  isc_dpb_password,      options, params);
+		if (const user_password_authentication * upauth = dynamic_cast<const user_password_authentication *>(&auth))
+		{
+			add_value_to_dpb(isc_dpb_user_name, upauth->user_name(), params);
+			add_value_to_dpb(isc_dpb_password, upauth->password(), params);
+		}
+		else
+		{
+			add_option_to_dpb(option_user_name, isc_dpb_user_name, options, params);
+			add_option_to_dpb(option_password, isc_dpb_password, options, params);
+		}
         add_option_to_dpb(option_encoding,  isc_dpb_lc_ctype,      options, params, "UNICODE_FSS");
         add_option_to_dpb(option_role,      isc_dpb_sql_role_name, options, params);
 

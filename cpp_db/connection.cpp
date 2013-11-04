@@ -19,9 +19,9 @@ namespace cpp_db
 	{
 	}
 
-	void connection::open(const std::string &database, const key_value_pair & options)
+	void connection::open(const std::string &database, const authentication &auth, const key_value_pair & options)
 	{
-		conn_impl->open(database, options);
+		conn_impl->open(database, auth, options);
 	}
 
 	void connection::close()

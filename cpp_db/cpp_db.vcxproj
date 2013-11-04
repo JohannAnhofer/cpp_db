@@ -11,10 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="authentication.h" />
     <ClInclude Include="connection.h" />
     <ClInclude Include="db_exception.h" />
     <ClInclude Include="driver.h" />
     <ClInclude Include="execute.h" />
+    <ClInclude Include="no_authentication.h" />
     <ClInclude Include="null.h" />
     <ClInclude Include="parameter.h" />
     <ClInclude Include="parameters.h" />
@@ -22,6 +24,7 @@
     <ClInclude Include="statement.h" />
     <ClInclude Include="statement.inl.h" />
     <ClInclude Include="transaction.h" />
+    <ClInclude Include="user_password_authentication.h" />
     <ClInclude Include="value.h" />
   </ItemGroup>
   <ItemGroup>
