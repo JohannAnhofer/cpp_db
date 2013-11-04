@@ -8,6 +8,8 @@
  - Analyse parameters from query string (type, value for outputparaemter)
  - Support output parameters
  - add testcase for named parameters
- - Query driver for capabilities
+ - Query driver for capabilities (e.g. nested transactions)
  - transactions can span multiple databases (in firebird)
  - transactions can have options
+ - retrieve current transaction from connection ?
+

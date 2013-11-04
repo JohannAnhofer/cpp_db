@@ -41,5 +41,8 @@
     <ClInclude Include="firebird_transaction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="isc_status.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

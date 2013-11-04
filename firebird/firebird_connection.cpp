@@ -1,6 +1,7 @@
 #include "firebird_connection.h"
 #include "db_exception.h"
 #include "user_password_authentication.h"
+#include "isc_status.h"
 
 #include "ibase.h"
 
@@ -17,8 +18,6 @@ namespace cpp_db
     static const char option_encoding[] = "encoding";
     static const char option_role[] = "role";
 
-    bool has_error(ISC_STATUS status[20]);
-    void throw_firebird_exception(ISC_STATUS status[20]);
     static void add_value_to_dpb(ISC_SCHAR name, const std::string &value, std::vector<ISC_SCHAR> &params);
     static void add_option_to_dpb(const std::string &option_name, ISC_SCHAR dpb_otpion, const key_value_pair& options, std::vector<ISC_SCHAR> &params, const std::string &default_value = std::string{});
     
@@ -55,19 +54,17 @@ namespace cpp_db
         add_option_to_dpb(option_encoding,  isc_dpb_lc_ctype,      options, params, "UNICODE_FSS");
         add_option_to_dpb(option_role,      isc_dpb_sql_role_name, options, params);
 
-		ISC_STATUS status[20] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        isc_status status;
 		isc_db_handle *db_handle = new isc_db_handle{ 0 };
-        isc_attach_database(status, database.length(), database.c_str(), db_handle, params.size(), params.data());
-		if (has_error(status))
-			throw_firebird_exception(status);
+        isc_attach_database(static_cast<ISC_STATUS *>(status), database.length(), database.c_str(), db_handle, params.size(), params.data());
+        status.throw_db_exception_on_error();
 
         db.reset(db_handle, [&](isc_db_handle *db)
 			{
-				ISC_STATUS status[20] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-                isc_detach_database(status, db);
-                if (has_error(status))
-					throw_firebird_exception(status);
-				delete db;
+                isc_status status;
+                isc_detach_database(static_cast<ISC_STATUS *>(status), db);
+                delete db;
+                status.throw_db_exception_on_error();
 			}
 		);
 	}
@@ -86,27 +83,6 @@ namespace cpp_db
 	{
 		return std::static_pointer_cast<void>(db);
 	}
-
-    bool has_error(ISC_STATUS status[20])
-    {
-        return status[0] == 1 && status[1] > 0;
-    }
-
-    void throw_firebird_exception(ISC_STATUS status[20])
-    {
-        char message_buffer[512];
-        ISC_LONG sqlcode = isc_sqlcode(status);
-        isc_sql_interprete(static_cast<short>(sqlcode), message_buffer, sizeof(message_buffer) / sizeof(message_buffer[0]));
-
-        std::stringstream msg;
-        msg << message_buffer;
-
-        const ISC_STATUS *pvector = status;
-        while (fb_interpret(message_buffer, sizeof(message_buffer) / sizeof(message_buffer[0]), &pvector))
-            msg << " - " << message_buffer;
-
-        throw cpp_db::db_exception(msg.str());
-    }
 
     static void add_value_to_dpb(ISC_SCHAR name, const std::string &value, std::vector<ISC_SCHAR> &params)
     {

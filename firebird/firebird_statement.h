@@ -12,6 +12,7 @@ class firebird_statement : public statement_interface
 {
 public:
     firebird_statement(const handle &connection);
+	~firebird_statement();
 
     void prepare(const std::string &sqlcmd) override;
     bool is_prepared() const override;
@@ -21,6 +22,9 @@ public:
 
 private:
     std::weak_ptr<isc_db_handle> db;
+	std::shared_ptr<isc_stmt_handle> stmt;
+	std::shared_ptr<isc_tr_handle> tr;
+    bool prepared;
 };
 
 } // namespace cpp_db
