@@ -9,7 +9,6 @@ void throw_firebird_exception(ISC_STATUS status[20]);
 
 firebird_transaction::firebird_transaction(const handle &conn_handle)
     : db{std::static_pointer_cast<isc_db_handle>(conn_handle)}
-    , transaction{0}
 {
     if (db.expired())
         throw db_exception("No database connection!");
@@ -28,7 +27,7 @@ firebird_transaction::~firebird_transaction()
 
 handle firebird_transaction::get_handle() const
 {
-    return tr;
+	return std::static_pointer_cast<void>(tr);
 }
 
 void firebird_transaction::begin()
@@ -36,10 +35,10 @@ void firebird_transaction::begin()
     if (!is_open())
     {
         ISC_STATUS status[20];
-        isc_start_transaction(status, &transaction, 1, 0, 0, 0);
+		tr = std::make_shared<isc_tr_handle>();
+        isc_start_transaction(status, tr.get(), 1, 0, 0, 0);
         if (has_error(status))
             throw_firebird_exception(status);
-        tr.reset(&transaction);
     }
 }
 
@@ -48,11 +47,10 @@ void firebird_transaction::commit()
     if (is_open())
     {
         ISC_STATUS status[20];
-        isc_commit_transaction(status, &transaction);
+        isc_commit_transaction(status, tr.get());
         if (has_error(status))
             throw_firebird_exception(status);
         tr.reset();
-        transaction = 0;
     }
 }
 
@@ -61,17 +59,16 @@ void firebird_transaction::rollback()
     if (is_open())
     {
         ISC_STATUS status[20];
-        isc_rollback_transaction(status, &transaction);
+        isc_rollback_transaction(status, tr.get());
         if (has_error(status))
             throw_firebird_exception(status);
         tr.reset();
-        transaction = 0;
     }
 }
 
 bool firebird_transaction::is_open() const
 {
-    return transaction != 0;
+	return tr != nullptr;
 }
 
 }

@@ -26,7 +26,6 @@ public:
 private:
     std::weak_ptr<isc_db_handle> db;
     std::shared_ptr<isc_tr_handle> tr;
-    isc_tr_handle transaction;
 };
 
 } // namespace cpp_db
