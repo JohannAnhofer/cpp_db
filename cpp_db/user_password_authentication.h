@@ -20,12 +20,12 @@ public:
 	user_password_authentication(const user_password_authentication &) = delete;
 	user_password_authentication &operator = (const user_password_authentication &) = delete;
 
-	std::string user_name() const
+    virtual std::string user_name() const
 	{
 		return user_name_;
 	}
 
-	std::string password() const
+    virtual std::string password() const
 	{
 		return password_;
 	}
