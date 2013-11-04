@@ -13,7 +13,6 @@ namespace cpp_db
 	class firebird_connection : public connection_interface
 	{
 	public:
-        firebird_connection();
 		~firebird_connection();
 
 		void open(const std::string &database, const authentication &auth = no_authentication{}, const key_value_pair & = key_value_pair{}) override;
@@ -22,8 +21,7 @@ namespace cpp_db
 		handle get_handle() const override;
 
 	private:
-		std::shared_ptr<void> db;
-        isc_db_handle db_handle;
+        std::shared_ptr<isc_db_handle> db;
     };
 
 }
