@@ -13,10 +13,14 @@
   <ItemGroup>
     <ClCompile Include="firebird_connection.cpp" />
     <ClCompile Include="firebird_driver.cpp" />
+    <ClCompile Include="firebird_statement.cpp" />
+    <ClCompile Include="firebird_transaction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="firebird_connection.h" />
     <ClInclude Include="firebird_driver.h" />
+    <ClInclude Include="firebird_statement.h" />
+    <ClInclude Include="firebird_transaction.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{42D716ED-4B66-4504-815E-BEAED23D34B2}</ProjectGuid>
