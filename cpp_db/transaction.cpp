@@ -13,6 +13,7 @@ transaction::transaction(const connection &conn)
 {
 	if (!trans_impl)
 		throw std::runtime_error("No transaction object from driver!");
+	begin();
 }
 
 transaction::~transaction()

@@ -12,7 +12,8 @@ SOURCES += firebird_driver.cpp \
 HEADERS += firebird_driver.h \
     firebird_connection.h \
     firebird_statement.h \
-    firebird_transaction.h
+    firebird_transaction.h \
+    isc_status.h
 
 INCLUDEPATH += ../cpp_db \
                ../tools \

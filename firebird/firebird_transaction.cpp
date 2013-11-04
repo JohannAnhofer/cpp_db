@@ -1,5 +1,5 @@
 #include "firebird_transaction.h"
-#include "db_exception.h"
+#include "isc_status.h"
 
 namespace cpp_db
 {
@@ -34,11 +34,10 @@ void firebird_transaction::begin()
 {
     if (!is_open())
     {
-        ISC_STATUS status[20];
+        isc_status status;
 		tr = std::make_shared<isc_tr_handle>();
-        isc_start_transaction(status, tr.get(), 1, 0, 0, 0);
-        if (has_error(status))
-            throw_firebird_exception(status);
+        isc_start_transaction(static_cast<ISC_STATUS *>(status), tr.get(), 1, db.lock().get(), 0, 0);
+        status.throw_db_exception_on_error();
     }
 }
 
@@ -46,10 +45,9 @@ void firebird_transaction::commit()
 {
     if (is_open())
     {
-        ISC_STATUS status[20];
-        isc_commit_transaction(status, tr.get());
-        if (has_error(status))
-            throw_firebird_exception(status);
+        isc_status status;
+        isc_commit_transaction(static_cast<ISC_STATUS *>(status), tr.get());
+        status.throw_db_exception_on_error();
         tr.reset();
     }
 }
@@ -58,10 +56,9 @@ void firebird_transaction::rollback()
 {
     if (is_open())
     {
-        ISC_STATUS status[20];
-        isc_rollback_transaction(status, tr.get());
-        if (has_error(status))
-            throw_firebird_exception(status);
+        isc_status status;
+        isc_rollback_transaction(static_cast<ISC_STATUS *>(status), tr.get());
+        status.throw_db_exception_on_error();
         tr.reset();
     }
 }
