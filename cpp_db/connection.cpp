@@ -19,6 +19,24 @@ namespace cpp_db
 	{
 	}
 
+    connection::connection(connection &&other)
+        : driver_impl(other.driver_impl)
+        , conn_impl(other.conn_impl.release())
+    {
+        other.driver_impl.reset();
+    }
+
+    connection & connection::operator=(connection &&other)
+    {
+        if (this != &other)
+        {
+            driver_impl = other.driver_impl;
+            other.driver_impl.reset();
+            conn_impl.reset(other.conn_impl.release());
+        }
+        return*this;
+    }
+
 	void connection::open(const std::string &database, const authentication &auth, const key_value_pair & options)
 	{
 		conn_impl->open(database, auth, options);

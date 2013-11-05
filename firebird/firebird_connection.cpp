@@ -54,19 +54,20 @@ namespace cpp_db
         add_option_to_dpb(option_encoding,  isc_dpb_lc_ctype,      options, params, "UNICODE_FSS");
         add_option_to_dpb(option_role,      isc_dpb_sql_role_name, options, params);
 
-        isc_status status;
-		isc_db_handle *db_handle = new isc_db_handle{ 0 };
-        isc_attach_database(static_cast<ISC_STATUS *>(status), database.length(), database.c_str(), db_handle, params.size(), params.data());
-        status.throw_db_exception_on_error();
+        std::unique_ptr<isc_db_handle> db_handle(new isc_db_handle{ 0 });
+        guarded_execute([&](ISC_STATUS *status)
+            {
+                isc_attach_database(status, database.length(), database.c_str(), db_handle.get(), params.size(), params.data());
+            }, true);
 
-        db.reset(db_handle, [&](isc_db_handle *db)
+        db.reset(db_handle.release(), [&](isc_db_handle *db)
 			{
-                isc_status status;
-                isc_detach_database(static_cast<ISC_STATUS *>(status), db);
-                delete db;
-                status.throw_db_exception_on_error();
-			}
-		);
+                guarded_execute([&db](ISC_STATUS *status)
+                    {
+                        isc_detach_database(status, db);
+                        delete db;
+                    }, true);
+            });
 	}
 
 	void firebird_connection::close()

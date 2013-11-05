@@ -21,6 +21,9 @@ public:
 	connection(const connection &other) = delete;
 	connection &operator=(const connection &other) = delete;
 
+    connection(connection &&);
+    connection &operator=(connection &&);
+
 	void open(const std::string &database, const authentication &auth = no_authentication{}, const key_value_pair & options = key_value_pair{});
 	void close();
     bool is_open() const;
@@ -29,11 +32,10 @@ public:
 	std::shared_ptr<driver> get_driver() const;
 
     template<typename DriverType>
-    static std::shared_ptr<connection> create()
+    static connection create()
     {
         std::shared_ptr<DriverType> driver(new DriverType);
-        std::shared_ptr<connection> conn(new connection(driver));
-        return conn;
+        return connection(driver);
     }
 
 private:

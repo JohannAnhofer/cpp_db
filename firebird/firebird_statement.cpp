@@ -3,8 +3,13 @@
 
 #include "ibase.h"
 
+#include <functional>
+
 namespace cpp_db
 {
+
+static void rollback(std::shared_ptr<isc_tr_handle> &tr, bool throw_on_fail = false);
+static void commit(std::shared_ptr<isc_tr_handle> &tr, bool throw_on_fail = false);
 
 firebird_statement::firebird_statement(const handle &connection)
     : db(std::static_pointer_cast<isc_db_handle>(connection))
@@ -13,41 +18,29 @@ firebird_statement::firebird_statement(const handle &connection)
 {
     if (db.expired())
         throw db_exception("No database connection for statement!");
-    isc_status status;
-    isc_dsql_allocate_statement(static_cast<ISC_STATUS *>(status), db.lock().get(), stmt.get());
-    status.throw_db_exception_on_error();
+    guarded_execute([this](ISC_STATUS *status){isc_dsql_allocate_statement(status, db.lock().get(), stmt.get());}, true);
 }
 
 firebird_statement::~firebird_statement()
 {
-	isc_status status;
-
-	if (tr != nullptr)
-	{
-        isc_commit_transaction(static_cast<ISC_STATUS *>(status), tr.get());
-		tr.reset();
-		status.dump_on_error();
-	}
-    isc_dsql_free_statement(static_cast<ISC_STATUS *>(status), stmt.get(), DSQL_drop);
-    status.dump_on_error();
+    rollback(tr, false);
+    guarded_execute([this](ISC_STATUS *status){isc_dsql_free_statement(status, stmt.get(), DSQL_drop);}, false);
 }
 
 void firebird_statement::prepare(const std::string &sqlcmd)
 {
-    isc_status status;
-	tr = std::make_shared<isc_tr_handle>();
-	isc_start_transaction(static_cast<ISC_STATUS *>(status), tr.get(), 1, db.lock().get(), 0, 0);
-	status.throw_db_exception_on_error();
+	std::unique_ptr<isc_tr_handle> transaction(new isc_tr_handle{ 0 });
 
-    isc_dsql_prepare(static_cast<ISC_STATUS *>(status), tr.get(), stmt.get(), 0, sqlcmd.c_str(), SQL_DIALECT_CURRENT, 0);
-    if (status.has_error())
-    {
-        isc_status r_status;
-        isc_rollback_transaction(static_cast<ISC_STATUS*>(r_status), tr.get());
-        r_status.dump_on_error();
-        tr.reset();
-    }
-    status.throw_db_exception_on_error();
+	guarded_execute([this, &transaction](ISC_STATUS *status){isc_start_transaction(status, transaction.get(), 1, db.lock().get(), 0, 0); }, true);
+	tr.reset(transaction.release());
+
+    guarded_execute([this, &sqlcmd](ISC_STATUS *status)
+        {
+            isc_dsql_prepare(status, tr.get(), stmt.get(), 0, sqlcmd.c_str(), SQL_DIALECT_CURRENT, 0);
+            if (isc_status::has_error(status))
+                rollback(tr, false);
+        }, true);
+
     prepared = true;
 }
 
@@ -60,16 +53,13 @@ void firebird_statement::execute()
 {
     if (!is_prepared())
         throw db_exception("Statement not prepared!");
-    isc_status status;
-    isc_dsql_execute(static_cast<ISC_STATUS*>(status), tr.get(), stmt.get(), 0, 0);
-    if (status.has_error())
-    {
-        isc_status r_status;
-        isc_rollback_transaction(static_cast<ISC_STATUS*>(r_status), tr.get());
-        r_status.dump_on_error();
-        tr.reset();
-    }
-    status.throw_db_exception_on_error();
+    guarded_execute([this](ISC_STATUS *status)
+        {
+            isc_dsql_execute(status, tr.get(), stmt.get(), 0, 0);
+            if (isc_status::has_error(status))
+                rollback(tr, false);
+        }, true);
+    commit(tr, true);
 }
 
 void firebird_statement::reset()
@@ -79,6 +69,28 @@ void firebird_statement::reset()
 handle firebird_statement::get_handle() const
 {
 	return std::static_pointer_cast<void>(stmt);
+}
+
+// non-members
+static void rollback(std::shared_ptr<isc_tr_handle> &tr, bool throw_on_fail)
+{
+    if (tr != nullptr)
+        guarded_execute([&tr](ISC_STATUS *status)
+            {
+                isc_rollback_transaction(status, tr.get());
+                tr.reset();
+            }, throw_on_fail);
+}
+
+static void commit(std::shared_ptr<isc_tr_handle> &tr, bool throw_on_fail)
+{
+    if (tr != nullptr)
+        guarded_execute([&tr](ISC_STATUS *status)
+            {
+                isc_commit_transaction(status, tr.get());
+                tr.reset();
+            }, throw_on_fail);
+
 }
 
 } // namespace cpp_db

@@ -7,6 +7,7 @@
 
 #include <sstream>
 #include <string>
+#include <functional>
 
 class isc_status
 {
@@ -24,8 +25,14 @@ public:
 
     bool has_error() const
     {
+        return has_error(status);
+    }
+
+    static bool has_error(const ISC_STATUS status[20])
+    {
         return status[0] == 1 && status[1] > 0;
     }
+
     void throw_db_exception_on_error() const
     {
         if (has_error())
@@ -63,5 +70,15 @@ public:
 private:
     ISC_STATUS status[20];
 };
+
+inline void guarded_execute(const std::function<void(ISC_STATUS*)> &function, bool throw_on_fail)
+{
+    isc_status status;
+    function(static_cast<ISC_STATUS *>(status));
+    if (throw_on_fail)
+        status.throw_db_exception_on_error();
+    else
+        status.dump_on_error();
+}
 
 #endif // ISC_STATUS_H
