@@ -7,7 +7,7 @@
 
 void test_firebird_class::init_class()
 {
-	con.reset(new cpp_db::connection(std::make_shared<cpp_db::firebird_driver>()));
+    con.reset(cpp_db::connection::create<cpp_db::firebird_driver>().get());
 	TEST_FOR_NO_EXCEPTION(con->open("arthur.roche.com:/home2/anhoferj/be3_trunk/data/Database/be3db.fdb",  \
 							cpp_db::user_password_authentication{ "SYSDBA", "@mo1di2@" }, \
 							{ { "encoding", "UNICODE_FSS" }, {"role", "admin"} } \

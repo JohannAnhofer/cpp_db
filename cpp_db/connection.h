@@ -16,7 +16,6 @@ struct connection_interface;
 class connection
 {
 public:
-    explicit connection(const std::shared_ptr<driver> &sql_driver);
 	~connection();
 
 	connection(const connection &other) = delete;
@@ -29,7 +28,17 @@ public:
 
 	std::shared_ptr<driver> get_driver() const;
 
+    template<typename DriverType>
+    static std::shared_ptr<connection> create()
+    {
+        std::shared_ptr<DriverType> driver(new DriverType);
+        std::shared_ptr<connection> conn(new connection(driver));
+        return conn;
+    }
+
 private:
+    explicit connection(std::shared_ptr<driver> sql_driver);
+
 	std::shared_ptr<driver> driver_impl;
 	std::unique_ptr<connection_interface> conn_impl;
 };

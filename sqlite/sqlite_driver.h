@@ -6,10 +6,11 @@
 namespace cpp_db
 {
 
+class connection;
+
 class sqlite_driver : public driver
 {
 public:
-	sqlite_driver();
 	virtual ~sqlite_driver();
 
 	connection_interface *make_connection() const override;
@@ -17,6 +18,9 @@ public:
 	parameters_interface *make_parameters(const handle &stmt_handle) const override;
 	result_interface *make_result(const handle &stmt_handle) const override;
 	transaction_interface *make_transaction(const handle &conn_handle) const override;
+private:
+    sqlite_driver();
+    friend class connection;
 };
 
 }
