@@ -7,8 +7,8 @@
 
 namespace cpp_db
 {
-	connection::connection(const std::shared_ptr<driver> &sql_driver)
-		: driver_impl(tools::check_pointer(sql_driver, "No driver object!"))
+    connection::connection(std::shared_ptr<driver> sql_driver)
+        : driver_impl(sql_driver)
 		, conn_impl(sql_driver->make_connection())
     {
 		if (!conn_impl)

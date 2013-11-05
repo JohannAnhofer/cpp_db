@@ -36,7 +36,7 @@ std::ostream &operator<<(std::ostream &output, cpp_db::result &r)
 
 void test_cpp_db_class::init_class()
 {
-    con.reset(new cpp_db::connection(std::make_shared<cpp_db::sqlite_driver>()));
+    con.reset(cpp_db::connection::create<cpp_db::sqlite_driver>().get());
     TEST_FOR_NO_EXCEPTION(con->open(":memory:", cpp_db::no_authentication{}));
 }
 
