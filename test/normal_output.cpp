@@ -77,7 +77,7 @@ void normal_output::output_failure(const std::string &message, int line, const c
 {
     *output << "NOK : " << message;
     if (file)
-        *output << ": (" << line << ") " << file;
+        *output << "\n   Loc: [" << file << "(" << line << ")]";
     *output << std::endl;
 }
 
@@ -85,8 +85,9 @@ void normal_output::output_exception(const std::string &message, int line, const
 {
     *output << "EXCEPTION : " << message;
     if (file)
-        *output << ": (" << line << ") " << file;
-    *output << std::endl;}
+        *output << "\n   Loc: [" << file << "(" << line << ")]";
+    *output << std::endl;
+}
 
 void normal_output::output_message(const std::string &message, int, const char *)
 {
