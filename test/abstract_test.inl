@@ -26,6 +26,12 @@ void test::abstract_test::test_condition(int line, const char *file, const std::
         statistics.fail_count++;
         output->output_exception(ex.what(), line, file);
     }
+    catch(...)
+    {
+        statistics.exception_count++;
+        statistics.fail_count++;
+        output->output_exception("Unknown exception", line, file);
+    }
 }
 
 template<typename Exception, typename Callable, typename... Args>
@@ -44,6 +50,12 @@ void test::abstract_test::test_for_exception(int line, const char *file, const s
         statistics.expected_exception_count++;
         output->output_success(std::string("Expected exception of type '" + exceptionname + "' occured : ") + ex.what(), line, file);
     }
+    catch(...)
+    {
+        statistics.exception_count++;
+        statistics.fail_count++;
+        output->output_exception("Unknown exception", line, file);
+    }
 }
 
 template<typename Callable, typename... Args>
@@ -60,6 +72,12 @@ void test::abstract_test::test_for_no_exception(int line, const char *file, cons
         statistics.fail_count++;
         statistics.exception_count++;
         output->output_exception(ex.what(), line, file);
+    }
+    catch(...)
+    {
+        statistics.exception_count++;
+        statistics.fail_count++;
+        output->output_exception("Unknown exception", line, file);
     }
 }
 
