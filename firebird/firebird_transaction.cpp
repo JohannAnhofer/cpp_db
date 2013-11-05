@@ -34,10 +34,13 @@ void firebird_transaction::begin()
 {
     if (!is_open())
     {
-        isc_status status;
-		tr = std::make_shared<isc_tr_handle>();
-        isc_start_transaction(static_cast<ISC_STATUS *>(status), tr.get(), 1, db.lock().get(), 0, 0);
-        status.throw_db_exception_on_error();
+        guarded_execute([this](ISC_STATUS *status)
+            {
+            std::unique_ptr<isc_tr_handle> transaction(new isc_tr_handle{0});
+                isc_start_transaction(status, transaction.get(), 1, db.lock().get(), 0, 0);
+                if (!isc_status::has_error(status))
+                    tr.reset(transaction.release());
+            }, true);
     }
 }
 
@@ -45,10 +48,11 @@ void firebird_transaction::commit()
 {
     if (is_open())
     {
-        isc_status status;
-        isc_commit_transaction(static_cast<ISC_STATUS *>(status), tr.get());
-        status.throw_db_exception_on_error();
-        tr.reset();
+        guarded_execute([this](ISC_STATUS *status)
+            {
+                isc_commit_transaction(status, tr.get());
+                tr.reset();
+            }, true);
     }
 }
 
@@ -56,10 +60,11 @@ void firebird_transaction::rollback()
 {
     if (is_open())
     {
-        isc_status status;
-        isc_rollback_transaction(static_cast<ISC_STATUS *>(status), tr.get());
-        status.throw_db_exception_on_error();
-        tr.reset();
+        guarded_execute([this](ISC_STATUS *status)
+            {
+                isc_rollback_transaction(status, tr.get());
+                tr.reset();
+            }, true);
     }
 }
 

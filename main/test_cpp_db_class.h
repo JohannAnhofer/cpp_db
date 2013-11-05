@@ -37,7 +37,7 @@ protected:
 	void test_value();
 
 private:
-    std::unique_ptr<cpp_db::connection> con;
+    std::shared_ptr<cpp_db::connection> con;
 };
 
 #endif // TEST_CPP_DB_CLASS_H

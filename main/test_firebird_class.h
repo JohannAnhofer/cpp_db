@@ -17,7 +17,7 @@ protected:
 	void cleanup_class() override;
 
 private:
-	std::unique_ptr<cpp_db::connection> con;
+    std::shared_ptr<cpp_db::connection> con;
 };
 
 #endif // TEST_FIREBIRD_CLASS_H
