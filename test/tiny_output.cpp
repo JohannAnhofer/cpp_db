@@ -50,7 +50,7 @@ void tiny_output::output_failure(const std::string &, int, const char *)
     *output << "F";
 }
 
-void tiny_output::output_exception(const std::string &, int, const char *)
+void tiny_output::output_exception(const std::string &, const std::string &, int, const char *)
 {
     *output << "E";
 }

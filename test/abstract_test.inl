@@ -24,60 +24,60 @@ void test::abstract_test::test_condition(int line, const char *file, const std::
     {
         statistics.exception_count++;
         statistics.fail_count++;
-        output->output_exception(ex.what(), line, file);
+        output->output_exception(name, ex.what(), line, file);
     }
     catch(...)
     {
         statistics.exception_count++;
         statistics.fail_count++;
-        output->output_exception("Unknown exception", line, file);
+        output->output_exception(name, "Unknown exception", line, file);
     }
 }
 
 template<typename Exception, typename Callable, typename... Args>
-void test::abstract_test::test_for_exception(int line, const char *file, const std::string &exceptionname, Callable &&code, Args &&... args)
+void test::abstract_test::test_for_exception(int line, const char *file, const std::string &name, const std::string &exceptionname, Callable &&code, Args &&... args)
 {
 	try
 	{
 		code(std::forward(args)...);
         statistics.fail_count++;
-        output->output_failure("Expected exception of type '" + exceptionname + "' not occured!", line, file);
+        output->output_failure(name + "\n   Expected exception of type '" + exceptionname + "' not occured!", line, file);
 	}
 	catch (const Exception &ex)
 	{
         statistics.success_count++;
         statistics.exception_count++;
         statistics.expected_exception_count++;
-        output->output_success(std::string("Expected exception of type '" + exceptionname + "' occured : ") + ex.what(), line, file);
+        output->output_success(name, line, file);   // expected exception occured
     }
     catch(...)
     {
         statistics.exception_count++;
         statistics.fail_count++;
-        output->output_exception("Unknown exception", line, file);
+        output->output_exception(exceptionname, "Unknown exception", line, file);
     }
 }
 
 template<typename Callable, typename... Args>
-void test::abstract_test::test_for_no_exception(int line, const char *file, const std::string &message, Callable &&code, Args &&... args)
+void test::abstract_test::test_for_no_exception(int line, const char *file, const std::string &name, Callable &&code, Args &&... args)
 {
 	try
 	{
 		code(std::forward(args)...);
         statistics.success_count++;
-        output->output_success(message, line, file);
+        output->output_success(name, line, file);
 	}
 	catch (const std::exception &ex)
 	{
         statistics.fail_count++;
         statistics.exception_count++;
-        output->output_exception(ex.what(), line, file);
+        output->output_exception(name, ex.what(), line, file);
     }
     catch(...)
     {
         statistics.exception_count++;
         statistics.fail_count++;
-        output->output_exception("Unknown exception", line, file);
+        output->output_exception(name, "Unknown exception", line, file);
     }
 }
 

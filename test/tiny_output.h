@@ -22,7 +22,7 @@ public:
 
     void output_success(const std::string &message, int line, const char *file) override;
     void output_failure(const std::string &message, int line, const char *file) override;
-    void output_exception(const std::string &message, int line, const char *file) override;
+    void output_exception(const std::string &message, const std::string &exceptiontext, int line, const char *file) override;
     void output_message(const std::string &message, int line, const char *file) override;
 
 private:

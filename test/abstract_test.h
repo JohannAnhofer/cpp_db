@@ -38,8 +38,8 @@ protected:
 	void add_test_function(test_function fkt, const std::string &name);
 
     template<typename Callable, typename ...Args> void test_condition(int line, const char *file, const std::string &name, Callable && callable, Args && ...args);
-	template<typename Exception, typename Callable, typename... Args> void test_for_exception(int line, const char *file, const std::string &exceptionname, Callable &&code, Args &&... args);
-	template<typename Callable, typename... Args> void test_for_no_exception(int line, const char *file, const std::string &message, Callable &&code, Args &&... args);
+    template<typename Exception, typename Callable, typename... Args> void test_for_exception(int line, const char *file, const std::string &name, const std::string &exceptionname, Callable &&code, Args &&... args);
+    template<typename Callable, typename... Args> void test_for_no_exception(int line, const char *file, const std::string &name, Callable &&code, Args &&... args);
 
     template<typename TL, typename TR> bool compare(TL &&left, TR &&right);
     bool compare(const char *left, const char *right);
@@ -74,7 +74,7 @@ private:
 #define TEST_EQUAL(left, right) test_condition(__LINE__, __FILE__, #left"=="#right, [&]() -> bool {return compare(left, right);})
 #define TEST_NOT_EQUAL(left, right) test_condition(__LINE__, __FILE__, #left"!="#right, [&]() -> bool {return !compare(left, right);})
 #define TEST_VERIFY(cond) test_condition(__LINE__, __FILE__, #cond, [&]() -> bool {return cond;})
-#define TEST_FOR_EXCEPTION(code, excpt) test_for_exception<excpt>(__LINE__, __FILE__, #excpt, [&](){code;})
+#define TEST_FOR_EXCEPTION(code, excpt) test_for_exception<excpt>(__LINE__, __FILE__, #code, #excpt, [&](){code;})
 #define TEST_FOR_NO_EXCEPTION(code) test_for_no_exception(__LINE__, __FILE__, #code, [&](){code;})
 
 #define BEGIN_DECLARE_TEST_CLASS(class_name) class_name() : abstract_test(#class_name) {

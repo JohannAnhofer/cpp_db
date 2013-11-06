@@ -1,10 +1,11 @@
 #include "test_test_class.h"
 
+#include <stdexcept>
+
 void test_test_class::test_test_functions()
 {
     TEST_VERIFY(true);
     TEST_VERIFY(false);
-    TEST_VERIFY([]() -> bool {throw std::runtime_error("This is a test!");}());
 	TEST_EQUAL(3, 4711);
 	TEST_EQUAL(4, 4);
 	TEST_NOT_EQUAL(3, 4711);
@@ -172,6 +173,29 @@ void test_test_class::test_wchar_t_neq_compare()
 	TEST_NOT_EQUAL(lcwpc4, rwa1);
 	TEST_NOT_EQUAL(lcwpc4, rcwa2);
 	TEST_NOT_EQUAL(lcwpc4, rcwp3);
-	TEST_NOT_EQUAL(lcwpc4, rcwpc4);
+    TEST_NOT_EQUAL(lcwpc4, rcwpc4);
+}
+
+void test_test_class::test_exceptions()
+{
+    TEST_VERIFY(true);
+    struct A
+    {
+        explicit A(bool do_throw)
+        {
+            if (do_throw) throw std::runtime_error("This is a test!");
+        }
+        bool operator==(const A &) const
+        {
+            return true;
+        }
+    };
+    TEST_EQUAL(A(false), A(true));
+    TEST_NOT_EQUAL(A(true), A(false));
+    TEST_VERIFY(([]() -> bool {A a(true), b(false); return a == b;}()));
+    TEST_FOR_NO_EXCEPTION(A(true););
+    TEST_FOR_EXCEPTION(A(true);, std::exception);
+    TEST_FOR_EXCEPTION(A(false);, std::exception);
+    TEST_VERIFY(true);
 }
 

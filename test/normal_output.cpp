@@ -81,9 +81,9 @@ void normal_output::output_failure(const std::string &message, int line, const c
     *output << std::endl;
 }
 
-void normal_output::output_exception(const std::string &message, int line, const char *file)
+void normal_output::output_exception(const std::string &message, const std::string &exception_message, int line, const char *file)
 {
-    *output << "EXCEPTION : " << message;
+    *output << "EXCEPTION : " << exception_message << "\n   " << message;
     if (file)
         *output << "\n   Loc: [" << file << "(" << line << ")]";
     *output << std::endl;
