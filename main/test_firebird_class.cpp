@@ -18,6 +18,9 @@ void test_firebird_class::init_class()
     cpp_db::statement stmt("insert into TBL_DEVICE(INSTRUMENT_SERIAL, INSTRUMENT_VERSION, DEV_TYP_ID) VALUES('9180', '2.0', 4)", *con);
     TEST_FOR_NO_EXCEPTION(stmt.execute_non_query());
     TEST_FOR_NO_EXCEPTION(tr.rollback());
+
+    cpp_db::statement stmt1("insert into TBL_DEVICE(INSTRUMENT_SERIAL, INSTRUMENT_VERSION, DEV_TYP_ID) VALUES(?, ?, ?)", *con);
+    TEST_FOR_NO_EXCEPTION(stmt1.get_parameters());
 }
 
 void test_firebird_class::cleanup_class()
