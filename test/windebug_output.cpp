@@ -4,14 +4,16 @@
 
 #if defined(_WIN32) || defined(_WIN64)
 #include "windows.h"
+#endif
 
 static inline void output_string(const std::string &message)
 {
+#if defined(_WIN32) || defined(_WIN64)
     OutputDebugStringA(message.c_str());
-}
-
+#else
+    (void)message;
 #endif
-
+}
 
 namespace test
 {
