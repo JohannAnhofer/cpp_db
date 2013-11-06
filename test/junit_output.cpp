@@ -270,9 +270,9 @@ void junit_output::output_failure(const std::string &message, int line, const ch
 	pimpl->add_test_case("failure", message, line, file);
 }
 
-void junit_output::output_exception(const std::string &message, int line, const char *file)
+void junit_output::output_exception(const std::string &message, const std::string &exception_message, int line, const char *file)
 {
-	pimpl->add_test_case("error", message, line, file);
+    pimpl->add_test_case("error", exception_message + " : " + message, line, file);
 }
 
 void junit_output::output_message(const std::string &/*message*/, int /*line*/, const char * /*file*/)

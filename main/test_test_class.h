@@ -12,6 +12,7 @@ public:
 	DECLARE_TEST_FUNCTION(test_wchar_t_compare)
 	DECLARE_TEST_FUNCTION(test_char_neq_compare)
 	DECLARE_TEST_FUNCTION(test_wchar_t_neq_compare)
+    DECLARE_TEST_FUNCTION(test_exceptions)
 	END_DECLARE_TEST_CLASS()
 protected:
 	void test_test_functions();
@@ -19,6 +20,7 @@ protected:
 	void test_wchar_t_compare();
 	void test_char_neq_compare();
 	void test_wchar_t_neq_compare();
+    void test_exceptions();
 };
 
 #endif
