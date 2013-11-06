@@ -7,13 +7,15 @@ CONFIG += staticlib
 SOURCES += firebird_driver.cpp \
     firebird_connection.cpp \
     firebird_statement.cpp \
-    firebird_transaction.cpp
+    firebird_transaction.cpp \
+    firebird_parameters.cpp
 
 HEADERS += firebird_driver.h \
     firebird_connection.h \
     firebird_statement.h \
     firebird_transaction.h \
-    isc_status.h
+    isc_status.h \
+    firebird_parameters.h
 
 INCLUDEPATH += ../cpp_db \
                ../tools \
