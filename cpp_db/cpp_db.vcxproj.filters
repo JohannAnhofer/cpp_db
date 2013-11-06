@@ -60,6 +60,9 @@
     <ClInclude Include="user_password_authentication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="transaction_scope.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp">

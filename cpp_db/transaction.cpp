@@ -13,11 +13,12 @@ transaction::transaction(const connection &conn)
 {
 	if (!trans_impl)
 		throw std::runtime_error("No transaction object from driver!");
-	begin();
 }
 
 transaction::~transaction()
 {
+    if (trans_impl->is_open())
+        trans_impl->rollback();
 }
 
 void transaction::begin()

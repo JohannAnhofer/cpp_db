@@ -34,7 +34,8 @@ HEADERS += \
     type_of.h \
     user_password_authentication.h \
     no_authentication.h \
-    authentication.h
+    authentication.h \
+    transaction_scope.h
 
 INCLUDEPATH += \
     $$PWD/../tools \

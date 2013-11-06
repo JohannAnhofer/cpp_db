@@ -24,6 +24,7 @@
     <ClInclude Include="statement.h" />
     <ClInclude Include="statement.inl.h" />
     <ClInclude Include="transaction.h" />
+    <ClInclude Include="transaction_scope.h" />
     <ClInclude Include="user_password_authentication.h" />
     <ClInclude Include="value.h" />
   </ItemGroup>
