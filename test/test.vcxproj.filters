@@ -33,6 +33,9 @@
     <ClCompile Include="test_class_statistics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="windebug_output.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abstract_test.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="test_class_statistics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windebug_output.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

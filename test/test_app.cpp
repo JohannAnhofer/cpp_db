@@ -3,6 +3,7 @@
 #include "tiny_output.h"
 #include "normal_output.h"
 #include "junit_output.h"
+#include "windebug_output.h"
 #include "test_class_statistics.h"
 
 #include <algorithm>
@@ -32,6 +33,9 @@ static const char arg_short_cerr[] = "-r";
 static const char arg_short_tiny_mode[] = "-t";
 static const char arg_short_output_to_file[] = "-f";
 
+static const char arg_windebug_mode[] = "--windebug";
+static const char arg_short_windebug_mode[] = "-w";
+
 static stringlist::const_iterator locate_command(const stringlist &args, const std::string &command, const std::string &short_command);
 static bool contains(const stringlist &args, const std::string &command, const std::string &short_command);
 static void show_usage();
@@ -55,6 +59,7 @@ test_app::test_app(int argc, char *argv[])
     bool cerr = contains(args, arg_cerr, arg_short_cerr);
     bool use_tiny_mode = contains(args, arg_tiny_mode, arg_short_tiny_mode);
     std::ostream *output_stream = cerr ? &std::cerr : &std::cout;
+	bool use_win_debug = contains(args, arg_windebug_mode, arg_short_windebug_mode);
 
     if (!files.empty())
     {
@@ -64,7 +69,11 @@ test_app::test_app(int argc, char *argv[])
 
     if (junit_requested)
         output = std::make_shared<junit_output>(output_stream);
-    else if (use_tiny_mode)
+#if defined(_WIN32) || defined(_WIN64)
+	else if (use_win_debug)
+        output = std::make_shared<windebug_output>(false, use_tiny_mode);
+#endif
+	else if (use_tiny_mode)
         output = std::make_shared<tiny_output>(output_stream);
     else
         output = std::make_shared<normal_output>(output_stream);
@@ -117,6 +126,9 @@ void show_usage()
     std::cout << "-r, --cerr        ... send output to standard error\n";
     std::cout << "-t, --tiny        ... show only one character per test case\n";
     std::cout << "-f, --file <name> ... send output to file\n";
+#if defined(_WIN32) || defined(_WIN64)
+	std::cout << "-w, --windebug    ... send output to windows debugger (OutputDebugString)\n";
+#endif
 	std::cout << std::endl;
 }
 

@@ -12,7 +12,8 @@ HEADERS += \
     tiny_output.h \
     normal_output.h \
     junit_output.h \
-    test_class_statistics.h
+    test_class_statistics.h \
+    windebug_output.h
 
 SOURCES += \
     abstract_test.cpp \
@@ -20,7 +21,8 @@ SOURCES += \
     tiny_output.cpp \
     normal_output.cpp \
     junit_output.cpp \
-    test_class_statistics.cpp
+    test_class_statistics.cpp \
+    windebug_output.cpp
 
 OTHER_FILES += \
     junit.xsd
