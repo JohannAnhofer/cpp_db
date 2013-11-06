@@ -26,7 +26,7 @@ namespace cpp_db
 
     statement_interface *firebird_driver::make_statement(const handle &conn_handle) const
     {
-        return new firebird_statement(conn_handle);
+        return new firebird_statement(conn_handle, const_cast<firebird_driver *>(this));
     }
 
     parameters_interface *firebird_driver::make_parameters(const handle &stmt_handle) const
@@ -46,6 +46,16 @@ namespace cpp_db
     transaction_interface *firebird_driver::make_transaction(const handle &conn_handle) const
     {
 		return new firebird_transaction(conn_handle);
+    }
+
+    void firebird_driver::set_current_transaction(const handle &trans_handle)
+    {
+        current_transaction = trans_handle;
+    }
+
+    handle firebird_driver::get_current_transaction() const
+    {
+        return current_transaction.lock();
     }
 
 }
