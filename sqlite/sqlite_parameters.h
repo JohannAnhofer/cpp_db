@@ -16,7 +16,6 @@ class sqlite_parameters : public parameters_interface
 {
 public:
     explicit sqlite_parameters(const handle &stmt);
-    sqlite_parameters();
 
     int get_count() const override;
     void bind(const parameter &param) override;
