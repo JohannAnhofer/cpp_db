@@ -59,7 +59,9 @@ test_app::test_app(int argc, char *argv[])
     bool cerr = contains(args, arg_cerr, arg_short_cerr);
     bool use_tiny_mode = contains(args, arg_tiny_mode, arg_short_tiny_mode);
     std::ostream *output_stream = cerr ? &std::cerr : &std::cout;
-	bool use_win_debug = contains(args, arg_windebug_mode, arg_short_windebug_mode);
+#if defined(_WIN32) || defined(_WIN64)
+    bool use_win_debug = contains(args, arg_windebug_mode, arg_short_windebug_mode);
+#endif
 
     if (!files.empty())
     {
