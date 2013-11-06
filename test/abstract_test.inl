@@ -43,7 +43,7 @@ void test::abstract_test::test_for_exception(int line, const char *file, const s
         statistics.fail_count++;
         output->output_failure(name + "\n   Expected exception of type '" + exceptionname + "' not occured!", line, file);
 	}
-	catch (const Exception &ex)
+	catch (const Exception &)
 	{
         statistics.success_count++;
         statistics.exception_count++;
