@@ -22,6 +22,9 @@ public:
 	virtual parameters_interface *make_parameters(const handle &stmt_handle) const = 0;
 	virtual result_interface *make_result(const handle &stmt_handle) const = 0;
 	virtual transaction_interface *make_transaction(const handle &conn_handle) const = 0;
+
+    virtual void set_current_transaction(const handle &trans_handle) = 0;
+    virtual handle get_current_transaction() const = 0;
 };
 
 }

@@ -55,4 +55,12 @@ namespace cpp_db
 		return new sqlite_transaction(conn_handle);
 	}
 
+    void sqlite_driver::set_current_transaction(const handle &)
+    {
+    }
+
+    handle sqlite_driver::get_current_transaction() const
+    {
+        return handle{};
+    }
 }

@@ -14,7 +14,8 @@ void test_firebird_class::init_class()
 							{ { "encoding", "UNICODE_FSS" }, {"role", "admin"} } \
 						));
     cpp_db::transaction tr(*con);
-    cpp_db::statement stmt("insert into TBL_DEVICE(INSTRUMENT_SERIAL, INSTRUMENT_VERSION, DEV_TYP_ID) VALUES('9180', '13', 4)", *con);
+    TEST_FOR_NO_EXCEPTION(tr.begin());
+    cpp_db::statement stmt("insert into TBL_DEVICE(INSTRUMENT_SERIAL, INSTRUMENT_VERSION, DEV_TYP_ID) VALUES('9180', '2.0', 4)", *con);
     TEST_FOR_NO_EXCEPTION(stmt.execute_non_query());
     TEST_FOR_NO_EXCEPTION(tr.rollback());
 }
