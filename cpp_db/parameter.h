@@ -32,8 +32,24 @@ namespace cpp_db
 
         parameter(const parameter &other) = default;
         parameter &operator=(const parameter &other) = default;
+#ifdef _MSC_VER
+		parameter(parameter &&other)
+			: argument(std::move(other.argument))
+			, index(other.index)
+			, name(std::move(other.name))
+		{
+		}
+
+		parameter &operator=(parameter &&other)
+		{
+			argument = std::move(other.argument);
+			index = other.index;
+			name = std::move(other.name);
+		}
+#else
         parameter(parameter &&other) = default;
         parameter &operator=(parameter &&other) = default;
+#endif
 
 		template<typename T>
 		T get_value() const
