@@ -24,7 +24,7 @@ void test_firebird_class::init_class()
 	cpp_db::parameters params(stmt1.get_parameters());
 	params.bind(cpp_db::parameter(1, "0815-4711"));
 	params.bind(cpp_db::parameter(2, "2.0"));
-	params.bind(cpp_db::parameter(3, "4"));
+	params.bind(cpp_db::parameter(3, 4));
 }
 
 void test_firebird_class::cleanup_class()
