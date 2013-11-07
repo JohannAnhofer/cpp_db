@@ -28,6 +28,46 @@ namespace cpp_db
 		{
 		}
 
+		parameter(int pos, const char *value)
+			: pholder(new concrete_holder<int, std::string>(pos, value))
+		{
+		}
+
+		parameter(std::string name, const char *value)
+			: pholder(new concrete_holder<std::string, std::string>(name, value))
+		{
+		}
+
+		parameter(int pos, char *value)
+			: pholder(new concrete_holder<int, std::string>(pos, value))
+		{
+		}
+
+		parameter(std::string name, char *value)
+			: pholder(new concrete_holder<std::string, std::string>(name, value))
+		{
+		}
+
+		parameter(int pos, const wchar_t *value)
+			: pholder(new concrete_holder<int, std::wstring>(pos, value))
+		{
+		}
+
+		parameter(std::string name, const wchar_t *value)
+			: pholder(new concrete_holder<std::string, std::wstring>(name, value))
+		{
+		}
+
+		parameter(int pos, wchar_t *value)
+			: pholder(new concrete_holder<int, std::wstring>(pos, value))
+		{
+		}
+
+		parameter(std::string name, wchar_t *value)
+			: pholder(new concrete_holder<std::string, std::wstring>(name, value))
+		{
+		}
+
 		parameter(const parameter &other)
 			: pholder(other.pholder->clone())
 		{
