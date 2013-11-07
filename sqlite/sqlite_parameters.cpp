@@ -67,8 +67,7 @@ void sqlite_parameters::bind(const parameter &param)
     }
     else if (param.has_value_of_type<int64_t>())
         sqlite3_bind_int64(stmt.lock().get(), index, param.get_value<int64_t>());
-    else if (param.has_value_of_type<null_type>())
-
+    else if (is_null(param))
         sqlite3_bind_null(stmt.lock().get(), index);
 }
 
