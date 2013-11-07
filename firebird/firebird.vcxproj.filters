@@ -27,6 +27,12 @@
     <ClCompile Include="firebird_transaction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="firebird_parameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xsqlda.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="firebird_driver.h">
@@ -42,6 +48,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="isc_status.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="firebird_parameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xsqlda.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

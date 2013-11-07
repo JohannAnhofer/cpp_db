@@ -13,15 +13,19 @@
   <ItemGroup>
     <ClCompile Include="firebird_connection.cpp" />
     <ClCompile Include="firebird_driver.cpp" />
+    <ClCompile Include="firebird_parameters.cpp" />
     <ClCompile Include="firebird_statement.cpp" />
     <ClCompile Include="firebird_transaction.cpp" />
+    <ClCompile Include="xsqlda.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="firebird_connection.h" />
     <ClInclude Include="firebird_driver.h" />
+    <ClInclude Include="firebird_parameters.h" />
     <ClInclude Include="firebird_statement.h" />
     <ClInclude Include="firebird_transaction.h" />
     <ClInclude Include="isc_status.h" />
+    <ClInclude Include="xsqlda.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{42D716ED-4B66-4504-815E-BEAED23D34B2}</ProjectGuid>

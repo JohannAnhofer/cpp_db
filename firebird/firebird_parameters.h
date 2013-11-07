@@ -3,8 +3,7 @@
 
 #include "parameters_interface.h"
 #include "usings.h"
-
-#include "ibase.h"
+#include "xsqlda.h"
 
 namespace cpp_db
 {
@@ -19,10 +18,9 @@ public:
 
 private:
     int find_param_pos(const std::string &name) const;
-    void allocate_sqlda(int vars_count);
 
     std::weak_ptr<isc_stmt_handle> stmt;
-    std::unique_ptr<XSQLDA, void(*)(void *)> isqlda;
+	xsqlda isqlda;
 };
 
 

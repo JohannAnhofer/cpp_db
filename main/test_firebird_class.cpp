@@ -4,6 +4,7 @@
 #include "connection.h"
 #include "transaction.h"
 #include "statement.h"
+#include "parameters.h"
 
 void test_firebird_class::init_class()
 {
@@ -20,7 +21,10 @@ void test_firebird_class::init_class()
     TEST_FOR_NO_EXCEPTION(tr.rollback());
 
     cpp_db::statement stmt1("insert into TBL_DEVICE(INSTRUMENT_SERIAL, INSTRUMENT_VERSION, DEV_TYP_ID) VALUES(?, ?, ?)", *con);
-    TEST_FOR_NO_EXCEPTION(stmt1.get_parameters());
+	cpp_db::parameters params(stmt1.get_parameters());
+	params.bind(cpp_db::parameter(1, "0815-4711"));
+	params.bind(cpp_db::parameter(2, "2.0"));
+	params.bind(cpp_db::parameter(3, "4"));
 }
 
 void test_firebird_class::cleanup_class()
