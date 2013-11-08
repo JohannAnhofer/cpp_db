@@ -9,7 +9,7 @@ namespace cpp_db
 
 void throw_db_exception(int error_code, sqlite3 *db);
 
-sqlite_transaction::sqlite_transaction(const connection_handle &conn_in)
+sqlite_transaction::sqlite_transaction(const shared_connection_ptr &conn_in)
 	: conn(conn_in)
     , open_count(0)
 {

@@ -17,8 +17,8 @@ struct connection_interface
     virtual void close() = 0;
     virtual bool is_open() const = 0;
     virtual handle get_handle() const = 0;
-    virtual void set_current_transaction(const transaction_handle &trans) = 0;
-    virtual transaction_handle get_current_transaction() const = 0;
+    virtual void set_current_transaction(const shared_transaction_ptr &trans) = 0;
+    virtual shared_transaction_ptr get_current_transaction() const = 0;
 };
 
 }

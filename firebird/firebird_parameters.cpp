@@ -19,7 +19,7 @@ void write_value_to_sql_var(XSQLVAR &var, T value)
 const ISC_SHORT sql_ind_used = 1;
 
 
-firebird_parameters::firebird_parameters(const statement_handle &stmt_in)
+firebird_parameters::firebird_parameters(const shared_statement_ptr &stmt_in)
     : stmt(stmt_in)
 {
     guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, get_statement_handle(), 1, isqlda.get());}, true);

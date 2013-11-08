@@ -10,7 +10,7 @@ namespace cpp_db
 
 void throw_db_exception(int error_code, sqlite3 *db);
 
-sqlite_result::sqlite_result(const statement_handle &stmt_in)
+sqlite_result::sqlite_result(const shared_statement_ptr &stmt_in)
 	: stmt(stmt_in)
     , row_status(SQLITE_DONE)
 {

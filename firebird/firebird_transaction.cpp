@@ -8,7 +8,7 @@ namespace cpp_db
 bool has_error(ISC_STATUS status[20]);
 void throw_firebird_exception(ISC_STATUS status[20]);
 
-firebird_transaction::firebird_transaction(const connection_handle &conn_handle)
+firebird_transaction::firebird_transaction(const shared_connection_ptr &conn_handle)
     : conn_impl{conn_handle}
 {
     if (conn_impl.expired())

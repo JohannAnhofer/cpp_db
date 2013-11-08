@@ -20,7 +20,7 @@ static void delete_object(void *object)
     delete reinterpret_cast<ObjectType *>(object);
 }
 
-sqlite_parameters::sqlite_parameters(const statement_handle &stmt_in)
+sqlite_parameters::sqlite_parameters(const shared_statement_ptr &stmt_in)
 	: stmt(stmt_in)
 {
 }

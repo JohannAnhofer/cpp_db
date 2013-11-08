@@ -14,7 +14,7 @@ namespace cpp_db
 class firebird_statement : public statement_interface
 {
 public:
-    firebird_statement(const connection_handle &connection, transaction_handle trans_in);
+    firebird_statement(const shared_connection_ptr &connection, shared_transaction_ptr trans_in);
 	~firebird_statement();
 
     void prepare(const std::string &sqlcmd) override;

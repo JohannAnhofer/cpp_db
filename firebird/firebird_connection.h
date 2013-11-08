@@ -20,8 +20,8 @@ namespace cpp_db
 		void close() override;
 		bool is_open() const override;
 		handle get_handle() const override;
-        void set_current_transaction(const transaction_handle &trans) override;
-        transaction_handle get_current_transaction() const override;
+        void set_current_transaction(const shared_transaction_ptr &trans) override;
+        shared_transaction_ptr get_current_transaction() const override;
 
 	private:
         firebird_connection();

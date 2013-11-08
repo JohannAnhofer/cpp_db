@@ -14,7 +14,7 @@ namespace cpp_db
 class firebird_transaction : public transaction_interface
 {
 public:
-    firebird_transaction(const connection_handle &conn_handle);
+    firebird_transaction(const shared_connection_ptr &conn_handle);
     ~firebird_transaction();
 
     void begin() override;

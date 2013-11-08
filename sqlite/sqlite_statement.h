@@ -13,7 +13,7 @@ namespace cpp_db
 class sqlite_statement  : public statement_interface
 {
 public:
-    explicit sqlite_statement(const connection_handle &conn_in);
+    explicit sqlite_statement(const shared_connection_ptr &conn_in);
 
     void prepare(const std::string &sqlcmd) override;
     bool is_prepared() const override;

@@ -22,22 +22,22 @@ namespace cpp_db
         return new firebird_connection;
     }
 
-    statement_interface *firebird_driver::make_statement(const connection_handle &conn) const
+    statement_interface *firebird_driver::make_statement(const shared_connection_ptr &conn) const
     {
-        return new firebird_statement(conn, transaction_handle(make_transaction(conn)));
+        return new firebird_statement(conn, shared_transaction_ptr(make_transaction(conn)));
     }
 
-    parameters_interface *firebird_driver::make_parameters(const statement_handle &stmt) const
+    parameters_interface *firebird_driver::make_parameters(const shared_statement_ptr &stmt) const
     {
         return new firebird_parameters(stmt);
     }
 
-    result_interface *firebird_driver::make_result(const statement_handle &stmt) const
+    result_interface *firebird_driver::make_result(const shared_statement_ptr &stmt) const
     {
         return new firebird_result(stmt);
     }
 
-    transaction_interface *firebird_driver::make_transaction(const connection_handle &conn) const
+    transaction_interface *firebird_driver::make_transaction(const shared_connection_ptr &conn) const
     {
         return new firebird_transaction(conn);
     }

@@ -14,7 +14,7 @@ namespace cpp_db
 class firebird_result : public result_interface
 {
 public:
-    firebird_result(const statement_handle &stmt);
+    firebird_result(const shared_statement_ptr &stmt);
 
     void move_next() override;
     void move_prev() override;

@@ -15,7 +15,7 @@ namespace cpp_db
 class sqlite_result : public result_interface
 {
 public:
-    explicit sqlite_result(const statement_handle &stmt_in);
+    explicit sqlite_result(const shared_statement_ptr &stmt_in);
 
     void move_next() override;
     void move_prev() override;
