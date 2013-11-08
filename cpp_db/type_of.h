@@ -4,13 +4,15 @@
 #include <typeinfo>
 #include <typeindex>
 
+#include "cpp11_defines.h"
+
 namespace cpp_db
 {
 
 template<typename T>
-std::type_index type_of(const T &value)
+CONSTEXPR std::type_index type_of(const T &)
 {
-    return typeid(value);
+	return typeid(T);
 }
 
 }
