@@ -7,7 +7,7 @@ namespace cpp_db
 
 void throw_db_exception(int error_code, sqlite3 *db);
 
-sqlite_statement::sqlite_statement(const connection_handle &conn_in)
+sqlite_statement::sqlite_statement(const shared_connection_ptr &conn_in)
 	: conn(conn_in)
     , tail(nullptr)
 {

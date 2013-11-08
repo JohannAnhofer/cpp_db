@@ -6,7 +6,7 @@
 namespace cpp_db
 {
 
-firebird_result::firebird_result(const statement_handle &stmt_in)
+firebird_result::firebird_result(const shared_statement_ptr &stmt_in)
     : stmt(stmt_in)
 {
 }

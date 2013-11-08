@@ -15,7 +15,7 @@ namespace cpp_db
 class sqlite_parameters : public parameters_interface
 {
 public:
-    explicit sqlite_parameters(const statement_handle &stmt);
+    explicit sqlite_parameters(const shared_statement_ptr &stmt);
 
     int get_count() const override;
     void bind(const parameter &param) override;

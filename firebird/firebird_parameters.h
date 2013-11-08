@@ -11,7 +11,7 @@ namespace cpp_db
 class firebird_parameters : public parameters_interface
 {
 public:
-    explicit firebird_parameters(const statement_handle &stmt);
+    explicit firebird_parameters(const shared_statement_ptr &stmt);
 
     int get_count() const override;
     void bind(const parameter &param) override;

@@ -89,12 +89,12 @@ namespace cpp_db
 		return std::static_pointer_cast<void>(db);
 	}
 
-    void firebird_connection::set_current_transaction(const transaction_handle &trans)
+    void firebird_connection::set_current_transaction(const shared_transaction_ptr &trans)
     {
         current_transaction = trans;
     }
 
-    transaction_handle firebird_connection::get_current_transaction() const
+    shared_transaction_ptr firebird_connection::get_current_transaction() const
     {
         return current_transaction.lock();
     }

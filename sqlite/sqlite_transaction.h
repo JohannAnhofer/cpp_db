@@ -14,7 +14,7 @@ namespace cpp_db
 class sqlite_transaction : public transaction_interface
 {
 public:
-    sqlite_transaction(const connection_handle &conn_in);
+    sqlite_transaction(const shared_connection_ptr &conn_in);
     ~sqlite_transaction();
 
     void begin() override;

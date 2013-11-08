@@ -49,12 +49,12 @@ handle sqlite_connection::get_handle() const
     return std::static_pointer_cast<void>(db);
 }
 
-void sqlite_connection::set_current_transaction(const transaction_handle &trans)
+void sqlite_connection::set_current_transaction(const shared_transaction_ptr &trans)
 {
     current_transaction = trans;
 }
 
-transaction_handle sqlite_connection::get_current_transaction() const
+shared_transaction_ptr sqlite_connection::get_current_transaction() const
 {
     return current_transaction.lock();
 }

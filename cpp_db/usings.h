@@ -19,11 +19,11 @@ struct parameters_interface;
 struct result_interface;
 struct transaction_interface;
 
-using connection_handle = std::shared_ptr<connection_interface>;
-using statement_handle = std::shared_ptr<statement_interface>;
-using parameters_handle = std::shared_ptr<parameters_interface>;
-using result_handle = std::shared_ptr<result_interface>;
-using transaction_handle = std::shared_ptr<transaction_interface>;
+using shared_connection_ptr = std::shared_ptr<connection_interface>;
+using shared_statement_ptr = std::shared_ptr<statement_interface>;
+using shared_parameters_ptr = std::shared_ptr<parameters_interface>;
+using shared_result_ptr = std::shared_ptr<result_interface>;
+using shared_transaction_ptr = std::shared_ptr<transaction_interface>;
 
 }
 

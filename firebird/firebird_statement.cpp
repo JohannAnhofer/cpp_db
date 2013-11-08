@@ -12,7 +12,7 @@
 namespace cpp_db
 {
 
-firebird_statement::firebird_statement(const connection_handle &conn, transaction_handle trans)
+firebird_statement::firebird_statement(const shared_connection_ptr &conn, shared_transaction_ptr trans)
     : conn_impl(conn)
     , tr(trans)
 	, stmt(std::make_shared<isc_stmt_handle>())
