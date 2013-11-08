@@ -14,6 +14,7 @@
     <ClCompile Include="firebird_connection.cpp" />
     <ClCompile Include="firebird_driver.cpp" />
     <ClCompile Include="firebird_parameters.cpp" />
+    <ClCompile Include="firebird_result.cpp" />
     <ClCompile Include="firebird_statement.cpp" />
     <ClCompile Include="firebird_transaction.cpp" />
     <ClCompile Include="xsqlda.cpp" />
@@ -22,6 +23,7 @@
     <ClInclude Include="firebird_connection.h" />
     <ClInclude Include="firebird_driver.h" />
     <ClInclude Include="firebird_parameters.h" />
+    <ClInclude Include="firebird_result.h" />
     <ClInclude Include="firebird_statement.h" />
     <ClInclude Include="firebird_transaction.h" />
     <ClInclude Include="isc_status.h" />

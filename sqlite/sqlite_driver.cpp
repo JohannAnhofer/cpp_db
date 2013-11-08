@@ -35,32 +35,23 @@ namespace cpp_db
 		return new sqlite_connection;
 	}
 
-	statement_interface *sqlite_driver::make_statement(const handle &conn_handle) const 
+    statement_interface *sqlite_driver::make_statement(const connection_handle &conn) const
 	{
-		return new sqlite_statement(conn_handle);
+        return new sqlite_statement(conn);
 	}
 
-	parameters_interface *sqlite_driver::make_parameters(const handle &stmt_handle) const
+    parameters_interface *sqlite_driver::make_parameters(const statement_handle &stmt) const
 	{
-		return new sqlite_parameters(stmt_handle);
+        return new sqlite_parameters(stmt);
 	}
 
-	result_interface *sqlite_driver::make_result(const handle &stmt_handle) const
+    result_interface *sqlite_driver::make_result(const statement_handle &stmt) const
 	{
-		return new sqlite_result(stmt_handle);
+        return new sqlite_result(stmt);
 	}
 
-	transaction_interface *sqlite_driver::make_transaction(const handle &conn_handle) const
+    transaction_interface *sqlite_driver::make_transaction(const connection_handle &conn) const
 	{
-		return new sqlite_transaction(conn_handle);
+        return new sqlite_transaction(conn);
 	}
-
-    void sqlite_driver::set_current_transaction(const handle &)
-    {
-    }
-
-    handle sqlite_driver::get_current_transaction() const
-    {
-        return handle{};
-    }
 }

@@ -2,6 +2,7 @@
 #define CPP_DB_FIREBIRD_STATEMENT_H
 
 #include "statement_interface.h"
+#include "usings.h"
 
 #include "ibase.h"
 
@@ -10,12 +11,10 @@
 namespace cpp_db
 {
 
-class driver;
-
 class firebird_statement : public statement_interface
 {
 public:
-    firebird_statement(const handle &connection, driver *current_driver);
+    firebird_statement(const connection_handle &connection, transaction_handle trans_in);
 	~firebird_statement();
 
     void prepare(const std::string &sqlcmd) override;
@@ -25,10 +24,16 @@ public:
     handle get_handle() const override;
 
 private:
-    std::weak_ptr<isc_db_handle> db;
-	std::shared_ptr<isc_stmt_handle> stmt;
-	std::shared_ptr<isc_tr_handle> tr;
-    driver *driver_impl;
+    isc_db_handle *get_db_handle() const;
+    isc_tr_handle *get_current_transaction_handle() const;
+    isc_tr_handle *get_local_transaction_handle() const;
+    bool has_current_transaction() const;
+    bool has_local_transaction() const;
+
+private:    
+    std::weak_ptr<connection_interface> conn_impl;
+    std::shared_ptr<transaction_interface> tr;
+    std::shared_ptr<isc_stmt_handle> stmt;
     bool prepared;
 };
 

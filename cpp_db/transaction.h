@@ -9,6 +9,7 @@ namespace cpp_db
 class connection;
 class driver;
 struct transaction_interface;
+struct connection_interface;
 
 class transaction
 {
@@ -26,8 +27,8 @@ public:
 	bool is_open() const;
 
 private:
-	std::unique_ptr<transaction_interface> trans_impl;
-    std::weak_ptr<driver> driver_impl;
+    std::weak_ptr<connection_interface> conn_impl;
+    std::shared_ptr<transaction_interface> trans_impl;
 };
 
 }

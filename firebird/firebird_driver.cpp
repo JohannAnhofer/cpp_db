@@ -3,9 +3,7 @@
 #include "firebird_transaction.h"
 #include "firebird_statement.h"
 #include "firebird_parameters.h"
-/*
 #include "firebird_result.h"
-*/
 
 namespace cpp_db
 {
@@ -24,36 +22,23 @@ namespace cpp_db
         return new firebird_connection;
     }
 
-    statement_interface *firebird_driver::make_statement(const handle &conn_handle) const
+    statement_interface *firebird_driver::make_statement(const connection_handle &conn) const
     {
-        return new firebird_statement(conn_handle, const_cast<firebird_driver *>(this));
+        return new firebird_statement(conn, transaction_handle(make_transaction(conn)));
     }
 
-    parameters_interface *firebird_driver::make_parameters(const handle &stmt_handle) const
+    parameters_interface *firebird_driver::make_parameters(const statement_handle &stmt) const
     {
-		return new firebird_parameters(stmt_handle);
+        return new firebird_parameters(stmt);
     }
 
-    result_interface *firebird_driver::make_result(const handle &stmt_handle) const
+    result_interface *firebird_driver::make_result(const statement_handle &stmt) const
     {
-		(void)(void)stmt_handle;
-		return nullptr;
-//		return new firebird_result(stmt_handle);
+        return new firebird_result(stmt);
     }
 
-    transaction_interface *firebird_driver::make_transaction(const handle &conn_handle) const
+    transaction_interface *firebird_driver::make_transaction(const connection_handle &conn) const
     {
-		return new firebird_transaction(conn_handle);
+        return new firebird_transaction(conn);
     }
-
-    void firebird_driver::set_current_transaction(const handle &trans_handle)
-    {
-        current_transaction = trans_handle;
-    }
-
-    handle firebird_driver::get_current_transaction() const
-    {
-        return current_transaction.lock();
-    }
-
 }

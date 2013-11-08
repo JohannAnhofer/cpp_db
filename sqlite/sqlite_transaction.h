@@ -14,7 +14,7 @@ namespace cpp_db
 class sqlite_transaction : public transaction_interface
 {
 public:
-    sqlite_transaction(const handle &conn_handle);
+    sqlite_transaction(const connection_handle &conn_in);
     ~sqlite_transaction();
 
     void begin() override;
@@ -25,8 +25,9 @@ public:
 
 private:
     void execute(const char *sql);
+	sqlite3 *get_db_handle() const;
 
-    std::weak_ptr<sqlite3> db;
+    std::weak_ptr<connection_interface> conn;
     int open_count;
 };
 

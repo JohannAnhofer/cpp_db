@@ -13,7 +13,7 @@ namespace cpp_db
 class sqlite_statement  : public statement_interface
 {
 public:
-    sqlite_statement(const handle &connection);
+    explicit sqlite_statement(const connection_handle &conn_in);
 
     void prepare(const std::string &sqlcmd) override;
     bool is_prepared() const override;
@@ -22,8 +22,11 @@ public:
     handle get_handle() const override;
 
 private:
+	sqlite3 *get_db_handle() const;
+
+private:
     std::shared_ptr<sqlite3_stmt> stmt;
-    std::weak_ptr<sqlite3> db;
+    std::weak_ptr<connection_interface> conn;
     const char *tail;
 };
 

@@ -20,7 +20,11 @@ namespace cpp_db
 
     static void add_value_to_dpb(ISC_SCHAR name, const std::string &value, std::vector<ISC_SCHAR> &params);
     static void add_option_to_dpb(const std::string &option_name, ISC_SCHAR dpb_otpion, const key_value_pair& options, std::vector<ISC_SCHAR> &params, const std::string &default_value = std::string{});
-    
+
+    firebird_connection::firebird_connection()
+    {
+    }
+
     firebird_connection::~firebird_connection()
     {
         try
@@ -85,14 +89,14 @@ namespace cpp_db
 		return std::static_pointer_cast<void>(db);
 	}
 
-    void firebird_connection::set_current_transaction(const handle &tr)
+    void firebird_connection::set_current_transaction(const transaction_handle &trans)
     {
-        current_transaction = tr;
+        current_transaction = trans;
     }
 
-    handle firebird_connection::get_current_transaction() const
+    transaction_handle firebird_connection::get_current_transaction() const
     {
-        return current_transaction;
+        return current_transaction.lock();
     }
 
     // non-members

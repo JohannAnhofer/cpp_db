@@ -1,4 +1,5 @@
 #include "sqlite_result.h"
+#include "statement_interface.h"
 #include "db_exception.h"
 #include "value.h"
 
@@ -9,20 +10,25 @@ namespace cpp_db
 
 void throw_db_exception(int error_code, sqlite3 *db);
 
-sqlite_result::sqlite_result(const std::shared_ptr<void> &stmt_handle)
-    : stmt(std::static_pointer_cast<sqlite3_stmt>(stmt_handle))
+sqlite_result::sqlite_result(const statement_handle &stmt_in)
+	: stmt(stmt_in)
     , row_status(SQLITE_DONE)
 {
     move_next();
     for (int column = 0; column < get_column_count(); ++column)
-        column_names.emplace(sqlite3_column_name(stmt.get(), column), column);
+		column_names.emplace(sqlite3_column_name(get_stmt_handle(), column), column);
+}
+
+sqlite3_stmt *sqlite_result::get_stmt_handle() const
+{
+	return std::static_pointer_cast<sqlite3_stmt>(stmt->get_handle()).get();
 }
 
 void sqlite_result::move_next()
 {
-    row_status = sqlite3_step(stmt.get());
+	row_status = sqlite3_step(get_stmt_handle());
     if (row_status != SQLITE_DONE && row_status != SQLITE_ROW)
-        throw_db_exception(row_status, sqlite3_db_handle(stmt.get()));
+		throw_db_exception(row_status, sqlite3_db_handle(get_stmt_handle()));
 }
 
 void sqlite_result::move_prev()
@@ -32,8 +38,8 @@ void sqlite_result::move_prev()
 
 void sqlite_result::move_first()
 {
-    if (int error_code = sqlite3_reset(stmt.get()))
-        throw_db_exception(error_code, sqlite3_db_handle(stmt.get()));
+	if (int error_code = sqlite3_reset(get_stmt_handle()))
+		throw_db_exception(error_code, sqlite3_db_handle(get_stmt_handle()));
     move_next();
 }
 
@@ -44,12 +50,12 @@ bool sqlite_result::is_eof() const
 
 int sqlite_result::get_column_count() const
 {
-    return sqlite3_column_count(stmt.get());
+	return sqlite3_column_count(get_stmt_handle());
 }
 
 std::string sqlite_result::get_column_name(int column) const
 {
-    if (const char *column_name = sqlite3_column_name(stmt.get(), column))
+	if (const char *column_name = sqlite3_column_name(get_stmt_handle(), column))
         return column_name;
     else
     {
@@ -61,7 +67,7 @@ std::string sqlite_result::get_column_name(int column) const
 
 value sqlite_result::get_column_value(int column) const
 {
-    sqlite3_stmt *pstmt = stmt.get();
+	sqlite3_stmt *pstmt = get_stmt_handle();
 
     switch (sqlite3_column_type(pstmt, column))
     {

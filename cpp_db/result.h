@@ -38,7 +38,7 @@ public:
 	int get_column_index(const std::string &column_name) const;
 
 private:
-	explicit result(const statement &stmt);
+    result();
     friend class statement;
 	std::unique_ptr<result_interface> result_impl;
 };

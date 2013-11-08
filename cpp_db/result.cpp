@@ -8,11 +8,8 @@
 namespace cpp_db
 {
 
-result::result(const statement &stmt)
-	: result_impl(stmt.get_driver()->make_result(stmt.get_handle()))
+result::result()
 {
-	if (!result_impl)
-		throw std::runtime_error("No result object from driver!");
 }
 
 result::result(result &&other)

@@ -1,6 +1,7 @@
 #include "transaction.h"
 #include "transaction_interface.h"
 #include "connection.h"
+#include "connection_interface.h"
 #include "driver.h"
 
 #include <stdexcept>
@@ -9,8 +10,8 @@ namespace cpp_db
 {
 
 transaction::transaction(const connection &conn)
-	: trans_impl(conn.get_driver()->make_transaction(conn.get_handle()))
-    , driver_impl(conn.get_driver())
+    : conn_impl(conn.conn_impl)
+    , trans_impl(conn.driver_impl->make_transaction(conn.conn_impl))
 {
 	if (!trans_impl)
 		throw std::runtime_error("No transaction object from driver!");
@@ -24,19 +25,19 @@ transaction::~transaction()
 void transaction::begin()
 {
 	trans_impl->begin();
-    driver_impl.lock()->set_current_transaction(trans_impl->get_handle());
+    conn_impl.lock()->set_current_transaction(trans_impl);
 }
 
 void transaction::commit()
 {
 	trans_impl->commit();
-    driver_impl.lock()->set_current_transaction(0);
+    conn_impl.lock()->set_current_transaction(0);
 }
 
 void transaction::rollback()
 {
 	trans_impl->rollback();
-    driver_impl.lock()->set_current_transaction(0);
+    conn_impl.lock()->set_current_transaction(0);
 }
 
 bool transaction::is_open() const

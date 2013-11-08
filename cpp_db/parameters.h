@@ -29,7 +29,7 @@ public:
 	void bind(const parameter &param);
 
 private:
-	explicit parameters(const statement &stmt);
+    parameters();
 	friend class statement;
 
 	std::unique_ptr<parameters_interface> params_impl;

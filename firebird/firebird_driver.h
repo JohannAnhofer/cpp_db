@@ -16,18 +16,14 @@ public:
     virtual ~firebird_driver();
 
     connection_interface *make_connection() const override;
-    statement_interface *make_statement(const handle &conn_handle) const override;
-    parameters_interface *make_parameters(const handle &stmt_handle) const override;
-    result_interface *make_result(const handle &stmt_handle) const override;
-    transaction_interface *make_transaction(const handle &conn_handle) const override;
-
-    void set_current_transaction(const handle &trans_handle) override;
-    handle get_current_transaction() const override;
+    statement_interface *make_statement(const connection_handle &conn) const override;
+    parameters_interface *make_parameters(const statement_handle &stmt) const override;
+    result_interface *make_result(const statement_handle &stmt) const override;
+    transaction_interface *make_transaction(const connection_handle &conn) const override;
 
 private:
     firebird_driver();
     friend class connection;
-    std::weak_ptr<void> current_transaction;
 };
 
 }

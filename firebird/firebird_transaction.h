@@ -14,7 +14,7 @@ namespace cpp_db
 class firebird_transaction : public transaction_interface
 {
 public:
-    firebird_transaction(const handle &conn_handle);
+    firebird_transaction(const connection_handle &conn_handle);
     ~firebird_transaction();
 
     void begin() override;
@@ -24,7 +24,10 @@ public:
     handle get_handle() const override;
 
 private:
-    std::weak_ptr<isc_db_handle> db;
+    isc_db_handle *get_db_handle() const;
+
+private:
+    std::weak_ptr<connection_interface> conn_impl;
     std::shared_ptr<isc_tr_handle> tr;
 };
 
