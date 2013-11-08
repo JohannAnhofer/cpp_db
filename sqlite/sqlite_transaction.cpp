@@ -1,4 +1,5 @@
 #include "sqlite_transaction.h"
+#include "connection_interface.h"
 #include "db_exception.h"
 
 #include <cstring>
@@ -8,12 +9,17 @@ namespace cpp_db
 
 void throw_db_exception(int error_code, sqlite3 *db);
 
-sqlite_transaction::sqlite_transaction(const handle &conn_handle)
-    : db(std::static_pointer_cast<sqlite3>(conn_handle))
+sqlite_transaction::sqlite_transaction(const connection_handle &conn_in)
+	: conn(conn_in)
     , open_count(0)
 {
-    if (db.expired())
+	if (conn.expired())
         throw db_exception("No database connection!");
+}
+
+sqlite3 *sqlite_transaction::get_db_handle() const
+{
+	return std::static_pointer_cast<sqlite3>(conn.lock()->get_handle()).get();
 }
 
 sqlite_transaction::~sqlite_transaction()
@@ -32,14 +38,14 @@ void sqlite_transaction::execute(const char *sql)
 {
     const char *tail = nullptr;
     sqlite3_stmt *stmt = 0;
-    int status = sqlite3_prepare(db.lock().get(), sql, strlen(sql), &stmt, &tail);
+	int status = sqlite3_prepare(get_db_handle(), sql, strlen(sql), &stmt, &tail);
     if (status != SQLITE_OK && status != SQLITE_DONE)
-        throw_db_exception(status, db.lock().get());
+		throw_db_exception(status, get_db_handle());
     auto deleter = [](sqlite3_stmt*s){sqlite3_finalize(s); };
     std::unique_ptr<sqlite3_stmt, decltype(deleter)> pstmt(stmt, deleter);
     status = sqlite3_step(stmt);
     if (status != SQLITE_OK && status != SQLITE_DONE)
-        throw_db_exception(status, db.lock().get());
+		throw_db_exception(status, get_db_handle());
 }
 
 void sqlite_transaction::begin()

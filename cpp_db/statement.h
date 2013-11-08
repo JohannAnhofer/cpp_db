@@ -1,9 +1,9 @@
 #ifndef CPP_DB_STATEMENT_H
 #define CPP_DB_STATEMENT_H
 
-#include "parameters.h"
 #include "value.h"
 #include "result.h"
+#include "parameters.h"
 
 #include "usings.h"
 
@@ -16,6 +16,8 @@ namespace cpp_db
 class parameter;
 class connection;
 class driver;
+class parameters;
+
 struct statement_interface;
 
 class statement
@@ -44,11 +46,9 @@ public:
 
 	parameters get_parameters() const;
 
-	std::shared_ptr<driver> get_driver() const;
-
 private:
-	std::weak_ptr<driver> driver_impl;
-	std::unique_ptr<statement_interface> stmt_impl;
+    std::weak_ptr<driver> driver_impl;
+    std::shared_ptr<statement_interface> stmt_impl;
 };
 
 }

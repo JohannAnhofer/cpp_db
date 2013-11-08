@@ -15,15 +15,16 @@ namespace cpp_db
 class sqlite_parameters : public parameters_interface
 {
 public:
-    explicit sqlite_parameters(const handle &stmt);
+    explicit sqlite_parameters(const statement_handle &stmt);
 
     int get_count() const override;
     void bind(const parameter &param) override;
 
 private:
     int find_param_pos(const std::string &name) const;
+	sqlite3_stmt *get_stmt_handle() const;
 
-    std::weak_ptr<sqlite3_stmt> stmt;
+    std::shared_ptr<statement_interface> stmt;
 };
 
 } // namespace cpp_db

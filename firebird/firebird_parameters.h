@@ -11,15 +11,16 @@ namespace cpp_db
 class firebird_parameters : public parameters_interface
 {
 public:
-    explicit firebird_parameters(const handle &stmt);
+    explicit firebird_parameters(const statement_handle &stmt);
 
     int get_count() const override;
     void bind(const parameter &param) override;
 
 private:
     int find_param_pos(const std::string &name) const;
+    isc_stmt_handle *get_statement_handle() const;
 
-    std::weak_ptr<isc_stmt_handle> stmt;
+    std::shared_ptr<statement_interface> stmt;
 	xsqlda isqlda;
 };
 

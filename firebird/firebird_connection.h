@@ -9,6 +9,7 @@
 
 namespace cpp_db
 {
+    class firebird_driver;
 
 	class firebird_connection : public connection_interface
 	{
@@ -19,12 +20,14 @@ namespace cpp_db
 		void close() override;
 		bool is_open() const override;
 		handle get_handle() const override;
-        void set_current_transaction(const handle &tr) override;
-        handle get_current_transaction() const override;
+        void set_current_transaction(const transaction_handle &trans) override;
+        transaction_handle get_current_transaction() const override;
 
 	private:
+        firebird_connection();
+        friend class firebird_driver;
         std::shared_ptr<isc_db_handle> db;
-        handle current_transaction;
+        std::weak_ptr<transaction_interface> current_transaction;
     };
 
 }

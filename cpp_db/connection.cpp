@@ -21,9 +21,10 @@ namespace cpp_db
 
     connection::connection(connection &&other)
         : driver_impl(other.driver_impl)
-        , conn_impl(other.conn_impl.release())
+        , conn_impl(other.conn_impl)
     {
         other.driver_impl.reset();
+        other.conn_impl.reset();
     }
 
     connection & connection::operator=(connection &&other)
@@ -32,7 +33,8 @@ namespace cpp_db
         {
             driver_impl = other.driver_impl;
             other.driver_impl.reset();
-            conn_impl.reset(other.conn_impl.release());
+            conn_impl = other.conn_impl;
+            other.conn_impl.reset();
         }
         return*this;
     }
@@ -56,9 +58,4 @@ namespace cpp_db
     {
 		return conn_impl->get_handle();
     }
-
-	std::shared_ptr<driver> connection::get_driver() const
-	{
-		return driver_impl;
-	}
 }

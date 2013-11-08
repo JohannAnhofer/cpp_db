@@ -11,6 +11,8 @@ namespace cpp_db
 {
 
 class driver;
+class statement;
+class transaction;
 struct connection_interface;
 
 class connection
@@ -29,8 +31,6 @@ public:
     bool is_open() const;
     handle get_handle() const;
 
-	std::shared_ptr<driver> get_driver() const;
-
     template<typename DriverType>
     static connection create()
     {
@@ -40,9 +40,10 @@ public:
 
 private:
     explicit connection(std::shared_ptr<driver> sql_driver);
-
+    friend class statement;
+    friend class transaction;
 	std::shared_ptr<driver> driver_impl;
-	std::unique_ptr<connection_interface> conn_impl;
+    std::shared_ptr<connection_interface> conn_impl;
 };
 
 }

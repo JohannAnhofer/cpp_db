@@ -1,4 +1,5 @@
 #include "firebird_transaction.h"
+#include "connection_interface.h"
 #include "isc_status.h"
 
 namespace cpp_db
@@ -7,10 +8,10 @@ namespace cpp_db
 bool has_error(ISC_STATUS status[20]);
 void throw_firebird_exception(ISC_STATUS status[20]);
 
-firebird_transaction::firebird_transaction(const handle &conn_handle)
-    : db{std::static_pointer_cast<isc_db_handle>(conn_handle)}
+firebird_transaction::firebird_transaction(const connection_handle &conn_handle)
+    : conn_impl{conn_handle}
 {
-    if (db.expired())
+    if (conn_impl.expired())
         throw db_exception("No database connection!");
 }
 
@@ -27,7 +28,12 @@ firebird_transaction::~firebird_transaction()
 
 handle firebird_transaction::get_handle() const
 {
-	return std::static_pointer_cast<void>(tr);
+    return std::static_pointer_cast<void>(tr);
+}
+
+isc_db_handle *firebird_transaction::get_db_handle() const
+{
+    return std::static_pointer_cast<isc_db_handle>(conn_impl.lock()->get_handle()).get();
 }
 
 void firebird_transaction::begin()
@@ -36,8 +42,8 @@ void firebird_transaction::begin()
     {
         guarded_execute([this](ISC_STATUS *status)
             {
-            std::unique_ptr<isc_tr_handle> transaction(new isc_tr_handle{0});
-                isc_start_transaction(status, transaction.get(), 1, db.lock().get(), 0, 0);
+                std::unique_ptr<isc_tr_handle> transaction(new isc_tr_handle{0});
+                isc_start_transaction(status, transaction.get(), 1, get_db_handle(), 0, 0);
                 if (!isc_status::has_error(status))
                     tr.reset(transaction.release());
             }, true);

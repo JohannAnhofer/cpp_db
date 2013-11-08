@@ -9,7 +9,8 @@ SOURCES += firebird_driver.cpp \
     firebird_statement.cpp \
     firebird_transaction.cpp \
     firebird_parameters.cpp \
-    xsqlda.cpp
+    xsqlda.cpp \
+    firebird_result.cpp
 
 HEADERS += firebird_driver.h \
     firebird_connection.h \
@@ -17,7 +18,8 @@ HEADERS += firebird_driver.h \
     firebird_transaction.h \
     isc_status.h \
     firebird_parameters.h \
-    xsqlda.h
+    xsqlda.h \
+    firebird_result.h
 
 INCLUDEPATH += ../cpp_db \
                ../tools \

@@ -33,6 +33,9 @@
     <ClCompile Include="xsqlda.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="firebird_result.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="firebird_driver.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="xsqlda.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="firebird_result.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,11 +7,8 @@
 
 namespace cpp_db
 {
-	parameters::parameters(const statement &stmt)
-		: params_impl(stmt.get_driver()->make_parameters(stmt.get_handle()))
+    parameters::parameters()
 	{
-		if (!params_impl)
-			throw std::runtime_error("No parameters object from driver!");
 	}
 
 	parameters::parameters(parameters && other)

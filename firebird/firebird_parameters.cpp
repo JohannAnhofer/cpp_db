@@ -1,4 +1,5 @@
 #include "firebird_parameters.h"
+#include "statement_interface.h"
 #include "isc_status.h"
 #include "parameter.h"
 
@@ -18,13 +19,13 @@ void write_value_to_sql_var(XSQLVAR &var, T value)
 const ISC_SHORT sql_ind_used = 1;
 
 
-firebird_parameters::firebird_parameters(const handle &stmt_in)
-    : stmt(std::static_pointer_cast<isc_stmt_handle>(stmt_in))
+firebird_parameters::firebird_parameters(const statement_handle &stmt_in)
+    : stmt(stmt_in)
 {
-    guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, stmt.lock().get(), 1, isqlda.get());}, true);
+    guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, get_statement_handle(), 1, isqlda.get());}, true);
 
 	if (isqlda.resize_to_fit())
-		guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, stmt.lock().get(), 1, isqlda.get());}, true);
+        guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, get_statement_handle(), 1, isqlda.get());}, true);
 
 	isqlda.init();
 }
@@ -93,6 +94,11 @@ int firebird_parameters::find_param_pos(const std::string &name) const
 			return var;
 	}
     return -1;
+}
+
+isc_stmt_handle *firebird_parameters::get_statement_handle() const
+{
+    return std::static_pointer_cast<isc_stmt_handle>(stmt->get_handle()).get();
 }
 
 void write_value_to_sql_var(XSQLVAR &var, const std::string &value)

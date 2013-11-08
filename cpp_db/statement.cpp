@@ -2,15 +2,16 @@
 #include "statement_interface.h"
 #include "connection.h"
 #include "db_exception.h"
-#include "result.h"
+#include "result_interface.h"
+#include "parameters_interface.h"
 #include "driver.h"
 
 namespace cpp_db
 {
 
 statement::statement(const connection &conn)
-	: driver_impl(conn.get_driver())	// a connection without a valid driver, cannot be constructed, so no need to check here 
-	, stmt_impl(driver_impl.lock()->make_statement(conn.get_handle()))
+    : driver_impl(conn.driver_impl)
+    , stmt_impl(conn.driver_impl->make_statement(conn.conn_impl))
 {
 	if (!stmt_impl)
 		throw std::runtime_error("No statement object from driver!");
@@ -41,10 +42,7 @@ void statement::execute_non_query()
 
 value statement::execute_scalar()
 {
-    if (!is_prepared())
-        throw db_exception("Statement not prepared!");
-
-    return result(*this).get_column_value(0);
+    return execute().get_column_value(0);
 }
 
 result statement::execute()
@@ -52,7 +50,9 @@ result statement::execute()
     if (!is_prepared())
         throw db_exception("Statement not prepared!");
 
-    return result(*this);
+    result r;
+    r.result_impl.reset(driver_impl.lock()->make_result(stmt_impl));
+    return r;
 }
 
 bool statement::is_prepared() const
@@ -70,17 +70,14 @@ parameters statement::get_parameters() const
 	if (!is_prepared())
 		throw db_exception("Statement not prepared!");
 
-	return parameters(*this);
+    parameters params;
+    params.params_impl.reset(driver_impl.lock()->make_parameters(stmt_impl));
+    return params;
 }
 
 void statement::reset()
 {
 	stmt_impl->reset();
-}
-
-std::shared_ptr<driver> statement::get_driver() const
-{
-	return driver_impl.lock();
 }
 
 }
