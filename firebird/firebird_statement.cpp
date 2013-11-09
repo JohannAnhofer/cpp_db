@@ -17,6 +17,7 @@ firebird_statement::firebird_statement(const shared_connection_ptr &conn, shared
     , tr(trans)
 	, stmt(std::make_shared<isc_stmt_handle>())
     , prepared{false}
+    , statement_type{-1}
 {
     if (conn_impl.expired())
         throw db_exception("No database connection for statement!");
@@ -71,12 +72,30 @@ void firebird_statement::prepare(const std::string &sqlcmd)
         {
             isc_tr_handle *trans = has_local_transaction() ? get_local_transaction_handle() : get_current_transaction_handle();
 
-            isc_dsql_prepare(status, trans, stmt.get(), 0, sqlcmd.c_str(), SQL_DIALECT_CURRENT, 0);
+            isc_dsql_prepare(status, trans, stmt.get(), 0, sqlcmd.c_str(), SQL_DIALECT_CURRENT, sqlda_fields_out.get());
             if (isc_status::has_error(status) && has_local_transaction())
                 tr->rollback();
         }, true);
 
     prepared = true;
+
+    if (sqlda_fields_out.resize_to_fit())
+    {
+        guarded_execute([this](ISC_STATUS *status)
+            {
+                isc_dsql_describe_bind(status, stmt.get(), xsqlda::version, sqlda_fields_out.get());
+            }, true);
+    }
+    sqlda_fields_out.init();
+
+    char ac_buffer[9];
+    guarded_execute([&](ISC_STATUS *status)
+        {
+            char q_type = isc_info_sql_stmt_type;
+            isc_dsql_sql_info(status, stmt.get(), 1, &q_type, sizeof(ac_buffer), ac_buffer);
+        }, true);
+    int i_length = isc_vax_integer(&ac_buffer[1], 2);
+    statement_type = isc_vax_integer(&ac_buffer[3], i_length);
 }
 
 bool firebird_statement::is_prepared() const
@@ -92,9 +111,7 @@ void firebird_statement::execute()
     guarded_execute([this](ISC_STATUS *status)
         {
             isc_tr_handle *trans = has_local_transaction() ? get_local_transaction_handle() : get_current_transaction_handle();
-
-            isc_dsql_execute(status, trans, stmt.get(), 0, 0);
-
+            isc_dsql_execute2(status, trans, stmt.get(), xsqlda::version, sqlda_params_in.get(), sqlda_fields_out.get());
             if (isc_status::has_error(status) && has_local_transaction())
                 tr->rollback();
         }, true);
@@ -109,7 +126,17 @@ void firebird_statement::reset()
 
 handle firebird_statement::get_handle() const
 {
-	return std::static_pointer_cast<void>(stmt);
+    return std::static_pointer_cast<void>(stmt);
+}
+
+xsqlda *firebird_statement::access_sqlda_in()
+{
+    return &sqlda_params_in;
+}
+
+xsqlda *firebird_statement::access_sqlda_out()
+{
+    return &sqlda_fields_out;
 }
 
 } // namespace cpp_db

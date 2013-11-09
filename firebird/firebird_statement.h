@@ -3,6 +3,7 @@
 
 #include "statement_interface.h"
 #include "usings.h"
+#include "xsqlda.h"
 
 #include "ibase.h"
 
@@ -23,6 +24,9 @@ public:
     void reset() override;
     handle get_handle() const override;
 
+    xsqlda *access_sqlda_in();
+    xsqlda *access_sqlda_out();
+
 private:
     isc_db_handle *get_db_handle() const;
     isc_tr_handle *get_current_transaction_handle() const;
@@ -35,6 +39,8 @@ private:
     std::shared_ptr<transaction_interface> tr;
     std::shared_ptr<isc_stmt_handle> stmt;
     bool prepared;
+    xsqlda sqlda_params_in, sqlda_fields_out;
+    int statement_type;
 };
 
 } // namespace cpp_db
