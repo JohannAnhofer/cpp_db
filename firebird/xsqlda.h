@@ -25,6 +25,8 @@ public:
 
 	std::string get_field_name(int index) const;
 
+    static const int version = 1;
+
 private:
 	void allocate(int vars_count);
 	void release();

@@ -21,7 +21,7 @@ private:
     isc_stmt_handle *get_statement_handle() const;
 
     std::shared_ptr<statement_interface> stmt;
-	xsqlda isqlda;
+    xsqlda *isqlda;
 };
 
 

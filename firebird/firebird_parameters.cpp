@@ -1,5 +1,5 @@
 #include "firebird_parameters.h"
-#include "statement_interface.h"
+#include "firebird_statement.h"
 #include "isc_status.h"
 #include "parameter.h"
 
@@ -22,18 +22,20 @@ const ISC_SHORT sql_ind_used = 1;
 firebird_parameters::firebird_parameters(const shared_statement_ptr &stmt_in)
     : stmt(stmt_in)
 {
-    guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, get_statement_handle(), 1, isqlda.get());}, true);
+    isqlda = dynamic_cast<firebird_statement *>(stmt_in.get())->access_sqlda_in();
 
-	if (isqlda.resize_to_fit())
-        guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, get_statement_handle(), 1, isqlda.get());}, true);
+    guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, get_statement_handle(), xsqlda::version, isqlda->get());}, true);
 
-	isqlda.init();
+    if (isqlda->resize_to_fit())
+        guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, get_statement_handle(), xsqlda::version, isqlda->get());}, true);
+
+    isqlda->init();
 }
 
 
 int firebird_parameters::get_count() const
 {
-	return isqlda.get_var_count();
+    return isqlda->get_var_count();
 }
 
 void firebird_parameters::bind(const parameter &param)
@@ -44,34 +46,36 @@ void firebird_parameters::bind(const parameter &param)
 	else
 		index = find_param_pos(param.get_name());
 
-	if (isqlda[index].sqltype & sql_ind_used)
+    auto &var = (*isqlda)[index];
+
+    if ((*isqlda)[index].sqltype & sql_ind_used)
 	{
 		if (is_null(param))
 		{
-			isqlda[index].sqlind[0] = -1;
+            var.sqlind[0] = -1;
 			return;
 		}
 	}
-    switch(isqlda[index].sqltype & ~sql_ind_used)
+    switch(var.sqltype & ~sql_ind_used)
     {
 	case  SQL_TEXT:
 	case  SQL_VARYING:
-		write_value_to_sql_var(isqlda[index], param.get_value<std::string>());
+        write_value_to_sql_var(var, param.get_value<std::string>());
 		break;
 	case  SQL_SHORT:
-		write_value_to_sql_var(isqlda[index], param.get_value<int16_t>());
+        write_value_to_sql_var(var, param.get_value<int16_t>());
 		break;
 	case  SQL_LONG:
-		write_value_to_sql_var(isqlda[index], param.get_value<int32_t>());
+        write_value_to_sql_var(var, param.get_value<int32_t>());
 		break;
 	case  SQL_INT64:
-		write_value_to_sql_var(isqlda[index], param.get_value<int64_t>());
+        write_value_to_sql_var(var, param.get_value<int64_t>());
 		break;
 	case  SQL_FLOAT:
-		write_value_to_sql_var(isqlda[index], param.get_value<float>());
+        write_value_to_sql_var(var, param.get_value<float>());
 		break;
 	case  SQL_DOUBLE:
-		write_value_to_sql_var(isqlda[index], param.get_value<double>());
+        write_value_to_sql_var(var, param.get_value<double>());
 		break;
 	case  SQL_TIMESTAMP:
 	case  SQL_TYPE_TIME:
@@ -88,9 +92,9 @@ void firebird_parameters::bind(const parameter &param)
 
 int firebird_parameters::find_param_pos(const std::string &name) const
 {
-	for (int var = 0; var < isqlda.get_var_count(); ++var)
+    for (int var = 0; var < isqlda->get_var_count(); ++var)
 	{
-		if (name == isqlda.get_field_name(var))
+        if (name == isqlda->get_field_name(var))
 			return var;
 	}
     return -1;
