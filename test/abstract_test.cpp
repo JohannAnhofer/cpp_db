@@ -68,13 +68,13 @@ void abstract_test::run(const std::unordered_set<std::string> &filter)
             }
             catch (const std::exception &ex)
             {
-                output->output_exception("abstract_test::run(" + name_and_function.first + ")", ex.what());
+                output->output_exception("abstract_test::run(" + name_and_function.first + ")", ex.what(), __LINE__, __FILE__);
                 statistics.fail_count++;
                 statistics.exception_count++;
             }
             catch (...)
             {
-                output->output_exception("abstract_test::run(" + name_and_function.first + ")", "Unknow exception occured");
+                output->output_exception("abstract_test::run(" + name_and_function.first + ")", "Unknow exception occured", __LINE__, __FILE__);
                 statistics.fail_count++;
                 statistics.exception_count++;
             }

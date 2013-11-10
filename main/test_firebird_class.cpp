@@ -14,17 +14,26 @@ void test_firebird_class::init_class()
 							cpp_db::user_password_authentication{ "SYSDBA", "@mo1di2@" }, \
 							{ { "encoding", "UNICODE_FSS" }, {"role", "admin"} } \
 						));
+}
+
+void test_firebird_class::test_execute_non_query()
+{
     cpp_db::transaction tr(*con);
     TEST_FOR_NO_EXCEPTION(tr.begin());
-    cpp_db::statement stmt("insert into TBL_DEVICE(INSTRUMENT_SERIAL, INSTRUMENT_VERSION, DEV_TYP_ID) VALUES('9180', '2.0', 4)", *con);
+    cpp_db::statement stmt(*con);
+    TEST_FOR_NO_EXCEPTION(stmt.prepare("insert into TBL_DEVICE(INSTRUMENT_SERIAL, INSTRUMENT_VERSION, DEV_TYP_ID) VALUES('9180', '2.0', 4)"));
     TEST_FOR_NO_EXCEPTION(stmt.execute_non_query());
     TEST_FOR_NO_EXCEPTION(tr.rollback());
+}
 
-    cpp_db::statement stmt1("insert into TBL_DEVICE(INSTRUMENT_SERIAL, INSTRUMENT_VERSION, DEV_TYP_ID) VALUES(?, ?, ?)", *con);
-	cpp_db::parameters params(stmt1.get_parameters());
-	params.bind(cpp_db::parameter(1, "0815-4711"));
-	params.bind(cpp_db::parameter(2, "2.0"));
-	params.bind(cpp_db::parameter(3, 4));
+void test_firebird_class::test_execute_non_query_with_parameters()
+{
+    cpp_db::statement stmt(*con);
+    TEST_FOR_NO_EXCEPTION(stmt.prepare("insert into TBL_DEVICE(INSTRUMENT_SERIAL, INSTRUMENT_VERSION, DEV_TYP_ID) VALUES(?, ?, ?)"));
+    cpp_db::parameters params(stmt.get_parameters());
+    params.bind(cpp_db::parameter(1, "0815-4711"));
+    params.bind(cpp_db::parameter(2, "2.0"));
+    params.bind(cpp_db::parameter(3, 4));
 }
 
 void test_firebird_class::cleanup_class()

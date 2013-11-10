@@ -10,12 +10,15 @@ class test_firebird_class : public test::abstract_test
 {
 public:
 	BEGIN_DECLARE_TEST_CLASS(test_firebird_class)
+    DECLARE_TEST_FUNCTION(test_execute_non_query)
+    DECLARE_TEST_FUNCTION(test_execute_non_query_with_parameters);
 	END_DECLARE_TEST_CLASS()
 
 protected:
 	void init_class() override;
 	void cleanup_class() override;
-
+    void test_execute_non_query();
+    void test_execute_non_query_with_parameters();
 private:
     std::shared_ptr<cpp_db::connection> con;
 };
