@@ -4,6 +4,7 @@
 #include "parameter.h"
 
 #include <cstring>
+#include <ctime>
 
 namespace cpp_db
 {
@@ -78,9 +79,22 @@ void firebird_parameters::bind(const parameter &param)
         write_value_to_sql_var(var, param.get_value<double>());
 		break;
 	case  SQL_TIMESTAMP:
+        {
+            tm timestamp = param.get_value<tm>();
+            isc_encode_timestamp(&timestamp, reinterpret_cast<ISC_TIMESTAMP *>(var.sqldata));
+        }
+        break;
 	case  SQL_TYPE_TIME:
-	case  SQL_TYPE_DATE:
-		break;
+        {
+            tm timestamp = param.get_value<tm>();
+            isc_encode_sql_time(&timestamp, reinterpret_cast<ISC_TIME *>(var.sqldata));
+        }
+    case  SQL_TYPE_DATE:
+        {
+            tm timestamp = param.get_value<tm>();
+            isc_encode_sql_date(&timestamp, reinterpret_cast<ISC_DATE *>(var.sqldata));
+        }
+        break;
 	case  SQL_D_FLOAT:
 	case  SQL_QUAD:
 	case  SQL_BLOB:
