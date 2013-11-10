@@ -36,10 +36,12 @@ public:
 
 	void reset();
 
+    void execute_ddl();
 	void execute_non_query();
 	value execute_scalar();
     result execute();
 
+    template<typename ...Args> void execute_ddl(Args&& ...args);
     template<typename ...Args> void execute_non_query(Args&& ...args);
     template<typename ...Args> value execute_scalar(Args&& ...args);
 	template<typename ...Args> result execute(Args&& ...args);

@@ -38,6 +38,16 @@ bool sqlite_statement::is_prepared() const
     return stmt != nullptr;
 }
 
+void sqlite_statement::execute_ddl()
+{
+    execute();
+}
+
+void sqlite_statement::execute_non_query()
+{
+    execute();
+}
+
 void sqlite_statement::execute()
 {
     if (!is_prepared())

@@ -32,12 +32,14 @@ void statement::prepare(const std::string &sqlcmd)
 	stmt_impl->prepare(sqlcmd);
 }
 
+void statement::execute_ddl()
+{
+    stmt_impl->execute_ddl();
+}
+
 void statement::execute_non_query()
 {
-	if (!is_prepared())
-		throw db_exception("Statement not prepared!");
-
-	stmt_impl->execute();
+    stmt_impl->execute_non_query();
 }
 
 value statement::execute_scalar()
@@ -47,9 +49,6 @@ value statement::execute_scalar()
 
 result statement::execute()
 {
-    if (!is_prepared())
-        throw db_exception("Statement not prepared!");
-
     result r;
     r.result_impl.reset(driver_impl.lock()->make_result(stmt_impl));
     return r;

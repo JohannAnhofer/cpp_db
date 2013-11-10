@@ -27,6 +27,12 @@ ResultType execute_with_params(statement & stmt, FunctionType function, Args&& .
 }
 
 template<typename ...Args>
+void statement::execute_ddl(Args&& ...args)
+{
+    execute_with_params<void>(*this, [&]() {execute_ddl(); }, args...);
+}
+
+template<typename ...Args>
 void statement::execute_non_query(Args&& ...args)
 {
 	execute_with_params<void>(*this, [&]() {execute_non_query(); }, args...);
