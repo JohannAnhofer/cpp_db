@@ -103,6 +103,16 @@ bool firebird_statement::is_prepared() const
     return prepared;
 }
 
+void firebird_statement::execute_ddl()
+{
+    execute();
+}
+
+void firebird_statement::execute_non_query()
+{
+    execute();
+}
+
 void firebird_statement::execute()
 {
     if (!is_prepared())

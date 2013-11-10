@@ -17,6 +17,8 @@ public:
 
     void prepare(const std::string &sqlcmd) override;
     bool is_prepared() const override;
+    void execute_ddl() override;
+    void execute_non_query() override;
     void execute() override;
     void reset() override;
     handle get_handle() const override;
