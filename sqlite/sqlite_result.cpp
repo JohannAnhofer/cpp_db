@@ -72,7 +72,7 @@ value sqlite_result::get_column_value(int column) const
     switch (sqlite3_column_type(pstmt, column))
     {
     case SQLITE_INTEGER:	// int64
-        return sqlite3_column_int64(pstmt, column);
+        return static_cast<int64_t>(sqlite3_column_int64(pstmt, column));
     case SQLITE_FLOAT:		// double
         return sqlite3_column_double(pstmt, column);
     case SQLITE_BLOB:		// void *
