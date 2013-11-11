@@ -4,10 +4,12 @@
 #include "transaction_interface.h"
 #include "connection_interface.h"
 #include "driver.h"
+#include "lock_or_throw.h"
 
 #include "ibase.h"
 
 #include <functional>
+#include <stdexcept>
 
 namespace cpp_db
 {
@@ -40,12 +42,17 @@ firebird_statement::~firebird_statement()
 
 isc_db_handle *firebird_statement::get_db_handle() const
 {
-    return std::static_pointer_cast<isc_db_handle>(conn_impl.lock()->get_handle()).get();
+    return std::static_pointer_cast<isc_db_handle>(tools::lock_or_throw(conn_impl)->get_handle()).get();
 }
 
 isc_tr_handle *firebird_statement::get_current_transaction_handle() const
 {
-    return std::static_pointer_cast<isc_db_handle>(conn_impl.lock()->get_current_transaction()->get_handle()).get();
+    shared_transaction_ptr curr_trans(tools::lock_or_throw(conn_impl)->get_current_transaction());
+
+    if (curr_trans != nullptr)
+        return std::static_pointer_cast<isc_db_handle>(curr_trans->get_handle()).get();
+    else
+        throw db_exception("Invalid current transaction");
 }
 
 isc_tr_handle *firebird_statement::get_local_transaction_handle() const
@@ -55,7 +62,7 @@ isc_tr_handle *firebird_statement::get_local_transaction_handle() const
 
 bool firebird_statement::has_current_transaction() const
 {
-    return conn_impl.lock()->get_current_transaction() != nullptr;
+    return tools::lock_or_throw(conn_impl)->get_current_transaction() != nullptr;
 }
 
 bool firebird_statement::has_local_transaction() const
@@ -136,6 +143,9 @@ void firebird_statement::execute()
 void firebird_statement::reset()
 {
     sqlda_params_in.reset();
+
+    if (!has_current_transaction() && !has_local_transaction())
+        tr->begin();    // start local transaction
 }
 
 handle firebird_statement::get_handle() const

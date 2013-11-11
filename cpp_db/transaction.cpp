@@ -3,6 +3,7 @@
 #include "connection.h"
 #include "connection_interface.h"
 #include "driver.h"
+#include "lock_or_throw.h"
 
 #include <stdexcept>
 
@@ -25,19 +26,19 @@ transaction::~transaction()
 void transaction::begin()
 {
 	trans_impl->begin();
-    conn_impl.lock()->set_current_transaction(trans_impl);
+    tools::lock_or_throw(conn_impl)->set_current_transaction(trans_impl);
 }
 
 void transaction::commit()
 {
 	trans_impl->commit();
-    conn_impl.lock()->set_current_transaction(0);
+    tools::lock_or_throw(conn_impl)->set_current_transaction(0);
 }
 
 void transaction::rollback()
 {
 	trans_impl->rollback();
-    conn_impl.lock()->set_current_transaction(0);
+    tools::lock_or_throw(conn_impl)->set_current_transaction(0);
 }
 
 bool transaction::is_open() const

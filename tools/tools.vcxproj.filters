@@ -36,6 +36,9 @@
     <ClInclude Include="check_pointer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lock_or_throw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="value_is_null.cpp">
