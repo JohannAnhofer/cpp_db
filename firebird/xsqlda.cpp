@@ -1,10 +1,6 @@
 #include "xsqlda.h"
 
-#include <cstdlib>
-#include <cstring>
-
 #include <stdexcept>
-#include <algorithm>
 
 namespace cpp_db
 {
@@ -25,18 +21,11 @@ namespace cpp_db
 		return sqlda;
 	}
 
-	XSQLVAR &xsqlda::operator[](int index)
+    xsqlvar xsqlda::operator[](int index) const
 	{
 		if (index < 0 || index > sqlda->sqln)
 			throw std::overflow_error("No sql variable at given index!");
-		return sqlda->sqlvar[index];
-	}
-
-	const XSQLVAR &xsqlda::operator[](int index) const
-	{
-		if (index < 0 || index > sqlda->sqln)
-			throw std::overflow_error("No sql variable at given index!");
-		return sqlda->sqlvar[index];
+        return xsqlvar(sqlda->sqlvar[index]);
 	}
 
 	int xsqlda::get_var_count() const
@@ -75,78 +64,13 @@ namespace cpp_db
     void xsqlda::allocate_vars()
 	{
 		for (int var_idx = 0; var_idx < sqlda->sqln; ++var_idx)
-		{
-			auto & var = sqlda->sqlvar[var_idx];
-
-			switch (var.sqltype & ~sql_ind_used)
-			{
-			case SQL_INT64:
-			case SQL_LONG:
-			case SQL_SHORT:
-			case SQL_FLOAT:
-			case SQL_DOUBLE:
-			case SQL_TIMESTAMP:
-			case SQL_TYPE_TIME:
-			case SQL_TYPE_DATE:
-			case SQL_TEXT:
-			case SQL_BLOB:
-				var.sqldata = new char[var.sqllen];
-				break;
-			case SQL_ARRAY:
-				var.sqldata = new char[sizeof(ISC_QUAD)];
-				memset(var.sqldata, 0, sizeof(ISC_QUAD));
-				break;
-			case SQL_VARYING:
-				var.sqldata = new char[var.sqllen + sizeof(short)];
-				break;
-			default:
-				// not supported - do not bind.
-				var.sqldata = nullptr;
-				break;
-			}
-
-			if (var.sqltype & sql_ind_used)
-			{
-				var.sqlind = new short[1];
-                var.sqlind[0] = -1;
-			}
-			else
-				var.sqlind = nullptr;
-        }
+            xsqlvar((*this)[var_idx]).allocate();
     }
 
     void xsqlda::reset_values()
     {
         for (int var_idx = 0; var_idx < sqlda->sqln; ++var_idx)
-        {
-            auto &var = sqlda->sqlvar[var_idx];
-            if (var.sqltype & sql_ind_used)
-                var.sqlind[0] = -1;
-            switch(var.sqltype & ~sql_ind_used)
-            {
-            case SQL_INT64:
-            case SQL_LONG:
-            case SQL_SHORT:
-            case SQL_FLOAT:
-            case SQL_DOUBLE:
-            case SQL_TIMESTAMP:
-            case SQL_TYPE_TIME:
-            case SQL_TYPE_DATE:
-            case SQL_TEXT:
-            case SQL_BLOB:
-                memset(var.sqldata, 0, var.sqllen);
-                break;
-            case SQL_ARRAY:
-                memset(var.sqldata, 0, sizeof(ISC_QUAD));
-                break;
-                break;
-            case SQL_VARYING:
-                memset(var.sqldata, 0, var.sqllen + sizeof(short));
-                break;
-            default:
-                break;
-            }
-        }
+            xsqlvar((*this)[var_idx]).reset_value();
     }
 
     void xsqlda::clear()
@@ -158,17 +82,9 @@ namespace cpp_db
 	void xsqlda::release()
 	{
 		for (int var = 0; var < sqlda->sqln; ++var)
-		{
-			delete[] sqlda->sqlvar[var].sqldata;
-			delete[] sqlda->sqlvar[var].sqlind;
-		}
+            xsqlvar((*this)[var]).deallocate();
 		free(sqlda);
-		sqlda = nullptr;
-	}
+        sqlda = nullptr;
+    }
 
-	std::string xsqlda::get_field_name(int index) const
-	{
-		auto & var = sqlda->sqlvar[index];
-		return std::string(var.sqlname, std::max(static_cast<ISC_SHORT>(sizeof(var.sqlname) / sizeof(var.sqlname[0])), var.sqlname_length));
-	}
 }
