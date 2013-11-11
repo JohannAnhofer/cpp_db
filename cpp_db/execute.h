@@ -11,7 +11,15 @@ namespace cpp_db
 {
 	class connection;
 
-	template<typename ...Args>
+    template<typename ...Args>
+    void execute_ddl(connection &conn, const std::string &sql, Args && ...args)
+    {
+        statement stmt(conn);
+        stmt.prepare(sql);
+        stmt.execute_ddl(args...);
+    }
+
+    template<typename ...Args>
     void execute_non_query(connection &conn, const std::string &sql, Args && ...args)
 	{
 		statement stmt(conn);
