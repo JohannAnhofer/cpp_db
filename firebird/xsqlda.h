@@ -1,9 +1,9 @@
 #ifndef CPP_DB_XSQLDA_H
 #define CPP_DB_XSQLDA_H
 
-#include "ibase.h"
+#include "xsqlvar.h"
 
-#include <string>
+#include "ibase.h"
 
 namespace cpp_db
 {
@@ -22,10 +22,7 @@ public:
     void reset_values();
     void clear();
 
-	XSQLVAR &operator[](int index);
-	const XSQLVAR &operator[](int index) const;
-
-	std::string get_field_name(int index) const;
+    xsqlvar operator[](int index) const;
 
     static const int version = 1;
 
@@ -33,8 +30,6 @@ private:
 	void allocate(int vars_count);
 	void release();
     void resize(int var_count);
-
-    const ISC_SHORT sql_ind_used = 1;
 
 private:
 	XSQLDA *sqlda;

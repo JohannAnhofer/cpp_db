@@ -18,6 +18,7 @@
     <ClCompile Include="firebird_statement.cpp" />
     <ClCompile Include="firebird_transaction.cpp" />
     <ClCompile Include="xsqlda.cpp" />
+    <ClCompile Include="xsqlvar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="firebird_connection.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="firebird_transaction.h" />
     <ClInclude Include="isc_status.h" />
     <ClInclude Include="xsqlda.h" />
+    <ClInclude Include="xsqlvar.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{42D716ED-4B66-4504-815E-BEAED23D34B2}</ProjectGuid>

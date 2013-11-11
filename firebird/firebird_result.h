@@ -3,6 +3,7 @@
 
 #include "result_interface.h"
 #include "usings.h"
+#include "xsqlda.h"
 
 #include "ibase.h"
 
@@ -31,6 +32,7 @@ private:
 
 private:
     std::shared_ptr<statement_interface> stmt;
+    xsqlda *sqlda_fields;
 };
 
 } // namespace cpp_db

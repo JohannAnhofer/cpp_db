@@ -57,6 +57,11 @@ namespace cpp_db
             return argument.get_value<T>();
 		}
 
+        value get_value_holder() const
+        {
+            return argument;
+        }
+
 		bool has_index() const
 		{
             return index >= 0 && name.empty();

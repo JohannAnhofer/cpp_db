@@ -1,14 +1,20 @@
 #include "firebird_result.h"
-#include "statement_interface.h"
+#include "firebird_statement.h"
 #include "null.h"
 #include "value.h"
+#include "db_exception.h"
+#include "isc_status.h"
+
+#include <ctime>
 
 namespace cpp_db
 {
 
 firebird_result::firebird_result(const shared_statement_ptr &stmt_in)
     : stmt(stmt_in)
+    , sqlda_fields{nullptr}
 {
+    sqlda_fields = std::static_pointer_cast<firebird_statement>(stmt)->access_sqlda_out();
 }
 
 isc_stmt_handle *firebird_result::get_statement_handle() const
@@ -18,6 +24,11 @@ isc_stmt_handle *firebird_result::get_statement_handle() const
 
 void firebird_result::move_next()
 {
+    isc_status status;
+
+    bool after_last_row = isc_dsql_fetch(static_cast<ISC_STATUS *>(status), get_statement_handle(), xsqlda::version, sqlda_fields->get()) == 100L;
+    if (!after_last_row)
+        status.throw_db_exception_on_error();
 }
 
 void firebird_result::move_prev()
@@ -35,31 +46,32 @@ bool firebird_result::is_eof() const
 
 int firebird_result::get_column_count() const
 {
-    return 0;
+    return sqlda_fields->get_var_count();
 }
 
 std::string firebird_result::get_column_name(int column) const
 {
-    (void)column;
-    return std::string{};
+    return (*sqlda_fields)[column].get_column_name();
 }
 
 value firebird_result::get_column_value(int column) const
 {
-    (void)column;
-    return null_type{};
+    return (*sqlda_fields)[column].get_column_value();
 }
 
 int firebird_result::get_column_index(const std::string &column_name) const
 {
-    (void)column_name;
-    return -1;
+    for (int col = 0; col < get_column_count(); ++col)
+    {
+        if (get_column_name(col) == column_name)
+            return col;
+    }
+    throw db_exception("Column not found");
 }
 
 value firebird_result::get_column_value(const std::string &column_name) const
 {
-    (void)column_name;
-    return null_type{};
+    return get_column_value(get_column_index(column_name));
 }
 
 } // namespace cpp_db
