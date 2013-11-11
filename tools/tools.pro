@@ -12,7 +12,8 @@ HEADERS += \
     value_is_null.h \
     compiler_specific.h \
     coalesce.h \
-    check_pointer.h
+    check_pointer.h \
+    lock_or_throw.h
 
 SOURCES += \
     value_is_null.cpp
