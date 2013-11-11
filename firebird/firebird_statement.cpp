@@ -118,6 +118,9 @@ void firebird_statement::execute()
     if (!is_prepared())
         throw db_exception("Statement not prepared!");
 
+    if (!has_current_transaction() && !has_local_transaction())
+        tr->begin();    // start local transaction
+
     guarded_execute([this](ISC_STATUS *status)
         {
             isc_tr_handle *trans = has_local_transaction() ? get_local_transaction_handle() : get_current_transaction_handle();
