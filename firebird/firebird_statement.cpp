@@ -72,6 +72,14 @@ bool firebird_statement::has_local_transaction() const
 
 void firebird_statement::prepare(const std::string &sqlcmd)
 {
+    if (prepared)
+    {
+        prepared = false;
+        sqlda_params_in.resize(1);
+        sqlda_fields_out.resize(1);
+        statement_type = -1;
+    }
+
     if (!has_current_transaction())
         tr->begin();    // start local transaction
 
