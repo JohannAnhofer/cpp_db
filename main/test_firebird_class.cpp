@@ -10,7 +10,7 @@ void test_firebird_class::init_class()
 {
     con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection(cpp_db::connection::create<cpp_db::firebird_driver>()));
 
-    TEST_FOR_NO_EXCEPTION(con->open("ubuntu1310:employee",  \
+    TEST_FOR_NO_EXCEPTION(con->open("arthur.roche.com:/home2/anhoferj/be3_trunk/data/Database/be3db.fdb",  \
 							cpp_db::user_password_authentication{ "SYSDBA", "@mo1di2@" }, \
 							{ { "encoding", "UNICODE_FSS" }, {"role", "admin"} } \
 						));
@@ -34,6 +34,14 @@ void test_firebird_class::test_execute_non_query_with_parameters()
     params.bind(cpp_db::parameter(1, "0815-4711"));
     params.bind(cpp_db::parameter(2, "2.0"));
     params.bind(cpp_db::parameter(3, 4));
+    TEST_FOR_NO_EXCEPTION(stmt.execute_non_query());
+    params.bind(cpp_db::parameter(1, "4711-0815"));
+    params.bind(cpp_db::parameter(2, "3.11"));
+    params.bind(cpp_db::parameter(3, 3));
+    TEST_FOR_NO_EXCEPTION(stmt.execute_non_query());
+    params.bind(cpp_db::parameter(1, "xxxx-xxxx"));
+    params.bind(cpp_db::parameter(2, cpp_db::null_type{}));
+    params.bind(cpp_db::parameter(3, 2));
     TEST_FOR_NO_EXCEPTION(stmt.execute_non_query());
 }
 
