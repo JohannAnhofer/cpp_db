@@ -149,6 +149,12 @@ namespace cpp_db
         }
     }
 
+    void xsqlda::clear()
+    {
+        release();
+        allocate(1);
+    }
+
 	void xsqlda::release()
 	{
 		for (int var = 0; var < sqlda->sqln; ++var)

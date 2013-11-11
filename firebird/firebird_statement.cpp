@@ -87,8 +87,8 @@ void firebird_statement::prepare(const std::string &sqlcmd)
     if (prepared)
     {
         prepared = false;
-        sqlda_params_in.resize(1);
-        sqlda_fields_out.resize(1);
+        sqlda_params_in.clear();
+        sqlda_fields_out.clear();
         statement_type = -1;
     }
 
