@@ -130,7 +130,7 @@ void write_value_to_sql_var(XSQLVAR &var, const std::string &value)
 	else
 		len = value.length();
 
-	if ((var.sqltype & sql_ind_used) == SQL_VARYING)
+    if ((var.sqltype & ~sql_ind_used) == SQL_VARYING)
 	{		 
 		memcpy(destination, &len, sizeof(len));
 		destination += sizeof(len);
