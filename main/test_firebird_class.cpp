@@ -5,6 +5,7 @@
 #include "transaction.h"
 #include "statement.h"
 #include "parameters.h"
+#include "execute.h"
 
 void test_firebird_class::init_class()
 {
@@ -47,6 +48,16 @@ void test_firebird_class::test_execute_non_query_with_parameters()
     params.bind(cpp_db::parameter(2, cpp_db::null_type{}));
     params.bind(cpp_db::parameter(3, 2));
     TEST_FOR_NO_EXCEPTION(stmt.execute_non_query());
+}
+
+void test_firebird_class::test_result()
+{
+    cpp_db::result r(cpp_db::execute(*con, "execute procedure PRO_CONVERTFORMAT(?, ?, ?, ?, ?, ?)", "4711.0815", 10.0, 2.0, 3.0, 2, 3));
+    for (int i = 0; i < r.get_column_count(); ++i)
+        TEST_FOR_NO_EXCEPTION(std::clog << r.get_column_name(i) << " = ");
+    // r.move_next();
+    TEST_FOR_NO_EXCEPTION(std::clog << r.get_column_value(0).get_value<std::string>());
+    std::clog << std::endl;
 }
 
 void test_firebird_class::cleanup_class()
