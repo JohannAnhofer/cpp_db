@@ -48,13 +48,18 @@ namespace cpp_db
 	{
 		if (sqlda->sqld > sqlda->sqln)
 		{
-			int needed_vars = sqlda->sqld;
-			release();
-			allocate(needed_vars);
+            resize(sqlda->sqld);
 			return true;
 		}
-		return false;
-	}
+        return false;
+    }
+
+    void xsqlda::resize(int var_count)
+    {
+        release();
+        allocate(var_count);
+
+    }
 
 	void xsqlda::allocate(int vars_count)
 	{
