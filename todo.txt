@@ -13,4 +13,4 @@
  - transactions can have options
  * retrieve current transaction from connection ?
  - firebird requires a separate execute_ddl for create database and set transaction
-
+ - weakpointers don't throw if they are expired.
