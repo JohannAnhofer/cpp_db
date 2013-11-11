@@ -110,7 +110,7 @@ void firebird_statement::prepare(const std::string &sqlcmd)
     {
         guarded_execute([this](ISC_STATUS *status)
             {
-                isc_dsql_describe_bind(status, stmt.get(), xsqlda::version, sqlda_fields_out.get());
+                isc_dsql_describe(status, stmt.get(), xsqlda::version, sqlda_fields_out.get());
             }, true);
     }
     sqlda_fields_out.allocate_vars();
