@@ -19,6 +19,7 @@ public:
 	int get_var_count() const;
 	bool resize_to_fit();
 	void init();
+    void reset();
 
 	XSQLVAR &operator[](int index);
 	const XSQLVAR &operator[](int index) const;
@@ -30,6 +31,8 @@ public:
 private:
 	void allocate(int vars_count);
 	void release();
+
+    const ISC_SHORT sql_ind_used = 1;
 
 private:
 	XSQLDA *sqlda;

@@ -135,6 +135,7 @@ void firebird_statement::execute()
 
 void firebird_statement::reset()
 {
+    sqlda_params_in.reset();
 }
 
 handle firebird_statement::get_handle() const

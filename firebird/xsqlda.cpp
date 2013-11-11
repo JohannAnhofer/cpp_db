@@ -69,8 +69,6 @@ namespace cpp_db
 
 	void xsqlda::init()
 	{
-		const ISC_SHORT sql_ind_used = 1;
-
 		for (int var_idx = 0; var_idx < sqlda->sqln; ++var_idx)
 		{
 			auto & var = sqlda->sqlvar[var_idx];
@@ -105,12 +103,46 @@ namespace cpp_db
 			if (var.sqltype & sql_ind_used)
 			{
 				var.sqlind = new short[1];
-				var.sqlind[0] = 0;
+                var.sqlind[0] = -1;
 			}
 			else
 				var.sqlind = nullptr;
-		}
-	}
+        }
+    }
+
+    void xsqlda::reset()
+    {
+        for (int var_idx = 0; var_idx < sqlda->sqln; ++var_idx)
+        {
+            auto &var = sqlda->sqlvar[var_idx];
+            if (var.sqltype & sql_ind_used)
+                var.sqlind[0] = -1;
+            switch(var.sqltype & ~sql_ind_used)
+            {
+            case SQL_INT64:
+            case SQL_LONG:
+            case SQL_SHORT:
+            case SQL_FLOAT:
+            case SQL_DOUBLE:
+            case SQL_TIMESTAMP:
+            case SQL_TYPE_TIME:
+            case SQL_TYPE_DATE:
+            case SQL_TEXT:
+            case SQL_BLOB:
+                memset(var.sqldata, 0, var.sqllen);
+                break;
+            case SQL_ARRAY:
+                memset(var.sqldata, 0, sizeof(ISC_QUAD));
+                break;
+                break;
+            case SQL_VARYING:
+                memset(var.sqldata, 0, var.sqllen + sizeof(short));
+                break;
+            default:
+                break;
+            }
+        }
+    }
 
 	void xsqlda::release()
 	{
