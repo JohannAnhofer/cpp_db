@@ -18,9 +18,9 @@ public:
 
 	int get_var_count() const;
 	bool resize_to_fit();
-    void resize(int var_count);
     void allocate_vars();
     void reset_values();
+    void clear();
 
 	XSQLVAR &operator[](int index);
 	const XSQLVAR &operator[](int index) const;
@@ -32,6 +32,7 @@ public:
 private:
 	void allocate(int vars_count);
 	void release();
+    void resize(int var_count);
 
     const ISC_SHORT sql_ind_used = 1;
 
