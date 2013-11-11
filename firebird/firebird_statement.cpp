@@ -70,6 +70,18 @@ bool firebird_statement::has_local_transaction() const
     return tr->is_open();
 }
 
+int firebird_statement::determine_statement_type() const
+{
+    char ac_buffer[9];
+    guarded_execute([&](ISC_STATUS *status)
+        {
+            char q_type = isc_info_sql_stmt_type;
+            isc_dsql_sql_info(status, stmt.get(), 1, &q_type, sizeof(ac_buffer), ac_buffer);
+        }, true);
+    int i_length = isc_vax_integer(&ac_buffer[1], 2);
+    return isc_vax_integer(&ac_buffer[3], i_length);
+}
+
 void firebird_statement::prepare(const std::string &sqlcmd)
 {
     if (prepared)
@@ -103,14 +115,7 @@ void firebird_statement::prepare(const std::string &sqlcmd)
     }
     sqlda_fields_out.init();
 
-    char ac_buffer[9];
-    guarded_execute([&](ISC_STATUS *status)
-        {
-            char q_type = isc_info_sql_stmt_type;
-            isc_dsql_sql_info(status, stmt.get(), 1, &q_type, sizeof(ac_buffer), ac_buffer);
-        }, true);
-    int i_length = isc_vax_integer(&ac_buffer[1], 2);
-    statement_type = isc_vax_integer(&ac_buffer[3], i_length);
+    statement_type = determine_statement_type();
 }
 
 bool firebird_statement::is_prepared() const

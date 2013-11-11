@@ -35,6 +35,7 @@ private:
     isc_tr_handle *get_local_transaction_handle() const;
     bool has_current_transaction() const;
     bool has_local_transaction() const;
+    int determine_statement_type() const;
 
 private:    
     std::weak_ptr<connection_interface> conn_impl;
