@@ -56,7 +56,10 @@ void firebird_parameters::bind(const parameter &param)
             var.sqlind[0] = -1;
 			return;
 		}
+        else
+            var.sqlind[0] = 0;
 	}
+
     switch(var.sqltype & ~sql_ind_used)
     {
 	case  SQL_TEXT:
