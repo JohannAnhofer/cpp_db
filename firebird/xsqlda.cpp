@@ -72,7 +72,7 @@ namespace cpp_db
 		sqlda->sqln = vars_count;
 	}
 
-	void xsqlda::init()
+    void xsqlda::allocate_vars()
 	{
 		for (int var_idx = 0; var_idx < sqlda->sqln; ++var_idx)
 		{

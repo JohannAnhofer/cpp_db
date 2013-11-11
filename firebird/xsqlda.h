@@ -19,7 +19,7 @@ public:
 	int get_var_count() const;
 	bool resize_to_fit();
     void resize(int var_count);
-	void init();
+    void allocate_vars();
     void reset_values();
 
 	XSQLVAR &operator[](int index);

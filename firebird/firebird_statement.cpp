@@ -113,7 +113,7 @@ void firebird_statement::prepare(const std::string &sqlcmd)
                 isc_dsql_describe_bind(status, stmt.get(), xsqlda::version, sqlda_fields_out.get());
             }, true);
     }
-    sqlda_fields_out.init();
+    sqlda_fields_out.allocate_vars();
 
     statement_type = determine_statement_type();
 }

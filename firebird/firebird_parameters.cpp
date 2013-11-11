@@ -30,7 +30,7 @@ firebird_parameters::firebird_parameters(const shared_statement_ptr &stmt_in)
     if (isqlda->resize_to_fit())
         guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, get_statement_handle(), xsqlda::version, isqlda->get());}, true);
 
-    isqlda->init();
+    isqlda->allocate_vars();
 }
 
 
