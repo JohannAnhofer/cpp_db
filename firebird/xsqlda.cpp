@@ -1,6 +1,7 @@
 #include "xsqlda.h"
 
 #include <stdexcept>
+#include <cstdlib>
 
 namespace cpp_db
 {
