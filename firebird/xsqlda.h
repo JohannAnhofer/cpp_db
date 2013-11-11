@@ -20,7 +20,7 @@ public:
 	bool resize_to_fit();
     void resize(int var_count);
 	void init();
-    void reset();
+    void reset_values();
 
 	XSQLVAR &operator[](int index);
 	const XSQLVAR &operator[](int index) const;

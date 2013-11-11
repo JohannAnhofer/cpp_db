@@ -115,7 +115,7 @@ namespace cpp_db
         }
     }
 
-    void xsqlda::reset()
+    void xsqlda::reset_values()
     {
         for (int var_idx = 0; var_idx < sqlda->sqln; ++var_idx)
         {

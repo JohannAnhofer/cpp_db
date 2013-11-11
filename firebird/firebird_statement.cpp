@@ -150,7 +150,7 @@ void firebird_statement::execute()
 
 void firebird_statement::reset()
 {
-    sqlda_params_in.reset();
+    sqlda_params_in.reset_values();
 
     if (!has_current_transaction() && !has_local_transaction())
         tr->begin();    // start local transaction
