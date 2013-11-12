@@ -31,13 +31,6 @@ void sqlite_result::move_next()
 		throw_db_exception(row_status, sqlite3_db_handle(get_stmt_handle()));
 }
 
-void sqlite_result::move_first()
-{
-	if (int error_code = sqlite3_reset(get_stmt_handle()))
-		throw_db_exception(error_code, sqlite3_db_handle(get_stmt_handle()));
-    move_next();
-}
-
 bool sqlite_result::is_eof() const
 {
     return row_status == SQLITE_DONE;

@@ -6,15 +6,17 @@
 #include "isc_status.h"
 
 #include <ctime>
+#include <iostream>
 
 namespace cpp_db
 {
 
 firebird_result::firebird_result(const shared_statement_ptr &stmt_in)
-    : stmt(stmt_in)
-    , sqlda_fields{nullptr}
+    : stmt{stmt_in}
+    , sqlda_fields(std::static_pointer_cast<firebird_statement>(stmt_in)->access_sqlda_out())
+    , after_last_row{false}
 {
-    sqlda_fields = std::static_pointer_cast<firebird_statement>(stmt)->access_sqlda_out();
+//    move_next();
 }
 
 isc_stmt_handle *firebird_result::get_statement_handle() const
@@ -26,18 +28,14 @@ void firebird_result::move_next()
 {
     isc_status status;
 
-    bool after_last_row = isc_dsql_fetch(static_cast<ISC_STATUS *>(status), get_statement_handle(), xsqlda::version, sqlda_fields->get()) == 100L;
+    after_last_row = isc_dsql_fetch(static_cast<ISC_STATUS *>(status), get_statement_handle(), xsqlda::version, static_cast<XSQLDA*>(*sqlda_fields)) == 100L;
     if (!after_last_row)
         status.throw_db_exception_on_error();
 }
 
-void firebird_result::move_first()
-{
-}
-
 bool firebird_result::is_eof() const
 {
-    return true;
+    return after_last_row;
 }
 
 int firebird_result::get_column_count() const

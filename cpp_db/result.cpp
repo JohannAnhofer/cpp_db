@@ -38,11 +38,6 @@ bool result::is_eof() const
 	return result_impl->is_eof();
 }
 
-void result::move_first()
-{
-	result_impl->move_first();
-}
-
 void result::move_next()
 {
 	result_impl->move_next();

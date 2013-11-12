@@ -18,7 +18,6 @@ public:
     firebird_result(const shared_statement_ptr &stmt);
 
     void move_next() override;
-    void move_first() override;
     bool is_eof() const override;
     int get_column_count() const override;
     std::string get_column_name(int column) const override;
@@ -32,6 +31,7 @@ private:
 private:
     std::shared_ptr<statement_interface> stmt;
     xsqlda *sqlda_fields;
+    bool after_last_row;
 };
 
 } // namespace cpp_db

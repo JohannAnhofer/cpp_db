@@ -26,8 +26,6 @@ public:
 	int get_column_count() const;
 
 	bool is_eof() const;
-
-	void move_first();
 	void move_next();
 
 	value get_column_value(int column) const;
