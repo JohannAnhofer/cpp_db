@@ -6,7 +6,6 @@
 #include "isc_status.h"
 
 #include <ctime>
-#include <iostream>
 
 namespace cpp_db
 {
