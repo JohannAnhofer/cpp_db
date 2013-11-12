@@ -18,7 +18,6 @@ public:
     explicit sqlite_result(const shared_statement_ptr &stmt_in);
 
     void move_next() override;
-    void move_prev() override;
     void move_first() override;
     bool is_eof() const override;
     int get_column_count() const override;

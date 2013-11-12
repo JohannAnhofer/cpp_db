@@ -31,10 +31,6 @@ void firebird_result::move_next()
         status.throw_db_exception_on_error();
 }
 
-void firebird_result::move_prev()
-{
-}
-
 void firebird_result::move_first()
 {
 }
