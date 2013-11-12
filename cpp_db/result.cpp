@@ -48,11 +48,6 @@ void result::move_next()
 	result_impl->move_next();
 }
 
-void result::move_prev()
-{
-	result_impl->move_prev();
-}
-
 value result::get_column_value(int column) const
 {	
 	return result_impl->get_column_value(column);

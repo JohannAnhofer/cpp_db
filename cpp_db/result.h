@@ -29,7 +29,6 @@ public:
 
 	void move_first();
 	void move_next();
-	void move_prev();
 
 	value get_column_value(int column) const;
 	value get_column_value(const std::string &column_name) const;

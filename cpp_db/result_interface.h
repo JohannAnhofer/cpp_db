@@ -16,7 +16,6 @@ struct result_interface
     virtual bool is_eof() const = 0;
     virtual void move_first() = 0;
     virtual void move_next() = 0;
-    virtual void move_prev() = 0;
     virtual value get_column_value(int column) const = 0;
     virtual value get_column_value(const std::string &column_name) const = 0;
     virtual std::string get_column_name(int column) const = 0;
