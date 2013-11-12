@@ -14,14 +14,13 @@ firebird_parameters::firebird_parameters(const shared_statement_ptr &stmt_in)
 {
     isqlda = dynamic_cast<firebird_statement *>(stmt_in.get())->access_sqlda_in();
 
-    guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, get_statement_handle(), xsqlda::version, isqlda->get());}, true);
+    guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, get_statement_handle(), xsqlda::version, static_cast<XSQLDA*>(*isqlda));}, true);
 
     if (isqlda->resize_to_fit())
-        guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, get_statement_handle(), xsqlda::version, isqlda->get());}, true);
+        guarded_execute([this](ISC_STATUS *status){isc_dsql_describe_bind(status, get_statement_handle(), xsqlda::version, static_cast<XSQLDA*>(*isqlda));}, true);
 
     isqlda->allocate_vars();
 }
-
 
 int firebird_parameters::get_count() const
 {

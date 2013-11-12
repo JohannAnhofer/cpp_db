@@ -96,9 +96,6 @@ void test_cpp_db_class::test_result()
     TEST_EQUAL(r.get_column_value(1).get_value<std::string>(), "third");
 	TEST_FOR_NO_EXCEPTION(r.move_next());
     TEST_VERIFY(r.is_eof());
-	TEST_FOR_NO_EXCEPTION(r.move_first());
-    TEST_EQUAL(r.get_column_value(0).get_value<int64_t>(), 1);
-    TEST_EQUAL(r.get_column_value(1).get_value<std::string>(), "first");
 
     TEST_FOR_EXCEPTION(cpp_db::result(cpp_db::statement(*con.get()).execute()), cpp_db::db_exception);
 }

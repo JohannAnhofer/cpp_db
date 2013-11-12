@@ -20,7 +20,7 @@ xsqlvar::xsqlvar(XSQLVAR &var_in)
 
 std::string xsqlvar::get_column_name() const
 {
-    return std::string(var.sqlname, std::max(static_cast<ISC_SHORT>(sizeof(var.sqlname) / sizeof(var.sqlname[0])), var.sqlname_length));
+    return std::string(var.sqlname);
 }
 
 cpp_db::xsqlvar::operator XSQLVAR *()
@@ -36,7 +36,7 @@ bool xsqlvar::can_be_null() const
 bool xsqlvar::is_null() const
 {
     if (can_be_null())
-        return var.sqlind[0] == -1;
+        return *var.sqlind == -1;
     return false;
 }
 
@@ -48,13 +48,13 @@ int xsqlvar::type() const
 void xsqlvar::set_null()
 {
     if (can_be_null())
-        var.sqlind[0] = -1;
+        *var.sqlind = -1;
 }
 
 void xsqlvar::set_not_null()
 {
     if (can_be_null())
-        var.sqlind[0] = 0;
+        *var.sqlind = 0;
 }
 
 void xsqlvar::write_value_to_sql_var(const std::string &value)
@@ -92,16 +92,14 @@ void xsqlvar::allocate()
     case SQL_TYPE_TIME:
     case SQL_TYPE_DATE:
     case SQL_TEXT:
-    case SQL_BLOB:
         var.sqldata = new char[var.sqllen];
-        break;
-    case SQL_ARRAY:
-        var.sqldata = new char[sizeof(ISC_QUAD)];
-        memset(var.sqldata, 0, sizeof(ISC_QUAD));
+        memset(var.sqldata, 0, var.sqllen);
         break;
     case SQL_VARYING:
         var.sqldata = new char[var.sqllen + sizeof(short)];
+        memset(var.sqldata, 0, var.sqllen + sizeof(short));
         break;
+    case SQL_BLOB:
     default:
         // not supported - do not bind.
         var.sqldata = nullptr;
@@ -110,8 +108,8 @@ void xsqlvar::allocate()
 
     if (var.sqltype & sql_ind_used)
     {
-        var.sqlind = new short[1];
-        var.sqlind[0] = -1;
+        var.sqlind = new short;
+        *var.sqlind = -1;
     }
     else
         var.sqlind = nullptr;
@@ -126,7 +124,7 @@ void xsqlvar::deallocate()
 void xsqlvar::reset_value()
 {
     if (can_be_null())
-        var.sqlind[0] = -1;
+        set_null();
 
     switch(type())
     {
