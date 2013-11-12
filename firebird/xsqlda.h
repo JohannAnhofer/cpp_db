@@ -14,8 +14,6 @@ public:
 	xsqlda();
 	~xsqlda();
 
-	XSQLDA *get() const;
-
 	int get_var_count() const;
 	bool resize_to_fit();
     void allocate_vars();
@@ -23,8 +21,9 @@ public:
     void clear();
 
     xsqlvar operator[](int index) const;
+    explicit operator XSQLDA *();
 
-    static const int version = 1;
+    static const int version = SQLDA_VERSION1;
 
 private:
 	void allocate(int vars_count);

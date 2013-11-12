@@ -50,14 +50,39 @@ void test_firebird_class::test_execute_non_query_with_parameters()
     TEST_FOR_NO_EXCEPTION(stmt.execute_non_query());
 }
 
+template<typename T>
+std::string no_null(const cpp_db::value &val, const std::string &def = "<null>")
+{
+    if (is_null(val))
+        return def;
+    else
+    {
+        std::stringstream s;
+        s << val.get_value<T>();
+        return s.str();
+    }
+}
+
 void test_firebird_class::test_result()
 {
+//    cpp_db::result r(cpp_db::execute(*con, "select FIRST(1) * from TBL_MAINCONFIG WHERE CLASS_NAME = ?", "ConfigurationDataLayer::DbSettings"));
     cpp_db::result r(cpp_db::execute(*con, "execute procedure PRO_CONVERTFORMAT(?, ?, ?, ?, ?, ?)", "4711.0815", 10.0, 2.0, 3.0, 2, 3));
-    for (int i = 0; i < r.get_column_count(); ++i)
-        TEST_FOR_NO_EXCEPTION(std::clog << r.get_column_name(i) << " = ");
-    // r.move_next();
-    TEST_FOR_NO_EXCEPTION(std::clog << r.get_column_value(0).get_value<std::string>());
     std::clog << std::endl;
+    for (int i = 0; i < r.get_column_count(); ++i)
+        TEST_FOR_NO_EXCEPTION(std::clog << r.get_column_name(i) << "\t");
+    std::clog << std::endl;
+    TEST_FOR_NO_EXCEPTION(std::clog << no_null<std::string>(r.get_column_value(0)) << std::endl);
+
+//    TEST_FOR_NO_EXCEPTION(std::clog << no_null<int64_t>(r.get_column_value("ID")) << '\t'
+//                                    << no_null<std::string>(r.get_column_value("CLASS_NAME")) << '\t'
+//                                    << no_null<std::string>(r.get_column_value("CLASS_PARAM")) << '\t'
+//                                    << no_null<std::string>(r.get_column_value("CLASS_VALUE")) << '\t'
+//                                    << no_null<std::string>(r.get_column_value("DESCRIPTION")) << '\t'
+//                                    << no_null<int>(r.get_column_value("LID")) << '\t'
+//                                    << no_null<short>(r.get_column_value("EXPORT")) << '\t'
+//                                    << no_null<std::string>(r.get_column_value("DEFAULT_VALUE")) << std::endl
+//                                    << std::endl
+//                          );
 }
 
 void test_firebird_class::cleanup_class()

@@ -12,6 +12,8 @@
 namespace cpp_db
 {
 
+enum class firebird_statement_type;
+
 class firebird_statement : public statement_interface
 {
 public:
@@ -35,7 +37,7 @@ private:
     isc_tr_handle *get_local_transaction_handle() const;
     bool has_current_transaction() const;
     bool has_local_transaction() const;
-    int determine_statement_type() const;
+    firebird_statement_type determine_statement_type() const;
 
 private:    
     std::weak_ptr<connection_interface> conn_impl;
@@ -43,7 +45,7 @@ private:
     std::shared_ptr<isc_stmt_handle> stmt;
     bool prepared;
     xsqlda sqlda_params_in, sqlda_fields_out;
-    int statement_type;
+    firebird_statement_type statement_type;
 };
 
 } // namespace cpp_db

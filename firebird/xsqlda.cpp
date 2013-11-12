@@ -17,8 +17,8 @@ namespace cpp_db
 		release();
 	}
 
-	XSQLDA *xsqlda::get() const
-	{
+    xsqlda::operator XSQLDA *()
+    {
 		return sqlda;
 	}
 
@@ -58,14 +58,14 @@ namespace cpp_db
 		if (sqlda == nullptr)
 			throw std::runtime_error("Can't allocated XSQLDA!");
 		memset(sqlda, 0, size_of_xsqlda_in_bytes);
-		sqlda->version = SQLDA_VERSION1;
+        sqlda->version = version;
 		sqlda->sqln = vars_count;
 	}
 
     void xsqlda::allocate_vars()
 	{
 		for (int var_idx = 0; var_idx < sqlda->sqln; ++var_idx)
-            xsqlvar((*this)[var_idx]).allocate();
+            (*this)[var_idx].allocate();
     }
 
     void xsqlda::reset_values()
