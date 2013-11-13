@@ -55,7 +55,7 @@ enum class firebird_data_type
 firebird_statement::firebird_statement(const shared_connection_ptr &conn, shared_transaction_ptr trans)
     : conn_impl(conn)
     , tr(trans)
-    , stmt(std::make_shared<isc_stmt_handle>(static_cast<FB_API_HANDLE>(0)))
+    , stmt(new isc_stmt_handle{0})
     , prepared{false}
     , statement_type{firebird_statement_type::stmt_invalid}
 {
