@@ -63,26 +63,43 @@ std::string no_null(const cpp_db::value &val, const std::string &def = "<null>")
     }
 }
 
-void test_firebird_class::test_result()
+void test_firebird_class::test_result_single_row()
 {
-//    cpp_db::result r(cpp_db::execute(*con, "select FIRST(1) * from TBL_MAINCONFIG WHERE CLASS_NAME = ?", "ConfigurationDataLayer::DbSettings"));
     cpp_db::result r(cpp_db::execute(*con, "execute procedure PRO_CONVERTFORMAT(?, ?, ?, ?, ?, ?)", "4711.0815", 10.0, 2.0, 3.0, 2, 3));
+//    cpp_db::result r(cpp_db::execute(*con, "select * from PRO_CONVERTFORMAT(?, ?, ?, ?, ?, ?)", "4711.0815", 10.0, 2.0, 3.0, 2, 3));
     std::clog << std::endl;
     for (int i = 0; i < r.get_column_count(); ++i)
         TEST_FOR_NO_EXCEPTION(std::clog << r.get_column_name(i) << "\t");
     std::clog << std::endl;
-    TEST_FOR_NO_EXCEPTION(std::clog << no_null<std::string>(r.get_column_value(0)) << std::endl);
+    if (!r.is_eof())
+        TEST_FOR_NO_EXCEPTION(std::clog << no_null<std::string>(r.get_column_value(0)));
+    else
+        std::clog << "EOF\n";
 
-//    TEST_FOR_NO_EXCEPTION(std::clog << no_null<int64_t>(r.get_column_value("ID")) << '\t'
-//                                    << no_null<std::string>(r.get_column_value("CLASS_NAME")) << '\t'
-//                                    << no_null<std::string>(r.get_column_value("CLASS_PARAM")) << '\t'
-//                                    << no_null<std::string>(r.get_column_value("CLASS_VALUE")) << '\t'
-//                                    << no_null<std::string>(r.get_column_value("DESCRIPTION")) << '\t'
-//                                    << no_null<int>(r.get_column_value("LID")) << '\t'
-//                                    << no_null<short>(r.get_column_value("EXPORT")) << '\t'
-//                                    << no_null<std::string>(r.get_column_value("DEFAULT_VALUE")) << std::endl
-//                                    << std::endl
-//                          );
+    std::clog << std::endl << no_null<std::string>(cpp_db::execute_scalar(*con, "select first(1) INSTRUMENT_SERIAL from TBL_DEVICE")) << std::endl;
+}
+
+void test_firebird_class::test_result_multi_row()
+{
+    cpp_db::result r(cpp_db::execute(*con, "select * from TBL_MAINCONFIG WHERE CLASS_NAME = ? order by ID DESC", "ConfigurationDataLayer::DbSettings"));
+    std::clog << std::endl;
+    for (int i = 0; i < r.get_column_count(); ++i)
+        TEST_FOR_NO_EXCEPTION(std::clog << r.get_column_name(i) << "\t");
+    std::clog << std::endl;
+    while(!r.is_eof())
+    {
+        TEST_FOR_NO_EXCEPTION(std::clog << no_null<int64_t>(r.get_column_value("ID")) << '\t'
+                                        << no_null<std::string>(r.get_column_value("CLASS_NAME")) << '\t'
+                                        << no_null<std::string>(r.get_column_value("CLASS_PARAM")) << '\t'
+                                        << no_null<std::string>(r.get_column_value("CLASS_VALUE")) << '\t'
+                                        << no_null<std::string>(r.get_column_value("DESCRIPTION")) << '\t'
+                                        << no_null<int>(r.get_column_value("LID")) << '\t'
+                                        << no_null<short>(r.get_column_value("EXPORT")) << '\t'
+                                        << no_null<std::string>(r.get_column_value("DEFAULT_VALUE")) << std::endl
+                                        << std::endl
+                              );
+        r.move_next();
+    }
 }
 
 void test_firebird_class::cleanup_class()
