@@ -42,7 +42,7 @@ struct coalesce_trait<T>
 
 // head is non null --> return the head
 template<typename T, typename...Ts>
-T coalesce(T&& t, Ts...)
+T coalesce(T&& t, Ts && ...)
 {
     return std::forward<T>(t);
 }
@@ -56,9 +56,9 @@ T coalesce(T&& t)
 
 // head is null --> analyze tail
 template<typename...Ts>
-typename coalesce_trait<Ts...>::type coalesce(null_type, Ts... ts)
+typename coalesce_trait<Ts...>::type coalesce(null_type &&, Ts && ...ts)
 {
-	return coalesce(ts...);
+    return coalesce(std::forward<Ts>(ts)...);
 }
 
 // tail is null case --> return null, because all other types where null
