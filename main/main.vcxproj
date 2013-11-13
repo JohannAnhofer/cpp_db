@@ -91,6 +91,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="test_cpp_db_class.cpp" />
     <ClCompile Include="test_firebird_class.cpp" />
+    <ClCompile Include="test_sqlite_class.cpp" />
     <ClCompile Include="test_test_class.cpp" />
     <ClCompile Include="test_tools_class.cpp" />
   </ItemGroup>
@@ -114,6 +115,7 @@
   <ItemGroup>
     <ClInclude Include="test_cpp_db_class.h" />
     <ClInclude Include="test_firebird_class.h" />
+    <ClInclude Include="test_sqlite_class.h" />
     <ClInclude Include="test_test_class.h" />
     <ClInclude Include="test_tools_class.h" />
   </ItemGroup>
