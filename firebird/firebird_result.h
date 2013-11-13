@@ -12,6 +12,8 @@
 namespace cpp_db
 {
 
+class firebird_statement;
+
 class firebird_result : public result_interface
 {
 public:
@@ -29,7 +31,7 @@ private:
     isc_stmt_handle *get_statement_handle() const;
 
 private:
-    std::shared_ptr<statement_interface> stmt;
+    std::shared_ptr<firebird_statement> stmt;
     xsqlda *sqlda_fields;
     bool after_last_row;
 };

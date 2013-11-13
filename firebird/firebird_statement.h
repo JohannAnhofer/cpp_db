@@ -31,6 +31,8 @@ public:
     xsqlda *access_sqlda_in();
     xsqlda *access_sqlda_out();
 
+    bool is_select_statement() const;
+
 private:
     isc_db_handle *get_db_handle() const;
     isc_tr_handle *get_current_transaction_handle() const;

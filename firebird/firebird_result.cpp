@@ -12,11 +12,13 @@ namespace cpp_db
 {
 
 firebird_result::firebird_result(const shared_statement_ptr &stmt_in)
-    : stmt{stmt_in}
-    , sqlda_fields(std::static_pointer_cast<firebird_statement>(stmt_in)->access_sqlda_out())
+    : stmt{std::static_pointer_cast<firebird_statement>(stmt_in)}
+    , sqlda_fields(stmt->access_sqlda_out())
     , after_last_row{false}
 {
-//    move_next();
+    stmt->execute();
+    if (stmt->is_select_statement())
+        move_next();
 }
 
 isc_stmt_handle *firebird_result::get_statement_handle() const
@@ -26,11 +28,22 @@ isc_stmt_handle *firebird_result::get_statement_handle() const
 
 void firebird_result::move_next()
 {
-    isc_status status;
-
-    after_last_row = isc_dsql_fetch(static_cast<ISC_STATUS *>(status), get_statement_handle(), xsqlda::version, static_cast<XSQLDA*>(*sqlda_fields)) == 100L;
     if (!after_last_row)
-        status.throw_db_exception_on_error();
+    {
+        if (stmt->is_select_statement())
+        {
+            isc_status status;
+
+            after_last_row = isc_dsql_fetch(static_cast<ISC_STATUS *>(status), get_statement_handle(), xsqlda::version, static_cast<XSQLDA*>(*sqlda_fields)) == 100L;
+            if (!after_last_row)
+                status.throw_db_exception_on_error();
+        }
+        else
+        {
+            after_last_row = true;
+            sqlda_fields->reset_values();
+        }
+    }
 }
 
 bool firebird_result::is_eof() const
