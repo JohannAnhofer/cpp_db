@@ -15,3 +15,4 @@
  * firebird requires a separate execute_ddl for create database and set transaction
  * weakpointers don't throw if they are expired.
  - test result with an empty result set.
+ - unicode support
