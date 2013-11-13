@@ -55,7 +55,7 @@ enum class firebird_data_type
 firebird_statement::firebird_statement(const shared_connection_ptr &conn, shared_transaction_ptr trans)
     : conn_impl(conn)
     , tr(trans)
-	, stmt(std::make_shared<isc_stmt_handle>())
+    , stmt(std::make_shared<isc_stmt_handle>(static_cast<FB_API_HANDLE>(0)))
     , prepared{false}
     , statement_type{firebird_statement_type::stmt_invalid}
 {
@@ -182,12 +182,15 @@ void firebird_statement::execute()
     guarded_execute([this](ISC_STATUS *status)
         {
             isc_tr_handle *trans = has_local_transaction() ? get_local_transaction_handle() : get_current_transaction_handle();
-            isc_dsql_execute2(status, trans, stmt.get(), xsqlda::version, static_cast<XSQLDA*>(sqlda_params_in), static_cast<XSQLDA*>(sqlda_fields_out));
+            if (statement_type == firebird_statement_type::stmt_exec_procedure)
+                isc_dsql_execute2(status, trans, stmt.get(), xsqlda::version, static_cast<XSQLDA*>(sqlda_params_in), static_cast<XSQLDA*>(sqlda_fields_out));
+            else
+                isc_dsql_execute(status, trans, stmt.get(), xsqlda::version, static_cast<XSQLDA*>(sqlda_params_in));
             if (isc_status::has_error(status) && has_local_transaction())
                 tr->rollback();
         }, true);
 
-    if (has_local_transaction())
+    if (!(statement_type == firebird_statement_type::stmt_select || statement_type == firebird_statement_type::stmt_exec_procedure) && has_local_transaction())
         tr->commit();
 }
 
@@ -212,6 +215,11 @@ xsqlda *firebird_statement::access_sqlda_in()
 xsqlda *firebird_statement::access_sqlda_out()
 {
     return &sqlda_fields_out;
+}
+
+bool firebird_statement::is_select_statement() const
+{
+    return statement_type == firebird_statement_type::stmt_select;
 }
 
 } // namespace cpp_db
