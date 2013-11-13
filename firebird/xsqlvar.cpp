@@ -99,6 +99,7 @@ void xsqlvar::allocate()
         var.sqldata = new char[var.sqllen + sizeof(short)];
         memset(var.sqldata, 0, var.sqllen + sizeof(short));
         break;
+    case SQL_ARRAY:
     case SQL_BLOB:
     default:
         // not supported - do not bind.
@@ -137,16 +138,13 @@ void xsqlvar::reset_value()
     case SQL_TYPE_TIME:
     case SQL_TYPE_DATE:
     case SQL_TEXT:
-    case SQL_BLOB:
         memset(var.sqldata, 0, var.sqllen);
-        break;
-    case SQL_ARRAY:
-        memset(var.sqldata, 0, sizeof(ISC_QUAD));
-        break;
         break;
     case SQL_VARYING:
         memset(var.sqldata, 0, var.sqllen + sizeof(short));
         break;
+    case SQL_ARRAY:
+    case SQL_BLOB:
     default:
         break;
     }
