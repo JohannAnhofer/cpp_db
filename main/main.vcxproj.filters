@@ -30,6 +30,9 @@
     <ClCompile Include="test_firebird_class.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test_sqlite_class.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="test_cpp_db_class.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="test_firebird_class.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test_sqlite_class.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
