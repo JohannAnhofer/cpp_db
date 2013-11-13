@@ -16,7 +16,7 @@ namespace cpp_db
     {
         statement stmt(conn);
         stmt.prepare(sql);
-        stmt.execute_ddl(args...);
+        stmt.execute_ddl(std::forward<Args>(args)...);
     }
 
     template<typename ...Args>
@@ -24,7 +24,7 @@ namespace cpp_db
 	{
 		statement stmt(conn);
 		stmt.prepare(sql);
-        stmt.execute_non_query(args...);
+        stmt.execute_non_query(std::forward<Args>(args)...);
 	}
 
 	template<typename ...Args>
@@ -32,7 +32,7 @@ namespace cpp_db
 	{
 		statement stmt(conn);
 		stmt.prepare(sql);
-        return stmt.execute_scalar(args...);
+        return stmt.execute_scalar(std::forward<Args>(args)...);
 	}
 
 	template<typename ...Args>
@@ -40,7 +40,7 @@ namespace cpp_db
 	{
 		statement stmt(conn);
 		stmt.prepare(sql);
-        return stmt.execute(args...);
+        return stmt.execute(std::forward<Args>(args)...);
 	}
 }
 
