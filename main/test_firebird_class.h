@@ -12,15 +12,17 @@ public:
 	BEGIN_DECLARE_TEST_CLASS(test_firebird_class)
     DECLARE_TEST_FUNCTION(test_execute_non_query)
     DECLARE_TEST_FUNCTION(test_execute_non_query_with_parameters)
-    DECLARE_TEST_FUNCTION(test_result)
-	END_DECLARE_TEST_CLASS()
+    DECLARE_TEST_FUNCTION(test_result_single_row)
+    DECLARE_TEST_FUNCTION(test_result_multi_row)
+    END_DECLARE_TEST_CLASS()
 
 protected:
 	void init_class() override;
 	void cleanup_class() override;
     void test_execute_non_query();
     void test_execute_non_query_with_parameters();
-    void test_result();
+    void test_result_single_row();
+    void test_result_multi_row();
 
 private:
     std::shared_ptr<cpp_db::connection> con;
