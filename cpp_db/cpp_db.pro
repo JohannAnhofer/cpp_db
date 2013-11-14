@@ -10,7 +10,8 @@ SOURCES += \
     result.cpp \
     statement.cpp \
     transaction.cpp \
-    execute.cpp
+    execute.cpp \
+    statement.inl
 
 HEADERS += \
     connection.h \
@@ -23,7 +24,6 @@ HEADERS += \
     value.h \
     null.h \
     execute.h \
-    statement.inl.h \
     driver.h \
     usings.h \
     connection_interface.h \
