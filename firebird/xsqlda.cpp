@@ -6,8 +6,9 @@
 namespace cpp_db
 {
 
-	xsqlda::xsqlda()
+    xsqlda::xsqlda(bool for_input_params)
 		: sqlda{nullptr}
+        , is_input_da(for_input_params)
 	{
 		allocate(1);
 	}
@@ -65,7 +66,7 @@ namespace cpp_db
     void xsqlda::allocate_vars()
 	{
 		for (int var_idx = 0; var_idx < sqlda->sqln; ++var_idx)
-            (*this)[var_idx].allocate();
+            (*this)[var_idx].allocate(is_input_da ? -1 : 0);
     }
 
     void xsqlda::reset_values()
