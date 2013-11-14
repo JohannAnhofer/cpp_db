@@ -71,7 +71,7 @@ namespace cpp_db
     void xsqlda::reset_values()
     {
         for (int var_idx = 0; var_idx < sqlda->sqln; ++var_idx)
-            xsqlvar((*this)[var_idx]).reset_value();
+            (*this)[var_idx].reset_value();
     }
 
     void xsqlda::clear()
@@ -82,8 +82,8 @@ namespace cpp_db
 
 	void xsqlda::release()
 	{
-		for (int var = 0; var < sqlda->sqln; ++var)
-            xsqlvar((*this)[var]).deallocate();
+        for (int var_idx = 0; var_idx < sqlda->sqln; ++var_idx)
+            (*this)[var_idx].deallocate();
 		free(sqlda);
         sqlda = nullptr;
     }

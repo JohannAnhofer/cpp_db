@@ -60,7 +60,7 @@ void xsqlvar::set_not_null()
 void xsqlvar::write_value_to_sql_var(const std::string &value)
 {
     ISC_SCHAR *destination = var.sqldata;
-    uint16_t len{ 0 };
+    ISC_SHORT len{ 0 };
     ISC_SCHAR fill_char{ ' ' };
 
     if (value.length() > static_cast<unsigned>(var.sqllen))
@@ -92,12 +92,12 @@ void xsqlvar::allocate()
     case SQL_TYPE_TIME:
     case SQL_TYPE_DATE:
     case SQL_TEXT:
-        var.sqldata = new char[var.sqllen];
+        var.sqldata = new ISC_SCHAR[var.sqllen];
         memset(var.sqldata, 0, var.sqllen);
         break;
     case SQL_VARYING:
-        var.sqldata = new char[var.sqllen + sizeof(short)];
-        memset(var.sqldata, 0, var.sqllen + sizeof(short));
+        var.sqldata = new ISC_SCHAR[var.sqllen + sizeof(ISC_SHORT)];
+        memset(var.sqldata, 0, var.sqllen + sizeof(ISC_SHORT));
         break;
     case SQL_ARRAY:
     case SQL_BLOB:
@@ -107,9 +107,9 @@ void xsqlvar::allocate()
         break;
     }
 
-    if (var.sqltype & sql_ind_used)
+    if (can_be_null())
     {
-        var.sqlind = new short;
+        var.sqlind = new ISC_SHORT;
         *var.sqlind = -1;
     }
     else
@@ -119,7 +119,7 @@ void xsqlvar::allocate()
 void xsqlvar::deallocate()
 {
     delete [] var.sqldata;
-    delete [] var.sqlind;
+    delete var.sqlind;
 }
 
 void xsqlvar::reset_value()
@@ -141,7 +141,7 @@ void xsqlvar::reset_value()
         memset(var.sqldata, 0, var.sqllen);
         break;
     case SQL_VARYING:
-        memset(var.sqldata, 0, var.sqllen + sizeof(short));
+        memset(var.sqldata, 0, var.sqllen + sizeof(ISC_SHORT));
         break;
     case SQL_ARRAY:
     case SQL_BLOB:
@@ -160,11 +160,11 @@ value xsqlvar::get_column_value() const
     case  SQL_TEXT:
         return std::string(var.sqldata, var.sqllen);
     case  SQL_VARYING:
-        return std::string(var.sqldata+sizeof(short), *reinterpret_cast<short *>(var.sqldata));
+        return std::string(var.sqldata+sizeof(ISC_SHORT), *reinterpret_cast<ISC_SHORT *>(var.sqldata));
     case  SQL_SHORT:
-        return *reinterpret_cast<short *>(var.sqldata);
+        return *reinterpret_cast<int16_t *>(var.sqldata);
     case  SQL_LONG:
-        return *reinterpret_cast<long *>(var.sqldata);
+        return *reinterpret_cast<int32_t *>(var.sqldata);
     case  SQL_INT64:
         return *reinterpret_cast<int64_t *>(var.sqldata);
     case  SQL_FLOAT:
