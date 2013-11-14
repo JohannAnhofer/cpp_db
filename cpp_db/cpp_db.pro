@@ -9,7 +9,8 @@ SOURCES += \
     parameters.cpp \
     result.cpp \
     statement.cpp \
-    transaction.cpp
+    transaction.cpp \
+    execute.cpp
 
 HEADERS += \
     connection.h \
