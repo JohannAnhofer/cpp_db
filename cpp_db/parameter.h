@@ -32,21 +32,8 @@ namespace cpp_db
 
         parameter(const parameter &) = default;
         parameter &operator=(const parameter &) = default;
-#ifdef _MSC_VER
-		parameter(parameter &&other)
-			: argument(std::move(other.argument))
-			, index(other.index)
-			, name(std::move(other.name))
-		{
-		}
 
-		parameter &operator=(parameter &&other)
-		{
-			argument = std::move(other.argument);
-			index = other.index;
-			name = std::move(other.name);
-		}
-#else
+#if !defined(_MSC_VER) || (_MSC_VER > 1800)
         parameter(parameter &&) = default;
         parameter &operator=(parameter &&) = default;
 #endif
