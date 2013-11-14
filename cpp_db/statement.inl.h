@@ -17,37 +17,40 @@ void bind_pos_param(parameters &)
 {
 }
 
-template<typename ResultType, typename FunctionType, typename ...Args>
-ResultType execute_with_params(statement & stmt, FunctionType function, Args&& ...args)
+template<typename ...Args>
+void bind_params(statement & stmt, Args&& ...args)
 {
 	stmt.reset();
 	parameters params(stmt.get_parameters());
     bind_pos_param<1>(params, std::forward<Args>(args)...);
-	return function();
 }
 
 template<typename ...Args>
 void statement::execute_ddl(Args&& ...args)
 {
-    execute_with_params<void>(*this, [&]() {execute_ddl(); }, std::forward<Args>(args)...);
+	bind_params(*this, std::forward<Args>(args)...);
+	execute_ddl();
 }
 
 template<typename ...Args>
 void statement::execute_non_query(Args&& ...args)
 {
-    execute_with_params<void>(*this, [&]() {execute_non_query(); }, std::forward<Args>(args)...);
+	bind_params(*this, std::forward<Args>(args)...);
+	execute_non_query();
 }
 
 template<typename ...Args>
 value statement::execute_scalar(Args&& ...args)
 {
-    return execute_with_params<value>(*this, [&](){return execute_scalar(); }, std::forward<Args>(args)...);
+	bind_params(*this, std::forward<Args>(args)...);
+	return execute_scalar();
 }
 
 template<typename ...Args>
 result statement::execute(Args&& ...args)
 {
-    return execute_with_params<result>(*this, [&](){return execute(); }, std::forward<Args>(args)...);
+	bind_params(*this, std::forward<Args>(args)...);
+	return execute();
 }
 
 }
