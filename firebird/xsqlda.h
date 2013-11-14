@@ -11,7 +11,7 @@ namespace cpp_db
 class xsqlda
 {
 public:
-	xsqlda();
+    explicit xsqlda(bool for_input_params);
 	~xsqlda();
 
 	int get_var_count() const;
@@ -32,6 +32,7 @@ private:
 
 private:
 	XSQLDA *sqlda;
+    bool is_input_da;
 };
 
 }

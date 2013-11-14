@@ -66,17 +66,16 @@ std::string no_null(const cpp_db::value &val, const std::string &def = "<null>")
 void test_firebird_class::test_result_single_row()
 {
     cpp_db::result r(cpp_db::execute(*con, "execute procedure PRO_CONVERTFORMAT(?, ?, ?, ?, ?, ?)", "4711.0815", 10.0, 2.0, 3.0, 2, 3));
-//    cpp_db::result r(cpp_db::execute(*con, "select * from PRO_CONVERTFORMAT(?, ?, ?, ?, ?, ?)", "4711.0815", 10.0, 2.0, 3.0, 2, 3));
-    std::clog << std::endl;
-    for (int i = 0; i < r.get_column_count(); ++i)
-        TEST_FOR_NO_EXCEPTION(std::clog << r.get_column_name(i) << "\t");
-    std::clog << std::endl;
-    if (!r.is_eof())
-        TEST_FOR_NO_EXCEPTION(std::clog << no_null<std::string>(r.get_column_value(0)));
-    else
-        std::clog << "EOF\n";
+    TEST_VERIFY(!r.is_eof());
+    TEST_EQUAL(r.get_column_count(), 1);
+    TEST_EQUAL(r.get_column_name(0), "NUMBER_FMT");
+    TEST_VERIFY(!cpp_db::is_null(r.get_column_value(0)));
+    TEST_EQUAL(r.get_column_value(0).get_value<std::string>(), "3147.390000000000");
 
-    std::clog << std::endl << no_null<std::string>(cpp_db::execute_scalar(*con, "select first(1) INSTRUMENT_SERIAL from TBL_DEVICE")) << std::endl;
+    cpp_db::value val = cpp_db::execute_scalar(*con, "select first(1) INSTRUMENT_SERIAL from TBL_DEVICE");
+    TEST_VERIFY(!is_null(val));
+    TEST_EQUAL(val.get_value<std::string>(), "19999");
+
 }
 
 void test_firebird_class::test_result_multi_row()

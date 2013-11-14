@@ -79,7 +79,7 @@ void xsqlvar::write_value_to_sql_var(const std::string &value)
         memset(destination + len, fill_char, var.sqllen - len);
 }
 
-void xsqlvar::allocate()
+void xsqlvar::allocate(ISC_SHORT is_null)
 {
     switch (type())
     {
@@ -110,7 +110,7 @@ void xsqlvar::allocate()
     if (can_be_null())
     {
         var.sqlind = new ISC_SHORT;
-        *var.sqlind = -1;
+        *var.sqlind = is_null;
     }
     else
         var.sqlind = nullptr;
@@ -204,7 +204,7 @@ void xsqlvar::set_column_value(const value &val)
 {
     if (can_be_null())
     {
-        if (is_null())
+        if (cpp_db::is_null(val))
         {
             set_null();
             return;

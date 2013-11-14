@@ -57,6 +57,8 @@ firebird_statement::firebird_statement(const shared_connection_ptr &conn, shared
     , tr(trans)
     , stmt(new isc_stmt_handle{0})
     , prepared{false}
+    , sqlda_params_in(true)
+    , sqlda_fields_out(false)
     , statement_type{firebird_statement_type::stmt_invalid}
 {
     if (conn_impl.expired())

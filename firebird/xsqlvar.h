@@ -22,7 +22,7 @@ public:
 
     int type() const;
 
-    void allocate();
+    void allocate(ISC_SHORT is_null);
     void deallocate();
 
     void reset_value();
