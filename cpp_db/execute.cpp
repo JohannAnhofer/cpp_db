@@ -12,8 +12,8 @@ static Result execute_helper(const std::function<Result(statement &stmt)> &funct
     stmt.prepare(sql);
     parameters p(stmt.get_parameters());
 
-    for (auto &&param: params)
-        p.bind(std::move(param));
+    for (auto param: params)
+        p.bind(param);
 
     return function(stmt);
 }
