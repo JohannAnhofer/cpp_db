@@ -13,6 +13,8 @@ namespace cpp_db
 	class value
 	{
 	public:
+		value() = default;
+
 		template<typename T>
         value(T val)
             : pholder(new concrete_holder<T>(val))
@@ -54,11 +56,25 @@ namespace cpp_db
 #if !defined(_MSC_VER) || (_MSC_VER > 1800)
         value(value &&) = default;
         value &operator=(value &&) = default;
+#else
+		value(value &&other) : pholder(other.pholder.release())
+		{
+		}
+
+		value &operator=(value &&other)
+		{
+			if (this != &other)
+				pholder.reset(other.pholder.release());
+			return *this;
+		}
 #endif
 
 		template<typename T>
 		T get_value() const
 		{
+			if (pholder == nullptr)
+				throw std::runtime_error("Invalid value object");
+
             if (pholder->get_type() == typeid(T))
                 return *reinterpret_cast<T const *>(pholder->get_value());
             throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + pholder->get_type().name()+")");
@@ -67,6 +83,9 @@ namespace cpp_db
 		template<typename T, typename U>
 		U cast_to() const
 		{
+			if (pholder == nullptr)
+				throw std::runtime_error("Invalid value object");
+
 			if (pholder->get_type() == typeid(T))
                 return static_cast<concrete_holder<T> *>(pholder.get())->template cast_to<U>();
 			throw std::runtime_error(std::string("Invalid value type (") + +typeid(T).name() + std::string(" != ") + pholder->get_type().name() + ")");
@@ -75,6 +94,8 @@ namespace cpp_db
 		template<typename T>
 		bool has_value_of_type() const
 		{
+			if (pholder == nullptr)
+				throw std::runtime_error("Invalid value object");
 			return pholder->get_type() == typeid(T);
 		}
 

@@ -17,13 +17,13 @@ namespace cpp_db
 	class parameter
 	{
 	public:
-        parameter(int pos, const value &arg)
+        parameter(int pos, value arg)
             : argument(arg)
             , index(pos)
 		{
 		}
 
-        parameter(std::string name_in, const value &arg)
+        parameter(std::string name_in, value arg)
             : argument(arg)
             , index(-1)
             , name(name_in)
@@ -36,6 +36,28 @@ namespace cpp_db
 #if !defined(_MSC_VER) || (_MSC_VER > 1800)
         parameter(parameter &&) = default;
         parameter &operator=(parameter &&) = default;
+#else
+		parameter(parameter &&other)
+			: argument(std::move(other.argument))
+			, index(other.index)
+			, name(std::move(other.name))
+		{
+			other.index = -1;
+			other.name.clear();
+		}
+
+		parameter &operator=(parameter &&other)
+		{
+			if (this != &other)
+			{
+				argument = std::move(other.argument);
+				index = other.index;
+				name = std::move(other.name);
+				other.index = -1;
+				other.name.clear();
+			}
+			return *this;
+		}
 #endif
 
 		template<typename T>
