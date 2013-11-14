@@ -22,8 +22,8 @@ void test_firebird_class::test_execute_non_query()
     cpp_db::transaction tr(*con);
     TEST_FOR_NO_EXCEPTION(tr.begin());
     cpp_db::statement stmt(*con);
-    TEST_FOR_NO_EXCEPTION(stmt.prepare("insert into TBL_DEVICE(INSTRUMENT_SERIAL, INSTRUMENT_VERSION, DEV_TYP_ID) VALUES('9180', '2.0', 4)"));
-    TEST_FOR_NO_EXCEPTION(stmt.execute_non_query());
+    TEST_FOR_NO_EXCEPTION(stmt.prepare("insert into TBL_DEVICE(INSTRUMENT_SERIAL, INSTRUMENT_VERSION, DEV_TYP_ID) VALUES(?, ?, ?)"));
+    TEST_FOR_NO_EXCEPTION(stmt.execute_non_query("9180", "2.0", 4));
     TEST_FOR_NO_EXCEPTION(tr.rollback());
 }
 
@@ -48,10 +48,14 @@ void test_firebird_class::test_execute_non_query_with_parameters()
     params.bind(cpp_db::parameter(2, cpp_db::null_type{}));
     params.bind(cpp_db::parameter(3, 2));
     TEST_FOR_NO_EXCEPTION(stmt.execute_non_query());
+
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "delete from tbl_device where INSTRUMENT_SERIAL = ?", "0815-4711"));
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "delete from tbl_device where INSTRUMENT_SERIAL = ? and INSTRUMENT_VERSION = ? and DEV_TYP_ID = ?", { {1, "4711-0815"}, {2, "3.11"}, {3, 3}}));
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "delete from tbl_device where INSTRUMENT_SERIAL = 'xxxx-xxxx'"));
 }
 
 template<typename T>
-std::string no_null(const cpp_db::value &val, const std::string &def = "<null>")
+std::string to_string(const cpp_db::value &val, const std::string &def = "<null>")
 {
     if (is_null(val))
         return def;
@@ -80,25 +84,47 @@ void test_firebird_class::test_result_single_row()
 
 void test_firebird_class::test_result_multi_row()
 {
-    cpp_db::result r(cpp_db::execute(*con, "select * from TBL_MAINCONFIG WHERE CLASS_NAME = ? order by ID DESC", "ConfigurationDataLayer::DbSettings"));
-    std::clog << std::endl;
-    for (int i = 0; i < r.get_column_count(); ++i)
-        TEST_FOR_NO_EXCEPTION(std::clog << r.get_column_name(i) << "\t");
-    std::clog << std::endl;
+    cpp_db::result r(cpp_db::execute(*con, "select first(3) * from TBL_MAINCONFIG WHERE CLASS_NAME = ? order by ID DESC", "ConfigurationDataLayer::DbSettings"));
+    TEST_EQUAL(r.get_column_name(0), "ID");
+    TEST_EQUAL(r.get_column_name(1), "CLASS_NAME");
+    TEST_EQUAL(r.get_column_name(2), "CLASS_PARAM");
+    TEST_EQUAL(r.get_column_name(3), "CLASS_VALUE");
+    TEST_EQUAL(r.get_column_name(4), "DESCRIPTION");
+    TEST_EQUAL(r.get_column_name(5), "LID");
+    TEST_EQUAL(r.get_column_name(6), "EXPORT");
+    TEST_EQUAL(r.get_column_name(7), "DEFAULT_VALUE");
+
+    std::vector<int64_t> ids;
+    std::vector<std::string> params, values, desc, defval;
+
     while(!r.is_eof())
     {
-        TEST_FOR_NO_EXCEPTION(std::clog << no_null<int64_t>(r.get_column_value("ID")) << '\t'
-                                        << no_null<std::string>(r.get_column_value("CLASS_NAME")) << '\t'
-                                        << no_null<std::string>(r.get_column_value("CLASS_PARAM")) << '\t'
-                                        << no_null<std::string>(r.get_column_value("CLASS_VALUE")) << '\t'
-                                        << no_null<std::string>(r.get_column_value("DESCRIPTION")) << '\t'
-                                        << no_null<int>(r.get_column_value("LID")) << '\t'
-                                        << no_null<short>(r.get_column_value("EXPORT")) << '\t'
-                                        << no_null<std::string>(r.get_column_value("DEFAULT_VALUE")) << std::endl
-                                        << std::endl
-                              );
-        r.move_next();
+        TEST_FOR_NO_EXCEPTION(ids.push_back(r.get_column_value("ID").get_value<int64_t>()));
+        TEST_FOR_NO_EXCEPTION(params.push_back(r.get_column_value("CLASS_PARAM").get_value<std::string>()));
+        TEST_FOR_NO_EXCEPTION(values.push_back(r.get_column_value("CLASS_VALUE").get_value<std::string>()));
+        TEST_FOR_NO_EXCEPTION(desc.push_back(r.get_column_value("DESCRIPTION").get_value<std::string>()));
+        TEST_FOR_NO_EXCEPTION(defval.push_back(r.get_column_value("DEFAULT_VALUE").get_value<std::string>()));
+        TEST_EQUAL(r.get_column_value("CLASS_NAME").get_value<std::string>(), "ConfigurationDataLayer::DbSettings");
+        TEST_VERIFY(is_null(r.get_column_value("LID")));
+        TEST_EQUAL(r.get_column_value("EXPORT").get_value<short>(), 0);
+        TEST_FOR_NO_EXCEPTION(r.move_next());
     }
+    TEST_EQUAL(ids.size(), 3);
+    TEST_EQUAL(ids[0], 333);
+    TEST_EQUAL(ids[1], 312);
+    TEST_EQUAL(ids[2], 311);
+    TEST_EQUAL(params[0], "PrintViaPostScriptConversionScript");
+    TEST_EQUAL(params[1], "FtpUpdatePathOnServer");
+    TEST_EQUAL(params[2], "FtpUpdateServer");
+    TEST_EQUAL(values[0], "true");
+    TEST_EQUAL(values[1], "/Update/Series/");
+    TEST_EQUAL(values[2], "rgxmvs17.roche.com");
+    TEST_EQUAL(defval[0], "true");
+    TEST_EQUAL(defval[1], "/Update/Series/");
+    TEST_EQUAL(defval[2], "rgxmvs17.roche.com");
+    TEST_EQUAL(desc[0], "Printing via postscript file on/off");
+    TEST_EQUAL(desc[1], "Path to software update directory");
+    TEST_EQUAL(desc[2], "Internal ftp update server name or IP");
 }
 
 void test_firebird_class::cleanup_class()
