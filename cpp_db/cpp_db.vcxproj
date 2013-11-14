@@ -22,7 +22,6 @@
     <ClInclude Include="parameters.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="statement.h" />
-    <ClInclude Include="statement.inl.h" />
     <ClInclude Include="transaction.h" />
     <ClInclude Include="transaction_scope.h" />
     <ClInclude Include="user_password_authentication.h" />
@@ -42,6 +41,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="statement.inl" />
     <None Include="value.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

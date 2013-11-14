@@ -45,9 +45,6 @@
     <ClInclude Include="result.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="statement.inl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="driver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -86,6 +83,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="value.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="statement.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

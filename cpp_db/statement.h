@@ -60,6 +60,6 @@ private:
 
 }
 
-#include "statement.inl.h"
+#include "statement.inl"
 
 #endif // CPP_DB_STATEMENT_H
