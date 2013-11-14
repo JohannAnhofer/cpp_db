@@ -6,6 +6,7 @@
 #include "result.h"
 
 #include <string>
+#include <initializer_list>
 
 namespace cpp_db
 {
@@ -42,6 +43,12 @@ namespace cpp_db
 		stmt.prepare(sql);
         return stmt.execute(std::forward<Args>(args)...);
 	}
+
+    void execute_ddl(connection &conn, const std::string &sql, std::initializer_list<parameter> params);
+    void execute_non_query(connection &conn, const std::string &sql, std::initializer_list<parameter> params);
+    value execute_scalar(connection &conn, const std::string &sql, std::initializer_list<parameter> params);
+    result execute(connection &conn, const std::string &sql, std::initializer_list<parameter> params);
+
 }
 
 #endif

@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp" />
+    <ClCompile Include="execute.cpp" />
     <ClCompile Include="parameters.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="statement.cpp" />
