@@ -80,4 +80,37 @@ void statement::reset()
 	stmt_impl->reset();
 }
 
+static void bind_params(statement &stmt, std::initializer_list<parameter> params)
+{
+	stmt.reset();
+	parameters p(stmt.get_parameters());
+
+	for (auto param : params)
+		p.bind(param);
+}
+
+void statement::execute_ddl(std::initializer_list<parameter> params)
+{
+	bind_params(*this, params);
+	execute_ddl();
+}
+
+void statement::execute_non_query(std::initializer_list<parameter> params)
+{
+	bind_params(*this, params);
+	execute_non_query();
+}
+
+value statement::execute_scalar(std::initializer_list<parameter> params)
+{
+	bind_params(*this, params);
+	return execute_scalar();
+}
+
+result statement::execute(std::initializer_list<parameter> params)
+{
+	bind_params(*this, params);
+	return execute();
+}
+
 }

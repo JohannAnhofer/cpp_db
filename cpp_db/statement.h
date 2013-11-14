@@ -46,6 +46,11 @@ public:
     template<typename ...Args> value execute_scalar(Args&& ...args);
 	template<typename ...Args> result execute(Args&& ...args);
 
+	void execute_ddl(std::initializer_list<parameter> params);
+	void execute_non_query(std::initializer_list<parameter> params);
+	value execute_scalar(std::initializer_list<parameter> params);
+	result execute(std::initializer_list<parameter> params);
+
 	parameters get_parameters() const;
 
 private:
