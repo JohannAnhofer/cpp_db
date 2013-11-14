@@ -30,8 +30,8 @@ namespace cpp_db
         {
         }
 
-        parameter(const parameter &other) = default;
-        parameter &operator=(const parameter &other) = default;
+        parameter(const parameter &) = default;
+        parameter &operator=(const parameter &) = default;
 #ifdef _MSC_VER
 		parameter(parameter &&other)
 			: argument(std::move(other.argument))
@@ -47,8 +47,8 @@ namespace cpp_db
 			name = std::move(other.name);
 		}
 #else
-        parameter(parameter &&other) = default;
-        parameter &operator=(parameter &&other) = default;
+        parameter(parameter &&) = default;
+        parameter &operator=(parameter &&) = default;
 #endif
 
 		template<typename T>
