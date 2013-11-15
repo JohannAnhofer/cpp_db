@@ -8,27 +8,6 @@
 
 #include <cmath>
 
-/*
-std::ostream &operator<<(std::ostream &output, cpp_db::result &r)
-{
-    r.move_first();
-    output << "\t";
-    for (int i = 0; i < r.get_column_count(); ++i)
-        output << r.get_column_name(i) << "\t|\t";
-    output << "\n" << std::string(80, '-') << "\n";
-
-    while (!r.is_eof())
-    {
-        output << "\t";
-        for (int i = 0; i < r.get_column_count(); ++i)
-            output << r.get_column_value(i) << "\t|\t";
-        output << "\n";
-        r.move_next();
-    }
-    return output;
-}
-*/
-
 void test_sqlite_class::init_class()
 {
     con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection(cpp_db::connection::create<cpp_db::sqlite_driver>()));
@@ -82,22 +61,6 @@ void test_sqlite_class::test_result()
 }
 void test_sqlite_class::test_parameter()
 {
-    cpp_db::parameter param1(0, std::string("Hello world!")), param2(std::string("@test"), 27.85);
-
-    TEST_VERIFY(param1.has_index());
-    TEST_VERIFY(!param1.has_name());
-    TEST_VERIFY(!param2.has_index());
-    TEST_VERIFY(param2.has_name());
-    TEST_VERIFY(param1.has_value_of_type<std::string>());
-    TEST_VERIFY(!param1.has_value_of_type<double>());
-    TEST_VERIFY(!param2.has_value_of_type<std::string>());
-    TEST_VERIFY(param2.has_value_of_type<double>());
-
-    TEST_EQUAL(param1.get_value<std::string>(), "Hello world!");
-    TEST_VERIFY(std::fabs(param2.get_value<double>() - 27.85) < 0.000001);
-
-    TEST_FOR_EXCEPTION(param1.get_value<int>(), std::runtime_error);
-
     cpp_db::statement stmt(*con.get());
     TEST_FOR_NO_EXCEPTION(stmt.prepare("insert into TEST_TABLE(COL1, COL2) VALUES(?, ?)"));
     TEST_FOR_NO_EXCEPTION(stmt.execute_non_query(4, "four"));
