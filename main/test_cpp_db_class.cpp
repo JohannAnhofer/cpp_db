@@ -6,6 +6,7 @@
 #include "type_of.h"
 
 #include <stdexcept>
+#include <cmath>
 
 void test_cpp_db_class::test_is_null()
 {
