@@ -43,7 +43,6 @@ namespace cpp_db
 			, name(std::move(other.name))
 		{
 			other.index = -1;
-			other.name.clear();
 		}
 
 		parameter &operator=(parameter &&other)
@@ -54,7 +53,6 @@ namespace cpp_db
 				index = other.index;
 				name = std::move(other.name);
 				other.index = -1;
-				other.name.clear();
 			}
 			return *this;
 		}
