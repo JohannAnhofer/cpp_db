@@ -15,33 +15,25 @@ namespace cpp_db
     template<typename ...Args>
     void execute_ddl(connection &conn, const std::string &sql, Args && ...args)
     {
-        statement stmt(conn);
-        stmt.prepare(sql);
-        stmt.execute_ddl(std::forward<Args>(args)...);
+		statement(sql, conn).execute_ddl(std::forward<Args>(args)...);
     }
 
     template<typename ...Args>
     void execute_non_query(connection &conn, const std::string &sql, Args && ...args)
 	{
-		statement stmt(conn);
-		stmt.prepare(sql);
-        stmt.execute_non_query(std::forward<Args>(args)...);
+		statement(sql, conn).execute_non_query(std::forward<Args>(args)...);
 	}
 
 	template<typename ...Args>
     value execute_scalar(connection &conn, const std::string &sql, Args &&...args)
 	{
-		statement stmt(conn);
-		stmt.prepare(sql);
-        return stmt.execute_scalar(std::forward<Args>(args)...);
+		return statement(sql, conn).execute_scalar(std::forward<Args>(args)...);
 	}
 
 	template<typename ...Args>
     result execute(connection &conn, const std::string &sql, Args && ...args)
 	{
-		statement stmt(conn);
-		stmt.prepare(sql);
-        return stmt.execute(std::forward<Args>(args)...);
+		return statement(sql, conn).execute(std::forward<Args>(args)...);
 	}
 
     void execute_ddl(connection &conn, const std::string &sql, std::initializer_list<parameter> params);
