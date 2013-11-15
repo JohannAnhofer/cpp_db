@@ -57,14 +57,15 @@ namespace cpp_db
         value(value &&) = default;
         value &operator=(value &&) = default;
 #else
-		value(value &&other) : pholder(other.pholder.release())
+		value(value &&other) 
+			: pholder(std::move(other.pholder))
 		{
 		}
 
 		value &operator=(value &&other)
 		{
 			if (this != &other)
-				pholder.reset(other.pholder.release());
+				pholder = std::move(other.pholder);
 			return *this;
 		}
 #endif
