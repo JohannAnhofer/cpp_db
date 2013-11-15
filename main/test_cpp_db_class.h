@@ -9,11 +9,13 @@ public:
     BEGIN_DECLARE_TEST_CLASS(test_cpp_db_class)
 	DECLARE_TEST_FUNCTION(test_is_null)
 	DECLARE_TEST_FUNCTION(test_value)
+	DECLARE_TEST_FUNCTION(test_parameter)
     END_DECLARE_TEST_CLASS()
 
 protected:
 	void test_is_null();
 	void test_value();
+	void test_parameter();
 };
 
 #endif // TEST_CPP_DB_CLASS_H
