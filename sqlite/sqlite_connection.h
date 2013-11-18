@@ -9,6 +9,8 @@
 namespace cpp_db
 {
 
+class sqlite_driver;
+
 class sqlite_connection : public connection_interface
 {
 public:
@@ -22,6 +24,8 @@ public:
     shared_transaction_ptr get_current_transaction() const override;
 
 private:
+    friend class sqlite_driver;
+    sqlite_connection() = default;
     std::shared_ptr<sqlite3> db;
     std::weak_ptr<transaction_interface> current_transaction;
 
