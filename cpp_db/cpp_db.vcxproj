@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="authentication.h" />
     <ClInclude Include="connection.h" />
+    <ClInclude Include="connection_interface.h" />
     <ClInclude Include="db_exception.h" />
     <ClInclude Include="driver.h" />
     <ClInclude Include="execute.h" />
@@ -20,11 +21,17 @@
     <ClInclude Include="null.h" />
     <ClInclude Include="parameter.h" />
     <ClInclude Include="parameters.h" />
+    <ClInclude Include="parameters_interface.h" />
     <ClInclude Include="result.h" />
+    <ClInclude Include="result_interface.h" />
     <ClInclude Include="statement.h" />
+    <ClInclude Include="statement_interface.h" />
     <ClInclude Include="transaction.h" />
+    <ClInclude Include="transaction_interface.h" />
     <ClInclude Include="transaction_scope.h" />
+    <ClInclude Include="type_of.h" />
     <ClInclude Include="user_password_authentication.h" />
+    <ClInclude Include="usings.h" />
     <ClInclude Include="value.h" />
   </ItemGroup>
   <ItemGroup>
