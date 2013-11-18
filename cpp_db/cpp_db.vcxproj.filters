@@ -60,6 +60,27 @@
     <ClInclude Include="transaction_scope.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="connection_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parameters_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="result_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="statement_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="transaction_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="type_of.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="usings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp">
