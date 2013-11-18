@@ -8,15 +8,17 @@
 namespace cpp_db
 {
 
+class firebird_driver;
+
 class firebird_parameters : public parameters_interface
 {
 public:
-    explicit firebird_parameters(const shared_statement_ptr &stmt);
-
     int get_count() const override;
     void bind(const parameter &param) override;
 
 private:
+    friend class firebird_driver;
+    explicit firebird_parameters(const shared_statement_ptr &stmt);
     int find_param_pos(const std::string &name) const;
     isc_stmt_handle *get_statement_handle() const;
 

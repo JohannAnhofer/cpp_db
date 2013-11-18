@@ -3,8 +3,6 @@
 
 #include "driver.h"
 
-#include <memory>
-
 namespace cpp_db
 {
 

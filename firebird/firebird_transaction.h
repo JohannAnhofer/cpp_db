@@ -11,10 +11,11 @@
 namespace cpp_db
 {
 
+class firebird_driver;
+
 class firebird_transaction : public transaction_interface
 {
 public:
-    firebird_transaction(const shared_connection_ptr &conn_handle);
     ~firebird_transaction();
 
     void begin() override;
@@ -24,6 +25,8 @@ public:
     handle get_handle() const override;
 
 private:
+    friend class firebird_driver;
+    explicit firebird_transaction(const shared_connection_ptr &conn_handle);
     isc_db_handle *get_db_handle() const;
 
 private:

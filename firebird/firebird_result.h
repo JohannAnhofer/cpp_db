@@ -13,12 +13,11 @@ namespace cpp_db
 {
 
 class firebird_statement;
+class firebird_driver;
 
 class firebird_result : public result_interface
 {
 public:
-    firebird_result(const shared_statement_ptr &stmt);
-
     void move_next() override;
     bool is_eof() const override;
     int get_column_count() const override;
@@ -31,6 +30,8 @@ private:
     isc_stmt_handle *get_statement_handle() const;
 
 private:
+    friend class firebird_driver;
+    explicit firebird_result(const shared_statement_ptr &stmt);
     std::shared_ptr<firebird_statement> stmt;
     xsqlda *sqlda_fields;
     bool after_last_row;
