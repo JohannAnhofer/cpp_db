@@ -18,6 +18,7 @@ public:
     DECLARE_TEST_FUNCTION(test_transaction_commit)
     DECLARE_TEST_FUNCTION(test_transaction_rollback)
     DECLARE_TEST_FUNCTION(test_execute)
+    DECLARE_TEST_FUNCTION(test_result_empty)
     END_DECLARE_TEST_CLASS()
 
 protected:
@@ -31,6 +32,7 @@ protected:
     void test_transaction_rollback();
     void test_execute();
     void test_named_parameter();
+    void test_result_empty();
 
 private:
     std::shared_ptr<cpp_db::connection> con;
