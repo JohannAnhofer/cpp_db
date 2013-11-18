@@ -10,11 +10,11 @@
 namespace cpp_db
 {
 
+class sqlite_driver;
+
 class sqlite_statement  : public statement_interface
 {
 public:
-    explicit sqlite_statement(const shared_connection_ptr &conn_in);
-
     void prepare(const std::string &sqlcmd) override;
     bool is_prepared() const override;
     void execute_ddl() override;
@@ -24,7 +24,9 @@ public:
     handle get_handle() const override;
 
 private:
-	sqlite3 *get_db_handle() const;
+    friend class sqlite_driver;
+    explicit sqlite_statement(const shared_connection_ptr &conn_in);
+    sqlite3 *get_db_handle() const;
 
 private:
     std::shared_ptr<sqlite3_stmt> stmt;

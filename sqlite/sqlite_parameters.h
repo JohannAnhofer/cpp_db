@@ -12,15 +12,17 @@
 namespace cpp_db
 {
 
+class sqlite_driver;
+
 class sqlite_parameters : public parameters_interface
 {
 public:
-    explicit sqlite_parameters(const shared_statement_ptr &stmt);
-
     int get_count() const override;
     void bind(const parameter &param) override;
 
 private:
+    friend class sqlite_driver;
+    explicit sqlite_parameters(const shared_statement_ptr &stmt);
     int find_param_pos(const std::string &name) const;
 	sqlite3_stmt *get_stmt_handle() const;
 

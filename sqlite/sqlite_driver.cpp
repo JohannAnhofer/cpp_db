@@ -21,11 +21,6 @@ namespace cpp_db
 
 	//  sqlite_driver
 
-	sqlite_driver::sqlite_driver()
-	{
-	}
-
-
 	sqlite_driver::~sqlite_driver()
 	{
 	}

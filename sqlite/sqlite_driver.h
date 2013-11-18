@@ -20,7 +20,7 @@ public:
     transaction_interface *make_transaction(const shared_connection_ptr &conn) const override;
 
 private:
-    sqlite_driver();
+    sqlite_driver() = default;
     friend class connection;
 };
 

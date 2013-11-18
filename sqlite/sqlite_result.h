@@ -12,11 +12,11 @@
 namespace cpp_db
 {
 
+class sqlite_driver;
+
 class sqlite_result : public result_interface
 {
 public:
-    explicit sqlite_result(const shared_statement_ptr &stmt_in);
-
     void move_next() override;
     bool is_eof() const override;
     int get_column_count() const override;
@@ -26,6 +26,8 @@ public:
     value get_column_value(const std::string &column_name) const override;
 
 private:
+    explicit sqlite_result(const shared_statement_ptr &stmt_in);
+    friend class sqlite_driver;
 	sqlite3_stmt *get_stmt_handle() const;
 
 private:
