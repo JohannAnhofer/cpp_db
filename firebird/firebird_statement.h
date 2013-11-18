@@ -13,11 +13,11 @@ namespace cpp_db
 {
 
 enum class firebird_statement_type;
+class firebird_driver;
 
 class firebird_statement : public statement_interface
 {
 public:
-    firebird_statement(const shared_connection_ptr &connection, shared_transaction_ptr trans_in);
 	~firebird_statement();
 
     void prepare(const std::string &sqlcmd) override;
@@ -34,6 +34,8 @@ public:
     bool is_select_statement() const;
 
 private:
+    friend class firebird_driver;
+    firebird_statement(const shared_connection_ptr &connection, shared_transaction_ptr trans_in);
     isc_db_handle *get_db_handle() const;
     isc_tr_handle *get_current_transaction_handle() const;
     isc_tr_handle *get_local_transaction_handle() const;
