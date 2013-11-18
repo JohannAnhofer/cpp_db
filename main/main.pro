@@ -43,14 +43,15 @@ win32 {
                 -L$$OUT_PWD/../cpp_db/release/ -lcpp_db \
                 -L$$OUT_PWD/../sqlite/release/ -lsqlite \
                 -L$$OUT_PWD/../firebird/release/ -lfirebird \
+                -L$$OUT_PWD/../odbc/release/ -lodbc \
                 -L$$OUT_PWD/../test/release/ -ltest \
-                -L$$OUT_PWD/../tools/release/ -ltools \
-                $$PWD/../firebird/lib_win_32/fbclient_ms.lib
+                -L$$OUT_PWD/../tools/release/ -ltools
 
             PRE_TARGETDEPS += \
                 $$OUT_PWD/../cpp_db/release/libcpp_db.a \
                 $$OUT_PWD/../sqlite/release/libsqlite.a \
                 $$OUT_PWD/../firebird/release/libfirebird.a \
+                $$OUT_PWD/../odbc/release/libodbc.a \
                 $$OUT_PWD/../test/release/libtest.a \
                 $$OUT_PWD/../tools/release/libtools.a
         }
@@ -61,14 +62,15 @@ win32 {
                 -L$$OUT_PWD/../cpp_db/debug/ -lcpp_db \
                 -L$$OUT_PWD/../sqlite/debug/ -lsqlite \
                 -L$$OUT_PWD/../firebird/debug/ -lfirebird \
+                -L$$OUT_PWD/../odbc/debug/ -lodbc \
                 -L$$OUT_PWD/../test/debug/ -ltest \
-                -L$$OUT_PWD/../tools/debug/ -ltools \
-                $$PWD/../firebird/lib_win_32/fbclient_ms.lib
+                -L$$OUT_PWD/../tools/debug/ -ltools
 
             PRE_TARGETDEPS += \
                 $$OUT_PWD/../cpp_db/debug/libcpp_db.a \
                 $$OUT_PWD/../sqlite/debug/libsqlite.a \
                 $$OUT_PWD/../firebird/debug/libfirebird.a \
+                $$OUT_PWD/../odbc/debug/libodbc.a \
                 $$OUT_PWD/../test/debug/libtest.a \
                 $$OUT_PWD/../tools/debug/libtools.a
         }
@@ -81,6 +83,7 @@ unix {
         $$OUT_PWD/../cpp_db/libcpp_db.a \
         $$OUT_PWD/../sqlite/libsqlite.a \
         $$OUT_PWD/../firebird/libfirebird.a \
+        $$OUT_PWD/../odbc/libodbc.a \
         $$OUT_PWD/../test/libtest.a \
         $$OUT_PWD/../tools/libtools.a
 
@@ -89,14 +92,17 @@ unix {
         -L$$OUT_PWD/../cpp_db/ -lcpp_db \
         -L$$OUT_PWD/../sqlite/ -lsqlite \
         -L$$OUT_PWD/../firebird/ -lfirebird \
+        -L$$OUT_PWD/../odbc/ -lodbc \
         -L$$OUT_PWD/../test/ -ltest \
         -L$$OUT_PWD/../tools/  -ltools \
 }
 
-macx {
+win32 {
+    LIBS += $$PWD/../firebird/lib_win_32/fbclient_ms.lib
+} else: macx {
     LIBS += -L$$PWD/../firebird/lib_macosx_64/ -lfbclient
 } else: unix {
-   LIBS += -L$$PWD/../firebird/lib_linux_64/ -lfbclient \
+    LIBS += -L$$PWD/../firebird/lib_linux_64/ -lfbclient \
             -ldl
 }
 

@@ -8,12 +8,23 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "tools\tools.vcxproj", "{F6B28BEA-8480-428F-AE98-5BC3C85CAF8C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main", "main\main.vcxproj", "{6F006815-C6F9-48C4-AB62-BFB5683CA27C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3D415E6A-CE8F-4F36-8623-F90127286F5A} = {3D415E6A-CE8F-4F36-8623-F90127286F5A}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp_db", "cpp_db\cpp_db.vcxproj", "{5512C29A-99CF-4EB2-906D-04B52C831511}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{5F7C81F9-2421-401E-84B2-01BA4B9E31D2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "firebird", "firebird\firebird.vcxproj", "{42D716ED-4B66-4504-815E-BEAED23D34B2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F6B28BEA-8480-428F-AE98-5BC3C85CAF8C} = {F6B28BEA-8480-428F-AE98-5BC3C85CAF8C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "odbc", "odbc\odbc.vcxproj", "{3D415E6A-CE8F-4F36-8623-F90127286F5A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F6B28BEA-8480-428F-AE98-5BC3C85CAF8C} = {F6B28BEA-8480-428F-AE98-5BC3C85CAF8C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +56,10 @@ Global
 		{42D716ED-4B66-4504-815E-BEAED23D34B2}.Debug|Win32.Build.0 = Debug|Win32
 		{42D716ED-4B66-4504-815E-BEAED23D34B2}.Release|Win32.ActiveCfg = Release|Win32
 		{42D716ED-4B66-4504-815E-BEAED23D34B2}.Release|Win32.Build.0 = Release|Win32
+		{3D415E6A-CE8F-4F36-8623-F90127286F5A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3D415E6A-CE8F-4F36-8623-F90127286F5A}.Debug|Win32.Build.0 = Debug|Win32
+		{3D415E6A-CE8F-4F36-8623-F90127286F5A}.Release|Win32.ActiveCfg = Release|Win32
+		{3D415E6A-CE8F-4F36-8623-F90127286F5A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

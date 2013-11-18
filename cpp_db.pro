@@ -16,12 +16,14 @@ TEMPLATE = subdirs
 
 CONFIG += ordered
 
-SUBDIRS += tools \
-           sqlite \
-           firebird \
-           cpp_db \
-           test \
-           main \
+SUBDIRS += \
+    tools \
+    sqlite \
+    firebird \
+    odbc \
+    cpp_db \
+    test \
+    main
 
 OTHER_FILES += todo.txt
 
