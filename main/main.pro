@@ -7,17 +7,18 @@ TEMPLATE = app
 
 HEADERS += \
     test_cpp_db_class.h \
-    test_tools_class.h \
-    test_test_class.h \
     test_firebird_class.h \
-    test_sqlite_class.h
+    test_sqlite_class.h \
+    test_test_class.h \
+    test_tools_class.h
 
-SOURCES += main.cpp \
-    test_tools_class.cpp \
+SOURCES += \
+    main.cpp \
     test_cpp_db_class.cpp \
-    test_test_class.cpp \
     test_firebird_class.cpp \
-    test_sqlite_class.cpp
+    test_sqlite_class.cpp \
+    test_test_class.cpp \
+    test_tools_class.cpp
 
 INCLUDEPATH += \
     $$PWD/../tools \

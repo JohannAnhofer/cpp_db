@@ -6,37 +6,37 @@ CONFIG += staticlib
 
 SOURCES += \
     connection.cpp \
+    execute.cpp \
     parameters.cpp \
     result.cpp \
     statement.cpp \
-    transaction.cpp \
-    execute.cpp \
-    statement.inl
+    transaction.cpp
 
 HEADERS += \
+    authentication.h \
     connection.h \
+    connection_interface.h \
     db_exception.h \
+    driver.h \
+    execute.h \
+    no_authentication.h \
+    null.h \
     parameter.h \
     parameters.h \
-    result.h \
-    statement.h \
-    transaction.h \
-    value.h \
-    null.h \
-    execute.h \
-    driver.h \
-    usings.h \
-    connection_interface.h \
-    statement_interface.h \
     parameters_interface.h \
+    result.h \
     result_interface.h \
+    statement.h \
+    statement.inl \
+    statement_interface.h \
+    transaction.h \
     transaction_interface.h \
-    value.inl \
+    transaction_scope.h \
     type_of.h \
     user_password_authentication.h \
-    no_authentication.h \
-    authentication.h \
-    transaction_scope.h
+    usings.h \
+    value.h \
+    value.inl
 
 INCLUDEPATH += \
     $$PWD/../tools \
