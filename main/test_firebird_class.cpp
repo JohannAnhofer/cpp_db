@@ -127,6 +127,13 @@ void test_firebird_class::test_result_multi_row()
     TEST_EQUAL(desc[2], "Internal ftp update server name or IP");
 }
 
+void test_firebird_class::test_result_empty()
+{
+    cpp_db::result r(cpp_db::execute(*con, "select * from TBL_MAINCONFIG WHERE CLASS_NAME = ? order by ID DESC", "no rows"));
+    TEST_VERIFY(r.is_eof());
+
+}
+
 void test_firebird_class::cleanup_class()
 {
     TEST_FOR_NO_EXCEPTION(con->close());

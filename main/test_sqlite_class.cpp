@@ -135,3 +135,10 @@ void test_sqlite_class::test_execute()
     TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con.get(), "delete from TEST_TABLE"));
     TEST_EQUAL(cpp_db::execute_scalar(*con.get(), "select count(*) from TEST_TABLE").get_value<int64_t>(), 0);
 }
+
+void test_sqlite_class::test_result_empty()
+{
+    cpp_db::result r(cpp_db::statement("select COL1, COL2 from TEST_TABLE where col1 = ?", *con.get()).execute("empty result"));
+    TEST_VERIFY(r.is_eof());
+
+}
