@@ -192,6 +192,7 @@ void firebird_statement::execute()
                 tr->rollback();
         }, true);
 
+    // if exec procedure returns only one row, the local transaction can be committed after isc_dsql_execute2
     if (!(statement_type == firebird_statement_type::stmt_select || statement_type == firebird_statement_type::stmt_exec_procedure) && has_local_transaction())
         tr->commit();
 }
@@ -200,6 +201,7 @@ void firebird_statement::reset()
 {
     sqlda_params_in.reset_values();
 
+    // shouldn't we commit the last transaction here? If execute was already performed?
     if (!has_current_transaction() && !has_local_transaction())
         tr->begin();    // start local transaction
 }
