@@ -19,24 +19,6 @@ namespace cpp_db
 	{
 	}
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1800)
-    connection::connection(connection &&other)
-        : driver_impl(std::move(other.driver_impl))
-		, conn_impl(std::move(other.conn_impl))
-    {
-    }
-
-    connection & connection::operator=(connection &&other)
-    {
-        if (this != &other)
-        {
-            driver_impl = std::move(other.driver_impl);
-            conn_impl = std::move(other.conn_impl);
-        }
-        return*this;
-    }
-#endif
-
 	void connection::open(const std::string &database, const authentication &auth, const key_value_pair & options)
 	{
 		conn_impl->open(database, auth, options);

@@ -23,13 +23,8 @@ public:
 	connection(const connection &other) = delete;
 	connection &operator=(const connection &other) = delete;
 
-#if !defined(_MSC_VER) || (_MSC_VER > 1800)
-    connection(connection &&) = default;
-    connection &operator=(connection &&) = default;
-#else
-    connection(connection &&other);
-    connection &operator=(connection &&other);
-#endif
+    connection(connection && other) = default;
+    connection &operator=(connection &&other) = default;
 
 	void open(const std::string &database, const authentication &auth = no_authentication{}, const key_value_pair & options = key_value_pair{});
 	void close();
