@@ -279,4 +279,9 @@ void junit_output::output_message(const std::string &/*message*/, int /*line*/, 
 {
 }
 
+void junit_output::output_expected_fail(const std::string &/*expected*/, const std::string &/*message*/, int /*line*/, const char */*file*/)
+{
+
+}
+
 } // namespace test

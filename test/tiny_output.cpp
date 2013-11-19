@@ -59,4 +59,9 @@ void tiny_output::output_message(const std::string &, int, const char *)
 {
 }
 
+void tiny_output::output_expected_fail(const std::string &, const std::string &, int, const char *)
+{
+    *output << "X";
+}
+
 } // namespace test

@@ -64,6 +64,7 @@ void abstract_test::run(const std::unordered_set<std::string> &filter)
             init_internal(name_and_function.first);
             try
             {
+                expected_message.clear();
                 name_and_function.second();
             }
             catch (const std::exception &ex)
@@ -149,6 +150,11 @@ bool abstract_test::compare(const wchar_t * left, wchar_t * right)
 bool abstract_test::compare(wchar_t * left, const wchar_t * right)
 {
     return std::wstring(left) == right;
+}
+
+void abstract_test::next_test_is_expected_to_fail(const std::string &message)
+{
+    expected_message = message;
 }
 
 }

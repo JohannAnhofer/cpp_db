@@ -16,22 +16,48 @@ void test::abstract_test::test_condition(int line, const char *file, const std::
         }
         else
         {
-            statistics.fail_count++;
-            output->output_failure(name, line, file);
+            if (expected_message.empty())
+            {
+                statistics.fail_count++;
+                output->output_failure(name, line, file);
+            }
+            else
+            {
+                statistics.success_count++;
+                output->output_expected_fail(expected_message, name, line, file);
+            }
         }
     }
     catch (const std::exception &ex)
     {
-        statistics.exception_count++;
-        statistics.fail_count++;
-        output->output_exception(name, ex.what(), line, file);
+        if (expected_message.empty())
+        {
+            statistics.exception_count++;
+            statistics.fail_count++;
+            output->output_exception(name, ex.what(), line, file);
+        }
+        else
+        {
+            statistics.success_count++;
+            output->output_expected_fail(expected_message, name, line, file);
+        }
     }
     catch(...)
     {
-        statistics.exception_count++;
-        statistics.fail_count++;
-        output->output_exception(name, "Unknown exception", line, file);
+        if (expected_message.empty())
+        {
+            statistics.exception_count++;
+            statistics.fail_count++;
+            output->output_exception(name, "Unknown exception", line, file);
+        }
+        else
+        {
+            statistics.success_count++;
+            output->output_expected_fail(expected_message, name, line, file);
+        }
     }
+
+    expected_message.clear();
 }
 
 template<typename Exception, typename Callable, typename... Args>
@@ -40,9 +66,18 @@ void test::abstract_test::test_for_exception(int line, const char *file, const s
 	try
 	{
 		code(std::forward(args)...);
-        statistics.fail_count++;
-        output->output_failure(name + "\n   Expected exception of type '" + exceptionname + "' not occured!", line, file);
-	}
+
+        if (expected_message.empty())
+        {
+            statistics.fail_count++;
+            output->output_failure(name + "\n   Expected exception of type '" + exceptionname + "' not occured!", line, file);
+        }
+        else
+        {
+            statistics.success_count++;
+            output->output_expected_fail(expected_message, name, line, file);
+        }
+    }
 	catch (const Exception &)
 	{
         statistics.success_count++;
@@ -56,6 +91,8 @@ void test::abstract_test::test_for_exception(int line, const char *file, const s
         statistics.fail_count++;
         output->output_exception(exceptionname, "Unknown exception", line, file);
     }
+
+    expected_message.clear();
 }
 
 template<typename Callable, typename... Args>
@@ -69,9 +106,17 @@ void test::abstract_test::test_for_no_exception(int line, const char *file, cons
 	}
 	catch (const std::exception &ex)
 	{
-        statistics.fail_count++;
-        statistics.exception_count++;
-        output->output_exception(name, ex.what(), line, file);
+        if (expected_message.empty())
+        {
+            statistics.fail_count++;
+            statistics.exception_count++;
+            output->output_exception(name, ex.what(), line, file);
+        }
+        else
+        {
+            statistics.success_count++;
+            output->output_expected_fail(expected_message, name, line, file);
+        }
     }
     catch(...)
     {
@@ -79,5 +124,7 @@ void test::abstract_test::test_for_no_exception(int line, const char *file, cons
         statistics.fail_count++;
         output->output_exception(name, "Unknown exception", line, file);
     }
+
+    expected_message.clear();
 }
 

@@ -116,7 +116,13 @@ void windebug_output::output_exception(const std::string &exception_text, const 
 void windebug_output::output_message(const std::string &message, int line, const char *file)
 {
 	generator->output_message(message, line, file);
-	dump_buffer();
+    dump_buffer();
+}
+
+void windebug_output::output_expected_fail(const std::string &expected, const std::string &message, int line, const char *file)
+{
+    generator->output_expected_fail(expected, message, line, file);
+    dump_buffer();
 }
 
 }

@@ -20,11 +20,11 @@ class connection
 public:
 	~connection();
 
-	connection(const connection &other) = delete;
-	connection &operator=(const connection &other) = delete;
+    connection(const connection &) = delete;
+    connection &operator=(const connection &) = delete;
 
-    connection(connection && other) = default;
-    connection &operator=(connection &&other) = default;
+    connection(connection &&) = default;
+    connection &operator=(connection &&) = default;
 
 	void open(const std::string &database, const authentication &auth = no_authentication{}, const key_value_pair & options = key_value_pair{});
 	void close();
