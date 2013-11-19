@@ -34,7 +34,9 @@ protected:
 	virtual void init();
 	virtual void cleanup();
 
-	using test_function = std::function<void()>;
+    void next_test_is_expected_to_fail(const std::string &message);
+
+    using test_function = std::function<void()>;
 	void add_test_function(test_function fkt, const std::string &name);
 
     template<typename Callable, typename ...Args> void test_condition(int line, const char *file, const std::string &name, Callable && callable, Args && ...args);
@@ -65,6 +67,7 @@ private:
 	using test_functions = std::vector< test_function_and_name >;
 	test_functions functions;
     std::string test_class_name;
+    std::string expected_message;
 };
 
 }

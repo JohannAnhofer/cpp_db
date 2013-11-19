@@ -16,4 +16,4 @@
  * weakpointers don't throw if they are expired.
  * test result with an empty result set.
  - unicode support
- - add expected fail to testsystem
+ * add expected fail to testsystem

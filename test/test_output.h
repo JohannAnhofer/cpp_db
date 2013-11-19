@@ -23,6 +23,7 @@ struct test_output
     virtual void output_failure(const std::string &message, int line = 0, const char *file = nullptr) = 0;
     virtual void output_exception(const std::string &exception_text, const std::string &message, int line = 0, const char *file = nullptr) = 0;
     virtual void output_message(const std::string &message, int line = 0, const char *file = nullptr) = 0;
+    virtual void output_expected_fail(const std::string &expected, const std::string &message, int line = 0, const char *file = nullptr) = 0;
 };
 
 }

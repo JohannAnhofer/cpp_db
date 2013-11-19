@@ -5,11 +5,14 @@
 void test_test_class::test_test_functions()
 {
     TEST_VERIFY(true);
+    next_test_is_expected_to_fail("Verify if TEST_VERIFY fails for false");
     TEST_VERIFY(false);
+    next_test_is_expected_to_fail("Verify if TEST_EQUAL fails for not equal values");
 	TEST_EQUAL(3, 4711);
 	TEST_EQUAL(4, 4);
-	TEST_NOT_EQUAL(3, 4711);
-	TEST_NOT_EQUAL(4, 4);
+    TEST_NOT_EQUAL(3, 4711);
+    next_test_is_expected_to_fail("Verify if TEST_NOT_EQUAL fails for equal values");
+    TEST_NOT_EQUAL(4, 4);
 }
 
 void test_test_class::test_char_compare()
@@ -190,11 +193,16 @@ void test_test_class::test_exceptions()
             return true;
         }
     };
+    next_test_is_expected_to_fail("Test exceptions in TEST_EQUAL");
     TEST_EQUAL(A(false), A(true));
+    next_test_is_expected_to_fail("Test exceptions in TEST_NOT_EQUAL");
     TEST_NOT_EQUAL(A(true), A(false));
+    next_test_is_expected_to_fail("Test exceptions in TEST_VERIFY");
     TEST_VERIFY(([]() -> bool {A a(true), b(false); return a == b;}()));
+    next_test_is_expected_to_fail("Test no exception in TEST_FOR_EXCEPTION");
     TEST_FOR_NO_EXCEPTION(A(true););
     TEST_FOR_EXCEPTION(A(true);, std::exception);
+    next_test_is_expected_to_fail("Test no exception in TEST_FOR_EXCEPTION");
     TEST_FOR_EXCEPTION(A(false);, std::exception);
     TEST_VERIFY(true);
 }
