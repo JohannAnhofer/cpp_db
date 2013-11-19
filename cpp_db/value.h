@@ -53,22 +53,8 @@ namespace cpp_db
 			return *this;
 		}
 
-#if !defined(_MSC_VER) || (_MSC_VER > 1800)
         value(value &&) = default;
         value &operator=(value &&) = default;
-#else
-		value(value &&other) 
-			: pholder(std::move(other.pholder))
-		{
-		}
-
-		value &operator=(value &&other)
-		{
-			if (this != &other)
-				pholder = std::move(other.pholder);
-			return *this;
-		}
-#endif
 
 		template<typename T>
 		T get_value() const

@@ -33,30 +33,8 @@ namespace cpp_db
         parameter(const parameter &) = default;
         parameter &operator=(const parameter &) = default;
 
-#if !defined(_MSC_VER) || (_MSC_VER > 1800)
         parameter(parameter &&) = default;
         parameter &operator=(parameter &&) = default;
-#else
-		parameter(parameter &&other)
-			: argument(std::move(other.argument))
-			, index(other.index)
-			, name(std::move(other.name))
-		{
-			other.index = -1;
-		}
-
-		parameter &operator=(parameter &&other)
-		{
-			if (this != &other)
-			{
-				argument = std::move(other.argument);
-				index = other.index;
-				name = std::move(other.name);
-				other.index = -1;
-			}
-			return *this;
-		}
-#endif
 
 		template<typename T>
 		T get_value() const
