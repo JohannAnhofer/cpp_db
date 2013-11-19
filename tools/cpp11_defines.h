@@ -19,9 +19,13 @@
     #endif
 #endif
 
-// visual c++ (2013rc) still no support for constexpr
+// visual c++ 2013 still no support for constexpr
 #ifdef _MSC_VER
-    #define CONSTEXPR
+	#if (_MSC_FULL_VER <= 180021114 )	 // Nov 2013 CTP partially support for constexpr, but fails with internal error
+		#define CONSTEXPR
+	#else
+		#define CONSTEXPR constexpr
+	#endif
 #endif
 
 #ifndef CONSTEXPR
