@@ -96,7 +96,7 @@ void normal_output::output_message(const std::string &message, int, const char *
 
 void normal_output::output_expected_fail(const std::string &expected, const std::string &message, int line, const char *file)
 {
-    *output << "EXPECTED : " << expected << " " << message;
+    *output << "EXPECTED : " << expected << "\n   " << message;
     if (file)
         *output << "\n   Loc: [" << file << "(" << line << ")]";
     *output << std::endl;
