@@ -39,7 +39,7 @@ void test::abstract_test::test_condition(int line, const char *file, const std::
         else
         {
             statistics.success_count++;
-            output->output_expected_fail(expected_message, name, line, file);
+            output->output_expected_fail(expected_message + "\n   " + ex.what(), name, line, file);
         }
     }
     catch(...)
@@ -53,7 +53,7 @@ void test::abstract_test::test_condition(int line, const char *file, const std::
         else
         {
             statistics.success_count++;
-            output->output_expected_fail(expected_message, name, line, file);
+            output->output_expected_fail(expected_message + "\n   Unknown exception", name, line, file);
         }
     }
 
@@ -115,7 +115,7 @@ void test::abstract_test::test_for_no_exception(int line, const char *file, cons
         else
         {
             statistics.success_count++;
-            output->output_expected_fail(expected_message, name, line, file);
+            output->output_expected_fail(expected_message + "\n   " + ex.what(), name, line, file);
         }
     }
     catch(...)
