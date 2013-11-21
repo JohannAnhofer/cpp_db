@@ -34,7 +34,7 @@ handle firebird_transaction::get_handle() const
 
 isc_db_handle *firebird_transaction::get_db_handle() const
 {
-    return std::static_pointer_cast<isc_db_handle>(tools::lock_or_throw(conn_impl)->get_handle()).get();
+	return std::static_pointer_cast<isc_db_handle>(tools::lock_or_throw(conn_impl, "Invalid database connection")->get_handle()).get();
 }
 
 void firebird_transaction::begin()
