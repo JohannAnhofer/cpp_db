@@ -51,7 +51,7 @@ value statement::execute_scalar()
 result statement::execute()
 {
     result r;
-    r.result_impl.reset(tools::lock_or_throw(driver_impl)->make_result(stmt_impl));
+	r.result_impl.reset(tools::lock_or_throw(driver_impl, "Invalid database driver")->make_result(stmt_impl));
     return r;
 }
 
@@ -71,7 +71,7 @@ parameters statement::get_parameters() const
 		throw db_exception("Statement not prepared!");
 
     parameters params;
-    params.params_impl.reset(tools::lock_or_throw(driver_impl)->make_parameters(stmt_impl));
+	params.params_impl.reset(tools::lock_or_throw(driver_impl, "Invalid database driver")->make_parameters(stmt_impl));
     return params;
 }
 

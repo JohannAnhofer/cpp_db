@@ -82,12 +82,12 @@ firebird_statement::~firebird_statement()
 
 isc_db_handle *firebird_statement::get_db_handle() const
 {
-    return std::static_pointer_cast<isc_db_handle>(tools::lock_or_throw(conn_impl)->get_handle()).get();
+    return std::static_pointer_cast<isc_db_handle>(tools::lock_or_throw(conn_impl, "Invalid database connection")->get_handle()).get();
 }
 
 isc_tr_handle *firebird_statement::get_current_transaction_handle() const
 {
-    shared_transaction_ptr curr_trans(tools::lock_or_throw(conn_impl)->get_current_transaction());
+	shared_transaction_ptr curr_trans(tools::lock_or_throw(conn_impl, "Invalid database connection")->get_current_transaction());
 
     if (curr_trans != nullptr)
         return std::static_pointer_cast<isc_db_handle>(curr_trans->get_handle()).get();
@@ -102,7 +102,7 @@ isc_tr_handle *firebird_statement::get_local_transaction_handle() const
 
 bool firebird_statement::has_current_transaction() const
 {
-    return tools::lock_or_throw(conn_impl)->get_current_transaction() != nullptr;
+	return tools::lock_or_throw(conn_impl, "Invalid database connection")->get_current_transaction() != nullptr;
 }
 
 bool firebird_statement::has_local_transaction() const

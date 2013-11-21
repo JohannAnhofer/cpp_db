@@ -8,19 +8,24 @@ namespace tools
 {
 
 template<typename T>
-std::shared_ptr<T> lock_or_throw(std::weak_ptr<T> &ptr)
+void do_check(const std::weak_ptr<T> &ptr, const char *context)
 {
-    if (ptr.expired())
-        throw std::runtime_error("Invalid pointer!");
+	if (ptr.expired())
+		throw std::runtime_error(context ? context : "Invalid pointer!");
+}
+
+template<typename T>
+std::shared_ptr<T> lock_or_throw(std::weak_ptr<T> &ptr, const char *context = nullptr)
+{
+	do_check(ptr, context);
     return ptr.lock();
 }
 
 template<typename T>
-const std::shared_ptr<T> lock_or_throw(const std::weak_ptr<T> &ptr)
+const std::shared_ptr<T> lock_or_throw(const std::weak_ptr<T> &ptr, const char *context = nullptr)
 {
-    if (ptr.expired())
-        throw std::runtime_error("Invalid pointer!");
-    return ptr.lock();
+	do_check(ptr, context);
+	return ptr.lock();
 }
 
 }

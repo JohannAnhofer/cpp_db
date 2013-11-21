@@ -20,7 +20,7 @@ sqlite_transaction::sqlite_transaction(const shared_connection_ptr &conn_in)
 
 sqlite3 *sqlite_transaction::get_db_handle() const
 {
-    return std::static_pointer_cast<sqlite3>(tools::lock_or_throw(conn)->get_handle()).get();
+	return std::static_pointer_cast<sqlite3>(tools::lock_or_throw(conn, "Invalid database connection")->get_handle()).get();
 }
 
 sqlite_transaction::~sqlite_transaction()

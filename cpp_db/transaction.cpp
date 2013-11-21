@@ -26,19 +26,19 @@ transaction::~transaction()
 void transaction::begin()
 {
 	trans_impl->begin();
-    tools::lock_or_throw(conn_impl)->set_current_transaction(trans_impl);
+    tools::lock_or_throw(conn_impl, "Invalid database connection")->set_current_transaction(trans_impl);
 }
 
 void transaction::commit()
 {
 	trans_impl->commit();
-    tools::lock_or_throw(conn_impl)->set_current_transaction(0);
+	tools::lock_or_throw(conn_impl, "Invalid database connection")->set_current_transaction(0);
 }
 
 void transaction::rollback()
 {
 	trans_impl->rollback();
-    tools::lock_or_throw(conn_impl)->set_current_transaction(0);
+	tools::lock_or_throw(conn_impl, "Invalid database connection")->set_current_transaction(0);
 }
 
 bool transaction::is_open() const
