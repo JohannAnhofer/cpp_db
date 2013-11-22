@@ -43,10 +43,10 @@ void test_cpp_db_class::test_parameter()
 	TEST_VERIFY(!param1.has_name());
 	TEST_VERIFY(!param2.has_index());
 	TEST_VERIFY(param2.has_name());
-	TEST_VERIFY(param1.has_value_of_type<std::string>());
-	TEST_VERIFY(!param1.has_value_of_type<double>());
-	TEST_VERIFY(!param2.has_value_of_type<std::string>());
-	TEST_VERIFY(param2.has_value_of_type<double>());
+    TEST_EQUAL(cpp_db::type_of(param1), typeid(std::string));
+    TEST_NOT_EQUAL(cpp_db::type_of(param1), typeid(double));
+    TEST_NOT_EQUAL(cpp_db::type_of(param2), typeid(std::string));
+    TEST_EQUAL(cpp_db::type_of(param2), typeid(double));
 
 	TEST_EQUAL(param1.get_value<std::string>(), "Hello world!");
 	TEST_VERIFY(std::fabs(param2.get_value<double>() - 27.85) < 0.000001);

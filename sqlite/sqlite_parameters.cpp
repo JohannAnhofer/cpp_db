@@ -46,32 +46,32 @@ int sqlite_parameters::find_param_pos(const std::string &name) const
 void sqlite_parameters::bind(const parameter &param)
 {
     int index = param.has_index() ? param.get_index() : find_param_pos(param.get_name());
-    if (param.has_value_of_type<int>())
+    if (type_of(param) == typeid(int))
 		sqlite3_bind_int(get_stmt_handle(), index, param.get_value<int>());
-    else if (param.has_value_of_type<double>())
+    else if (type_of(param) == typeid(double))
 		sqlite3_bind_double(get_stmt_handle(), index, param.get_value<double>());
-    else if (param.has_value_of_type<const char *>())
+    else if (type_of(param) == typeid(const char *))
     {
         const char *source = param.get_value<const char *>();
         char * value = new char[strlen(source) + 1];
         memcpy(value, source, strlen(source) + 1);
 		sqlite3_bind_text(get_stmt_handle(), index, value, strlen(source), delete_array<char>);
     }
-    else if (param.has_value_of_type<std::string>())
+    else if (type_of(param) == typeid(std::string))
     {
         std::string source(param.get_value<std::string>());
         char * value = new char[source.length() + 1];
         memcpy(value, source.c_str(), source.length() + 1);
 		sqlite3_bind_text(get_stmt_handle(), index, value, source.length(), delete_array<char>);
     }
-    else if (param.has_value_of_type<blob>())
+    else if (type_of(param) == typeid(blob))
     {
         blob source(param.get_value<blob>());
         uint8_t *value = new uint8_t[source.size()];
         memcpy(value, source.data(), source.size());
 		sqlite3_bind_blob(get_stmt_handle(), index, value, source.size(), delete_array<uint8_t>);
     }
-    else if (param.has_value_of_type<int64_t>())
+    else if (type_of(param) == typeid(int64_t))
 		sqlite3_bind_int64(get_stmt_handle(), index, param.get_value<int64_t>());
     else if (is_null(param))
 		sqlite3_bind_null(get_stmt_handle(), index);

@@ -92,14 +92,6 @@ namespace cpp_db
 			throw std::runtime_error(std::string("Invalid value type (") + +typeid(T).name() + std::string(" != ") + pholder->get_type().name() + ")");
 		}
 
-		template<typename T>
-		bool has_value_of_type() const
-		{
-			if (pholder == nullptr)
-				throw std::runtime_error("Invalid value object");
-			return pholder->get_type() == typeid(T);
-		}
-
 		friend std::type_index type_of(const value &v);
 		friend bool is_null(const value &v);
 
@@ -149,12 +141,16 @@ namespace cpp_db
 
 	inline std::type_index type_of(const value &v)
 	{
+        if (!v.pholder)
+            throw std::runtime_error("Invalid value object");
 		return v.pholder->get_type();
 	}
 
 	inline bool is_null(const value &v)
 	{
-		return v.pholder->get_type() == typeid(null_type);
+        if (!v.pholder)
+            throw std::runtime_error("Invalid value object");
+        return v.pholder->get_type() == typeid(null_type);
 	}
 
 }

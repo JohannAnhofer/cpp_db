@@ -75,12 +75,6 @@ namespace cpp_db
             return index >= 0 && name.empty();
 		}
 
-		template<typename T>
-		bool has_value_of_type() const
-		{
-            return argument.has_value_of_type<T>();
-		}
-
 		bool has_name() const
 		{
             return index == -1 && !name.empty();
@@ -130,9 +124,6 @@ namespace cpp_db
 
     template<>
     null_type parameter::cast_to<null_type, null_type>() const = delete;
-
-    template<>
-    bool parameter::has_value_of_type<null_type>() const = delete;
 }
 
 #endif
