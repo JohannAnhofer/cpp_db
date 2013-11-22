@@ -36,7 +36,8 @@ HEADERS += \
     user_password_authentication.h \
     usings.h \
     value.h \
-    value.inl
+    value.inl \
+    value_of.h
 
 INCLUDEPATH += \
     $$PWD/../tools \
