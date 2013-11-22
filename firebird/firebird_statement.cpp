@@ -71,7 +71,7 @@ firebird_statement::~firebird_statement()
     try
     {
         if (tr->is_open())
-            tr->rollback();
+            tr->commit();
     }
     catch(...)
     {
