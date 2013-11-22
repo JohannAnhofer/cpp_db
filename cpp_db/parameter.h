@@ -116,6 +116,8 @@ namespace cpp_db
 
 	inline std::type_index type_of(const parameter &arg)
 	{
+        if (is_null(arg))
+            throw std::logic_error("Value is null");
         return type_of(arg.argument);
 	}
 

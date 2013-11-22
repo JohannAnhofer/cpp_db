@@ -151,6 +151,8 @@ namespace cpp_db
 	{
         if (!v.pholder)
             throw std::runtime_error("Invalid value object");
+        if (is_null(v))
+            throw std::logic_error("Value is null");
 		return v.pholder->get_type();
 	}
 
