@@ -15,8 +15,8 @@ class isc_status
 public:
 
 	isc_status() 
-#if !defined(_MSC_VER) && !(defined(__GNUC__) && !defined(__clang__))
-		: status{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+#ifndef _MSC_VER
+        : status{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}
 #endif
 	{
 #ifdef _MSC_VER
