@@ -4,6 +4,7 @@
 #include "null.h"
 #include "type_of.h"
 #include "value.h"
+#include "value_of.h"
 
 #include <string>
 #include <memory>
@@ -102,6 +103,8 @@ namespace cpp_db
 
 		friend std::type_index type_of(const parameter &arg);
         friend bool is_null(const parameter &arg);
+        template<typename T>
+        friend T value_of(const parameter &arg);
 
 	private:
         value argument;
@@ -120,6 +123,12 @@ namespace cpp_db
             throw std::logic_error("Value is null");
         return type_of(arg.argument);
 	}
+
+    template<typename T>
+    T value_of(const parameter &arg)
+    {
+        return value_of<T>(arg.argument);
+    }
 
     template<>
     null_type parameter::get_value<null_type>() const = delete;

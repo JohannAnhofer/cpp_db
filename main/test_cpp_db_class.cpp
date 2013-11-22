@@ -22,9 +22,12 @@ void test_cpp_db_class::test_is_null()
     TEST_VERIFY(is_null(pnull));
 
     TEST_FOR_EXCEPTION(type_of(null), std::logic_error);
-    TEST_FOR_EXCEPTION(value_of(null), std::logic_error);
     TEST_FOR_EXCEPTION(type_of(vnull), std::logic_error);
     TEST_FOR_EXCEPTION(type_of(pnull), std::logic_error);
+
+    TEST_FOR_EXCEPTION(value_of(null), std::logic_error);
+    TEST_FOR_EXCEPTION(cpp_db::value_of<int>(vnull), std::logic_error);
+    TEST_FOR_EXCEPTION(cpp_db::value_of<int>(pnull), std::logic_error);
 }
 
 void test_cpp_db_class::test_value()
