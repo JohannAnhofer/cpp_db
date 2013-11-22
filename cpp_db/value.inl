@@ -33,9 +33,6 @@ null_type value::get_value<null_type>() const = delete;
 template<>
 null_type value::cast_to<null_type, null_type>() const = delete;
 
-//    template<>
-//    bool value::has_value_of_type<null_type>() const = delete;
-
 }
 
 #endif // CPP_DB_VALUE_INL
