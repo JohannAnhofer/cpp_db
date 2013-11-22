@@ -60,12 +60,6 @@ namespace cpp_db
 		}
 #endif
 
-		template<typename T>
-		T get_value() const
-		{
-            return argument.get_value<T>();
-		}
-
         value get_value_holder() const
         {
             return argument;
@@ -129,9 +123,6 @@ namespace cpp_db
     {
         return value_of<T>(arg.argument);
     }
-
-    template<>
-    null_type parameter::get_value<null_type>() const = delete;
 
     template<>
     null_type parameter::cast_to<null_type, null_type>() const = delete;

@@ -55,8 +55,8 @@ void test_cpp_db_class::test_parameter()
     TEST_NOT_EQUAL(cpp_db::type_of(param2), typeid(std::string));
     TEST_EQUAL(cpp_db::type_of(param2), typeid(double));
 
-	TEST_EQUAL(param1.get_value<std::string>(), "Hello world!");
-	TEST_VERIFY(std::fabs(param2.get_value<double>() - 27.85) < 0.000001);
+    TEST_EQUAL(cpp_db::value_of<std::string>(param1), "Hello world!");
+    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(param2) - 27.85) < 0.000001);
 
-	TEST_FOR_EXCEPTION(param1.get_value<int>(), std::runtime_error);
+    TEST_FOR_EXCEPTION(cpp_db::value_of<int>(param1), std::runtime_error);
 }
