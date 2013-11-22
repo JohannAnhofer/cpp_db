@@ -109,22 +109,34 @@ void test_firebird_class::test_result_multi_row()
         TEST_EQUAL(r.get_column_value("EXPORT").get_value<short>(), 0);
         TEST_FOR_NO_EXCEPTION(r.move_next());
     }
-    TEST_EQUAL(ids.size(), 3);
-    TEST_EQUAL(ids[0], 333);
-    TEST_EQUAL(ids[1], 312);
-    TEST_EQUAL(ids[2], 311);
-    TEST_EQUAL(params[0], "PrintViaPostScriptConversionScript");
-    TEST_EQUAL(params[1], "FtpUpdatePathOnServer");
-    TEST_EQUAL(params[2], "FtpUpdateServer");
-    TEST_EQUAL(values[0], "true");
-    TEST_EQUAL(values[1], "/Update/Series/");
-    TEST_EQUAL(values[2], "rgxmvs17.roche.com");
-    TEST_EQUAL(defval[0], "true");
-    TEST_EQUAL(defval[1], "/Update/Series/");
-    TEST_EQUAL(defval[2], "rgxmvs17.roche.com");
-    TEST_EQUAL(desc[0], "Printing via postscript file on/off");
-    TEST_EQUAL(desc[1], "Path to software update directory");
-    TEST_EQUAL(desc[2], "Internal ftp update server name or IP");
+    TEST_EQUAL(ids.size(), 3u);
+
+    if (ids.size() > 0)
+    {
+        TEST_EQUAL(ids[0], 333);
+        TEST_EQUAL(params[0], "PrintViaPostScriptConversionScript");
+        TEST_EQUAL(values[0], "true");
+        TEST_EQUAL(defval[0], "true");
+        TEST_EQUAL(desc[0], "Printing via postscript file on/off");
+    }
+
+    if (ids.size() > 1)
+    {
+        TEST_EQUAL(ids[1], 312);
+        TEST_EQUAL(params[1], "FtpUpdatePathOnServer");
+        TEST_EQUAL(values[1], "/Update/Series/");
+        TEST_EQUAL(defval[1], "/Update/Series/");
+        TEST_EQUAL(desc[1], "Path to software update directory");
+    }
+
+    if (ids.size() > 2)
+    {
+        TEST_EQUAL(ids[2], 311);
+        TEST_EQUAL(params[2], "FtpUpdateServer");
+        TEST_EQUAL(values[2], "rgxmvs17.roche.com");
+        TEST_EQUAL(defval[2], "rgxmvs17.roche.com");
+        TEST_EQUAL(desc[2], "Internal ftp update server name or IP");
+    }
 }
 
 void test_firebird_class::test_result_empty()
