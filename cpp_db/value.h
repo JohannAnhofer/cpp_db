@@ -71,17 +71,6 @@ namespace cpp_db
 		}
 #endif
 
-		template<typename T>
-		T get_value() const
-		{
-			if (pholder == nullptr)
-				throw std::runtime_error("Invalid value object");
-
-            if (pholder->get_type() == typeid(T))
-				return *reinterpret_cast<T const *>(pholder->get_value());
-            throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + pholder->get_type().name()+")");
-		}
-
 		template<typename T, typename U>
 		U cast_to() const
 		{

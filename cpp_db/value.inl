@@ -27,12 +27,6 @@ struct value::concrete_holder<null_type> : public abstract_holder
     }
 };
 
-template<>
-null_type value::get_value<null_type>() const = delete;
-
-template<>
-null_type value::cast_to<null_type, null_type>() const = delete;
-
 }
 
 #endif // CPP_DB_VALUE_INL
