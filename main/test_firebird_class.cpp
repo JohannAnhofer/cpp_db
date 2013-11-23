@@ -23,7 +23,7 @@ void test_firebird_class::test_execute_non_query()
     TEST_FOR_NO_EXCEPTION(tr.begin());
     cpp_db::statement stmt(*con);
     TEST_FOR_NO_EXCEPTION(stmt.prepare("insert into TBL_DEVICE(INSTRUMENT_SERIAL, INSTRUMENT_VERSION, DEV_TYP_ID) VALUES(?, ?, ?)"));
-    TEST_FOR_NO_EXCEPTION(stmt.execute_non_query("9180", "2.0", 4));
+    TEST_FOR_NO_EXCEPTION(stmt.execute_non_query("9180", "2.0", 4ll));
     TEST_FOR_NO_EXCEPTION(tr.rollback());
 }
 
@@ -34,7 +34,7 @@ void test_firebird_class::test_execute_non_query_with_parameters()
     cpp_db::parameters params(stmt.get_parameters());
     params.bind(cpp_db::parameter(1, "0815-4711"));
     params.bind(cpp_db::parameter(2, "2.0"));
-    params.bind(cpp_db::parameter(3, 4));
+    params.bind(cpp_db::parameter(3, 4ll));
     TEST_FOR_NO_EXCEPTION(stmt.execute_non_query());
 
     TEST_FOR_NO_EXCEPTION(stmt.reset());
@@ -62,7 +62,7 @@ std::string to_string(const cpp_db::value &val, const std::string &def = "<null>
     else
     {
         std::stringstream s;
-        s << val.get_value<T>();
+        s << cpp_db::value_of<T>(val);
         return s.str();
     }
 }
@@ -74,11 +74,11 @@ void test_firebird_class::test_result_single_row()
     TEST_EQUAL(r.get_column_count(), 1);
     TEST_EQUAL(r.get_column_name(0), "NUMBER_FMT");
     TEST_VERIFY(!cpp_db::is_null(r.get_column_value(0)));
-    TEST_EQUAL(r.get_column_value(0).get_value<std::string>(), "3147.390000000000");
+    TEST_EQUAL(cpp_db::value_of<std::string>(r.get_column_value(0)), "3147.390000000000");
 
     cpp_db::value val = cpp_db::execute_scalar(*con, "select first(1) INSTRUMENT_SERIAL from TBL_DEVICE");
     TEST_VERIFY(!is_null(val));
-    TEST_EQUAL(val.get_value<std::string>(), "19999");
+    TEST_EQUAL(cpp_db::value_of<std::string>(val), "19999");
 
 }
 
@@ -99,14 +99,14 @@ void test_firebird_class::test_result_multi_row()
 
     while(!r.is_eof())
     {
-        TEST_FOR_NO_EXCEPTION(ids.push_back(r.get_column_value("ID").get_value<int64_t>()));
-        TEST_FOR_NO_EXCEPTION(params.push_back(r.get_column_value("CLASS_PARAM").get_value<std::string>()));
-        TEST_FOR_NO_EXCEPTION(values.push_back(r.get_column_value("CLASS_VALUE").get_value<std::string>()));
-        TEST_FOR_NO_EXCEPTION(desc.push_back(r.get_column_value("DESCRIPTION").get_value<std::string>()));
-        TEST_FOR_NO_EXCEPTION(defval.push_back(r.get_column_value("DEFAULT_VALUE").get_value<std::string>()));
-        TEST_EQUAL(r.get_column_value("CLASS_NAME").get_value<std::string>(), "ConfigurationDataLayer::DbSettings");
+        TEST_FOR_NO_EXCEPTION(ids.push_back(cpp_db::value_of<int64_t>(r.get_column_value("ID"))));
+        TEST_FOR_NO_EXCEPTION(params.push_back(cpp_db::value_of<std::string>(r.get_column_value("CLASS_PARAM"))));
+        TEST_FOR_NO_EXCEPTION(values.push_back(cpp_db::value_of<std::string>(r.get_column_value("CLASS_VALUE"))));
+        TEST_FOR_NO_EXCEPTION(desc.push_back(cpp_db::value_of<std::string>(r.get_column_value("DESCRIPTION"))));
+        TEST_FOR_NO_EXCEPTION(defval.push_back(cpp_db::value_of<std::string>(r.get_column_value("DEFAULT_VALUE"))));
+        TEST_EQUAL(cpp_db::value_of<std::string>(r.get_column_value("CLASS_NAME")), "ConfigurationDataLayer::DbSettings");
         TEST_VERIFY(is_null(r.get_column_value("LID")));
-        TEST_EQUAL(r.get_column_value("EXPORT").get_value<short>(), 0);
+        TEST_EQUAL(cpp_db::value_of<short>(r.get_column_value("EXPORT")), 0);
         TEST_FOR_NO_EXCEPTION(r.move_next());
     }
     TEST_EQUAL(ids.size(), 3u);

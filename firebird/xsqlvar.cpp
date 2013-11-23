@@ -217,37 +217,37 @@ void xsqlvar::set_column_value(const value &val)
     {
     case  SQL_TEXT:
     case  SQL_VARYING:
-        write_value_to_sql_var(val.get_value<std::string>());
+        write_value_to_sql_var(value_of<std::string>(val));
         break;
     case  SQL_SHORT:
-        write_value_to_sql_var(val.get_value<int16_t>());
+        write_value_to_sql_var(value_of<int16_t>(val));
         break;
     case  SQL_LONG:
-        write_value_to_sql_var(val.get_value<int32_t>());
+        write_value_to_sql_var(value_of<int32_t>(val));
         break;
     case  SQL_INT64:
-        write_value_to_sql_var(val.get_value<int64_t>());
+        write_value_to_sql_var(value_of<int64_t>(val));
         break;
     case  SQL_FLOAT:
-        write_value_to_sql_var(val.get_value<float>());
+        write_value_to_sql_var(value_of<float>(val));
         break;
     case  SQL_DOUBLE:
-        write_value_to_sql_var(val.get_value<double>());
+        write_value_to_sql_var(value_of<double>(val));
         break;
     case  SQL_TIMESTAMP:
         {
-            tm timestamp = val.get_value<tm>();
+            tm timestamp = value_of<tm>(val);
             isc_encode_timestamp(&timestamp, reinterpret_cast<ISC_TIMESTAMP *>(var.sqldata));
         }
         break;
     case  SQL_TYPE_TIME:
         {
-            tm timestamp = val.get_value<tm>();
+            tm timestamp = value_of<tm>(val);
             isc_encode_sql_time(&timestamp, reinterpret_cast<ISC_TIME *>(var.sqldata));
         }
     case  SQL_TYPE_DATE:
         {
-            tm timestamp = val.get_value<tm>();
+            tm timestamp = value_of<tm>(val);
             isc_encode_sql_date(&timestamp, reinterpret_cast<ISC_DATE *>(var.sqldata));
         }
         break;
