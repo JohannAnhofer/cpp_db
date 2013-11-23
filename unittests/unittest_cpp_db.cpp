@@ -61,13 +61,13 @@ namespace unittests
 			Assert::IsFalse(param1.has_name(), L"param1 don't have a name");
 			Assert::IsFalse(param2.has_index(), L"param2 don't have an index");
 			Assert::IsTrue(param2.has_name(), L"param2 has a name");
-			Assert::IsTrue(param1.has_value_of_type<std::string>(), L"param1 has a value of type std::string");
-			Assert::IsFalse(param1.has_value_of_type<double>(), L"param1 don't have a value of type double");
-			Assert::IsFalse(param2.has_value_of_type<std::string>(), L"param2 don't have a value of type std::string");
-			Assert::IsTrue(param2.has_value_of_type<double>(), L"param2 has a value of type double");
+			Assert::IsTrue(cpp_db::type_of(param1) == typeid(std::string), L"param1 has a value of type std::string");
+			Assert::IsFalse(cpp_db::type_of(param1) == typeid(double), L"param1 don't have a value of type double");
+			Assert::IsFalse(cpp_db::type_of(param2) == typeid(std::string), L"param2 don't have a value of type std::string");
+			Assert::IsTrue(cpp_db::type_of(param2) == typeid(double), L"param2 has a value of type double");
 
-			Assert::AreEqual(param1.get_value<std::string>(), std::string("Hello world!"), L"param1 has a value of 'Hello world!'");
-			Assert::IsTrue(std::fabs(param2.get_value<double>() - 27.85) < 0.000001, L"param2 has a value of 27.85");
+			Assert::AreEqual(cpp_db::value_of<std::string>(param1), std::string("Hello world!"), L"param1 has a value of 'Hello world!'");
+			Assert::IsTrue(std::fabs(cpp_db::value_of<double>(param2) - 27.85) < 0.000001, L"param2 has a value of 27.85");
 
 //			TEST_FOR_EXCEPTION(param1.get_value<int>(), std::runtime_error);
 		}
