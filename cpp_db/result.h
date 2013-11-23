@@ -34,6 +34,9 @@ public:
 	std::string get_column_name(int column) const;
 	int get_column_index(const std::string &column_name) const;
 
+    bool is_column_null(int column) const;
+    bool is_column_null(const std::string &column_name) const;
+
 private:
     result();
     friend class statement;

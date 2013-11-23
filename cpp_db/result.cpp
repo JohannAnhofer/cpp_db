@@ -60,7 +60,17 @@ std::string result::get_column_name(int column) const
 
 int result::get_column_index(const std::string &column_name) const
 {
-	return result_impl->get_column_index(column_name);
+    return result_impl->get_column_index(column_name);
+}
+
+bool result::is_column_null(int column) const
+{
+    return result_impl->is_column_null(column);
+}
+
+bool result::is_column_null(const std::string &column_name) const
+{
+    return result_impl->is_column_null(column_name);
 }
 
 }

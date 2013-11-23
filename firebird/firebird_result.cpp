@@ -80,4 +80,14 @@ value firebird_result::get_column_value(const std::string &column_name) const
     return get_column_value(get_column_index(column_name));
 }
 
+bool firebird_result::is_column_null(int column) const
+{
+    return (*sqlda_fields)[column].is_null();
+}
+
+bool firebird_result::is_column_null(const std::string &column_name) const
+{
+    return is_column_null(get_column_index(column_name));
+}
+
 } // namespace cpp_db

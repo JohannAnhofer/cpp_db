@@ -24,6 +24,8 @@ public:
     value get_column_value(int column) const override;
     int get_column_index(const std::string &column_name) const override;
     value get_column_value(const std::string &column_name) const override;
+    bool is_column_null(int column) const override;
+    bool is_column_null(const std::string &column_name) const override;
 
 private:
     friend class odbc_driver;
