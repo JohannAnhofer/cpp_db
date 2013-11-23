@@ -52,4 +52,16 @@ value odbc_result::get_column_value(const std::string &column_name) const
     return null_type{};
 }
 
+bool odbc_result::is_column_null(int column) const
+{
+    (void)column;
+    return false;
+}
+
+bool odbc_result::is_column_null(const std::string &column_name) const
+{
+    (void)column_name;
+    return false;
+}
+
 } // namespace cpp_db
