@@ -57,11 +57,6 @@
     <None Include="abstract_test.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\tools\tools.vcxproj">
-      <Project>{f6b28bea-8480-428f-ae98-5bc3c85caf8c}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Xsd Include="junit.xsd">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_CTP_Nov2013|Win32'">true</ExcludedFromBuild>

@@ -27,9 +27,6 @@
     <ClInclude Include="nullable_types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="value_is_null.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="coalesce.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,10 +39,5 @@
     <ClInclude Include="compiler_specific.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="value_is_null.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

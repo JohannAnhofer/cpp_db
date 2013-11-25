@@ -57,6 +57,7 @@
     <ClInclude Include="user_password_authentication.h" />
     <ClInclude Include="usings.h" />
     <ClInclude Include="value.h" />
+    <ClInclude Include="value_is_null.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp" />
@@ -65,11 +66,6 @@
     <ClCompile Include="result.cpp" />
     <ClCompile Include="statement.cpp" />
     <ClCompile Include="transaction.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\tools\tools.vcxproj">
-      <Project>{f6b28bea-8480-428f-ae98-5bc3c85caf8c}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="statement.inl" />

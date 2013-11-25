@@ -53,11 +53,6 @@
     <ClInclude Include="sqlite_statement.h" />
     <ClInclude Include="sqlite_transaction.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\tools\tools.vcxproj">
-      <Project>{f6b28bea-8480-428f-ae98-5bc3c85caf8c}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ED69C9EA-C51A-4262-A525-4FF95B838BA3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
