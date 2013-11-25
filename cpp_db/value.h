@@ -155,7 +155,7 @@ namespace cpp_db
     template<typename T, typename U>
     U cast_to(const value &val)
     {
-        return value_of<T>(val);
+        return static_cast<U>(value_of<T>(val));
     }
 
 }
