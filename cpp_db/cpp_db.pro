@@ -10,8 +10,7 @@ SOURCES += \
     parameters.cpp \
     result.cpp \
     statement.cpp \
-    transaction.cpp \
-    value_is_null.cpp
+    transaction.cpp
 
 HEADERS += \
     authentication.h \
