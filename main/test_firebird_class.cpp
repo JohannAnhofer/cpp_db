@@ -57,7 +57,7 @@ void test_firebird_class::test_execute_non_query_with_parameters()
 template<typename T>
 std::string to_string(const cpp_db::value &val, const std::string &def = "<null>")
 {
-    if (is_null(val))
+    if (cpp_db::is_null(val))
         return def;
     else
     {
@@ -77,7 +77,7 @@ void test_firebird_class::test_result_single_row()
     TEST_EQUAL(cpp_db::value_of<std::string>(r.get_column_value(0)), "3147.390000000000");
 
     cpp_db::value val = cpp_db::execute_scalar(*con, "select first(1) INSTRUMENT_SERIAL from TBL_DEVICE");
-    TEST_VERIFY(!is_null(val));
+    TEST_VERIFY(!cpp_db::is_null(val));
     TEST_EQUAL(cpp_db::value_of<std::string>(val), "19999");
 
 }
@@ -105,7 +105,7 @@ void test_firebird_class::test_result_multi_row()
         TEST_FOR_NO_EXCEPTION(desc.push_back(cpp_db::value_of<std::string>(r.get_column_value("DESCRIPTION"))));
         TEST_FOR_NO_EXCEPTION(defval.push_back(cpp_db::value_of<std::string>(r.get_column_value("DEFAULT_VALUE"))));
         TEST_EQUAL(cpp_db::value_of<std::string>(r.get_column_value("CLASS_NAME")), "ConfigurationDataLayer::DbSettings");
-        TEST_VERIFY(is_null(r.get_column_value("LID")));
+        TEST_VERIFY(cpp_db::is_null(r.get_column_value("LID")));
         TEST_EQUAL(cpp_db::value_of<short>(r.get_column_value("EXPORT")), 0);
         TEST_FOR_NO_EXCEPTION(r.move_next());
     }
