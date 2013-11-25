@@ -5,6 +5,8 @@
 #include <typeindex>
 #include <typeinfo>
 
+#include "value_is_null.h"
+
 namespace cpp_db
 {
 
@@ -16,8 +18,8 @@ struct value::concrete_holder<null_type> : public abstract_holder
     }
 
     void const * get_value() const override
-    {
-        throw std::runtime_error("Value is null");
+	{
+		throw value_is_null{};
     }
 
     std::type_index get_type() const override
