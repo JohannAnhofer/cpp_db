@@ -89,16 +89,12 @@ namespace cpp_db
 			throw std::runtime_error("Invalid index type for parameter.");
 		}
 
-        template<typename T, typename U>
-        U cast_to() const
-        {
-            return argument.cast_to<T, U>();
-        }
-
 		friend std::type_index type_of(const parameter &arg);
         friend bool is_null(const parameter &arg);
         template<typename T>
         friend T value_of(const parameter &arg);
+        template<typename T, typename U>
+        friend U cast_to(const parameter &arg);
 
 	private:
         value argument;
@@ -124,8 +120,14 @@ namespace cpp_db
         return value_of<T>(arg.argument);
     }
 
+    template<typename T, typename U>
+    U cast_to(const parameter &arg)
+    {
+        return cast_to<T, U>(arg.argument);
+    }
+
     template<>
-    null_type parameter::cast_to<null_type, null_type>() const = delete;
+    null_type cast_to<null_type, null_type>(const parameter &) = delete;
 }
 
 #endif
