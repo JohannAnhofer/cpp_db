@@ -333,9 +333,6 @@
     <ProjectReference Include="..\test\test.vcxproj">
       <Project>{5f7c81f9-2421-401e-84b2-01ba4b9e31d2}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\tools\tools.vcxproj">
-      <Project>{f6b28bea-8480-428f-ae98-5bc3c85caf8c}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="test_cpp_db_class.h" />

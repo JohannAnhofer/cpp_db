@@ -81,6 +81,9 @@
     <ClInclude Include="usings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="value_is_null.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp">
