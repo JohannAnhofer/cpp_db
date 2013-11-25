@@ -23,7 +23,7 @@ void test_firebird_class::test_execute_non_query()
     TEST_FOR_NO_EXCEPTION(tr.begin());
     cpp_db::statement stmt(*con);
     TEST_FOR_NO_EXCEPTION(stmt.prepare("insert into TBL_DEVICE(INSTRUMENT_SERIAL, INSTRUMENT_VERSION, DEV_TYP_ID) VALUES(?, ?, ?)"));
-    TEST_FOR_NO_EXCEPTION(stmt.execute_non_query("9180", "2.0", 4ll));
+    TEST_FOR_NO_EXCEPTION(stmt.execute_non_query("9180", "2.0", 4));
     TEST_FOR_NO_EXCEPTION(tr.rollback());
 }
 
@@ -34,7 +34,7 @@ void test_firebird_class::test_execute_non_query_with_parameters()
     cpp_db::parameters params(stmt.get_parameters());
     params.bind(cpp_db::parameter(1, "0815-4711"));
     params.bind(cpp_db::parameter(2, "2.0"));
-    params.bind(cpp_db::parameter(3, 4ll));
+    params.bind(cpp_db::parameter(3, 4));
     TEST_FOR_NO_EXCEPTION(stmt.execute_non_query());
 
     TEST_FOR_NO_EXCEPTION(stmt.reset());
