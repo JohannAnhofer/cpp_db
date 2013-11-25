@@ -71,18 +71,7 @@ namespace cpp_db
 		}
 #endif
 
-		template<typename T, typename U>
-		U cast_to() const
-		{
-			if (pholder == nullptr)
-				throw std::runtime_error("Invalid value object");
-
-			if (pholder->get_type() == typeid(T))
-                return static_cast<concrete_holder<T> *>(pholder.get())->template cast_to<U>();
-			throw std::runtime_error(std::string("Invalid value type (") + +typeid(T).name() + std::string(" != ") + pholder->get_type().name() + ")");
-		}
-
-		friend std::type_index type_of(const value &v);
+        friend std::type_index type_of(const value &v);
 		friend bool is_null(const value &v);
         template<typename T>
         friend T value_of(const value &val);
@@ -161,6 +150,12 @@ namespace cpp_db
         if (type_of(val) == typeid(T))
             return *reinterpret_cast<T const *>(val.pholder->get_value());
         throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + val.pholder->get_type().name()+")");
+    }
+
+    template<typename T, typename U>
+    U cast_to(const value &val)
+    {
+        return value_of<T>(val);
     }
 
 }
