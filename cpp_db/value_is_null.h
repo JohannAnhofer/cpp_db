@@ -9,7 +9,10 @@ namespace cpp_db
 class value_is_null : public std::logic_error
 {
 public:
-	value_is_null();
+    value_is_null()
+        : std::logic_error("Value is null")
+    {
+    }
 };
 
 } // namespace cpp_db
