@@ -8,7 +8,7 @@ class test_cpp_db_class: public test::abstract_test
 public:
     BEGIN_DECLARE_TEST_CLASS(test_cpp_db_class)
 	DECLARE_TEST_FUNCTION(test_is_null)
-	DECLARE_TEST_FUNCTION(test_value)
+    DECLARE_TEST_FUNCTION(test_type)
 	DECLARE_TEST_FUNCTION(test_parameter)
     DECLARE_TEST_FUNCTION(test_conversions_i8)
     DECLARE_TEST_FUNCTION(test_conversions_ui8)
@@ -23,7 +23,7 @@ public:
 
 protected:
 	void test_is_null();
-	void test_value();
+    void test_type();
 	void test_parameter();
     void test_conversions_i8();
     void test_conversions_ui8();
