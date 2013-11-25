@@ -30,14 +30,8 @@ void test_cpp_db_class::test_is_null()
     TEST_FOR_EXCEPTION(cpp_db::value_of<int>(pnull), std::logic_error);
 }
 
-void test_cpp_db_class::test_value()
+void test_cpp_db_class::test_type()
 {
-    TEST_FOR_NO_EXCEPTION((cpp_db::cast_to<int, int64_t>(cpp_db::value(10))));
-    TEST_FOR_NO_EXCEPTION((cpp_db::cast_to<int, double>(cpp_db::value(10))));
-    TEST_FOR_NO_EXCEPTION((cpp_db::cast_to<double, int64_t>(cpp_db::value(10.0))));
-    TEST_FOR_NO_EXCEPTION((cpp_db::cast_to<double, int64_t>(cpp_db::value(10.0))));
-    TEST_FOR_NO_EXCEPTION((cpp_db::cast_to<long double, float>(cpp_db::value(10.0l))));
-
     TEST_EQUAL(cpp_db::type_of(10), typeid(int));
     TEST_EQUAL(cpp_db::type_of(cpp_db::value{10}), typeid(int));
 	TEST_EQUAL(cpp_db::type_of(cpp_db::parameter{ 0, 10 }), typeid(int));

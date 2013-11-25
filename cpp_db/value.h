@@ -22,26 +22,6 @@ namespace cpp_db
 		{
 		}
 
-        value(const char *val)
-            : pholder(new concrete_holder<std::string>(val))
-        {
-        }
-
-        value(char *val)
-            : pholder(new concrete_holder<std::string>(val))
-        {
-        }
-
-        value(const wchar_t *val)
-            : pholder(new concrete_holder<std::wstring>(val))
-        {
-        }
-
-        value(wchar_t *val)
-            : pholder(new concrete_holder<std::wstring>(val))
-        {
-        }
-
 		value(const value  &other)
 			: pholder(other.pholder->clone())
 		{
@@ -108,12 +88,6 @@ namespace cpp_db
 				return new concrete_holder(value);
 			}
 
-			template<typename CastType>
-			CastType cast_to() const
-			{
-				return value;
-			}
-
 			ValueType value;
 		};
 
@@ -142,12 +116,6 @@ namespace cpp_db
         if (type_of(val) == typeid(T))
             return *reinterpret_cast<T const *>(val.pholder->get_value());
         throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + type_of(val).name()+")");
-    }
-
-    template<typename T, typename U>
-    U cast_to(const value &val)
-    {
-        return static_cast<U>(value_of<T>(val));
     }
 
 }

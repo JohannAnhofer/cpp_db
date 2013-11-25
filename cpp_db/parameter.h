@@ -93,8 +93,6 @@ namespace cpp_db
         friend bool is_null(const parameter &arg);
         template<typename T>
         friend T value_of(const parameter &arg);
-        template<typename T, typename U>
-        friend U cast_to(const parameter &arg);
 
 	private:
         value argument;
@@ -118,14 +116,6 @@ namespace cpp_db
         return value_of<T>(arg.argument);
     }
 
-    template<typename T, typename U>
-    U cast_to(const parameter &arg)
-    {
-        return cast_to<T, U>(arg.argument);
-    }
-
-    template<>
-    null_type cast_to<null_type, null_type>(const parameter &) = delete;
 }
 
 #endif
