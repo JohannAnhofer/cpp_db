@@ -4,9 +4,9 @@
 #include "null.h"
 #include "type_of.h"
 #include "value_of.h"
+#include "value_is_null.h"
 
 #include <memory>
-#include <stdexcept>
 #include <string>
 
 namespace cpp_db
@@ -125,7 +125,7 @@ namespace cpp_db
         if (!v.pholder)
             throw std::runtime_error("Invalid value object");
         if (is_null(v))
-            throw std::logic_error("Value is null");
+            throw value_is_null{};
 		return v.pholder->get_type();
 	}
 
