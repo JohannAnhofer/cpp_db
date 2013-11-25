@@ -10,12 +10,30 @@ public:
 	DECLARE_TEST_FUNCTION(test_is_null)
 	DECLARE_TEST_FUNCTION(test_value)
 	DECLARE_TEST_FUNCTION(test_parameter)
+    DECLARE_TEST_FUNCTION(test_conversions_i8)
+    DECLARE_TEST_FUNCTION(test_conversions_ui8)
+    DECLARE_TEST_FUNCTION(test_conversions_i16)
+    DECLARE_TEST_FUNCTION(test_conversions_ui16)
+    DECLARE_TEST_FUNCTION(test_conversions_i32)
+    DECLARE_TEST_FUNCTION(test_conversions_ui32)
+    DECLARE_TEST_FUNCTION(test_conversions_i64)
+    DECLARE_TEST_FUNCTION(test_conversions_ui64)
+    DECLARE_TEST_FUNCTION(test_conversions_strings)
     END_DECLARE_TEST_CLASS()
 
 protected:
 	void test_is_null();
 	void test_value();
 	void test_parameter();
+    void test_conversions_i8();
+    void test_conversions_ui8();
+    void test_conversions_i16();
+    void test_conversions_ui16();
+    void test_conversions_i32();
+    void test_conversions_ui32();
+    void test_conversions_i64();
+    void test_conversions_ui64();
+    void test_conversions_strings();
 };
 
 #endif // TEST_CPP_DB_CLASS_H
