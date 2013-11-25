@@ -6,15 +6,24 @@
 #include "parameter.h"
 #include "type_of.h"
 
+#include <sstream>
+
+std::wstring to_wstring(const char *text)
+{
+	std::wostringstream stream;
+	stream << text;
+	return stream.str();
+}
+
 namespace Microsoft
 {
 	namespace VisualStudio 
 	{
 		namespace CppUnitTestFramework
 		{
-			template <> static std::wstring ToString<std::type_index>(const std::type_index& ti) { return L"1";/*std::wstring(ti.name());*/ }
-			template <> static std::wstring ToString<std::type_index>(const std::type_index* ti) { return L"1"; /*std::wstring(ti->name());*/ }
-			template <> static std::wstring ToString<std::type_index>(std::type_index* ti)       { return L"2"; /*std::wstring(ti->name());*/ }
+			template <> static std::wstring ToString<std::type_index>(const std::type_index& ti) { return to_wstring(ti.name()); }
+			template <> static std::wstring ToString<std::type_index>(const std::type_index* ti) { return to_wstring(ti->name()); }
+			template <> static std::wstring ToString<std::type_index>(std::type_index* ti)       { return to_wstring(ti->name()); }
 		}
 	}
 }
@@ -42,12 +51,6 @@ namespace unittests
 		}
 		TEST_METHOD(test_value)
 		{
-			//TEST_FOR_NO_EXCEPTION((cpp_db::value(10).cast_to<int, int64_t>()));
-			//TEST_FOR_NO_EXCEPTION((cpp_db::value(10).cast_to<int, double>()));
-			//TEST_FOR_NO_EXCEPTION((cpp_db::value(10.0).cast_to<double, int64_t>()));
-			//TEST_FOR_EXCEPTION((cpp_db::value(10).cast_to<double, int64_t>()), std::runtime_error);
-			//TEST_FOR_EXCEPTION((cpp_db::value(10.0).cast_to<long double, float>()), std::runtime_error);
-
 			Assert::AreEqual(cpp_db::type_of(10), std::type_index(typeid(int)));
 			Assert::AreEqual(cpp_db::type_of(cpp_db::value{ 10 }), std::type_index(typeid(int)));
 			Assert::AreEqual(cpp_db::type_of(cpp_db::parameter{ 0, 10 }), std::type_index(typeid(int)));
