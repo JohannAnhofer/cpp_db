@@ -10,7 +10,8 @@ SOURCES += \
     parameters.cpp \
     result.cpp \
     statement.cpp \
-    transaction.cpp
+    transaction.cpp \
+    value_is_null.cpp
 
 HEADERS += \
     authentication.h \
@@ -37,7 +38,8 @@ HEADERS += \
     usings.h \
     value.h \
     value.inl \
-    value_of.h
+    value_of.h \
+    value_is_null.h
 
 INCLUDEPATH += \
     $$PWD/../tools \

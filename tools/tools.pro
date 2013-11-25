@@ -12,8 +12,7 @@ HEADERS += \
     key_value_pair.h \
     lock_or_throw.h \
     nullable.h \
-    nullable_types.h \
-    value_is_null.h
+    nullable_types.h
 
 SOURCES += \
-    value_is_null.cpp
+

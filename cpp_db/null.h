@@ -4,8 +4,7 @@
 #include "cpp11_defines.h"
 #include "value_of.h"
 #include "type_of.h"
-
-#include <stdexcept>
+#include "value_is_null.h"
 
 namespace cpp_db
 {
@@ -26,13 +25,13 @@ CONSTEXPR bool is_null(const T &)
 template<>
 inline std::type_index type_of<null_type>(const null_type &)
 {
-    throw std::logic_error("Value is null");
+    throw value_is_null{};
 }
 
 template<>
 inline null_type value_of<null_type>(const null_type &)
 {
-    throw std::logic_error("Value is null");
+    throw value_is_null{};
 }
 
 }

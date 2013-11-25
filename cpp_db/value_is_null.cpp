@@ -1,6 +1,6 @@
 #include "value_is_null.h"
 
-namespace tools
+namespace cpp_db
 {
 
 value_is_null::value_is_null()

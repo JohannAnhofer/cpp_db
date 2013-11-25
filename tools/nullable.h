@@ -1,7 +1,7 @@
 #ifndef TOOLS_NULLABLE_H
 #define TOOLS_NULLABLE_H
 
-#include "value_is_null.h"
+#include <stdexcept>
 
 namespace tools
 {
@@ -108,13 +108,13 @@ private:
     void throw_if_this_is_null() const
     {
         if (is_null_)
-            throw value_is_null();
+            throw std::logic_error("Value is null");
     }
 
     void throw_if_this_or_other_null(const nullable &other) const
     {
         if (is_null_ || other.is_null_)
-            throw value_is_null();
+            throw std::logic_error("Value is null");
     }
 
 private:
