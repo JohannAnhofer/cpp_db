@@ -35,7 +35,7 @@ void firebird_parameters::bind(const parameter &param)
 	else
 		index = find_param_pos(param.get_name());
 
-    (*isqlda)[index].set_column_value(param.get_value_holder());
+    (*isqlda)[index].set_column_value(param.get_value());
 }
 
 int firebird_parameters::find_param_pos(const std::string &name) const

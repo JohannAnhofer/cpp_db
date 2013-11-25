@@ -60,7 +60,7 @@ namespace cpp_db
 		}
 #endif
 
-        value get_value_holder() const
+        value get_value() const
         {
             return argument;
         }
