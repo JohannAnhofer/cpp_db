@@ -2,7 +2,7 @@
  - Include directory for common headers
  * Connection options for connection
  * identity_token for connection to handle database authentification (no_user, user_pwd, ...)
- - Firebird driver
+ * Firebird driver
  - MySql driver
  - Odbc driver
  - Analyse parameters from query string (type, value for outputparaemter)
