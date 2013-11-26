@@ -15,4 +15,5 @@ HEADERS += \
     nullable_types.h
 
 SOURCES += \
+    tools.cpp
 
