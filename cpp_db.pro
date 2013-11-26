@@ -11,6 +11,7 @@ msvc:   message(Compiling with MS VC)
 mingw:  message(Compiling with MinGW)
 clang:  message(Compiling with Clang)
 llvm:   message(Compiling with LLVM)
+*-g++*: message(Compiling with GNU-G++)
 
 TEMPLATE = subdirs
 

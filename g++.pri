@@ -1,4 +1,6 @@
-*-g++* {
+*-g++*|clang {
+  message(Applying extended compiler flags)
+
   NORMAL_CFLAGS = -Wno-long-long -ansi
   NORMAL_CXXFLAGS = \
     -Wnon-virtual-dtor -Wundef -Wcast-align \
@@ -23,4 +25,7 @@
   #QMAKE_LFLAGS_DEBUG += -pg
 
   QMAKE_CXXFLAGS_WARN_ON += $$USABLE_CXXFLAGS
+} else {
+    message(Skipping extended compiler flags)
 }
+
