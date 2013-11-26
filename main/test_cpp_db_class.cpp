@@ -59,183 +59,225 @@ void test_cpp_db_class::test_parameter()
 void test_cpp_db_class::test_conversions_i8()
 {
     cpp_db::value val{int8_t{111}};
+    int8_t vi8{111};
+    uint8_t vui8{111};
+    int16_t vi16{111};
+    uint16_t vui16{111};
+    int32_t vi32{111};
+    uint32_t vui32{111};
+    int64_t vi64{111};
+    uint64_t vui64{111};
+    float vf{111.0f};
+    double vd{111.0};
+    long double vld{111.0l};
 
-    TEST_EQUAL(cpp_db::value_of<int8_t>(val), 111);
-    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), 111);
-    TEST_EQUAL(cpp_db::value_of<int16_t>(val), 111);
-    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), 111);
-    TEST_EQUAL(cpp_db::value_of<int32_t>(val), 111);
-    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), 111);
-    TEST_EQUAL(cpp_db::value_of<int64_t>(val), 111);
-    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), 111);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - 111) < 1e-6);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - 111) < 1e-6);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - 111) < 1e-6);
+    TEST_EQUAL(cpp_db::value_of<int8_t>(val), vi8);
+    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), vui8);
+    TEST_EQUAL(cpp_db::value_of<int16_t>(val), vi16);
+    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), vui16);
+    TEST_EQUAL(cpp_db::value_of<int32_t>(val), vi32);
+    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), vui32);
+    TEST_EQUAL(cpp_db::value_of<int64_t>(val), vi64);
+    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), vui64);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - vf) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - vd) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - vld) < 1e-6);
 }
 
 void  test_cpp_db_class::test_conversions_ui8()
 {
     cpp_db::value val{uint8_t{200}};
+    int8_t vi8{-56};
+    uint8_t vui8{200};
+    int16_t vi16{200};
+    uint16_t vui16{200};
+    int32_t vi32{200};
+    uint32_t vui32{200};
+    int64_t vi64{200};
+    uint64_t vui64{200};
+    float vf{200.0f};
+    double vd{200.0};
+    long double vld{200.0l};
 
-    TEST_NOT_EQUAL(cpp_db::value_of<int8_t>(val), 200);
-
-    TEST_EQUAL(cpp_db::value_of<int8_t>(val), -56);
-
-    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), 200);
-    TEST_EQUAL(cpp_db::value_of<int16_t>(val), 200);
-    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), 200);
-    TEST_EQUAL(cpp_db::value_of<int32_t>(val), 200);
-    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), 200);
-    TEST_EQUAL(cpp_db::value_of<int64_t>(val), 200);
-    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), 200);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - 200) < 1e-6);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - 200) < 1e-6);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - 200) < 1e-6);
+    TEST_EQUAL(cpp_db::value_of<int8_t>(val), vi8);
+    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), vui8);
+    TEST_EQUAL(cpp_db::value_of<int16_t>(val), vi16);
+    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), vui16);
+    TEST_EQUAL(cpp_db::value_of<int32_t>(val), vi32);
+    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), vui32);
+    TEST_EQUAL(cpp_db::value_of<int64_t>(val), vi64);
+    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), vui64);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - vf) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - vd) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - vld) < 1e-6);
 }
 
 void test_cpp_db_class::test_conversions_i16()
 {
     cpp_db::value val{int16_t{25287}};
+    int8_t vi8{-57};
+    uint8_t vui8{199};
+    int16_t vi16{25287};
+    uint16_t vui16{25287};
+    int32_t vi32{25287};
+    uint32_t vui32{25287};
+    int64_t vi64{25287};
+    uint64_t vui64{25287};
+    float vf{25287.0f};
+    double vd{25287.0};
+    long double vld{25287.0l};
 
-    TEST_NOT_EQUAL(cpp_db::value_of<int8_t>(val), 25287);
-    TEST_NOT_EQUAL(cpp_db::value_of<uint8_t>(val), 25287);
-
-    TEST_EQUAL(cpp_db::value_of<int8_t>(val), -57);
-    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), 199);
-
-    TEST_EQUAL(cpp_db::value_of<int16_t>(val), 25287);
-    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), 25287);
-    TEST_EQUAL(cpp_db::value_of<int32_t>(val), 25287);
-    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), 25287);
-    TEST_EQUAL(cpp_db::value_of<int64_t>(val), 25287);
-    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), 25287);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - 25287) < 1e-6);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - 25287) < 1e-6);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - 25287) < 1e-6);
+    TEST_EQUAL(cpp_db::value_of<int8_t>(val), vi8);
+    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), vui8);
+    TEST_EQUAL(cpp_db::value_of<int16_t>(val), vi16);
+    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), vui16);
+    TEST_EQUAL(cpp_db::value_of<int32_t>(val), vi32);
+    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), vui32);
+    TEST_EQUAL(cpp_db::value_of<int64_t>(val), vi64);
+    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), vui64);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - vf) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - vd) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - vld) < 1e-6);
 }
 
 void test_cpp_db_class::test_conversions_ui16()
 {
     cpp_db::value val{uint16_t{55555}};
+    int8_t vi8{3};
+    uint8_t vui8{3};
+    int16_t vi16{-9981};
+    uint16_t vui16{55555};
+    int32_t vi32{55555};
+    uint32_t vui32{55555};
+    int64_t vi64{55555};
+    uint64_t vui64{55555};
+    float vf{55555.0f};
+    double vd{55555.0};
+    long double vld{55555.0l};
 
-    TEST_NOT_EQUAL(cpp_db::value_of<int8_t>(val), 55555);
-    TEST_NOT_EQUAL(cpp_db::value_of<uint8_t>(val), 55555);
-    TEST_NOT_EQUAL(cpp_db::value_of<int16_t>(val), 55555);
-
-    TEST_EQUAL(cpp_db::value_of<int8_t>(val), 3);
-    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), 3);
-    TEST_EQUAL(cpp_db::value_of<int16_t>(val), -9981);
-
-    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), 55555);
-    TEST_EQUAL(cpp_db::value_of<int32_t>(val), 55555);
-    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), 55555);
-    TEST_EQUAL(cpp_db::value_of<int64_t>(val), 55555);
-    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), 55555);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - 55555) < 1e-6);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - 55555) < 1e-6);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - 55555) < 1e-6);
+    TEST_EQUAL(cpp_db::value_of<int8_t>(val), vi8);
+    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), vui8);
+    TEST_EQUAL(cpp_db::value_of<int16_t>(val), vi16);
+    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), vui16);
+    TEST_EQUAL(cpp_db::value_of<int32_t>(val), vi32);
+    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), vui32);
+    TEST_EQUAL(cpp_db::value_of<int64_t>(val), vi64);
+    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), vui64);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - vf) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - vd) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - vld) < 1e-6);
 }
 
 void test_cpp_db_class::test_conversions_i32()
 {
     cpp_db::value val{int32_t{1111111111}};
+    int8_t vi8{-57};
+    uint8_t vui8{199};
+    int16_t vi16{13767};
+    uint16_t vui16{13767};
+    int32_t vi32{1111111111};
+    uint32_t vui32{1111111111};
+    int64_t vi64{1111111111};
+    uint64_t vui64{1111111111};
+    float vf{1111111111.0f};
+    double vd{1111111111.0};
+    long double vld{1111111111.0l};
 
-    TEST_NOT_EQUAL(cpp_db::value_of<int8_t>(val), 1111111111);
-    TEST_NOT_EQUAL(cpp_db::value_of<uint8_t>(val), 1111111111);
-    TEST_NOT_EQUAL(cpp_db::value_of<int16_t>(val), 1111111111);
-    TEST_NOT_EQUAL(cpp_db::value_of<uint16_t>(val), 1111111111);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - 1111111111) > 1e-6);
-
-    TEST_EQUAL(cpp_db::value_of<int8_t>(val), -57);
-    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), 199);
-    TEST_EQUAL(cpp_db::value_of<int16_t>(val), 13767);
-    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), 13767);
-
-    TEST_EQUAL(cpp_db::value_of<int32_t>(val), 1111111111);
-    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), 1111111111);
-    TEST_EQUAL(cpp_db::value_of<int64_t>(val), 1111111111);
-    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), 1111111111);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - 1111111111) < 1e-6);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - 1111111111) < 1e-6);
+    TEST_EQUAL(cpp_db::value_of<int8_t>(val), vi8);
+    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), vui8);
+    TEST_EQUAL(cpp_db::value_of<int16_t>(val), vi16);
+    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), vui16);
+    TEST_EQUAL(cpp_db::value_of<int32_t>(val), vi32);
+    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), vui32);
+    TEST_EQUAL(cpp_db::value_of<int64_t>(val), vi64);
+    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), vui64);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - vf) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - vd) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - vld) < 1e-6);
 }
 
 void test_cpp_db_class::test_conversions_ui32()
 {
     cpp_db::value val{uint32_t{2222222222}};
+    int8_t vi8{-114};
+    uint8_t vui8{142};
+    int16_t vi16{27534};
+    uint16_t vui16{27534};
+    int32_t vi32{-2072745074};
+    uint32_t vui32{2222222222};
+    int64_t vi64{2222222222};
+    uint64_t vui64{2222222222};
+    float vf{2222222222.0f};
+    double vd{2222222222.0};
+    long double vld{2222222222.0l};
 
-    TEST_NOT_EQUAL(cpp_db::value_of<int8_t>(val), 2222222222);
-    TEST_NOT_EQUAL(cpp_db::value_of<uint8_t>(val), 2222222222);
-    TEST_NOT_EQUAL(cpp_db::value_of<int16_t>(val), 2222222222);
-    TEST_NOT_EQUAL(cpp_db::value_of<uint16_t>(val), 2222222222);
-    TEST_NOT_EQUAL(cpp_db::value_of<int32_t>(val), 2222222222);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - 2222222222) > 1e-6);
-
-    TEST_EQUAL(cpp_db::value_of<int8_t>(val), -114);
-    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), 142);
-    TEST_EQUAL(cpp_db::value_of<int16_t>(val), 27534);
-    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), 27534);
-    TEST_EQUAL(cpp_db::value_of<int32_t>(val), -2072745074);
-
-    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), 2222222222);
-    TEST_EQUAL(cpp_db::value_of<int64_t>(val), 2222222222);
-    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), 2222222222);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - 2222222222) < 1e-6);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - 2222222222) < 1e-6);
+    TEST_EQUAL(cpp_db::value_of<int8_t>(val), vi8);
+    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), vui8);
+    TEST_EQUAL(cpp_db::value_of<int16_t>(val), vi16);
+    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), vui16);
+    TEST_EQUAL(cpp_db::value_of<int32_t>(val), vi32);
+    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), vui32);
+    TEST_EQUAL(cpp_db::value_of<int64_t>(val), vi64);
+    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), vui64);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - vf) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - vd) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - vld) < 1e-6);
 }
 
 void test_cpp_db_class::test_conversions_i64()
 {
     cpp_db::value val{uint64_t{5555555555}};
+    int8_t vi8{-29};
+    uint8_t vui8{227};
+    int16_t vi16{3299};
+    uint16_t vui16{3299};
+    int32_t vi32{1260588259};
+    uint32_t vui32{1260588259};
+    int64_t vi64{5555555555};
+    uint64_t vui64{5555555555};
+    float vf{5555555555.0f};
+    double vd{5555555555.0};
+    long double vld{5555555555.0l};
 
-    TEST_NOT_EQUAL(cpp_db::value_of<int8_t>(val), 5555555555);
-    TEST_NOT_EQUAL(cpp_db::value_of<uint8_t>(val), 5555555555);
-    TEST_NOT_EQUAL(cpp_db::value_of<int16_t>(val), 5555555555);
-    TEST_NOT_EQUAL(cpp_db::value_of<uint16_t>(val), 5555555555);
-    TEST_NOT_EQUAL(cpp_db::value_of<int32_t>(val), 5555555555);
-    TEST_NOT_EQUAL(cpp_db::value_of<uint32_t>(val), 5555555555);
-
-//    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - 5555555555) > 1e-6);
-
-    TEST_EQUAL(cpp_db::value_of<int8_t>(val), -29);
-    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), 227);
-    TEST_EQUAL(cpp_db::value_of<int16_t>(val), 3299);
-    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), 3299);
-    TEST_EQUAL(cpp_db::value_of<int32_t>(val), 1260588259);
-    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), 1260588259);
-
-    TEST_EQUAL(cpp_db::value_of<int64_t>(val), 5555555555);
-    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), 5555555555);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - 5555555555) < 1e-6);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - 5555555555) < 1e-6);
+    TEST_EQUAL(cpp_db::value_of<int8_t>(val), vi8);
+    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), vui8);
+    TEST_EQUAL(cpp_db::value_of<int16_t>(val), vi16);
+    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), vui16);
+    TEST_EQUAL(cpp_db::value_of<int32_t>(val), vi32);
+    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), vui32);
+    TEST_EQUAL(cpp_db::value_of<int64_t>(val), vi64);
+    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), vui64);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - vf) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - vd) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - vld) < 1e-6);
 }
 
 void test_cpp_db_class::test_conversions_ui64()
 {
-    cpp_db::value val{uint64_t{0xccccaaaaeeeeffff}};
+    cpp_db::value val{uint64_t{14757357730116075519u}};
+    int8_t vi8{-1};
+    uint8_t vui8{255};
+    int16_t vi16{-1};
+    uint16_t vui16{65535};
+    int32_t vi32{-286326785};
+    uint32_t vui32{4008640511};
+    int64_t vi64{-3689386343593476097};
+    uint64_t vui64{14757357730116075519u};
+    float vf{14757357730116075519.0f};
+    double vd{14757357730116075519.0};
+    long double vld{14757357730116075519.0l};
 
-    TEST_NOT_EQUAL(cpp_db::value_of<int8_t>(val), 0xccccaaaaeeeeffff);
-    TEST_NOT_EQUAL(cpp_db::value_of<uint8_t>(val), 0xccccaaaaeeeeffff);
-    TEST_NOT_EQUAL(cpp_db::value_of<int16_t>(val), 0xccccaaaaeeeeffff);
-    TEST_NOT_EQUAL(cpp_db::value_of<uint16_t>(val), 0xccccaaaaeeeeffff);
-    TEST_NOT_EQUAL(cpp_db::value_of<int32_t>(val), 0xccccaaaaeeeeffff);
-    TEST_NOT_EQUAL(cpp_db::value_of<uint32_t>(val), 0xccccaaaaeeeeffff);
-    next_test_is_expected_to_fail("uint64_t converts silently to int64_t?");
-    TEST_NOT_EQUAL(cpp_db::value_of<int64_t>(val), 0xccccaaaaeeeeffff);
-
-//    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - 0xccccaaaaeeeeffff) > 1e-6);
-
-    TEST_EQUAL(cpp_db::value_of<int8_t>(val), -1);
-    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), 255);
-    TEST_EQUAL(cpp_db::value_of<int16_t>(val), -1);
-    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), 65535);
-    TEST_EQUAL(cpp_db::value_of<int32_t>(val), -286326785);
-    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), 4008640511);
-    next_test_is_expected_to_fail("uint64_t converts silently to int64_t?");
-    TEST_EQUAL(cpp_db::value_of<int64_t>(val), -3333555511110001);
-
-    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), 0xccccaaaaeeeeffff);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - 0xccccaaaaeeeeffff) < 1e-6);
-    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - 0xccccaaaaeeeeffff) < 1e-6);
+    TEST_EQUAL(cpp_db::value_of<int8_t>(val), vi8);
+    TEST_EQUAL(cpp_db::value_of<uint8_t>(val), vui8);
+    TEST_EQUAL(cpp_db::value_of<int16_t>(val), vi16);
+    TEST_EQUAL(cpp_db::value_of<uint16_t>(val), vui16);
+    TEST_EQUAL(cpp_db::value_of<int32_t>(val), vi32);
+    TEST_EQUAL(cpp_db::value_of<uint32_t>(val), vui32);
+    TEST_EQUAL(cpp_db::value_of<int64_t>(val), vi64);
+    TEST_EQUAL(cpp_db::value_of<uint64_t>(val), vui64);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - vf) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - vd) < 1e-6);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - vld) < 1e-6);
 }
 
 void test_cpp_db_class::test_conversions_strings()
