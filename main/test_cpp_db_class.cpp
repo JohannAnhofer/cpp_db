@@ -7,6 +7,7 @@
 
 #include <stdexcept>
 #include <cmath>
+#include <iostream>
 
 void test_cpp_db_class::test_is_null()
 {
@@ -278,6 +279,56 @@ void test_cpp_db_class::test_conversions_ui64()
     TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val) - vf) < 1e-6);
     TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val) - vd) < 1e-6);
     TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val) - vld) < 1e-6);
+}
+
+void test_cpp_db_class::test_conversions_floating_point()
+{
+    cpp_db::value val_f{133.97f}, val_d{4711.0815}, val_ld{15.323l};
+
+    float vf{133.97f};
+    double vd{133.97};
+    long double vld{133.97l};
+    TEST_EQUAL(cpp_db::value_of<int8_t>(val_f), int8_t{-123});
+    TEST_EQUAL(cpp_db::value_of<uint8_t>(val_f), uint8_t{133});
+    TEST_EQUAL(cpp_db::value_of<int16_t>(val_f), int16_t{133});
+    TEST_EQUAL(cpp_db::value_of<uint16_t>(val_f), uint16_t{133});
+    TEST_EQUAL(cpp_db::value_of<int32_t>(val_f), int32_t{133});
+    TEST_EQUAL(cpp_db::value_of<uint32_t>(val_f), uint32_t{133});
+    TEST_EQUAL(cpp_db::value_of<int64_t>(val_f), int64_t{133});
+    TEST_EQUAL(cpp_db::value_of<uint64_t>(val_f), uint64_t{133});
+    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val_f) - vf) < 1e-5);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val_f) - vd) < 1e-5);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val_f) - vld) < 1e-5);
+
+    vf = 4711.0815f;
+    vd = 4711.0815;
+    vld = 4711.0815l;
+    TEST_EQUAL(cpp_db::value_of<int8_t>(val_d), int8_t{103});
+    TEST_EQUAL(cpp_db::value_of<uint8_t>(val_d), uint8_t{103});
+    TEST_EQUAL(cpp_db::value_of<int16_t>(val_d), int16_t{4711});
+    TEST_EQUAL(cpp_db::value_of<uint16_t>(val_d), uint16_t{4711});
+    TEST_EQUAL(cpp_db::value_of<int32_t>(val_d), int32_t{4711});
+    TEST_EQUAL(cpp_db::value_of<uint32_t>(val_d), uint32_t{4711});
+    TEST_EQUAL(cpp_db::value_of<int64_t>(val_d), int64_t{4711});
+    TEST_EQUAL(cpp_db::value_of<uint64_t>(val_d), uint64_t{4711});
+    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val_d) - vf) < 1e-5);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val_d) - vd) < 1e-5);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val_d) - vld) < 1e-5);
+
+    vf = 15.323f;
+    vd = 15.323;
+    vld = 15.323l;
+    TEST_EQUAL(cpp_db::value_of<int8_t>(val_ld), int8_t{15});
+    TEST_EQUAL(cpp_db::value_of<uint8_t>(val_ld), uint8_t{15});
+    TEST_EQUAL(cpp_db::value_of<int16_t>(val_ld), int16_t{15});
+    TEST_EQUAL(cpp_db::value_of<uint16_t>(val_ld), uint16_t{15});
+    TEST_EQUAL(cpp_db::value_of<int32_t>(val_ld), int32_t{15});
+    TEST_EQUAL(cpp_db::value_of<uint32_t>(val_ld), uint32_t{15});
+    TEST_EQUAL(cpp_db::value_of<int64_t>(val_ld), int64_t{15});
+    TEST_EQUAL(cpp_db::value_of<uint64_t>(val_ld), uint64_t{15});
+    TEST_VERIFY(std::fabs(cpp_db::value_of<float>(val_ld) - vf) < 1e-5);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<double>(val_ld) - vd) < 1e-5);
+    TEST_VERIFY(std::fabs(cpp_db::value_of<long double>(val_ld) - vld) < 1e-5);
 }
 
 void test_cpp_db_class::test_conversions_strings()

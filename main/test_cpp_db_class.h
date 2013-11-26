@@ -18,6 +18,7 @@ public:
     DECLARE_TEST_FUNCTION(test_conversions_ui32)
     DECLARE_TEST_FUNCTION(test_conversions_i64)
     DECLARE_TEST_FUNCTION(test_conversions_ui64)
+    DECLARE_TEST_FUNCTION(test_conversions_floating_point)
     DECLARE_TEST_FUNCTION(test_conversions_strings)
     END_DECLARE_TEST_CLASS()
 
@@ -33,6 +34,7 @@ protected:
     void test_conversions_ui32();
     void test_conversions_i64();
     void test_conversions_ui64();
+    void test_conversions_floating_point();
     void test_conversions_strings();
 };
 
