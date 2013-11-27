@@ -1,11 +1,15 @@
 #ifndef CPP_DB_VALUE_INL
 #define CPP_DB_VALUE_INL
 
+#include "value_is_null.h"
+
 #include <cstdint>
 #include <typeindex>
 #include <typeinfo>
 
-#include "value_is_null.h"
+#if _MSC_VER
+#define snprintf _snprintf
+#endif
 
 namespace cpp_db
 {
