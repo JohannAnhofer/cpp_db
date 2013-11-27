@@ -227,7 +227,7 @@ void test_cpp_db_class::test_conversions_ui32()
 
 void test_cpp_db_class::test_conversions_i64()
 {
-    cpp_db::value val{uint64_t{5555555555}};
+    cpp_db::value val{int64_t{5555555555}};
     int8_t vi8{-29};
     uint8_t vui8{227};
     int16_t vi16{3299};
@@ -353,4 +353,43 @@ void test_cpp_db_class::test_conversions_strings()
 
     TEST_EQUAL(strcmp(cpp_db::value_of<const char *>(val_s), "is a string"), 0);
     TEST_EQUAL(wcscmp(cpp_db::value_of<const wchar_t *>(val_ws), L"is a wstring"), 0);
+}
+
+void test_cpp_db_class::test_cast_to()
+{
+    cpp_db::value val1{int8_t{111}};
+    cpp_db::value val2{uint8_t{200}};
+    cpp_db::value val3{int16_t{25287}};
+    cpp_db::value val4{uint16_t{55555}};
+    cpp_db::value val5{int32_t{1111111111}};
+    cpp_db::value val6{uint32_t{2222222222}};
+    cpp_db::value val7{int64_t{5555555555}};
+    cpp_db::value val8{uint64_t{14757357730116075519u}};
+    cpp_db::value val9{133.97f};
+    cpp_db::value vala{4711.0815};
+    cpp_db::value valb{15.323l};
+
+    TEST_EQUAL(cpp_db::cast_to<std::string>(val1), "111");
+    TEST_EQUAL(cpp_db::cast_to<std::string>(val2), "200");
+    TEST_EQUAL(cpp_db::cast_to<std::string>(val3), "25287");
+    TEST_EQUAL(cpp_db::cast_to<std::string>(val4), "55555");
+    TEST_EQUAL(cpp_db::cast_to<std::string>(val5), "1111111111");
+    TEST_EQUAL(cpp_db::cast_to<std::string>(val6), "2222222222");
+    TEST_EQUAL(cpp_db::cast_to<std::string>(val7), "5555555555");
+    TEST_EQUAL(cpp_db::cast_to<std::string>(val8), "14757357730116075519");
+    TEST_EQUAL(cpp_db::cast_to<std::string>(val9), "133.97");
+    TEST_EQUAL(cpp_db::cast_to<std::string>(vala), "4711.08");
+    TEST_EQUAL(cpp_db::cast_to<std::string>(valb), "15.323");
+
+    TEST_EQUAL(cpp_db::cast_to<std::wstring>(val1), L"111");
+    TEST_EQUAL(cpp_db::cast_to<std::wstring>(val2), L"200");
+    TEST_EQUAL(cpp_db::cast_to<std::wstring>(val3), L"25287");
+    TEST_EQUAL(cpp_db::cast_to<std::wstring>(val4), L"55555");
+    TEST_EQUAL(cpp_db::cast_to<std::wstring>(val5), L"1111111111");
+    TEST_EQUAL(cpp_db::cast_to<std::wstring>(val6), L"2222222222");
+    TEST_EQUAL(cpp_db::cast_to<std::wstring>(val7), L"5555555555");
+    TEST_EQUAL(cpp_db::cast_to<std::wstring>(val8), L"14757357730116075519");
+    TEST_EQUAL(cpp_db::cast_to<std::wstring>(val9), L"133.97");
+    TEST_EQUAL(cpp_db::cast_to<std::wstring>(vala), L"4711.08");
+    TEST_EQUAL(cpp_db::cast_to<std::wstring>(valb), L"15.323");
 }
