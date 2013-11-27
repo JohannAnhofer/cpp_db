@@ -1,6 +1,7 @@
 #include "abstract_test.h"
 
 #include <utility>
+#include <stdexcept>
 
 namespace test
 {

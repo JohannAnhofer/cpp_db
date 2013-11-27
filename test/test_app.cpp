@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <stdexcept>
 
 namespace test
 {
