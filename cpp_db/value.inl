@@ -220,6 +220,88 @@ inline const wchar_t * value_of<const wchar_t *>(const value &val)
     return nullptr;
 }
 
+template<>
+inline std::string cast_to<std::string>(const value &val)
+{
+    std::type_index src_type{type_of(val)};
+
+    if (src_type== typeid(int8_t)
+            || src_type == typeid(int16_t)
+            || src_type == typeid(int32_t)
+            || src_type == typeid(int64_t))
+    {
+        int64_t result = value_of<int64_t>(val);
+        char number[50];
+        snprintf(number, sizeof(number)/sizeof(number[0]), "%lli", result);
+        return number;
+    }
+
+    if (src_type == typeid(uint8_t)
+            || src_type == typeid(uint16_t)
+            || src_type == typeid(uint32_t)
+            || src_type == typeid(uint64_t))
+    {
+        uint64_t result = value_of<uint64_t>(val);
+        char number[50];
+        snprintf(number, sizeof(number)/sizeof(number[0]), "%llu", result);
+        return number;
+    }
+
+    if (src_type == typeid(float)
+            || src_type == typeid(double)
+            || src_type == typeid(long double))
+    {
+        long double result = value_of<long double>(val);
+        char number[50];
+        snprintf(number, sizeof(number)/sizeof(number[0]), "%Lg", result);
+        return number;
+    }
+
+    throw_type_mismatch(src_type, typeid(std::string));
+    return std::string{};
+}
+
+template<>
+inline std::wstring cast_to<std::wstring>(const value &val)
+{
+    std::type_index src_type{type_of(val)};
+
+    if (src_type== typeid(int8_t)
+            || src_type == typeid(int16_t)
+            || src_type == typeid(int32_t)
+            || src_type == typeid(int64_t))
+    {
+        int64_t result = value_of<int64_t>(val);
+        wchar_t number[50];
+        swprintf(number, sizeof(number)/sizeof(number[0]), L"%lli", result);
+        return number;
+    }
+
+    if (src_type == typeid(uint8_t)
+            || src_type == typeid(uint16_t)
+            || src_type == typeid(uint32_t)
+            || src_type == typeid(uint64_t))
+    {
+        uint64_t result = value_of<uint64_t>(val);
+        wchar_t number[50];
+        swprintf(number, sizeof(number)/sizeof(number[0]), L"%llu", result);
+        return number;
+    }
+
+    if (src_type == typeid(float)
+            || src_type == typeid(double)
+            || src_type == typeid(long double))
+    {
+        long double result = value_of<long double>(val);
+        wchar_t number[50];
+        swprintf(number, sizeof(number)/sizeof(number[0]), L"%Lg", result);
+        return number;
+    }
+
+    throw_type_mismatch(src_type, typeid(std::wstring));
+    return std::wstring{};
+}
+
 }
 
 #endif // CPP_DB_VALUE_INL

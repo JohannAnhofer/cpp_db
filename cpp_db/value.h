@@ -118,6 +118,12 @@ namespace cpp_db
         throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + type_of(val).name()+")");
     }
 
+    // default behaviour for cast_to is the same as value_of
+    template<typename T>
+    T cast_to(const value &val)
+    {
+        return value_of<T>(val);
+    }
 }
 
 #include "value.inl"
