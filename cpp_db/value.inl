@@ -7,7 +7,7 @@
 #include <typeindex>
 #include <typeinfo>
 
-#if _MSC_VER
+#ifdef _MSC_VER
 #define snprintf _snprintf
 #endif
 
