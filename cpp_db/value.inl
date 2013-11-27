@@ -156,6 +156,11 @@ inline long double value_of<long double>(const value &val)
 // strings
 
 template<>
+inline const char * value_of<const char *>(const value &val);
+template<>
+inline const wchar_t * value_of<const wchar_t *>(const value &val);
+
+template<>
 inline std::string value_of<std::string>(const value &val)
 {
     std::type_index src_type{type_of(val)};
@@ -185,6 +190,34 @@ inline std::wstring value_of<std::wstring>(const value &val)
 
     throw_type_mismatch(src_type, typeid(std::wstring));
     return std::wstring{};
+}
+
+template<>
+inline const char * value_of<const char *>(const value &val)
+{
+    std::type_index src_type{type_of(val)};
+
+    if (src_type == typeid(std::string))
+        return value_of<std::string>(val).c_str();
+    if (src_type == typeid(const char *))
+        return *reinterpret_cast<const char * const *>(value_of<const void *>(val));
+
+    throw_type_mismatch(src_type, typeid(const char *));
+    return nullptr;
+}
+
+template<>
+inline const wchar_t * value_of<const wchar_t *>(const value &val)
+{
+    std::type_index src_type{type_of(val)};
+
+    if (src_type == typeid(std::wstring))
+        return value_of<std::wstring>(val).c_str();
+    if (src_type == typeid(const wchar_t *))
+        return *reinterpret_cast<const wchar_t * const *>(value_of<const void *>(val));
+
+    throw_type_mismatch(src_type, typeid(const wchar_t *));
+    return nullptr;
 }
 
 }
