@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <cmath>
 #include <iostream>
+#include <cstring>
 
 void test_cpp_db_class::test_is_null()
 {
