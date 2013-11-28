@@ -107,6 +107,7 @@ win32 {
 contains(QMAKE_HOST.arch, x86_64): LIBS += -L$$PWD/../firebird/lib_linux_64/
 
     LIBS += -lfbclient \
-            -ldl
+            -ldl \
+            -lpthread
 }
 
