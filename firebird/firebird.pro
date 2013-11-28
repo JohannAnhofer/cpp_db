@@ -38,5 +38,6 @@ INCLUDEPATH += include_macosx_64
 }
 
 linux-g++ {
-INCLUDEPATH += include_linux_64
+!contains(QMAKE_HOST.arch, x86_64): INCLUDEPATH += include_linux_32
+contains(QMAKE_HOST.arch, x86_64): INCLUDEPATH += include_linux_64
 }

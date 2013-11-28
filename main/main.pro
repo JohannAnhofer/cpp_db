@@ -102,7 +102,11 @@ win32 {
 } else: macx {
     LIBS += -L$$PWD/../firebird/lib_macosx_64/ -lfbclient
 } else: unix {
-    LIBS += -L$$PWD/../firebird/lib_linux_64/ -lfbclient \
+
+!contains(QMAKE_HOST.arch, x86_64): LIBS += -L$$PWD/../firebird/lib_linux_32/
+contains(QMAKE_HOST.arch, x86_64): LIBS += -L$$PWD/../firebird/lib_linux_64/
+
+    LIBS += -lfbclient \
             -ldl
 }
 
