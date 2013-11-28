@@ -202,7 +202,7 @@ inline const char * value_of<const char *>(const value &val)
     std::type_index src_type{type_of(val)};
 
     if (src_type == typeid(std::string))
-        return value_of<std::string>(val).c_str();
+        return reinterpret_cast<const std::string *>(value_of<const void *>(val))->c_str();
     if (src_type == typeid(const char *))
         return *reinterpret_cast<const char * const *>(value_of<const void *>(val));
 
@@ -216,7 +216,7 @@ inline const wchar_t * value_of<const wchar_t *>(const value &val)
     std::type_index src_type{type_of(val)};
 
     if (src_type == typeid(std::wstring))
-        return value_of<std::wstring>(val).c_str();
+        return reinterpret_cast<const std::wstring *>(value_of<const void *>(val))->c_str();
     if (src_type == typeid(const wchar_t *))
         return *reinterpret_cast<const wchar_t * const *>(value_of<const void *>(val));
 
