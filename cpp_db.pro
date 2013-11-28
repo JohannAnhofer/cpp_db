@@ -2,7 +2,10 @@
 # dump OS info
 win32:  message(Running under win32)
 win64:  message(Running under win64)
-unix:   message(Running under unix/linux)
+unix {
+contains(QMAKE_HOST.arch, x86_64): message(Running under 64-bit unix/linux)
+!contains(QMAKE_HOST.arch, x86_64): message(Running under 32-bit unix/linux)
+}
 macx:   message(Running under Mac OS X)
 
 # dump Compiler info
