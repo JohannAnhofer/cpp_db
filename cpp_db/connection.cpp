@@ -1,6 +1,6 @@
 #include "connection.h"
 #include "connection_interface.h"
-#include "driver.h"
+#include "driver_interface.h"
 #include "check_pointer.h"
 
 #include <stdexcept>

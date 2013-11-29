@@ -2,7 +2,7 @@
 #include "transaction_interface.h"
 #include "connection.h"
 #include "connection_interface.h"
-#include "driver.h"
+#include "driver_interface.h"
 #include "lock_or_throw.h"
 
 #include <stdexcept>

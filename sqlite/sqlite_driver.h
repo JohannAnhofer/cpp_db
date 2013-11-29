@@ -1,7 +1,7 @@
 #ifndef CPP_DB_SQLITE_DRIVER_H
 #define CPP_DB_SQLITE_DRIVER_H
 
-#include "driver.h"
+#include "driver_interface.h"
 
 namespace cpp_db
 {
