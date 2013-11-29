@@ -1,10 +1,8 @@
 #include "sqlite_connection.h"
-#include "db_exception.h"
+#include "sqlite_exception.h"
 
 namespace cpp_db
 {
-
-void throw_db_exception(int error_code, sqlite3 *db);
 
 sqlite_connection::~sqlite_connection()
 {
@@ -24,11 +22,11 @@ void sqlite_connection::open(const std::string &database, const authentication &
 
     sqlite3 *dbptr(nullptr);
     if (int error_code = sqlite3_open_v2(database.c_str(), &dbptr, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr))
-        throw_db_exception(error_code, dbptr);
+        throw sqlite_exception(error_code, dbptr);
     db.reset(dbptr, [](sqlite3 *db)
     {
         if (int error_code = sqlite3_close(db))
-            throw_db_exception(error_code, db);
+            throw sqlite_exception(error_code, db);
     }
     );
 }

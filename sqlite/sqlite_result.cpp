@@ -1,14 +1,12 @@
 #include "sqlite_result.h"
 #include "statement_interface.h"
-#include "db_exception.h"
+#include "sqlite_exception.h"
 #include "value.h"
 
 #include <sstream>
 
 namespace cpp_db
 {
-
-void throw_db_exception(int error_code, sqlite3 *db);
 
 sqlite_result::sqlite_result(const shared_statement_ptr &stmt_in)
 	: stmt(stmt_in)
@@ -28,7 +26,7 @@ void sqlite_result::move_next()
 {
 	row_status = sqlite3_step(get_stmt_handle());
     if (row_status != SQLITE_DONE && row_status != SQLITE_ROW)
-		throw_db_exception(row_status, sqlite3_db_handle(get_stmt_handle()));
+        throw sqlite_exception(row_status, sqlite3_db_handle(get_stmt_handle()));
 }
 
 bool sqlite_result::is_eof() const

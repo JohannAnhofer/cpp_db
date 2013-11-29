@@ -12,13 +12,6 @@
 
 namespace cpp_db
 {
-	void throw_db_exception(int error_code, sqlite3 *db)
-	{
-		std::stringstream sstr;
-        sstr << sqlite3_errmsg(db) << " (" << error_code << ")";
-		throw db_exception(sstr.str());
-	}
-
 	//  sqlite_driver
 
 	sqlite_driver::~sqlite_driver()
