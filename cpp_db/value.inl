@@ -48,6 +48,24 @@ inline const void * value_of<const void *>(const value &val)
     return val.pholder->get_value();
 }
 
+template<typename T, typename U>
+T integer_converter(U int_val)
+{
+    return int_val;
+}
+
+template<typename T, typename U>
+T unsigned_converter(U uint_val)
+{
+    return uint_val;
+}
+
+template<typename T, typename U>
+T floating_point_converter(U uint_val)
+{
+    return uint_val;
+}
+
 template<typename T>
 T numeric_extractor(const value &val)
 {
@@ -58,30 +76,30 @@ T numeric_extractor(const value &val)
 
     // signed integers
     if (src_type == typeid(int8_t))
-        return value_of<int8_t>(val);
+        return integer_converter<T, int8_t>(value_of<int8_t>(val));
     if (src_type == typeid(int16_t))
-        return value_of<int16_t>(val);
+        return integer_converter<T, int16_t>(value_of<int16_t>(val));
     if (src_type == typeid(int32_t))
-        return value_of<int32_t>(val);
+        return integer_converter<T, int32_t>(value_of<int32_t>(val));
     if (src_type == typeid(int64_t))
-        return value_of<int64_t>(val);
+        return integer_converter<T, int64_t>(value_of<int64_t>(val));
 
     // unsigned integers
     if (src_type == typeid(uint8_t))
-        return value_of<uint8_t>(val);
+        return unsigned_converter<T, uint8_t>(value_of<uint8_t>(val));
     if (src_type == typeid(uint16_t))
-        return value_of<uint16_t>(val);
+        return unsigned_converter<T, uint16_t>(value_of<uint16_t>(val));
     if (src_type == typeid(uint32_t))
-        return value_of<uint32_t>(val);
+        return unsigned_converter<T, uint32_t>(value_of<uint32_t>(val));
     if (src_type == typeid(uint64_t))
-        return value_of<uint64_t>(val);
+        return unsigned_converter<T, uint64_t>(value_of<uint64_t>(val));
 
     if (src_type == typeid(float))
-        return value_of<float>(val);
+        return floating_point_converter<T, float>(value_of<float>(val));
     if (src_type == typeid(double))
-        return value_of<double>(val);
+        return floating_point_converter<T, double>(value_of<double>(val));
     if (src_type == typeid(long double))
-        return value_of<long double>(val);
+        return floating_point_converter<T, long double>(value_of<long double>(val));
 
     throw_type_mismatch(src_type, typeid(T));
     return 0;
