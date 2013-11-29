@@ -6,11 +6,16 @@
 #include "value_of.h"
 #include "value_is_null.h"
 
+#ifdef USE_BOOST_ANY
+#include <boost/any.hpp>
+#endif
+
 #include <memory>
 #include <string>
 
 namespace cpp_db
 {
+#ifndef USE_BOOST_ANY
 	class value
 	{
 	public:
@@ -118,12 +123,42 @@ namespace cpp_db
         throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + type_of(val).name()+")");
     }
 
+#else
+    using value = boost::any;
+
+    inline bool is_null(const value &v)
+    {
+        if (v.empty())
+            throw std::runtime_error("Invalid value object");
+        return v.type() == typeid(null_type);
+    }
+
+    inline std::type_index type_of(const value &v)
+    {
+        if (v.empty())
+            throw std::runtime_error("Invalid value object");
+        if (is_null(v))
+            throw value_is_null{};
+        return v.type();
+    }
+
+    template<typename T>
+    T value_of(const value &val)
+    {
+        if (type_of(val) == typeid(T))
+            return boost::any_cast<T>(val);
+        throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + type_of(val).name()+")");
+    }
+
+#endif
+
     // default behaviour for cast_to is the same as value_of
     template<typename T>
     T cast_to(const value &val)
     {
         return value_of<T>(val);
     }
+
 }
 
 #include "value.inl"

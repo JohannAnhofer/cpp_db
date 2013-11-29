@@ -14,6 +14,7 @@
 namespace cpp_db
 {
 
+#ifndef USE_BOOST_ANY
 template<>
 struct value::concrete_holder<null_type> : public abstract_holder
 {
@@ -36,17 +37,20 @@ struct value::concrete_holder<null_type> : public abstract_holder
         return new concrete_holder<null_type>(null_type{});
     }
 };
+#endif
 
 inline void throw_type_mismatch(const std::type_index &src_type, const std::type_index &dest_type)
 {
     throw std::runtime_error(std::string("Value type '")+dest_type.name() + std::string("' is not convertible to '") + src_type.name()+"'");
 }
 
+#ifndef USE_BOOST_ANY
 template<>
 inline const void * value_of<const void *>(const value &val)
 {
     return val.pholder->get_value();
 }
+#endif
 
 template<typename T, typename U>
 T integer_converter(U int_val)
@@ -72,7 +76,11 @@ T numeric_extractor(const value &val)
     std::type_index src_type{type_of(val)};
 
     if (src_type == typeid(T))
+#ifdef USE_BOOST_ANY
+        return boost::any_cast<T>(val);
+#else
         return *reinterpret_cast<T const *>(value_of<const void *>(val));
+#endif
 
     // signed integers
     if (src_type == typeid(int8_t))
@@ -181,10 +189,12 @@ inline long double value_of<long double>(const value &val)
 
 // strings
 
+#ifndef USE_BOOST_ANY
 template<>
 inline const char * value_of<const char *>(const value &val);
 template<>
 inline const wchar_t * value_of<const wchar_t *>(const value &val);
+#endif
 
 template<>
 inline std::string value_of<std::string>(const value &val)
@@ -196,10 +206,18 @@ inline std::string value_of<std::string>(const value &val)
     if (src_type == typeid(char *))
         return value_of<char *>(val);
     if (src_type == typeid(std::string))
+#ifdef USE_BOOST_ANY
+        return boost::any_cast<std::string>(val);
+#else
         return *reinterpret_cast<std::string const *>(value_of<const void *>(val));
+#endif
 
     throw_type_mismatch(src_type, typeid(std::string));
+#ifdef _MSC_VER
+    // omit return because of unreachable code warning
+#else
     return std::string{};
+#endif
 }
 
 template<>
@@ -212,12 +230,21 @@ inline std::wstring value_of<std::wstring>(const value &val)
     if (src_type == typeid(wchar_t *))
         return value_of<wchar_t *>(val);
     if (src_type == typeid(std::wstring))
+#ifdef USE_BOOST_ANY
+        return boost::any_cast<std::wstring>(val);
+#else
         return *reinterpret_cast<std::wstring const *>(value_of<const void *>(val));
+#endif
 
     throw_type_mismatch(src_type, typeid(std::wstring));
+#ifdef _MSC_VER
+    // omit return because of unreachable code warning
+#else
     return std::wstring{};
+#endif
 }
 
+#ifndef USE_BOOST_ANY
 template<>
 inline const char * value_of<const char *>(const value &val)
 {
@@ -229,7 +256,11 @@ inline const char * value_of<const char *>(const value &val)
         return *reinterpret_cast<const char * const *>(value_of<const void *>(val));
 
     throw_type_mismatch(src_type, typeid(const char *));
+#ifdef _MSC_VER
+    // omit return because of unreachable code warning
+#else
     return nullptr;
+#endif
 }
 
 template<>
@@ -243,8 +274,13 @@ inline const wchar_t * value_of<const wchar_t *>(const value &val)
         return *reinterpret_cast<const wchar_t * const *>(value_of<const void *>(val));
 
     throw_type_mismatch(src_type, typeid(const wchar_t *));
+#ifdef _MSC_VER
+    // omit return because of unreachable code warning
+#else
     return nullptr;
+#endif
 }
+#endif
 
 template<>
 inline std::string cast_to<std::string>(const value &val)
@@ -284,7 +320,11 @@ inline std::string cast_to<std::string>(const value &val)
     }
 
     throw_type_mismatch(src_type, typeid(std::string));
+#ifdef _MSC_VER
+    // omit return because of unreachable code warning
+#else
     return std::string{};
+#endif
 }
 
 template<>
@@ -325,7 +365,11 @@ inline std::wstring cast_to<std::wstring>(const value &val)
     }
 
     throw_type_mismatch(src_type, typeid(std::wstring));
+#ifdef _MSC_VER
+    // omit return because of unreachable code warning
+#else
     return std::wstring{};
+#endif
 }
 
 }

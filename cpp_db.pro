@@ -2,19 +2,24 @@
 # dump OS info
 win32:  message(Running under win32)
 win64:  message(Running under win64)
-unix {
+unix: {
+macx: {
+contains(QMAKE_HOST.arch, x86_64): message(Running under 64-bit Mac OS X)
+!contains(QMAKE_HOST.arch, x86_64): message(Running under 32-bit Mac OS X)
+} else {
 contains(QMAKE_HOST.arch, x86_64): message(Running under 64-bit unix/linux)
 !contains(QMAKE_HOST.arch, x86_64): message(Running under 32-bit unix/linux)
 }
-macx:   message(Running under Mac OS X)
+}
 
 # dump Compiler info
-gcc:    message(Compiling with GCC)
+gcc: clang: {
+llvm:   message(Compiling with Clang/LLVM) else: message(Compiling with Clang)
+} else: {
+*-g++*: message(Compiling with GCC/G++) else: message(Compiling with GCC)
+}
 msvc:   message(Compiling with MS VC)
 mingw:  message(Compiling with MinGW)
-clang:  message(Compiling with Clang)
-llvm:   message(Compiling with LLVM)
-*-g++*: message(Compiling with GNU-G++)
 
 TEMPLATE = subdirs
 
