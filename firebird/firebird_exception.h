@@ -3,8 +3,6 @@
 
 #include "db_exception.h"
 
-#include "ibase.h"
-
 namespace cpp_db
 {
 
