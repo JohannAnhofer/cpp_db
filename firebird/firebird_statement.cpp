@@ -1,9 +1,8 @@
 #include "firebird_statement.h"
 #include "isc_status.h"
-#include "driver.h"
+#include "driver_interface.h"
 #include "transaction_interface.h"
 #include "connection_interface.h"
-#include "driver.h"
 #include "lock_or_throw.h"
 
 #include "ibase.h"

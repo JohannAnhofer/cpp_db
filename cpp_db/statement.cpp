@@ -4,7 +4,7 @@
 #include "db_exception.h"
 #include "result_interface.h"
 #include "parameters_interface.h"
-#include "driver.h"
+#include "driver_interface.h"
 #include "lock_or_throw.h"
 
 namespace cpp_db

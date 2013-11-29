@@ -1,9 +1,7 @@
 #include "result.h"
 #include "result_interface.h"
 #include "statement.h"
-#include "driver.h"
-
-#include <stdexcept>
+#include "driver_interface.h"
 
 namespace cpp_db
 {

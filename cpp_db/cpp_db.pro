@@ -17,7 +17,6 @@ HEADERS += \
     connection.h \
     connection_interface.h \
     db_exception.h \
-    driver.h \
     execute.h \
     no_authentication.h \
     null.h \
@@ -38,7 +37,8 @@ HEADERS += \
     value.h \
     value.inl \
     value_of.h \
-    value_is_null.h
+    value_is_null.h \
+    driver_interface.h
 
 INCLUDEPATH += \
     $$PWD/../tools \
