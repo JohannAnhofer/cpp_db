@@ -2,11 +2,16 @@
 #define CPP_DB_RESULT_INTERFACE_H
 
 #include <string>
+#ifdef USE_BOOST_ANY
+#include "value.h"
+#endif
 
 namespace cpp_db
 {
 
+#ifndef USE_BOOST_ANY
 class value;
+#endif
 
 struct result_interface
 {
