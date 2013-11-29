@@ -45,9 +45,6 @@
     <ClInclude Include="result.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="driver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="authentication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -82,6 +79,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="value_is_null.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="driver_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
