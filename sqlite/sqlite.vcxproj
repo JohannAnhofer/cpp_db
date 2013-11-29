@@ -38,6 +38,7 @@
     <ClCompile Include="sqlite3.c" />
     <ClCompile Include="sqlite_connection.cpp" />
     <ClCompile Include="sqlite_driver.cpp" />
+    <ClCompile Include="sqlite_exception.cpp" />
     <ClCompile Include="sqlite_parameters.cpp" />
     <ClCompile Include="sqlite_result.cpp" />
     <ClCompile Include="sqlite_statement.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="sqlite3ext.h" />
     <ClInclude Include="sqlite_connection.h" />
     <ClInclude Include="sqlite_driver.h" />
+    <ClInclude Include="sqlite_exception.h" />
     <ClInclude Include="sqlite_parameters.h" />
     <ClInclude Include="sqlite_result.h" />
     <ClInclude Include="sqlite_statement.h" />
