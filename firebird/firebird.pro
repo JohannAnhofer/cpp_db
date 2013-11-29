@@ -27,17 +27,6 @@ HEADERS += \
 
 INCLUDEPATH += ../cpp_db \
                ../tools \
+               include
 
-win32 {
-INCLUDEPATH += include_win_32
-LIBS += $$PWD/lib_win_32/fbclient_ms.lib
-}
-
-macx {
-INCLUDEPATH += include_macosx_64
-}
-
-linux-g++ {
-!contains(QMAKE_HOST.arch, x86_64): INCLUDEPATH += include_linux_32
-contains(QMAKE_HOST.arch, x86_64): INCLUDEPATH += include_linux_64
-}
+win32 : LIBS += $$PWD/lib_win_32/fbclient_ms.lib
