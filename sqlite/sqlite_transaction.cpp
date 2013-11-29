@@ -1,14 +1,12 @@
 #include "sqlite_transaction.h"
 #include "connection_interface.h"
-#include "db_exception.h"
+#include "sqlite_exception.h"
 #include "lock_or_throw.h"
 
 #include <cstring>
 
 namespace cpp_db
 {
-
-void throw_db_exception(int error_code, sqlite3 *db);
 
 sqlite_transaction::sqlite_transaction(const shared_connection_ptr &conn_in)
 	: conn(conn_in)
@@ -41,12 +39,12 @@ void sqlite_transaction::execute(const char *sql)
     sqlite3_stmt *stmt = 0;
 	int status = sqlite3_prepare(get_db_handle(), sql, strlen(sql), &stmt, &tail);
     if (status != SQLITE_OK && status != SQLITE_DONE)
-		throw_db_exception(status, get_db_handle());
+        throw sqlite_exception(status, get_db_handle());
     auto deleter = [](sqlite3_stmt*s){sqlite3_finalize(s); };
     std::unique_ptr<sqlite3_stmt, decltype(deleter)> pstmt(stmt, deleter);
     status = sqlite3_step(stmt);
     if (status != SQLITE_OK && status != SQLITE_DONE)
-		throw_db_exception(status, get_db_handle());
+        throw sqlite_exception(status, get_db_handle());
 }
 
 void sqlite_transaction::begin()

@@ -1,12 +1,10 @@
 #include "sqlite_statement.h"
 #include "connection_interface.h"
-#include "db_exception.h"
+#include "sqlite_exception.h"
 #include "lock_or_throw.h"
 
 namespace cpp_db
 {
-
-void throw_db_exception(int error_code, sqlite3 *db);
 
 sqlite_statement::sqlite_statement(const shared_connection_ptr &conn_in)
 	: conn(conn_in)
@@ -28,7 +26,7 @@ void sqlite_statement::prepare(const std::string &sqlcmd)
 
 	int error_code = sqlite3_prepare_v2(get_db_handle(), sqlcmd.c_str(), sqlcmd.size(), &stmt_new, &tail_new);
     if (error_code != SQLITE_OK)
-		throw_db_exception(error_code, get_db_handle());
+        throw sqlite_exception(error_code, get_db_handle());
 
     stmt.reset(stmt_new, sqlite3_finalize);
     tail = tail_new;
@@ -57,7 +55,7 @@ void sqlite_statement::execute()
     if (int error_code = sqlite3_step(stmt.get()))
     {
         if (error_code != SQLITE_DONE && error_code != SQLITE_ROW)
-			throw_db_exception(error_code, get_db_handle());
+            throw sqlite_exception(error_code, get_db_handle());
     }
 }
 
