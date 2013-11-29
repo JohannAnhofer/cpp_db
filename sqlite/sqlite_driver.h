@@ -8,7 +8,7 @@ namespace cpp_db
 
 class connection;
 
-class sqlite_driver : public driver
+class sqlite_driver : public driver_interface
 {
 public:
 	virtual ~sqlite_driver();

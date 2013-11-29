@@ -7,7 +7,7 @@
 
 namespace cpp_db
 {
-    connection::connection(std::shared_ptr<driver> sql_driver)
+    connection::connection(std::shared_ptr<driver_interface> sql_driver)
         : driver_impl(sql_driver)
 		, conn_impl(sql_driver->make_connection())
     {

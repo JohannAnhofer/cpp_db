@@ -10,10 +10,11 @@
 namespace cpp_db
 {
 
-class driver;
+struct driver_interface;
+struct connection_interface;
+
 class statement;
 class transaction;
-struct connection_interface;
 
 class connection
 {
@@ -44,10 +45,10 @@ public:
     }
 
 private:
-    explicit connection(std::shared_ptr<driver> sql_driver);
+    explicit connection(std::shared_ptr<driver_interface> sql_driver);
     friend class statement;
     friend class transaction;
-	std::shared_ptr<driver> driver_impl;
+    std::shared_ptr<driver_interface> driver_impl;
     std::shared_ptr<connection_interface> conn_impl;
 };
 

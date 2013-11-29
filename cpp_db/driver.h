@@ -7,11 +7,9 @@
 namespace cpp_db
 {
 
-class driver
+struct driver_interface
 {
-public:
-    virtual ~driver() {}
-
+    virtual ~driver_interface() {}
     virtual connection_interface *make_connection() const = 0;
     virtual statement_interface *make_statement(const shared_connection_ptr &conn) const = 0;
     virtual parameters_interface *make_parameters(const shared_statement_ptr &stmt) const = 0;

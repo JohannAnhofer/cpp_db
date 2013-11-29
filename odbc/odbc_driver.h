@@ -8,7 +8,7 @@ namespace cpp_db
 
 class connection;
 
-class odbc_driver : public driver
+class odbc_driver : public driver_interface
 {
 public:
     connection_interface *make_connection() const override;
