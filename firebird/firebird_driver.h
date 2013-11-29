@@ -8,7 +8,7 @@ namespace cpp_db
 
 class connection;
 
-class firebird_driver : public driver
+class firebird_driver : public driver_interface
 {
 public:
     virtual ~firebird_driver();

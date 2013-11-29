@@ -13,9 +13,10 @@
 namespace cpp_db
 {
 
+struct driver_interface;
+
 class parameter;
 class connection;
-class driver;
 class parameters;
 
 struct statement_interface;
@@ -54,7 +55,7 @@ public:
 	parameters get_parameters() const;
 
 private:
-    std::weak_ptr<driver> driver_impl;
+    std::weak_ptr<driver_interface> driver_impl;
     std::shared_ptr<statement_interface> stmt_impl;
 };
 
