@@ -39,7 +39,7 @@ namespace cpp_db
 	void firebird_connection::open(const std::string &database, const authentication &auth, const key_value_pair & options)
 	{
 		if (is_open())
-			throw std::runtime_error("Database already open");
+            throw db_exception("Database already open");
 
 		std::vector<ISC_SCHAR> params;
 

@@ -1,6 +1,5 @@
 #include "sqlite_connection.h"
-
-#include <stdexcept>
+#include "db_exception.h"
 
 namespace cpp_db
 {
@@ -21,7 +20,7 @@ sqlite_connection::~sqlite_connection()
 void sqlite_connection::open(const std::string &database, const authentication &, const key_value_pair &)
 {
     if (is_open())
-        throw std::runtime_error("Database already open");
+        throw db_exception("Database already open");
 
     sqlite3 *dbptr(nullptr);
     if (int error_code = sqlite3_open_v2(database.c_str(), &dbptr, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr))

@@ -2,7 +2,7 @@
 #include "firebird_statement.h"
 #include "null.h"
 #include "value.h"
-#include "db_exception.h"
+#include "firebird_exception.h"
 #include "isc_status.h"
 
 #include <ctime>
@@ -34,8 +34,8 @@ void firebird_result::move_next()
             isc_status status;
 
             after_last_row = isc_dsql_fetch(static_cast<ISC_STATUS *>(status), get_statement_handle(), xsqlda::version, static_cast<XSQLDA*>(*sqlda_fields)) == 100L;
-            if (!after_last_row)
-                status.throw_db_exception_on_error();
+            if (!after_last_row && status.has_error())
+                throw firebird_exception(status);
         }
         else
         {

@@ -1,7 +1,7 @@
 #ifndef CPP_DB_ISC_STATUS_H
 #define CPP_DB_ISC_STATUS_H
 
-#include "db_exception.h"
+#include "firebird_exception.h"
 
 #include "ibase.h"
 
@@ -9,6 +9,9 @@
 #include <string>
 #include <functional>
 #include <array>
+
+namespace cpp_db
+{
 
 class isc_status
 {
@@ -34,25 +37,6 @@ public:
         return status[0] == 1 && status[1] > 0;
     }
 
-    void throw_db_exception_on_error() const
-    {
-        if (has_error())
-        {
-            char message_buffer[512];
-            ISC_LONG sqlcode = isc_sqlcode(status.data());
-            isc_sql_interprete(static_cast<short>(sqlcode), message_buffer, sizeof(message_buffer) / sizeof(message_buffer[0]));
-
-            std::stringstream msg;
-            msg << message_buffer;
-
-            const ISC_STATUS *pvector = status.data();
-            while (fb_interpret(message_buffer, sizeof(message_buffer) / sizeof(message_buffer[0]), &pvector))
-                msg << " - " << message_buffer;
-
-            throw cpp_db::db_exception(msg.str());
-        }
-    }
-
     void dump_on_error() const
     {
         if (has_error())
@@ -68,6 +52,11 @@ public:
         return status.data();
     }
 
+    explicit operator const ISC_STATUS *() const
+    {
+        return status.data();
+    }
+
 private:
     std::array<ISC_STATUS, 20> status;
 };
@@ -76,10 +65,12 @@ inline void guarded_execute(const std::function<void(ISC_STATUS*)> &function, bo
 {
     isc_status status;
     function(static_cast<ISC_STATUS *>(status));
-    if (throw_on_fail)
-        status.throw_db_exception_on_error();
+    if (throw_on_fail && status.has_error())
+        throw cpp_db::firebird_exception(status);
     else
         status.dump_on_error();
 }
 
-#endif // ISC_STATUS_H
+}
+
+#endif // CPP_DB_ISC_STATUS_H
