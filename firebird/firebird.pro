@@ -12,7 +12,8 @@ SOURCES += \
     firebird_statement.cpp \
     firebird_transaction.cpp \
     xsqlda.cpp \
-    xsqlvar.cpp
+    xsqlvar.cpp \
+    firebird_exception.cpp
 
 HEADERS += \
     firebird_connection.h \
@@ -23,7 +24,8 @@ HEADERS += \
     firebird_transaction.h \
     isc_status.h \
     xsqlda.h \
-    xsqlvar.h
+    xsqlvar.h \
+    firebird_exception.h
 
 INCLUDEPATH += ../cpp_db \
                ../tools \
