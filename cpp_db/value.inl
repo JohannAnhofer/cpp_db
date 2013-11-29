@@ -51,19 +51,19 @@ inline const void * value_of<const void *>(const value &val)
 template<typename T, typename U>
 T integer_converter(U int_val)
 {
-    return int_val;
+    return static_cast<T>(int_val);
 }
 
 template<typename T, typename U>
 T unsigned_converter(U uint_val)
 {
-    return uint_val;
+    return static_cast<T>(uint_val);
 }
 
 template<typename T, typename U>
 T floating_point_converter(U uint_val)
 {
-    return uint_val;
+    return static_cast<T>(uint_val);
 }
 
 template<typename T>
@@ -102,7 +102,11 @@ T numeric_extractor(const value &val)
         return floating_point_converter<T, long double>(value_of<long double>(val));
 
     throw_type_mismatch(src_type, typeid(T));
-    return 0;
+#ifdef _MSC_VER
+	// omit return because of unreachable code warning
+#else
+	return 0;
+#endif 
 }
 
 // integers
