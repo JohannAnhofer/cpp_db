@@ -1,5 +1,8 @@
 #include "firebird_exception.h"
 #include "isc_status.h"
+
+#include "ibase.h"
+
 #include <sstream>
 
 namespace cpp_db
