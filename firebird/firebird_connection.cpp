@@ -61,7 +61,7 @@ namespace cpp_db
         std::unique_ptr<isc_db_handle> db_handle(new isc_db_handle{ 0 });
         guarded_execute([&](ISC_STATUS *status)
             {
-                isc_attach_database(status, database.length(), database.c_str(), db_handle.get(), params.size(), params.data());
+                isc_attach_database(status, static_cast<short>(database.length()), database.c_str(), db_handle.get(), static_cast<short>(params.size()), params.data());
             }, true);
 
         db.reset(db_handle.release(), [&](isc_db_handle *db)
@@ -103,7 +103,7 @@ namespace cpp_db
 
     static void add_value_to_dpb(ISC_SCHAR name, const std::string &value, std::vector<ISC_SCHAR> &params)
     {
-        if (uint8_t len = value.size() > 255 ? 255 : value.size())
+        if (uint8_t len = value.size() > 255 ? 255 : static_cast<uint8_t>(value.size()))
         {
             params.push_back(name);
             params.push_back(len);

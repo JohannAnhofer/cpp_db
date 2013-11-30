@@ -55,21 +55,21 @@ void sqlite_parameters::bind(const parameter &param)
         const char *source = value_of<const char *>(param);
         char * value = new char[strlen(source) + 1];
         memcpy(value, source, strlen(source) + 1);
-		sqlite3_bind_text(get_stmt_handle(), index, value, strlen(source), delete_array<char>);
+		sqlite3_bind_text(get_stmt_handle(), index, value, static_cast<int>(strlen(source)), delete_array<char>);
     }
     else if (type_of(param) == typeid(std::string))
     {
         std::string source(value_of<std::string>(param));
         char * value = new char[source.length() + 1];
         memcpy(value, source.c_str(), source.length() + 1);
-		sqlite3_bind_text(get_stmt_handle(), index, value, source.length(), delete_array<char>);
+		sqlite3_bind_text(get_stmt_handle(), index, value, static_cast<int>(source.length()), delete_array<char>);
     }
     else if (type_of(param) == typeid(blob))
     {
         blob source(value_of<blob>(param));
         uint8_t *value = new uint8_t[source.size()];
         memcpy(value, source.data(), source.size());
-		sqlite3_bind_blob(get_stmt_handle(), index, value, source.size(), delete_array<uint8_t>);
+		sqlite3_bind_blob(get_stmt_handle(), index, value, static_cast<int>(source.size()), delete_array<uint8_t>);
     }
     else if (type_of(param) == typeid(int64_t))
         sqlite3_bind_int64(get_stmt_handle(), index, value_of<int64_t>(param));

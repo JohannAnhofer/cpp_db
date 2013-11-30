@@ -24,7 +24,7 @@ void sqlite_statement::prepare(const std::string &sqlcmd)
     sqlite3_stmt *stmt_new = nullptr;
     const char *tail_new = nullptr;
 
-	int error_code = sqlite3_prepare_v2(get_db_handle(), sqlcmd.c_str(), sqlcmd.size(), &stmt_new, &tail_new);
+	int error_code = sqlite3_prepare_v2(get_db_handle(), sqlcmd.c_str(), static_cast<int>(sqlcmd.size()), &stmt_new, &tail_new);
     if (error_code != SQLITE_OK)
         throw sqlite_exception(error_code, get_db_handle());
 

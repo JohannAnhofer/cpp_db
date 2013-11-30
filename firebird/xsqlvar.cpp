@@ -66,7 +66,7 @@ void xsqlvar::write_value_to_sql_var(const std::string &value)
     if (value.length() > static_cast<unsigned>(var.sqllen))
         len = var.sqllen;
     else
-        len = value.length();
+        len = static_cast<ISC_SHORT>(value.length());
 
     if (type() == SQL_VARYING)
     {

@@ -110,11 +110,7 @@ T numeric_extractor(const value &val)
         return floating_point_converter<T, long double>(value_of<long double>(val));
 
     throw_type_mismatch(src_type, typeid(T));
-#ifdef _MSC_VER
-	// omit return because of unreachable code warning
-#else
 	return 0;
-#endif 
 }
 
 // integers
@@ -213,11 +209,7 @@ inline std::string value_of<std::string>(const value &val)
 #endif
 
     throw_type_mismatch(src_type, typeid(std::string));
-#ifdef _MSC_VER
-    // omit return because of unreachable code warning
-#else
     return std::string{};
-#endif
 }
 
 template<>
@@ -237,11 +229,7 @@ inline std::wstring value_of<std::wstring>(const value &val)
 #endif
 
     throw_type_mismatch(src_type, typeid(std::wstring));
-#ifdef _MSC_VER
-    // omit return because of unreachable code warning
-#else
     return std::wstring{};
-#endif
 }
 
 #ifndef USE_BOOST_ANY
@@ -256,11 +244,7 @@ inline const char * value_of<const char *>(const value &val)
         return *reinterpret_cast<const char * const *>(value_of<const void *>(val));
 
     throw_type_mismatch(src_type, typeid(const char *));
-#ifdef _MSC_VER
-    // omit return because of unreachable code warning
-#else
     return nullptr;
-#endif
 }
 
 template<>
@@ -274,11 +258,7 @@ inline const wchar_t * value_of<const wchar_t *>(const value &val)
         return *reinterpret_cast<const wchar_t * const *>(value_of<const void *>(val));
 
     throw_type_mismatch(src_type, typeid(const wchar_t *));
-#ifdef _MSC_VER
-    // omit return because of unreachable code warning
-#else
     return nullptr;
-#endif
 }
 #endif
 
@@ -320,11 +300,7 @@ inline std::string cast_to<std::string>(const value &val)
     }
 
     throw_type_mismatch(src_type, typeid(std::string));
-#ifdef _MSC_VER
-    // omit return because of unreachable code warning
-#else
     return std::string{};
-#endif
 }
 
 template<>
@@ -365,11 +341,7 @@ inline std::wstring cast_to<std::wstring>(const value &val)
     }
 
     throw_type_mismatch(src_type, typeid(std::wstring));
-#ifdef _MSC_VER
-    // omit return because of unreachable code warning
-#else
     return std::wstring{};
-#endif
 }
 
 }
