@@ -39,9 +39,12 @@ struct value::concrete_holder<null_type> : public abstract_holder
 };
 #endif
 
-inline void throw_type_mismatch(const std::type_index &src_type, const std::type_index &dest_type)
+inline std::string build_type_mismatch_message(const std::type_index &src_type, const std::type_index &dest_type)
 {
-    throw std::runtime_error(std::string("Value type '")+dest_type.name() + std::string("' is not convertible to '") + src_type.name()+"'");
+    return std::string("Value type '")
+		+dest_type.name() 
+		+ std::string("' is not convertible to '") 
+		+ src_type.name()+"'";
 }
 
 #ifndef USE_BOOST_ANY
@@ -109,8 +112,12 @@ T numeric_extractor(const value &val)
     if (src_type == typeid(long double))
         return floating_point_converter<T, long double>(value_of<long double>(val));
 
-    throw_type_mismatch(src_type, typeid(T));
+	throw std::runtime_error(build_type_mismatch_message(src_type, typeid(T)));
+#ifdef _MSC_VER
+	// no return here to suppress unreachable code message.
+#else
 	return 0;
+#endif
 }
 
 // integers
@@ -208,8 +215,12 @@ inline std::string value_of<std::string>(const value &val)
         return *reinterpret_cast<std::string const *>(value_of<const void *>(val));
 #endif
 
-    throw_type_mismatch(src_type, typeid(std::string));
-    return std::string{};
+	throw std::runtime_error(build_type_mismatch_message(src_type, typeid(std::string)));
+#ifdef _MSC_VER
+	// no return to suppress unreachable code warning
+#else
+	return std::string{};
+#endif
 }
 
 template<>
@@ -228,8 +239,12 @@ inline std::wstring value_of<std::wstring>(const value &val)
         return *reinterpret_cast<std::wstring const *>(value_of<const void *>(val));
 #endif
 
-    throw_type_mismatch(src_type, typeid(std::wstring));
-    return std::wstring{};
+	throw std::runtime_error(build_type_mismatch_message(src_type, typeid(std::wstring)));
+#ifdef _MSC_VER
+	// no return to suppress unreachable code warning
+#else
+	return std::wstring{};
+#endif
 }
 
 #ifndef USE_BOOST_ANY
@@ -243,8 +258,12 @@ inline const char * value_of<const char *>(const value &val)
     if (src_type == typeid(const char *))
         return *reinterpret_cast<const char * const *>(value_of<const void *>(val));
 
-    throw_type_mismatch(src_type, typeid(const char *));
-    return nullptr;
+	throw std::runtime_error(build_type_mismatch_message(src_type, typeid(const char *)));
+#ifdef _MSC_VER
+	// no return to suppress unreachable code warning
+#else
+	return nullptr;
+#endif
 }
 
 template<>
@@ -257,8 +276,12 @@ inline const wchar_t * value_of<const wchar_t *>(const value &val)
     if (src_type == typeid(const wchar_t *))
         return *reinterpret_cast<const wchar_t * const *>(value_of<const void *>(val));
 
-    throw_type_mismatch(src_type, typeid(const wchar_t *));
-    return nullptr;
+	throw std::runtime_error(build_type_mismatch_message(src_type, typeid(const wchar_t *)));
+#ifdef _MSC_VER
+	// no return to suppress unreachable code warning
+#else
+	return nullptr;
+#endif
 }
 #endif
 
@@ -299,8 +322,12 @@ inline std::string cast_to<std::string>(const value &val)
         return number;
     }
 
-    throw_type_mismatch(src_type, typeid(std::string));
-    return std::string{};
+	throw std::runtime_error(build_type_mismatch_message(src_type, typeid(std::string)));
+#ifdef _MSC_VER
+	// no return to suppress unreachable code warning
+#else
+	return std::string{};
+#endif
 }
 
 template<>
@@ -340,8 +367,12 @@ inline std::wstring cast_to<std::wstring>(const value &val)
         return number;
     }
 
-    throw_type_mismatch(src_type, typeid(std::wstring));
-    return std::wstring{};
+	throw std::runtime_error(build_type_mismatch_message(src_type, typeid(std::wstring)));
+#ifdef _MSC_VER
+	// no return to suppress unreachable code warning
+#else
+	return std::wstring{};
+#endif
 }
 
 }
