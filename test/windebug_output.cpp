@@ -40,7 +40,7 @@ void windebug_output::dump_string(const std::string &message) const
 {
     if (!message.empty() && (message != "\n"))
     {
-        int pos = message.find('\n');
+        int pos = static_cast<int>(message.find('\n'));
         int lastpos{ 0 };
 
         if (pos == -1)
@@ -51,7 +51,7 @@ void windebug_output::dump_string(const std::string &message) const
             {
                 output_string(message.substr(lastpos, pos - lastpos));
                 lastpos = pos + 1;
-                pos = message.find('\n', lastpos);
+                pos = static_cast<int>(message.find('\n', lastpos));
             }
             if (lastpos < static_cast<int>(message.length()))
                 output_string(message.substr(lastpos));

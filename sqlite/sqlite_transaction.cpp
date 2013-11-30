@@ -37,7 +37,7 @@ void sqlite_transaction::execute(const char *sql)
 {
     const char *tail = nullptr;
     sqlite3_stmt *stmt = 0;
-	int status = sqlite3_prepare(get_db_handle(), sql, strlen(sql), &stmt, &tail);
+	int status = sqlite3_prepare(get_db_handle(), sql, static_cast<int>(strlen(sql)), &stmt, &tail);
     if (status != SQLITE_OK && status != SQLITE_DONE)
         throw sqlite_exception(status, get_db_handle());
     auto deleter = [](sqlite3_stmt*s){sqlite3_finalize(s); };
