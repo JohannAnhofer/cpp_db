@@ -142,6 +142,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\build_cpp_db\msvc2013\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)..\build_cpp_db\msvc2013\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_CTP_Nov2013|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -162,6 +163,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\build_cpp_db\msvc2013\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)..\build_cpp_db\msvc2013\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_CTP_Nov2013|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -218,6 +220,7 @@
       <UseFullPaths>true</UseFullPaths>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -305,6 +308,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalUsingDirectories>..\tools;..\cpp_db</AdditionalUsingDirectories>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
