@@ -41,5 +41,10 @@ namespace cpp_db
     transaction_interface *sqlite_driver::make_transaction(const shared_connection_ptr &conn) const
 	{
         return new sqlite_transaction(conn);
-	}
+    }
+
+    sqlite_driver *sqlite_driver::create()
+    {
+        return new sqlite_driver;
+    }
 }

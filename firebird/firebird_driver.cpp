@@ -41,4 +41,9 @@ namespace cpp_db
     {
         return new firebird_transaction(conn);
     }
+
+    firebird_driver *firebird_driver::create()
+    {
+        return new firebird_driver;
+    }
 }

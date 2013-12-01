@@ -55,8 +55,8 @@ void test_app::add_test_class(const std::string &class_name)
 
 }
 
-#define BEGIN_DECLARE_TEST_APP() int main(int argc, char *argv[]) { test::test_app app(argc, argv);
+#define BEGIN_DECLARE_TEST_APP(init) int main(int argc, char *argv[]) { init(); test::test_app app(argc, argv);
 #define DECLARE_TEST_CLASS(class_name) app.add_test_class<class_name>(#class_name);
-#define END_DECLARE_TEST_APP() app.run(); return 0; }
+#define END_DECLARE_TEST_APP(finalize) app.run(); finalize(); return 0; }
 
 #endif // TEST_TESTAPP_H

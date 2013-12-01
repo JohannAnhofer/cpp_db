@@ -19,7 +19,8 @@ class transaction;
 class connection
 {
 public:
-	~connection();
+    explicit connection(const std::string &drivername);
+    ~connection();
 
     connection(const connection &) = delete;
     connection &operator=(const connection &) = delete;
@@ -37,15 +38,7 @@ public:
     bool is_open() const;
     handle get_handle() const;
 
-    template<typename DriverType>
-    static connection create()
-    {
-        std::shared_ptr<DriverType> driver(new DriverType);
-        return connection(driver);
-    }
-
 private:
-    explicit connection(std::shared_ptr<driver_interface> sql_driver);
     friend class statement;
     friend class transaction;
     std::shared_ptr<driver_interface> driver_impl;

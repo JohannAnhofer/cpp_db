@@ -2,14 +2,15 @@
 #include "connection_interface.h"
 #include "driver_interface.h"
 #include "check_pointer.h"
+#include "driver_factory.h"
 
 #include <stdexcept>
 
 namespace cpp_db
 {
-    connection::connection(std::shared_ptr<driver_interface> sql_driver)
-        : driver_impl(sql_driver)
-		, conn_impl(sql_driver->make_connection())
+    connection::connection(const std::string &drivername)
+        : driver_impl(driver_factory::instance().create_driver(drivername))
+        , conn_impl(driver_impl->make_connection())
     {
 		if (!conn_impl)
 			throw std::runtime_error("No connection object from driver!");

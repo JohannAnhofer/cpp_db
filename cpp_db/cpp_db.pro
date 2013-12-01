@@ -10,7 +10,8 @@ SOURCES += \
     parameters.cpp \
     result.cpp \
     statement.cpp \
-    transaction.cpp
+    transaction.cpp \
+    driver_factory.cpp
 
 HEADERS += \
     authentication.h \
@@ -38,7 +39,8 @@ HEADERS += \
     value.inl \
     value_of.h \
     value_is_null.h \
-    driver_interface.h
+    driver_interface.h \
+    driver_factory.h
 
 INCLUDEPATH += \
     $$PWD/../tools \
