@@ -10,7 +10,7 @@
 
 void test_sqlite_class::init_class()
 {
-    con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection(cpp_db::connection::create<cpp_db::sqlite_driver>()));
+    con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection("sqlite"));
     TEST_FOR_NO_EXCEPTION(con->open(":memory:", cpp_db::no_authentication{}));
 }
 
