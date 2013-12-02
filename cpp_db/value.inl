@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <typeindex>
 #include <typeinfo>
+#include <cinttypes>
 
 #ifdef _MSC_VER
 #define snprintf _snprintf
@@ -289,7 +290,7 @@ inline std::string cast_to<std::string>(const value &val)
     {
         int64_t result = value_of<int64_t>(val);
         char number[50];
-        snprintf(number, sizeof(number)/sizeof(number[0]), "%lli", result);
+        snprintf(number, sizeof(number)/sizeof(number[0]), "%" PRId64, result);
         return number;
     }
 
@@ -300,7 +301,7 @@ inline std::string cast_to<std::string>(const value &val)
     {
         uint64_t result = value_of<uint64_t>(val);
         char number[50];
-        snprintf(number, sizeof(number)/sizeof(number[0]), "%llu", result);
+        snprintf(number, sizeof(number)/sizeof(number[0]), "%" PRIu64, result);
         return number;
     }
 
@@ -334,7 +335,7 @@ inline std::wstring cast_to<std::wstring>(const value &val)
     {
         int64_t result = value_of<int64_t>(val);
         wchar_t number[50];
-        swprintf(number, sizeof(number)/sizeof(number[0]), L"%lli", result);
+        swprintf(number, sizeof(number)/sizeof(number[0]), L"%" PRId64, result);
         return number;
     }
 
@@ -345,7 +346,7 @@ inline std::wstring cast_to<std::wstring>(const value &val)
     {
         uint64_t result = value_of<uint64_t>(val);
         wchar_t number[50];
-        swprintf(number, sizeof(number)/sizeof(number[0]), L"%llu", result);
+        swprintf(number, sizeof(number)/sizeof(number[0]), L"%" PRIu64, result);
         return number;
     }
 
