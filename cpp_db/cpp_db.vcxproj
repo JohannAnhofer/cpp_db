@@ -39,6 +39,7 @@
     <ClInclude Include="connection.h" />
     <ClInclude Include="connection_interface.h" />
     <ClInclude Include="db_exception.h" />
+    <ClInclude Include="driver_factory.h" />
     <ClInclude Include="driver_interface.h" />
     <ClInclude Include="execute.h" />
     <ClInclude Include="no_authentication.h" />
@@ -53,6 +54,7 @@
     <ClInclude Include="transaction.h" />
     <ClInclude Include="transaction_interface.h" />
     <ClInclude Include="transaction_scope.h" />
+    <ClInclude Include="type_mismatch_exception.h" />
     <ClInclude Include="type_of.h" />
     <ClInclude Include="user_password_authentication.h" />
     <ClInclude Include="usings.h" />
@@ -61,11 +63,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp" />
+    <ClCompile Include="driver_factory.cpp" />
     <ClCompile Include="execute.cpp" />
     <ClCompile Include="parameters.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="statement.cpp" />
     <ClCompile Include="transaction.cpp" />
+    <ClCompile Include="type_mismatch_exception.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="statement.inl" />
