@@ -84,6 +84,12 @@
     <ClInclude Include="driver_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="driver_factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="type_mismatch_exception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp">
@@ -102,6 +108,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="execute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver_factory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="type_mismatch_exception.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

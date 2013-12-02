@@ -363,8 +363,8 @@
     <ClCompile Include="unittest_tools.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\test\test.vcxproj">
-      <Project>{5f7c81f9-2421-401e-84b2-01ba4b9e31d2}</Project>
+    <ProjectReference Include="..\cpp_db\cpp_db.vcxproj">
+      <Project>{5512c29a-99cf-4eb2-906d-04b52c831511}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
