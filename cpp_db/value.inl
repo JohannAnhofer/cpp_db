@@ -6,11 +6,7 @@
 #include <cstdint>
 #include <typeindex>
 #include <typeinfo>
-#include <cinttypes>
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
+#include <sstream>
 
 namespace cpp_db
 {
@@ -278,14 +274,6 @@ inline const wchar_t * value_of<const wchar_t *>(const value &val)
 }
 #endif
 
-
-#ifndef PRId64
-#define PRId64 "lld"
-#define PRIu64 "llu"
-#define WidePRId64 L"%lld"
-#define WidePRIu64 L"%llu"
-#endif
-
 template<>
 inline std::string cast_to<std::string>(const value &val)
 {
@@ -296,10 +284,9 @@ inline std::string cast_to<std::string>(const value &val)
             || src_type == typeid(int32_t)
             || src_type == typeid(int64_t))
     {
-        int64_t result = value_of<int64_t>(val);
-        char number[50];
-        snprintf(number, sizeof(number)/sizeof(number[0]), "%" PRId64, result);
-        return number;
+        std::stringstream result;
+        result << value_of<int64_t>(val);
+        return result.str();
     }
 
     if (src_type == typeid(uint8_t)
@@ -307,20 +294,18 @@ inline std::string cast_to<std::string>(const value &val)
             || src_type == typeid(uint32_t)
             || src_type == typeid(uint64_t))
     {
-        uint64_t result = value_of<uint64_t>(val);
-        char number[50];
-        snprintf(number, sizeof(number)/sizeof(number[0]), "%" PRIu64, result);
-        return number;
+        std::stringstream result;
+        result << value_of<uint64_t>(val);
+        return result.str();
     }
 
     if (src_type == typeid(float)
             || src_type == typeid(double)
             || src_type == typeid(long double))
     {
-        long double result = value_of<long double>(val);
-        char number[50];
-        snprintf(number, sizeof(number)/sizeof(number[0]), "%Lg", result);
-        return number;
+        std::stringstream result;
+        result << value_of<long double>(val);
+        return result.str();
     }
 
     throw type_mismatch_exception(src_type, typeid(std::string));
@@ -349,10 +334,9 @@ inline std::wstring cast_to<std::wstring>(const value &val)
             || src_type == typeid(int32_t)
             || src_type == typeid(int64_t))
     {
-        int64_t result = value_of<int64_t>(val);
-        wchar_t number[50];
-		swprintf(number, sizeof(number) / sizeof(number[0]), WidePRId64, result);
-        return number;
+        std::wstringstream result;
+        result << value_of<int64_t>(val);
+        return result.str();
     }
 
     if (src_type == typeid(uint8_t)
@@ -360,20 +344,18 @@ inline std::wstring cast_to<std::wstring>(const value &val)
             || src_type == typeid(uint32_t)
             || src_type == typeid(uint64_t))
     {
-        uint64_t result = value_of<uint64_t>(val);
-        wchar_t number[50];
-		swprintf(number, sizeof(number) / sizeof(number[0]), WidePRIu64, result);
-        return number;
+        std::wstringstream result;
+        result << value_of<uint64_t>(val);
+        return result.str();
     }
 
     if (src_type == typeid(float)
             || src_type == typeid(double)
             || src_type == typeid(long double))
     {
-        long double result = value_of<long double>(val);
-        wchar_t number[50];
-        swprintf(number, sizeof(number)/sizeof(number[0]), L"%Lg", result);
-        return number;
+        std::wstringstream result;
+        result << value_of<long double>(val);
+        return result.str();
     }
 
     throw type_mismatch_exception(src_type, typeid(std::wstring));
