@@ -278,6 +278,14 @@ inline const wchar_t * value_of<const wchar_t *>(const value &val)
 }
 #endif
 
+
+#ifndef PRId64
+#define PRId64 "lld"
+#define PRIu64 "llu"
+#define WidePRId64 L"%lld"
+#define WidePRIu64 L"%llu"
+#endif
+
 template<>
 inline std::string cast_to<std::string>(const value &val)
 {
@@ -326,7 +334,7 @@ inline std::string cast_to<std::string>(const value &val)
 #ifdef _MSC_VER
 #define WidePRId64 L"%lld"
 #define WidePRIu64 L"%llu"
-#else
+#elif !defined(WidePRId64)
 #define WidePRId64 L"%" PRId64
 #define WidePRIu64 L"%" PRIu64
 #endif
