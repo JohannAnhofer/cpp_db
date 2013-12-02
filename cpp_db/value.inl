@@ -323,6 +323,14 @@ inline std::string cast_to<std::string>(const value &val)
 #endif
 }
 
+#ifdef _MSC_VER
+#define WidePRId64 L"%lld"
+#define WidePRIu64 L"%llu"
+#else
+#define WidePRId64 L"%" PRId64
+#define WidePRIu64 L"%" PRIu64
+#endif
+
 template<>
 inline std::wstring cast_to<std::wstring>(const value &val)
 {
@@ -335,7 +343,7 @@ inline std::wstring cast_to<std::wstring>(const value &val)
     {
         int64_t result = value_of<int64_t>(val);
         wchar_t number[50];
-        swprintf(number, sizeof(number)/sizeof(number[0]), L"%" PRId64, result);
+		swprintf(number, sizeof(number) / sizeof(number[0]), WidePRId64, result);
         return number;
     }
 
@@ -346,7 +354,7 @@ inline std::wstring cast_to<std::wstring>(const value &val)
     {
         uint64_t result = value_of<uint64_t>(val);
         wchar_t number[50];
-        swprintf(number, sizeof(number)/sizeof(number[0]), L"%" PRIu64, result);
+		swprintf(number, sizeof(number) / sizeof(number[0]), WidePRIu64, result);
         return number;
     }
 
