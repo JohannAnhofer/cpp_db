@@ -7,7 +7,7 @@ CONFIG -= qt
 
 # Check boost library
 _BOOST_ROOT=$$(BOOST_ROOT)
-isEmpty(_BOOST_ROOT) {
+if (isEmpty(_BOOST_ROOT)| !exists( $(BOOST_ROOT)/boost/any.hpp )) {
     message(\"BOOST libraries\" not detected...)
 }
 else {
