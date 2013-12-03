@@ -32,7 +32,8 @@ SUBDIRS += \
     odbc \
     cpp_db \
     test \
-    main
+    main \
+    samples
 
 OTHER_FILES += todo.txt
 
