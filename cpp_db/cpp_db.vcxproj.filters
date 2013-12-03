@@ -87,7 +87,7 @@
     <ClInclude Include="driver_factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="type_mismatch_exception.h">
+    <ClInclude Include="type_mismatch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,7 +113,7 @@
     <ClCompile Include="driver_factory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="type_mismatch_exception.cpp">
+    <ClCompile Include="type_mismatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
