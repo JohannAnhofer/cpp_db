@@ -38,9 +38,9 @@ void run_samples()
         statement stmt("insert into test_table(ID, NAME, AGE) values(?, ?, ?);", conn);
         stmt.execute_non_query(1, "Bilbo Baggins", 121);
         stmt.reset();
-        stmt.execute_non_query(2, "Frodo Baggins", 40);
+        stmt.execute_non_query(2, "Frodo Baggins", 33);
         stmt.reset();
-        stmt.execute_non_query(3, "Samwise Gamgee", 35);
+        stmt.execute_non_query(3, "Samwise Gamgee", 21);
         trans.commit();
         std::cout << "Successfully inserted 3 records." << std::endl;
 
@@ -62,6 +62,8 @@ void run_samples()
 
             res.move_next();
         }
+
+        std::cout << "Cumulated ages: " << value_of<int>(execute_scalar(conn, "select sum(AGE) from test_table")) << std::endl;
     }
     catch(const std::exception &ex)
     {
