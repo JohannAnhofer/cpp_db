@@ -1,6 +1,7 @@
 #include "driver_factory.h"
 
 #include <utility>
+#include <stdexcept>
 
 namespace cpp_db
 {
@@ -27,7 +28,7 @@ std::shared_ptr<driver_interface> driver_factory::create_driver(const std::strin
     auto pos = drivers.find(name);
     if (pos != std::end(drivers))
         return std::shared_ptr<driver_interface>(pos->second());
-    return std::shared_ptr<driver_interface>{};
+    throw std::runtime_error("Driver not registered: " + name);
 }
 
 std::vector<std::string> driver_factory::registered_drivers() const
