@@ -31,6 +31,9 @@ public:
 	value get_column_value(int column) const;
 	value get_column_value(const std::string &column_name) const;
 
+    value operator[](int column) const;
+    value operator[](const std::string &column) const;
+
 	std::string get_column_name(int column) const;
 	int get_column_index(const std::string &column_name) const;
 

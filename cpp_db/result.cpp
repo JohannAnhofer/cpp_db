@@ -51,6 +51,16 @@ value result::get_column_value(const std::string &column_name) const
 	return result_impl->get_column_value(column_name);
 }
 
+value result::operator[](int column) const
+{
+    return get_column_value(column);
+}
+
+value result::operator[](const std::string &column) const
+{
+    return get_column_value(column);
+}
+
 std::string result::get_column_name(int column) const
 {
 	return result_impl->get_column_name(column);
