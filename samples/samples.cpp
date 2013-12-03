@@ -28,19 +28,20 @@ void run_samples()
                             create table test_table (
                                     ID integer primary key,
                                     NAME varchar(50),
-                                    AGE integer
+                                    AGE integer,
+                                    SALARY double precision
                                 );
                             )");
 
         std::cout << "test_table successfully created!" << std::endl;
 
         // insert 3 records
-        statement stmt("insert into test_table(ID, NAME, AGE) values(?, ?, ?);", conn);
-        stmt.execute_non_query(1, "Bilbo Baggins", 121);
+        statement stmt("insert into test_table(ID, NAME, AGE, SALARY) values(?, ?, ?, ?);", conn);
+        stmt.execute_non_query(1, "Bilbo Baggins", 121, 1000.0);
         stmt.reset();
-        stmt.execute_non_query(2, "Frodo Baggins", 33);
+        stmt.execute_non_query(2, "Frodo Baggins", 33, 500.0);
         stmt.reset();
-        stmt.execute_non_query(3, "Samwise Gamgee", 21);
+        stmt.execute_non_query(3, "Samwise Gamgee", 21, 250.0);
         trans.commit();
         std::cout << "Successfully inserted 3 records." << std::endl;
 
@@ -57,13 +58,14 @@ void run_samples()
         {
             std::cout << cast_to<std::string>(res.get_column_value("ID")) << "\t"
                       <<  value_of<std::string>(res.get_column_value(1)) << "\t"
-                      << value_of<int>(res["AGE"])
+                      << value_of<int>(res["AGE"]) << "\t"
+                      << value_of<double>(res[3])
                       << std::endl;
 
             res.move_next();
         }
 
-        std::cout << "Cumulated ages: " << value_of<int>(execute_scalar(conn, "select sum(AGE) from test_table")) << std::endl;
+        std::cout << "Cumulated salary: " << value_of<int>(execute_scalar(conn, "select sum(SALARY) from test_table where AGE between ? and ?", 10, 100)) << std::endl;
     }
     catch(const std::exception &ex)
     {
