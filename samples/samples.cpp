@@ -9,7 +9,7 @@ void run_samples()
     try
     {
         cpp_db::connection conn("sqlite");
-        conn.open(":memory", cpp_db::no_authentication{});
+        conn.open(":memory:", cpp_db::no_authentication{});
 
         cpp_db::execute_ddl(conn, R"(create table test_table (
                                             ID integer primary key,
