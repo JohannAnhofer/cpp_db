@@ -5,7 +5,6 @@
 #include "type_of.h"
 #include "value_of.h"
 #include "value_is_null.h"
-#include "type_mismatch.h"
 
 #ifdef USE_BOOST_ANY
 #include <boost/any.hpp>
@@ -121,7 +120,7 @@ namespace cpp_db
     {
         if (type_of(val) == typeid(T))
             return *reinterpret_cast<T const *>(val.pholder->get_value());
-        throw type_mismatch(type_of(val), typeid(T));
+        throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + type_of(val).name()+")");
     }
 
 #else
@@ -148,7 +147,7 @@ namespace cpp_db
     {
         if (type_of(val) == typeid(T))
             return boost::any_cast<T>(val);
-        throw type_mismatch(type_of(val), typeid(T));
+        throw std::runtime_error(std::string("Invalid value type (")+typeid(T).name() + std::string(" / ") + type_of(val).name()+")");
     }
 
 #endif
