@@ -6,12 +6,14 @@
 
 void run_samples()
 {
+    using namespace cpp_db;
+
     try
     {
-        cpp_db::connection conn("sqlite");
-        conn.open(":memory:", cpp_db::no_authentication{});
+        connection conn("sqlite");
+        conn.open(":memory", no_authentication{});
 
-        cpp_db::execute_ddl(conn, R"(create table test_table (
+        execute_ddl(conn, R"(create table test_table (
                                             ID integer primary key,
                                             NAME varchar(50),
                                             AGE integer
