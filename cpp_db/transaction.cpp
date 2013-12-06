@@ -18,6 +18,26 @@ transaction::transaction(const connection &conn)
 		throw std::runtime_error("No transaction object from driver!");
 }
 
+#if defined(_MSC_VER) && (_MSC_FULL_VER <= 180021005)
+
+transaction::transaction(transaction && other)
+    : conn_impl(std::move(other.conn_impl))
+    , trans_impl(std::move(other.trans_impl))
+{
+}
+
+transaction &transaction::operator=(transaction &&other)
+{
+    if (this != &other)
+    {
+        conn_impl = std::move(other.conn_impl);
+        trans_impl = std::move(other.trans_impl);
+    }
+    return *this;
+}
+
+#endif
+
 transaction::~transaction()
 {
     rollback();

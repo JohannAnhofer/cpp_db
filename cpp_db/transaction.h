@@ -20,6 +20,14 @@ public:
 	transaction(const transaction &) = delete;
 	transaction &operator=(const transaction &) = delete;
 
+#if !defined(_MSC_VER) || (_MSC_FULL_VER > 180021005)
+    transaction(transaction && other) = default;
+    transaction &operator=(transaction && other) = default;
+#else
+    transaction(transaction && other);
+    transaction &operator=(transaction &&other);
+#endif
+
 	void begin();
 	void commit();
 	void rollback();
