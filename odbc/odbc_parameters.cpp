@@ -23,4 +23,9 @@ void odbc_parameters::bind(const parameter &param)
     (void)param;
 }
 
+handle odbc_parameters::get_handle() const
+{
+    return handle{};
+}
+
 } // namespace cpp_db
