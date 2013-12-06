@@ -28,8 +28,16 @@ public:
     explicit statement(const connection &conn);
     ~statement();
 
-    statement(const statement&other) = delete;
-    statement &operator=(const statement &other) = delete;
+    statement(const statement & other) = delete;
+    statement &operator=(const statement & other) = delete;
+
+#if !defined(_MSC_VER) || (_MSC_FULL_VER > 180021005)
+    statement(statement && other) = default;
+    statement &operator=(statement && other) = default;
+#else
+    statement(statement && other);
+    statement &operator=(statement &&other);
+#endif
 
     void prepare(const std::string &sqlcmd);
 	bool is_prepared() const;
