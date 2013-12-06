@@ -27,6 +27,7 @@ public:
     value get_column_value(const std::string &column_name) const override;
     bool is_column_null(int column) const override;
     bool is_column_null(const std::string &column_name) const override;
+    handle get_handle() const override;
 
 private:
     isc_stmt_handle *get_statement_handle() const;

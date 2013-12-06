@@ -64,4 +64,9 @@ bool odbc_result::is_column_null(const std::string &column_name) const
     return false;
 }
 
+handle odbc_result::get_handle() const
+{
+    return handle{};
+}
+
 } // namespace cpp_db

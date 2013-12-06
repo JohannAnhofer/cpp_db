@@ -81,4 +81,9 @@ bool result::is_column_null(const std::string &column_name) const
     return result_impl->is_column_null(column_name);
 }
 
+handle result::get_handle() const
+{
+    return result_impl->get_handle();
+}
+
 }

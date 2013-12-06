@@ -2,6 +2,7 @@
 #define CPP_DB_RESULT_H
 
 #include "value.h"
+#include "usings.h"
 
 #include <memory>
 #include <string>
@@ -39,6 +40,8 @@ public:
 
     bool is_column_null(int column) const;
     bool is_column_null(const std::string &column_name) const;
+
+    handle get_handle() const;
 
 private:
     result();
