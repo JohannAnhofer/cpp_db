@@ -1,10 +1,13 @@
 #ifndef CPP_DB_RESULT_INTERFACE_H
 #define CPP_DB_RESULT_INTERFACE_H
 
-#include <string>
+#include "usings.h"
+
 #ifdef USE_BOOST_ANY
 #include "value.h"
 #endif
+
+#include <string>
 
 namespace cpp_db
 {
@@ -26,6 +29,7 @@ struct result_interface
     virtual int get_column_index(const std::string &column_name) const = 0;
     virtual bool is_column_null(int column) const = 0;
     virtual bool is_column_null(const std::string &column_name) const = 0;
+    virtual handle get_handle() const = 0;
 };
 
 }

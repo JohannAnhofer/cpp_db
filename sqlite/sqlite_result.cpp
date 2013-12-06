@@ -100,4 +100,9 @@ bool sqlite_result::is_column_null(const std::string &column_name) const
     return is_column_null(get_column_index(column_name));
 }
 
+handle sqlite_result::get_handle() const
+{
+    return handle{};
+}
+
 } // namespace cpp_db
