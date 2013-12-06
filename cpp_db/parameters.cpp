@@ -36,4 +36,9 @@ namespace cpp_db
 	{
 		params_impl->bind(param);
 	}
+
+    handle parameters::get_handle() const
+    {
+        return params_impl->get_handle();
+    }
 }

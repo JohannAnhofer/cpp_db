@@ -77,4 +77,9 @@ void sqlite_parameters::bind(const parameter &param)
 		sqlite3_bind_null(get_stmt_handle(), index);
 }
 
+handle sqlite_parameters::get_handle() const
+{
+    return handle{};
+}
+
 } // namespace cpp_db

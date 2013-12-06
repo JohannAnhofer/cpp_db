@@ -2,6 +2,7 @@
 #define CPP_DB_PARAMETERS_H
 
 #include "parameter.h"
+#include "usings.h"
 
 #include <memory>
 #include <string>
@@ -27,6 +28,8 @@ public:
 	template<typename T> void bind(int pos, T && value);
 	template<typename T> void bind(const std::string &name, T && value);
 	void bind(const parameter &param);
+
+    handle get_handle() const;
 
 private:
     parameters();

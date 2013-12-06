@@ -48,6 +48,11 @@ int firebird_parameters::find_param_pos(const std::string &name) const
     return -1;
 }
 
+handle firebird_parameters::get_handle() const
+{
+    return handle{};
+}
+
 isc_stmt_handle *firebird_parameters::get_statement_handle() const
 {
     return std::static_pointer_cast<isc_stmt_handle>(stmt->get_handle()).get();

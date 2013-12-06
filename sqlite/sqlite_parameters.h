@@ -19,6 +19,7 @@ class sqlite_parameters : public parameters_interface
 public:
     int get_count() const override;
     void bind(const parameter &param) override;
+    handle get_handle() const override;
 
 private:
     friend class sqlite_driver;
