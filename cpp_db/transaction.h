@@ -1,6 +1,8 @@
 #ifndef CPP_DB_TRANSACTION
 #define CPP_DB_TRANSACTION
 
+#include "usings.h"
+
 #include <memory>
 
 namespace cpp_db
@@ -33,6 +35,8 @@ public:
 	void rollback();
 
 	bool is_open() const;
+
+    handle get_handle() const;
 
 private:
     std::weak_ptr<connection_interface> conn_impl;

@@ -66,4 +66,9 @@ bool transaction::is_open() const
 	return trans_impl->is_open();
 }
 
+handle transaction::get_handle() const
+{
+    return trans_impl->get_handle();
+}
+
 }
