@@ -16,6 +16,11 @@ public:
     {
         if (!tr)
             throw std::runtime_error("No transaction object!");
+        else
+        {
+            if (!tr->is_open())
+                _transaction->begin();
+        }
     }
 
     ~transaction_scope()
