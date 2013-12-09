@@ -17,7 +17,7 @@ void test_firebird_class::init_class()
 							{ { "encoding", "UNICODE_FSS" }, {"role", "admin"} } \
 						));
 
-    TEST_FOR_NO_EXCEPTION((execute_ddl(*con, R"(
+	const char *sql_create_test_table = R"(
                         CREATE TABLE test_table
                         (
                             ID       INTEGER PRIMARY KEY,
@@ -25,9 +25,10 @@ void test_firebird_class::init_class()
                             VERSION  VARCHAR(30),
                             TYPE_ID  INTEGER NOT NULL
                         );
-            )")));
+            )";
+    TEST_FOR_NO_EXCEPTION(execute_ddl(*con, sql_create_test_table));
 
-    TEST_FOR_NO_EXCEPTION((execute_ddl(*con, R"(
+	const char * sql_create_config_table = R"(
                         CREATE TABLE config_table
                         (
                             ID             BIGINT PRIMARY KEY,
@@ -39,10 +40,10 @@ void test_firebird_class::init_class()
                             EXPORT         SMALLINT,
                             DEFAULT_VALUE  VARCHAR(10000)
                         );
-            )")));
+            )";
+	TEST_FOR_NO_EXCEPTION(execute_ddl(*con, sql_create_config_table));
 
-
-    TEST_FOR_NO_EXCEPTION((execute_ddl(*con, R"(
+	const char * sql_create_test_proc = R"(
                           create procedure test_proc (
                               NUMBER varchar(30),
                               OFFSET double precision,
@@ -58,7 +59,8 @@ void test_firebird_class::init_class()
                             number_fmt = '3147.39';
                             suspend;
                           end
-          )")));
+          )";
+    TEST_FOR_NO_EXCEPTION(execute_ddl(*con, sql_create_test_proc));
 
     cpp_db::transaction tr(*con);
     cpp_db::transaction_scope trs(&tr);
