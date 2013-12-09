@@ -1,9 +1,5 @@
 #include "connection.h"
-#include "no_authentication.h"
 #include "execute.h"
-#include "statement.h"
-#include "result.h"
-#include "value.h"
 #include "transaction.h"
 #include "transaction_scope.h"
 
