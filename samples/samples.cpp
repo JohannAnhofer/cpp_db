@@ -5,6 +5,7 @@
 #include "result.h"
 #include "value.h"
 #include "transaction.h"
+#include "transaction_scope.h"
 
 #include <iostream>
 
@@ -43,6 +44,7 @@ void run_samples()
         stmt.reset();
         stmt.execute_non_query(3, "Samwise Gamgee", 21, 250.0);
         trans.commit();
+
         std::cout << "Successfully inserted 3 records." << std::endl;
 
         // dump records
@@ -66,6 +68,10 @@ void run_samples()
         }
 
         std::cout << "Cumulated salary: " << value_of<int>(execute_scalar(conn, "select sum(SALARY) from test_table where AGE between ? and ?", 10, 100)) << std::endl;
+
+        transaction_scope trs(&trans);
+        stmt.execute_non_query(4, "Gandalf the grey", 9899, 5000.0);
+
     }
     catch(const std::exception &ex)
     {
