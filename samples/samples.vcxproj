@@ -49,7 +49,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_CTP_Nov2013|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -61,7 +61,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_CTP_Nov2013|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -79,10 +79,10 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release_CTP_Nov2013|Win32'">
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release_CTP_Nov2013|x64'">
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -151,7 +151,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../firebird;../tools</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../tools</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -168,7 +168,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../firebird;../tools</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../tools</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -185,7 +185,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../firebird;../tools</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../tools</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -202,7 +202,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../firebird;../tools</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../tools</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -221,7 +221,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../firebird;../tools</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../tools</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -242,7 +242,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../firebird;../tools</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../tools</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -256,7 +256,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_CTP_Nov2013|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../firebird;../tools</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../tools</AdditionalIncludeDirectories>
     </ClCompile>
     <BuildLog>
       <Path>$(SolutionDir)..\build_cpp_db\msvc2013\$(Platform)\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
@@ -264,7 +264,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_CTP_Nov2013|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../firebird;../tools</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../sqlite;../cpp_db;../tools</AdditionalIncludeDirectories>
     </ClCompile>
     <BuildLog>
       <Path>$(SolutionDir)..\build_cpp_db\msvc2013\$(Platform)\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
@@ -277,9 +277,6 @@
   <ItemGroup>
     <ProjectReference Include="..\cpp_db\cpp_db.vcxproj">
       <Project>{5512c29a-99cf-4eb2-906d-04b52c831511}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\firebird\firebird.vcxproj">
-      <Project>{42d716ed-4b66-4504-815e-beaed23d34b2}</Project>
     </ProjectReference>
     <ProjectReference Include="..\sqlite\sqlite.vcxproj">
       <Project>{ed69c9ea-c51a-4262-a525-4ff95b838ba3}</Project>
