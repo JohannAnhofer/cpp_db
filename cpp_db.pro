@@ -14,12 +14,15 @@ contains(QMAKE_HOST.arch, x86_64): message(Running under 64-bit unix/linux)
 
 # dump Compiler info
 gcc: clang: {
-llvm:   message(Compiling with Clang/LLVM) else: message(Compiling with Clang)
+    llvm: message(Compiling with Clang/LLVM) else: message(Compiling with Clang)
 } else: {
-*-g++*: message(Compiling with GCC/G++) else: message(Compiling with GCC)
+    mingw: {
+        *-g++*: message(Compiling with MinGW/GCC/G++) else: message(Compiling with MinGW/GCC)
+    } else: {
+        *-g++*: message(Compiling with GCC/G++) else: message(Compiling with GCC)
+    }
 }
 msvc:   message(Compiling with MS VC)
-mingw:  message(Compiling with MinGW)
 
 TEMPLATE = subdirs
 
