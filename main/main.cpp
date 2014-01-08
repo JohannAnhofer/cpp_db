@@ -5,14 +5,14 @@
 #include "test_firebird_class.h"
 #include "test_sqlite_class.h"
 
-#include "driver_factory.h"
+#include "driver_registry.h"
 #include "sqlite_driver.h"
 #include "firebird_driver.h"
 
 void register_drivers()
 {
-    cpp_db::driver_factory::instance().register_driver("sqlite", []{return cpp_db::sqlite_driver::create();});
-    cpp_db::driver_factory::instance().register_driver("firebird", []{return cpp_db::firebird_driver::create();});
+    cpp_db::driver_registry::register_driver("sqlite", []{return cpp_db::sqlite_driver::create();});
+    cpp_db::driver_registry::register_driver("firebird", []{return cpp_db::firebird_driver::create();});
 }
 
 BEGIN_DECLARE_TEST_APP(register_drivers)
