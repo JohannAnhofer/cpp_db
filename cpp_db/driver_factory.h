@@ -8,6 +8,7 @@
 #include <vector>
 #include <functional>
 #include <memory>
+#include <mutex>
 
 namespace cpp_db
 {
@@ -35,6 +36,7 @@ public:
 private:
     driver_factory() = default;
     std::unordered_map<std::string, driver_creator_function> drivers;
+    mutable std::mutex factory_mutex;
 };
 
 }
