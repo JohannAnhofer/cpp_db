@@ -1,7 +1,7 @@
 cpp_db
 ======
 
-A Database access layer for C++
+A relational database access layer for C++
 
 Tested with:
 * Mac OS X 10.9: CLang/LLVM 64-Bit (LLVM 3.3svn)
