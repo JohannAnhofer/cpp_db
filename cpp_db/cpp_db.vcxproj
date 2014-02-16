@@ -41,6 +41,7 @@
     <ClInclude Include="db_exception.h" />
     <ClInclude Include="driver_factory.h" />
     <ClInclude Include="driver_interface.h" />
+    <ClInclude Include="driver_registry.h" />
     <ClInclude Include="execute.h" />
     <ClInclude Include="no_authentication.h" />
     <ClInclude Include="null.h" />
@@ -64,6 +65,7 @@
   <ItemGroup>
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="driver_factory.cpp" />
+    <ClCompile Include="driver_registry.cpp" />
     <ClCompile Include="execute.cpp" />
     <ClCompile Include="parameters.cpp" />
     <ClCompile Include="result.cpp" />
