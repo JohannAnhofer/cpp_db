@@ -90,6 +90,9 @@
     <ClInclude Include="type_mismatch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="driver_registry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="connection.cpp">
@@ -115,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="type_mismatch.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver_registry.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

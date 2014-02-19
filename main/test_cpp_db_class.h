@@ -21,6 +21,7 @@ public:
     DECLARE_TEST_FUNCTION(test_conversions_floating_point)
     DECLARE_TEST_FUNCTION(test_conversions_strings)
     DECLARE_TEST_FUNCTION(test_cast_to)
+    DECLARE_TEST_FUNCTION(test_null_int)
     END_DECLARE_TEST_CLASS()
 
 protected:
@@ -38,6 +39,7 @@ protected:
     void test_conversions_floating_point();
     void test_conversions_strings();
     void test_cast_to();
+    void test_null_int();
 };
 
 #endif // TEST_CPP_DB_CLASS_H

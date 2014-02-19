@@ -12,7 +12,8 @@ SOURCES += \
     statement.cpp \
     transaction.cpp \
     driver_factory.cpp \
-    type_mismatch.cpp
+    type_mismatch.cpp \
+    driver_registry.cpp
 
 HEADERS += \
     authentication.h \
@@ -42,7 +43,8 @@ HEADERS += \
     value_is_null.h \
     driver_interface.h \
     driver_factory.h \
-    type_mismatch.h
+    type_mismatch.h \
+    driver_registry.h
 
 INCLUDEPATH += \
     $$PWD/../tools \

@@ -2,14 +2,14 @@
 #include "connection_interface.h"
 #include "driver_interface.h"
 #include "check_pointer.h"
-#include "driver_factory.h"
+#include "driver_registry.h"
 
 #include <stdexcept>
 
 namespace cpp_db
 {
     connection::connection(const std::string &drivername)
-        : driver_impl(driver_factory::instance().create_driver(drivername))
+        : driver_impl(driver_registry::make_driver(drivername))
         , conn_impl(driver_impl->make_connection())
     {
 		if (!conn_impl)
