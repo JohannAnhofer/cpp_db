@@ -396,3 +396,25 @@ void test_cpp_db_class::test_cast_to()
     TEST_EQUAL(cpp_db::cast_to<std::wstring>(vala), L"4711.08");
     TEST_EQUAL(cpp_db::cast_to<std::wstring>(valb), L"15.323");
 }
+
+void test_cpp_db_class::test_null_int()
+{
+    cpp_db::null_type ni{cpp_db::make_tagged_null<int>(0)};
+    cpp_db::null_type nv;
+
+    TEST_EQUAL(ni.tag_type, typeid(int));
+    TEST_EQUAL(nv.tag_type, typeid(void));
+
+    TEST_VERIFY(cpp_db::is_null(ni));
+    TEST_FOR_EXCEPTION(cpp_db::value_of(ni), cpp_db::value_is_null);
+    TEST_FOR_EXCEPTION(cpp_db::type_of(ni), cpp_db::value_is_null);
+
+    cpp_db::value val(ni);
+    cpp_db::parameter param(0, ni);
+    TEST_VERIFY(cpp_db::is_null(val));
+    TEST_VERIFY(cpp_db::is_null(param));
+    TEST_FOR_EXCEPTION(cpp_db::value_of<int>(val), cpp_db::value_is_null);
+    TEST_FOR_EXCEPTION(cpp_db::type_of(val), cpp_db::value_is_null);
+    TEST_FOR_EXCEPTION(cpp_db::value_of<int>(param), cpp_db::value_is_null);
+    TEST_FOR_EXCEPTION(cpp_db::type_of(param), cpp_db::value_is_null);
+}
