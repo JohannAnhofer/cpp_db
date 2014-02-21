@@ -1,15 +1,33 @@
 #ifndef CPP_DB_ODBC_STATEMENT_H
 #define CPP_DB_ODBC_STATEMENT_H
 
-#include "statement_interface.h"
-
+#include <map>
 #include <memory>
+
+#if defined(WIN32)
+#include <windows.h>
+#endif
+
+#include <sql.h>
+#include "statement_interface.h"
+#include "value.h"
 
 namespace cpp_db
 {
 
 class odbc_driver;
 struct connection_interface;
+
+struct odbc_stmt
+{
+	SQLHANDLE _hstmt;
+	std::map<int, value> _params_in;
+
+	odbc_stmt();
+	~odbc_stmt();
+
+	void close();
+};
 
 class odbc_statement : public statement_interface
 {
@@ -25,10 +43,12 @@ public:
     handle get_handle() const override;
 
 private:
-    friend class odbc_driver;
-    odbc_statement(const shared_connection_ptr &connection);
+	std::shared_ptr<odbc_stmt> _stmt;
+	bool _prepared;
+	std::weak_ptr<connection_interface> conn_impl;
 
-    std::weak_ptr<connection_interface> conn_impl;
+	friend class odbc_driver;
+    odbc_statement(const shared_connection_ptr &connection);
 };
 
 } // namespace cpp_db
