@@ -21,10 +21,11 @@ public:
     handle get_handle() const override;
 
 private:
-    friend class odbc_driver;
-    explicit odbc_transaction(const shared_connection_ptr &conn_handle);
+	bool _enabled;
+	std::weak_ptr<connection_interface> conn_impl;
 
-    std::weak_ptr<connection_interface> conn_impl;
+	friend class odbc_driver;
+    explicit odbc_transaction(const shared_connection_ptr &conn_handle);
 };
 
 } // namespace cpp_db
