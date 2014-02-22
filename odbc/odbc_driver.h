@@ -17,6 +17,8 @@ public:
     result_interface *make_result(const shared_statement_ptr &stmt) const override;
     transaction_interface *make_transaction(const shared_connection_ptr &conn) const override;
 
+	static odbc_driver *create();
+
 private:
     odbc_driver() = default;
     friend class connection;

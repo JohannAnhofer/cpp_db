@@ -33,4 +33,8 @@ transaction_interface *odbc_driver::make_transaction(const shared_connection_ptr
     return new odbc_transaction{conn};
 }
 
+odbc_driver *odbc_driver::create()
+{
+	return new odbc_driver;
+}
 } // namespace cpp_db

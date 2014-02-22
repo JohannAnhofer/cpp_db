@@ -21,6 +21,8 @@ struct null_type
     null_type(const TagType &) : tag_type(typeid(TagType))
     {
     }
+
+	null_type &operator =(const null_type &) = delete;
 };
 
 template<typename T>
