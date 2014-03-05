@@ -33,6 +33,7 @@ SUBDIRS += \
     sqlite \
     firebird \
     odbc \
+    postgres \
     cpp_db \
     test \
     main \
