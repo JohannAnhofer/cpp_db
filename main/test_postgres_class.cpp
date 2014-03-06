@@ -6,7 +6,7 @@
 void test_postgres_class::init_class()
 {
     con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection("postgres"));
-    TEST_FOR_NO_EXCEPTION(con->open("johny", cpp_db::user_password_authentication{"johny", "test"}, cpp_db::key_value_pair{{"host", "localhost"}} ));
+    TEST_FOR_NO_EXCEPTION(con->open("johny", cpp_db::no_authentication{}, cpp_db::key_value_pair{{"host", "localhost"}} ));
 }
 
 void test_postgres_class::cleanup_class()

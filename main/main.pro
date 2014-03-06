@@ -112,7 +112,7 @@ unix {
 win32 {
     LIBS += $$PWD/../firebird/lib_win_32/fbclient_ms.lib
 } else: macx {
-    LIBS+= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/ \
+    LIBS+= -L$$(POSTGRES_LIB_PATH) \
            -L$$PWD/../firebird/lib_macosx_64/ \
            -lfbclient \
            -lpq

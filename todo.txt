@@ -5,6 +5,7 @@
  * Firebird driver
  - MySql driver
  - Odbc driver
+ - Postgres driver
  - Analyse parameters from query string (type, value for outputparaemter)
  - Support output parameters
  - add testcase for named parameters

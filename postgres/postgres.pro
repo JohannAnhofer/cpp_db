@@ -17,7 +17,8 @@ HEADERS += \
     postgres_transaction.h
 
 INCLUDEPATH += ../cpp_db \
-               ../tools \
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/include"
+               ../tools
+
+INCLUDEPATH += $$(POSTGRES_INCLUDE_PATH)
 
 
