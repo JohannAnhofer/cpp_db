@@ -1,6 +1,7 @@
 #include "postgres_driver.h"
 #include "postgres_connection.h"
 #include "postgres_transaction.h"
+#include "postgres_statement.h"
 
 namespace cpp_db
 {
@@ -21,8 +22,7 @@ namespace cpp_db
 
     statement_interface *postgres_driver::make_statement(const shared_connection_ptr &conn) const
     {
-        (void)conn;
-        return nullptr;// new postgres_statement(conn, shared_transaction_ptr(make_transaction(conn)));
+        return new postgres_statement(conn);
     }
 
     parameters_interface *postgres_driver::make_parameters(const shared_statement_ptr &stmt) const
