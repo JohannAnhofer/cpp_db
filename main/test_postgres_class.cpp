@@ -1,6 +1,7 @@
 #include "test_postgres_class.h"
 #include "connection.h"
 #include "user_password_authentication.h"
+#include "transaction.h"
 
 void test_postgres_class::init_class()
 {
@@ -19,6 +20,16 @@ void test_postgres_class::test_connection()
     TEST_VERIFY(con->is_open());
 }
 
-void test_postgres_class::test_execute()
+void test_postgres_class::test_transaction()
 {
+    cpp_db::transaction tr(*con);
+    TEST_VERIFY(!tr.is_open());
+    TEST_FOR_NO_EXCEPTION(tr.begin());
+    TEST_VERIFY(tr.is_open());
+    TEST_FOR_NO_EXCEPTION(tr.commit());
+    TEST_VERIFY(!tr.is_open());
+    TEST_FOR_NO_EXCEPTION(tr.begin());
+    TEST_VERIFY(tr.is_open());
+    TEST_FOR_NO_EXCEPTION(tr.rollback());
+    TEST_VERIFY(!tr.is_open());
 }

@@ -1,5 +1,6 @@
 #include "postgres_driver.h"
 #include "postgres_connection.h"
+#include "postgres_transaction.h"
 
 namespace cpp_db
 {
@@ -38,8 +39,7 @@ namespace cpp_db
 
     transaction_interface *postgres_driver::make_transaction(const shared_connection_ptr &conn) const
     {
-        (void)conn;
-        return nullptr; // new postgres_transaction(conn);
+        return new postgres_transaction(conn);
     }
 
     postgres_driver *postgres_driver::create()
