@@ -12,6 +12,7 @@ public:
     BEGIN_DECLARE_TEST_CLASS(test_postgres_class)
     DECLARE_TEST_FUNCTION(test_connection)
     DECLARE_TEST_FUNCTION(test_transaction)
+    DECLARE_TEST_FUNCTION(test_execute)
     END_DECLARE_TEST_CLASS()
 
 protected:
@@ -19,6 +20,7 @@ protected:
     void cleanup_class() override;
     void test_connection();
     void test_transaction();
+    void test_execute();
 
 private:
     std::shared_ptr<cpp_db::connection> con;

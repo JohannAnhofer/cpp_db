@@ -28,7 +28,8 @@ PGconn *postgres_statement::get_db_handle() const
 
 void postgres_statement::prepare(const std::string &sqlcmd)
 {
-    (void)sqlcmd;
+    sql = sqlcmd;
+    prepared = true;
 }
 
 bool postgres_statement::is_prepared() const
@@ -47,8 +48,11 @@ void postgres_statement::execute_non_query()
 }
 
 void postgres_statement::execute()
-{
-    throw postgres_exception("Not implemented yet!");
+{    
+    PGconn *conn = get_db_handle();
+    stmt.reset(PQexec(conn, sql.c_str()), PQclear);
+    if (PQresultStatus(stmt.get()) != PGRES_COMMAND_OK)
+        throw postgres_exception(PQerrorMessage(conn));
 }
 
 void postgres_statement::reset()
@@ -57,7 +61,7 @@ void postgres_statement::reset()
 
 handle postgres_statement::get_handle() const
 {
-    return handle{};
+    return std::static_pointer_cast<void>(stmt);
 }
 
 } // namespace cpp_db

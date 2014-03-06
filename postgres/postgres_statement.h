@@ -7,6 +7,7 @@
 #include <libpq-fe.h>
 
 #include <memory>
+#include <string>
 
 namespace cpp_db
 {
@@ -33,7 +34,9 @@ private:
 
 private:    
     std::weak_ptr<connection_interface> conn_impl;
+    std::shared_ptr<PGresult> stmt;
     bool prepared;
+    std::string sql;
 };
 
 } // namespace cpp_db

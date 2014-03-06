@@ -2,6 +2,9 @@
 #include "connection.h"
 #include "user_password_authentication.h"
 #include "transaction.h"
+#include "statement.h"
+#include "execute.h"
+#include "transaction_scope.h"
 
 void test_postgres_class::init_class()
 {
@@ -32,4 +35,34 @@ void test_postgres_class::test_transaction()
     TEST_VERIFY(tr.is_open());
     TEST_FOR_NO_EXCEPTION(tr.rollback());
     TEST_VERIFY(!tr.is_open());
+}
+
+void test_postgres_class::test_execute()
+{
+    const char *sql = R"(
+                create table if not exists test_table (
+                    id int primary key,
+                    name varchar(50),
+                    age int
+                );
+            )";
+
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, sql));
+    cpp_db::statement cmd("insert into test_table(id, name, age) values(1, 'johny', 45);", *con);
+    TEST_FOR_NO_EXCEPTION(cmd.execute_ddl());
+    TEST_FOR_NO_EXCEPTION(cmd.prepare("insert into test_table(id, name, age) values(2, 'karin', 41);"));
+    TEST_FOR_NO_EXCEPTION(cmd.execute_ddl());
+
+    cpp_db::transaction tr(*con);
+    {
+        cpp_db::transaction_scope trs(&tr);
+        TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "insert into test_table(id, name, age) values(3, 'nikolaus', 3);"));
+    }
+    {
+        cpp_db::transaction_scope trs(&tr);
+        TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "insert into test_table(id, name, age) values(4, 'xxxxxx', 17);"));
+        tr.rollback();
+    }
+
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "drop table if exists test_table;"));
 }
