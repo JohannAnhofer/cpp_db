@@ -48,19 +48,20 @@ void test_postgres_class::test_execute()
             )";
 
     TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, sql));
-    cpp_db::statement cmd("insert into test_table(id, name, age) values(1, 'johny', 45);", *con);
+    cpp_db::statement cmd("insert into test_table(id, name, age) values(1, 'dad', 45);", *con);
     TEST_FOR_NO_EXCEPTION(cmd.execute_ddl());
-    TEST_FOR_NO_EXCEPTION(cmd.prepare("insert into test_table(id, name, age) values(2, 'karin', 41);"));
+    TEST_FOR_NO_EXCEPTION(cmd.prepare("insert into test_table(id, name, age) values(2, 'mom', 41);"));
     TEST_FOR_NO_EXCEPTION(cmd.execute_ddl());
 
     cpp_db::transaction tr(*con);
     {
         cpp_db::transaction_scope trs(&tr);
-        TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "insert into test_table(id, name, age) values(3, 'nikolaus', 3);"));
+        TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
+        TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
     }
     {
         cpp_db::transaction_scope trs(&tr);
-        TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "insert into test_table(id, name, age) values(4, 'xxxxxx', 17);"));
+        TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "insert into test_table(id, name, age) values(5, 'xxxxxx', 17);"));
         tr.rollback();
     }
 
