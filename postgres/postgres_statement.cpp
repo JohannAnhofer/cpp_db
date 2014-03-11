@@ -39,24 +39,29 @@ bool postgres_statement::is_prepared() const
 
 void postgres_statement::execute_ddl()
 {
-    execute();
+    execute_non_query();
 }
 
 void postgres_statement::execute_non_query()
 {
-    execute();
+    PGconn *conn = get_db_handle();
+    stmt.reset(PQexec(conn, sql.c_str()), &PQclear);
+    if (PQresultStatus(stmt.get()) != PGRES_COMMAND_OK)
+        throw postgres_exception(PQerrorMessage(conn));
 }
 
 void postgres_statement::execute()
-{    
+{
+    // this should be replaced with send query
     PGconn *conn = get_db_handle();
-    stmt.reset(PQexec(conn, sql.c_str()), PQclear);
+    stmt.reset(PQexec(conn, sql.c_str()), &PQclear);
     if (PQresultStatus(stmt.get()) != PGRES_COMMAND_OK)
         throw postgres_exception(PQerrorMessage(conn));
 }
 
 void postgres_statement::reset()
 {
+    stmt.reset();
 }
 
 handle postgres_statement::get_handle() const
