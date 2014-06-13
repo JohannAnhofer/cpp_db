@@ -112,3 +112,32 @@ void test_postgres_class::test_result_properties()
     TEST_FOR_EXCEPTION(res.is_column_null("name"), cpp_db::postgres_exception);
     TEST_FOR_EXCEPTION(res.is_column_null(0), cpp_db::postgres_exception);
 }
+
+void test_postgres_class::test_result_multi_rows()
+{
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(1, 'dad', 46);"));
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(2, 'mom', 41);"));
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(5, null, null);"));
+
+    cpp_db::result res{cpp_db::execute(*con, "select name, age from test_table order by age desc")};
+
+    TEST_VERIFY(!res.is_eof());
+    std::string names;
+    std::string ages;
+    TEST_VERIFY(res.is_column_null("name"));
+    TEST_VERIFY(res.is_column_null(1));
+    res.move_next();
+    TEST_VERIFY(!res.is_column_null("name"));
+    TEST_VERIFY(!res.is_column_null(1));
+
+    while(!res.is_eof())
+    {
+        names += cpp_db::value_of<std::string>(res.get_column_value("name"));
+        ages += cpp_db::value_of<std::string>(res.get_column_value(1));
+        res.move_next();
+    }
+    TEST_EQUAL(names, "dadmomsondaughter");
+    TEST_EQUAL(ages, "464131");
+}

@@ -15,6 +15,7 @@ public:
     DECLARE_TEST_FUNCTION(test_execute)
     DECLARE_TEST_FUNCTION(test_result_single_row)
     DECLARE_TEST_FUNCTION(test_result_properties)
+    DECLARE_TEST_FUNCTION(test_result_multi_rows)
     END_DECLARE_TEST_CLASS()
 
 protected:
@@ -28,6 +29,7 @@ protected:
     void test_execute();
     void test_result_single_row();
     void test_result_properties();
+    void test_result_multi_rows();
 
 private:
     std::shared_ptr<cpp_db::connection> con;
