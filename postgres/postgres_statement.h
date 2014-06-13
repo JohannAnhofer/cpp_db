@@ -29,6 +29,7 @@ public:
 
 private:
     friend class postgres_driver;
+    friend class postgres_result;
     postgres_statement(const shared_connection_ptr &connection);
     PGconn *get_db_handle() const;
 

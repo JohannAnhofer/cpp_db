@@ -5,17 +5,49 @@
 #include "statement.h"
 #include "execute.h"
 #include "transaction_scope.h"
+#include "postgres_exception.h"
+
+#include <stdlib.h>
+#include <string>
+
+std::string getUserName()
+{
+#if defined(_WIN32) || defined(_WIN64)
+    const char VAR_USER[] = "USERNAME";
+#else
+    const char VAR_USER[] = "USER";
+#endif
+    return getenv(VAR_USER);
+}
 
 void test_postgres_class::init_class()
 {
     con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection("postgres"));
-    TEST_FOR_NO_EXCEPTION(con->open("johny", cpp_db::no_authentication{}, cpp_db::key_value_pair{{"host", "localhost"}} ));
+    TEST_FOR_NO_EXCEPTION(con->open(getUserName(), cpp_db::no_authentication{}, cpp_db::key_value_pair{{"host", "localhost"}} ));
 }
 
 void test_postgres_class::cleanup_class()
 {
     TEST_FOR_NO_EXCEPTION(con->close());
     TEST_VERIFY(!con->is_open());
+}
+
+void test_postgres_class::init()
+{
+    const char *sql = R"(
+                create table if not exists test_table (
+                    id int primary key,
+                    name varchar(50),
+                    age int
+                );
+            )";
+
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, sql));
+}
+
+void test_postgres_class::cleanup()
+{
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "drop table if exists test_table;"));
 }
 
 void test_postgres_class::test_connection()
@@ -39,31 +71,44 @@ void test_postgres_class::test_transaction()
 
 void test_postgres_class::test_execute()
 {
-    const char *sql = R"(
-                create table if not exists test_table (
-                    id int primary key,
-                    name varchar(50),
-                    age int
-                );
-            )";
-
-    TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, sql));
-    cpp_db::statement cmd("insert into test_table(id, name, age) values(1, 'dad', 45);", *con);
-    TEST_FOR_NO_EXCEPTION(cmd.execute_ddl());
+    cpp_db::statement cmd("insert into test_table(id, name, age) values(1, 'dad', 46);", *con);
+    TEST_FOR_NO_EXCEPTION(cmd.execute_non_query());
     TEST_FOR_NO_EXCEPTION(cmd.prepare("insert into test_table(id, name, age) values(2, 'mom', 41);"));
-    TEST_FOR_NO_EXCEPTION(cmd.execute_ddl());
+    TEST_FOR_NO_EXCEPTION(cmd.execute_non_query());
 
     cpp_db::transaction tr(*con);
     {
         cpp_db::transaction_scope trs(&tr);
-        TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
-        TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
+        TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
+        TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
     }
     {
         cpp_db::transaction_scope trs(&tr);
-        TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "insert into test_table(id, name, age) values(5, 'xxxxxx', 17);"));
+        TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(5, 'xxxxxx', 17);"));
         tr.rollback();
     }
+}
 
-    TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "drop table if exists test_table;"));
+void test_postgres_class::test_result_single_row()
+{
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(1, 'dad', 46);"));
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(2, 'mom', 41);"));
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
+    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
+
+    TEST_EQUAL(cpp_db::value_of<std::string>(cpp_db::execute_scalar(*con, "select name from test_table order by age desc limit 1")), "dad");
+}
+
+void test_postgres_class::test_result_properties()
+{
+    cpp_db::statement stmt{"select id, name, age from test_table order by age desc", *con};
+    cpp_db::result res(stmt.execute());
+
+    TEST_VERIFY(res.is_eof());
+    TEST_EQUAL(res.get_column_count(), 3);
+    TEST_EQUAL(res.get_column_name(1), "name");
+    TEST_EQUAL(res.get_column_index("age"), 2);
+
+    TEST_FOR_EXCEPTION(res.is_column_null("name"), cpp_db::postgres_exception);
+    TEST_FOR_EXCEPTION(res.is_column_null(0), cpp_db::postgres_exception);
 }

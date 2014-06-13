@@ -55,7 +55,7 @@ void postgres_statement::execute()
     // this should be replaced with send query
     PGconn *conn = get_db_handle();
     stmt.reset(PQexec(conn, sql.c_str()), &PQclear);
-    if (PQresultStatus(stmt.get()) != PGRES_COMMAND_OK)
+    if (PQresultStatus(stmt.get()) != PGRES_TUPLES_OK)
         throw postgres_exception(PQerrorMessage(conn));
 }
 
@@ -66,7 +66,7 @@ void postgres_statement::reset()
 
 handle postgres_statement::get_handle() const
 {
-    return std::static_pointer_cast<void>(stmt);
+    handle{};
 }
 
 } // namespace cpp_db

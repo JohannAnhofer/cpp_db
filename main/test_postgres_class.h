@@ -13,14 +13,21 @@ public:
     DECLARE_TEST_FUNCTION(test_connection)
     DECLARE_TEST_FUNCTION(test_transaction)
     DECLARE_TEST_FUNCTION(test_execute)
+    DECLARE_TEST_FUNCTION(test_result_single_row)
+    DECLARE_TEST_FUNCTION(test_result_properties)
     END_DECLARE_TEST_CLASS()
 
 protected:
     void init_class() override;
     void cleanup_class() override;
+    void init() override;
+    void cleanup() override;
+
     void test_connection();
     void test_transaction();
     void test_execute();
+    void test_result_single_row();
+    void test_result_properties();
 
 private:
     std::shared_ptr<cpp_db::connection> con;

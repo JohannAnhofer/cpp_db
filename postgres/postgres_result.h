@@ -4,6 +4,8 @@
 #include "result_interface.h"
 #include "usings.h"
 
+#include <libpq-fe.h>
+
 #include <memory>
 
 namespace cpp_db
@@ -28,8 +30,10 @@ public:
 
 private:
     friend class postgres_driver;
+    const PGresult *get_pg_result() const;
     explicit postgres_result(const shared_statement_ptr &stmt);
     std::shared_ptr<postgres_statement> stmt;
+    int number_of_rows, row_position;
 };
 
 } // namespace cpp_db
