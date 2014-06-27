@@ -112,10 +112,21 @@ unix {
 win32 {
     LIBS += $$PWD/../firebird/lib_win_32/fbclient_ms.lib
 } else: macx {
-    LIBS+= -L$$(POSTGRES_LIB_PATH) \
+    LIBS+= \
            -L$$PWD/../firebird/lib_macosx_64/ \
-           -lfbclient \
-           -lpq
+           -lfbclient
+
+# Check postgresql library
+_POSTGRES_LIB_PATH=$$(POSTGRES_LIB_PATH)
+if (isEmpty(_POSTGRES_LIB_PATH) | !exists($(POSTGRES_LIB_PATH)/libpq.*.dylib)) {
+    message(\"PostgreSQL libraries\" not detected...)
+}
+else {
+   message(\"PostgreSQL libraries\" detected in POSTGRES_LIB_PATH = \"$$_POSTGRES_LIB_PATH\")
+   LIBS+= -L$$(POSTGRES_LIB_PATH) \
+          -lpq
+}
+
 } else: unix {
 
 !contains(QMAKE_HOST.arch, x86_64): LIBS += -L$$PWD/../firebird/lib_linux_32/

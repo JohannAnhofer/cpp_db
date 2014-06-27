@@ -22,7 +22,7 @@ gcc: clang: {
         *-g++*: message(Compiling with GCC/G++) else: message(Compiling with GCC)
     }
 }
-msvc:   message(Compiling with MS VC)
+msvc:   message(Compiling with MS VC++)
 
 TEMPLATE = subdirs
 

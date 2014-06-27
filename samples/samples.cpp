@@ -55,7 +55,7 @@ void run_samples()
         while(!res.is_eof())
         {
             std::cout << cast_to<std::string>(res.get_column_value("ID")) << "\t"
-                      <<  value_of<std::string>(res.get_column_value(1)) << "\t"
+                      << value_of<std::string>(res.get_column_value(1)) << "\t"
                       << value_of<int>(res["AGE"]) << "\t"
                       << value_of<double>(res[3])
                       << std::endl;
