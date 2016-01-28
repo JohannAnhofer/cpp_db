@@ -40,7 +40,7 @@ namespace cpp_db
 			return *this;
 		}
 
-#if !defined(_MSC_VER) || (_MSC_FULL_VER > 180021005)
+#if !defined(_MSC_VER) || (_MSC_FULL_VER > 190000000)
 		value(value &&) = default;
         value &operator=(value &&) = default;
 #else

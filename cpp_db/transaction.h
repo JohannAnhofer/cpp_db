@@ -22,7 +22,7 @@ public:
 	transaction(const transaction &) = delete;
 	transaction &operator=(const transaction &) = delete;
 
-#if !defined(_MSC_VER) || (_MSC_FULL_VER > 180021005)
+#if !defined(_MSC_VER) || (_MSC_FULL_VER > 190000000)
     transaction(transaction && other) = default;
     transaction &operator=(transaction && other) = default;
 #else

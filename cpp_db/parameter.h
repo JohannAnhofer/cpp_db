@@ -34,7 +34,7 @@ namespace cpp_db
         parameter(const parameter &) = default;
         parameter &operator=(const parameter &) = default;
 
-#if !defined(_MSC_VER) || (_MSC_FULL_VER > 180021005)
+#if !defined(_MSC_VER) || (_MSC_FULL_VER > 190000000)
         parameter(parameter &&) = default;
         parameter &operator=(parameter &&) = default;
 #else
