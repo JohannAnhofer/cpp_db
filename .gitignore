@@ -21,3 +21,6 @@ Debug/
 Release/
 build-*-debug/
 *.vcxproj.user
+*.opendb
+/.vs/
+/ipch/

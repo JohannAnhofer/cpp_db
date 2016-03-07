@@ -66,7 +66,7 @@ void postgres_statement::reset()
 
 handle postgres_statement::get_handle() const
 {
-    handle{};
+    return handle{};
 }
 
 } // namespace cpp_db
