@@ -11,11 +11,45 @@ class nullable
 {
 public:
     // default
-    nullable() : value_(T()), is_null_(true) {}
+    nullable() 
+		: value_(T())
+		, is_null_(true) 
+	{
+	}
 
     // copying
-    nullable(const nullable &other) : value_(other.value_), is_null_(other.is_null_) {}
-    nullable &operator=(const nullable &other) {value_ = other.value_; is_null_ = other.is_null_;}
+    nullable(const nullable &other) 
+		: value_(other.value_)
+		, is_null_(other.is_null_) 
+	{
+	}
+
+	nullable &operator=(const nullable &other) 
+	{ 
+		if (this != &other) 
+		{ 
+			value_ = other.value_; 
+			is_null_ = other.is_null_; 
+		} 
+		return *this; 
+	}
+
+	// moving
+	nullable(nullable &&other) 
+		: value_(std::move(other.value))
+		, is_null_(other.is_null_) 
+	{
+	}
+
+	nullable &operator=(nullable &&other) 
+	{ 
+		if (this != &other)
+		{
+			value_ = std::move(other.value_);
+			is_null_ = other.is_null_;
+		}
+		return *this;
+	}
 
     // converting
     nullable(const T &value) : value_(value), is_null_(false) {}
