@@ -21,4 +21,6 @@ add_library(firebird STATIC
     xsqlvar.h
 )
 
-target_link_libraries(firebird INTERFACE tools cpp_db fbclient)
+
+target_link_libraries(firebird PUBLIC tools cpp_db)
+target_include_directories(firebird PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})

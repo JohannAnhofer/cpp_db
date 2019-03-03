@@ -20,4 +20,4 @@ add_library(sqlite STATIC
     #    shell.c
 )
 
-target_link_libraries(sqlite INTERFACE tools)
+target_link_libraries(sqlite PUBLIC tools cpp_db)

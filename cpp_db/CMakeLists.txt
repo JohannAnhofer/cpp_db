@@ -40,4 +40,5 @@ add_library(cpp_db STATIC
     value_of.h
     )
 
-target_link_libraries(cpp_db INTERFACES tools)
+target_link_libraries(cpp_db PUBLIC tools)
+target_include_directories(cpp_db PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

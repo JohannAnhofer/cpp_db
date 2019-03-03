@@ -1,5 +1,4 @@
-find_package(boost)
-project(tools)
+
 add_library(tools STATIC
     cpp11_defines.h
     check_pointer.h
@@ -13,3 +12,4 @@ add_library(tools STATIC
     tools.cpp
     )
 
+target_include_directories(tools PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
