@@ -24,3 +24,4 @@ build-*-debug/
 *.opendb
 /.vs/
 /ipch/
+*.user
