@@ -22,10 +22,8 @@ target_link_libraries(cppdb PRIVATE
     test
     postgres
     firebird
-    odbc
     sqlite
     cpp_db
-    fbclient
     pq
     Threads::Threads
     ${CMAKE_DL_LIBS}

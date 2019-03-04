@@ -23,4 +23,7 @@ add_library(firebird STATIC
 
 
 target_link_libraries(firebird PUBLIC tools cpp_db)
+target_link_libraries(firebird PRIVATE fbclient)
 target_include_directories(firebird PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_directories(firebird PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lib_macosx_64)
+

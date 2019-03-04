@@ -1,5 +1,5 @@
 
-add_executable(test
+add_library(test STATIC
     abstract_test.cpp
     abstract_test.h
     abstract_test.inl
@@ -19,3 +19,4 @@ add_executable(test
 )
 
 add_custom_target(other_files junit.xsd)
+target_include_directories(test PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

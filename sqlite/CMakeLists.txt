@@ -21,3 +21,4 @@ add_library(sqlite STATIC
 )
 
 target_link_libraries(sqlite PUBLIC tools cpp_db)
+target_include_directories(sqlite PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
