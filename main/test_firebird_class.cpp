@@ -46,7 +46,7 @@ void test_firebird_class::init_class()
 	const char * sql_create_test_proc = R"(
                           create procedure test_proc (
                               NUMBER varchar(30),
-                              OFFSET double precision,
+                              OFFSET1 double precision,
                               NUMERATOR double precision,
                               DENUMERATOR double precision,
                               DIGITS integer,
