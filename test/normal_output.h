@@ -25,7 +25,7 @@ public:
     void output_failure(const std::string &message, int line, const char * file) override;
     void output_exception(const std::string &message, const std::string &exception_message, int line, const char * file) override;
     void output_message(const std::string &message, int line, const char * file) override;
-    void output_expected_fail(const std::string &expected, const std::string &message, int line = 0, const char *file = nullptr);
+    void output_expected_fail(const std::string &expected, const std::string &message, int line = 0, const char *file = nullptr) override;
 
 private:
     std::ostream *output;
