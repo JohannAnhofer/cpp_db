@@ -1,3 +1,4 @@
+#find_package(PostgreSQL REQUIRED)
 
 add_library(postgres STATIC
     postgres_connection.cpp
