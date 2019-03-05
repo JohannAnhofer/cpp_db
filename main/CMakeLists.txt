@@ -14,9 +14,6 @@ add_executable(cppdb
     test_tools_class.h
 )
 
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-
 target_link_libraries(cppdb PRIVATE
     tools
     test
@@ -24,7 +21,4 @@ target_link_libraries(cppdb PRIVATE
     firebird
     sqlite
     cpp_db
-    pq
-    Threads::Threads
-    ${CMAKE_DL_LIBS}
     )
