@@ -75,8 +75,8 @@ struct test_case
 	std::string failure_type;
 	timepoint start;
 	timepoint end;
-	int line;
-	const char *file;
+	int line = -1;
+	const char *file = nullptr;
 };
 
 struct test_function
@@ -93,7 +93,7 @@ struct test_suite
 	std::string name;
 	std::string timestamp;
 	std::string hostname;
-	int tests, failures, errors;
+	int tests = 0, failures = 0, errors = 0;
 	timepoint start;
 	timepoint end;
 	std::map<std::string, test_function> test_functions;
