@@ -90,6 +90,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\cpp_db;..\tools;include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <BuildLog>
       <Path>$(SolutionDir)..\build_cpp_db\msvc2015\$(Platform)\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
