@@ -20,8 +20,8 @@ public:
 	parameters(const parameters &) = delete;
 	parameters &operator=(const parameters &) = delete;
 
-	parameters(parameters && other);
-	parameters &operator=(parameters &&other);
+	parameters(parameters && other) noexcept;
+	parameters &operator=(parameters &&other) noexcept;
 
 	int get_count() const;
 

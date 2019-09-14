@@ -21,8 +21,8 @@ public:
     result(const result &) = delete;
     result &operator=(const result &) = delete;
 
-    result(result &&);
-    result &operator=(result &&);
+    result(result &&) noexcept;
+    result &operator=(result &&) noexcept;
 
 	int get_column_count() const;
 

@@ -6,20 +6,16 @@
 namespace cpp_db
 {
 
-result::result()
-{
-}
+result::result() = default;
 
-result::result(result &&other)
+result::result(result &&other) noexcept
 	: result_impl(std::move(other.result_impl))
 {
 }
 
-result::~result()
-{
-}
+result::~result() = default;
 
-result &result::operator=(result &&other)
+result &result::operator=(result &&other) noexcept
 {
     if (this != &other)
 		result_impl = std::move(other.result_impl);
