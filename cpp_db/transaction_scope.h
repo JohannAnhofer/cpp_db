@@ -25,7 +25,7 @@ public:
 
     ~transaction_scope()
     {
-        if (std::uncaught_exception())
+        if (std::uncaught_exceptions())
             _transaction->rollback();
         else
             _transaction->commit();
