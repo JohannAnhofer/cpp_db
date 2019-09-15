@@ -1,5 +1,4 @@
-#ifndef TOOLS_KEY_VALUE_PAIR_H
-#define TOOLS_KEY_VALUE_PAIR_H
+#pragma once
 
 #include <stdexcept>
 
@@ -64,5 +63,3 @@ connection_option *make_key_value_pair(const K &key, const V &value)
 
 
 } // namespace tools
-
-#endif // TOOLS_KEY_VALUE_PAIR_H

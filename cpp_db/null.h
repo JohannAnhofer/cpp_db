@@ -1,7 +1,5 @@
-#ifndef CPP_DB_NULL_H
-#define CPP_DB_NULL_H
+#pragma once
 
-#include "cpp11_defines.h"
 #include "value_of.h"
 #include "type_of.h"
 #include "value_is_null.h"
@@ -31,13 +29,13 @@ null_type make_tagged_null(const T &t = T())
     return null_type(t);
 }
 
-inline CONSTEXPR bool is_null(const null_type &)
+inline constexpr bool is_null(const null_type &)
 {
     return true;
 }
 
 template<typename T>
-CONSTEXPR bool is_null(const T &)
+constexpr bool is_null(const T &)
 {
     return false;
 }
@@ -55,5 +53,3 @@ inline null_type value_of<null_type>(const null_type &)
 }
 
 }
-
-#endif // CPP_DB_NULL_H

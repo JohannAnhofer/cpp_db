@@ -1,5 +1,4 @@
-#ifndef TOOLS_LOCK_OR_THROW_H
-#define TOOLS_LOCK_OR_THROW_H
+#pragma once
 
 #include <memory>
 #include <stdexcept>
@@ -29,5 +28,3 @@ const std::shared_ptr<T> lock_or_throw(const std::weak_ptr<T> &ptr, const char *
 }
 
 }
-
-#endif // TOOLS_LOCK_OR_THROW_H

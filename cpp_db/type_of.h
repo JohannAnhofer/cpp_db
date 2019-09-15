@@ -1,5 +1,4 @@
-#ifndef CPP_DB_TYPE_OF_H
-#define CPP_DB_TYPE_OF_H
+#pragma once
 
 #include <typeinfo>
 #include <typeindex>
@@ -14,5 +13,3 @@ std::type_index type_of(const T &)
 }
 
 }
-
-#endif // CPP_DB_TYPE_OF_H

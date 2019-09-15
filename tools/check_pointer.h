@@ -1,5 +1,4 @@
-#ifndef TOOLS_CHECK_POINTER_H
-#define TOOLS_CHECK_POINTER_H
+#pragma once
 
 #include <stdexcept>
 #include <memory>
@@ -18,5 +17,3 @@ std::shared_ptr<T> check_pointer(const std::shared_ptr<T> &p, const std::string 
 }
 
 }
-
-#endif
