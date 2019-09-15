@@ -1,12 +1,12 @@
-#ifndef CPP_DB_COALESCE_H
-#define CPP_DB_COALESCE_H
+#pragma once
 
-#include "cpp11_defines.h"
+#include <optional>
 
 namespace tools
 {
 
-struct null_type {};
+using null_type = std::nullopt_t;
+inline constexpr std::nullopt_t null = std::nullopt;
 
 // first we need a trait structure to deduce the return type of coalesce
 
@@ -62,22 +62,33 @@ typename coalesce_trait<Ts...>::type coalesce(null_type, Ts ...ts)
 }
 
 // tail is null case --> return null, because all other types where null
-CONSTEXPR null_type coalesce(null_type nt)
+constexpr null_type coalesce(null_type nt)
 {
 	return nt;
 }
 
-inline CONSTEXPR bool is_null(null_type)
+inline constexpr bool is_null(null_type)
 {
     return true;
 }
 
 template<typename T>
-CONSTEXPR bool is_null(const T &)
+constexpr bool is_null(const T &)
 {
     return false;
 }
 
+template<typename T>
+constexpr bool is_null(const std::optional<T> &value)
+{
+	return !value;
 }
 
-#endif 
+template<>
+constexpr bool is_null<std::nullopt_t>(const std::nullopt_t &)
+{
+	return true;
+}
+
+}
+

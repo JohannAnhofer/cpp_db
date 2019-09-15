@@ -49,15 +49,15 @@ namespace unittests
 			Assert::IsTrue(tools::is_null(f) && !f);
 			Assert::IsTrue(tools::is_null(tools::nullable_int()) && !tools::nullable_int());
 
-			tools::null_type null;
+			using tools::null;
 			int ai = 13;
-			tools::coalesce_trait<tools::null_type, tools::null_type, tools::null_type>::type x7;
+			tools::coalesce_trait<tools::null_type, tools::null_type, tools::null_type>::type x7 = null;
 			Assert::IsTrue(!tools::is_null(1));
 			Assert::IsTrue(!tools::is_null(ai));
 			Assert::IsTrue(tools::is_null(tools::coalesce(null, null, null)));
 			Assert::IsTrue(tools::is_null(x7));
 			Assert::IsTrue(tools::is_null(null));
-			Assert::IsTrue(tools::is_null(tools::null_type()));
+			Assert::IsTrue(tools::is_null(tools::null));
 		}
 	};
 }

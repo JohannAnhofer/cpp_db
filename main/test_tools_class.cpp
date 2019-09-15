@@ -33,15 +33,15 @@ void test_tools_class::test_is_null()
     TEST_VERIFY(tools::is_null(f) && !f);
     TEST_VERIFY(tools::is_null(tools::nullable_int()) && !tools::nullable_int());
 
-    tools::null_type null;
+	using tools::null;
+
     int ai = 13;
-    tools::coalesce_trait<tools::null_type, tools::null_type, tools::null_type>::type x7;
+    tools::coalesce_trait<tools::null_type, tools::null_type, tools::null_type>::type x7 = null;
     TEST_VERIFY(!tools::is_null(1));
     TEST_VERIFY(!tools::is_null(ai));
     TEST_VERIFY(tools::is_null(tools::coalesce(null, null, null)));
     TEST_VERIFY(tools::is_null(x7));
     TEST_VERIFY(tools::is_null(null));
-    TEST_VERIFY(tools::is_null(tools::null_type()));
 }
 
 void test_tools_class::test_key_value_pair()
@@ -61,7 +61,7 @@ void test_tools_class::test_coalesce()
 	tools::coalesce_trait<tools::null_type, double, tools::null_type>::type x5(0.0f);
 	tools::coalesce_trait<int, tools::null_type, tools::null_type>::type x6(0);
 
-	tools::null_type null;
+	using tools::null;
 
 	TEST_EQUAL(tools::coalesce(1, 2, 3, 4), 1);
     TEST_EQUAL(tools::coalesce(null, 2, 3, 4), 2);
