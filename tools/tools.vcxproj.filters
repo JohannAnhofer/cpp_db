@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cpp11_defines.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="key_value_pair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -31,9 +28,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lock_or_throw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="compiler_specific.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
