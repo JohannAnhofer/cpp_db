@@ -21,13 +21,13 @@ namespace unittests
 
 			a = 4711;
 
-			int b = a;
+			int b = a.value();
 
-			Assert::AreNotEqual(static_cast<int>(a), 13);
-			Assert::AreEqual(static_cast<int>(a), 4711);
-			Assert::AreEqual(b, static_cast<int>(a) );
-			Assert::AreEqual(static_cast<int>(b), 4711);
-			Assert::AreEqual(static_cast<int>(c), 815);
+			Assert::AreNotEqual(a.value(), 13);
+			Assert::AreEqual(a.value(), 4711);
+			Assert::AreEqual(b, a.value() );
+			Assert::AreEqual(b, 4711);
+			Assert::AreEqual(c.value(), 815);
 		}
 
 		TEST_METHOD(test_key_value_pair)
@@ -43,11 +43,11 @@ namespace unittests
 			tools::nullable_int d;
 			const tools::nullable_int e(10), f;
 
-			Assert::IsTrue(!tools::is_null(a) && !a.is_null());
-			Assert::IsTrue(tools::is_null(d) && d.is_null());
-			Assert::IsTrue(!tools::is_null(e) && !e.is_null());
-			Assert::IsTrue(tools::is_null(f) && f.is_null());
-			Assert::IsTrue(tools::is_null(tools::nullable_int()) && tools::nullable_int().is_null());
+			Assert::IsTrue(!tools::is_null(a) && a);
+			Assert::IsTrue(tools::is_null(d) && !d);
+			Assert::IsTrue(!tools::is_null(e) && e);
+			Assert::IsTrue(tools::is_null(f) && !f);
+			Assert::IsTrue(tools::is_null(tools::nullable_int()) && !tools::nullable_int());
 
 			tools::null_type null;
 			int ai = 13;

@@ -12,7 +12,7 @@ void test_tools_class::test_nullable()
 
     a = 4711;
 
-    int b = a;
+    int b = a.value();
 
     TEST_NOT_EQUAL(a, 13);
     TEST_EQUAL(a, 4711);
@@ -27,11 +27,11 @@ void test_tools_class::test_is_null()
     tools::nullable_int d;
     const tools::nullable_int e(10), f;
 
-    TEST_VERIFY(!tools::is_null(a) && !a.is_null());
-    TEST_VERIFY(tools::is_null(d) && d.is_null());
-    TEST_VERIFY(!tools::is_null(e) && !e.is_null());
-    TEST_VERIFY(tools::is_null(f) && f.is_null());
-    TEST_VERIFY(tools::is_null(tools::nullable_int()) && tools::nullable_int().is_null());
+    TEST_VERIFY(!tools::is_null(a) && a);
+    TEST_VERIFY(tools::is_null(d) && !d);
+    TEST_VERIFY(!tools::is_null(e) && e);
+    TEST_VERIFY(tools::is_null(f) && !f);
+    TEST_VERIFY(tools::is_null(tools::nullable_int()) && !tools::nullable_int());
 
     tools::null_type null;
     int ai = 13;

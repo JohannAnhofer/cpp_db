@@ -1,40 +1,36 @@
-#ifndef TOOLS_NULLABLE_TYPES_H
-#define TOOLS_NULLABLE_TYPES_H
-
-#include "nullable.h"
+#pragma once
 
 #include <string>
+#include <optional>
 
 namespace tools
-{
+{	
     // char types
-    using nullable_char = nullable<char>;
-    using nullable_uchar = nullable<unsigned char>;
-    using nullable_schar = nullable<signed char>;
-    using nullable_wchar_t = nullable<wchar_t>;
+    using nullable_char = std::optional<char>;
+    using nullable_uchar = std::optional<unsigned char>;
+    using nullable_schar = std::optional<signed char>;
+    using nullable_wchar_t = std::optional<wchar_t>;
 
     // signed integer types
-    using nullable_short = nullable<short>;
-    using nullable_int = nullable<int>;
-    using nullable_long = nullable<long>;
-    using nullable_long_long = nullable<long long>;
+    using nullable_short = std::optional<short>;
+    using nullable_int = std::optional<int>;
+    using nullable_long = std::optional<long>;
+    using nullable_long_long = std::optional<long long>;
 
     // unsigned integer types
-    using nullable_ushort = nullable<unsigned short>;
-    using nullable_uint = nullable<unsigned int>;
-    using nullable_ulong = nullable<unsigned long>;
-    using nullable_ulong_long = nullable<unsigned long long>;
+    using nullable_ushort = std::optional<unsigned short>;
+    using nullable_uint = std::optional<unsigned int>;
+    using nullable_ulong = std::optional<unsigned long>;
+    using nullable_ulong_long = std::optional<unsigned long long>;
 
     // floating point types
-    using nullable_float = nullable<float>;
-    using nullable_double = nullable<double>;
-    using nullable_long_double = nullable<long double>;
+    using nullable_float = std::optional<float>;
+    using nullable_double = std::optional<double>;
+    using nullable_long_double = std::optional<long double>;
 
     // string types
-    using nullable_string = nullable<std::string>;
-    using nullable_wstring = nullable<std::wstring>;
+    using nullable_string = std::optional<std::string>;
+    using nullable_wstring = std::optional<std::wstring>;
 
     // date/time types
 }
-
-#endif // TOOLS_NULLABLE_TYPES_H

@@ -25,7 +25,6 @@
     <ClInclude Include="cpp11_defines.h" />
     <ClInclude Include="key_value_pair.h" />
     <ClInclude Include="lock_or_throw.h" />
-    <ClInclude Include="nullable.h" />
     <ClInclude Include="nullable_types.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

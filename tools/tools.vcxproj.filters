@@ -21,9 +21,6 @@
     <ClInclude Include="key_value_pair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="nullable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="nullable_types.h">
       <Filter>Header Files</Filter>
     </ClInclude>

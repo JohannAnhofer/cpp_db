@@ -21,9 +21,9 @@ namespace Microsoft
 	{
 		namespace CppUnitTestFramework
 		{
-			template <> static std::wstring ToString<std::type_index>(const std::type_index& ti) { return to_wstring(ti.name()); }
-			template <> static std::wstring ToString<std::type_index>(const std::type_index* ti) { return to_wstring(ti->name()); }
-			template <> static std::wstring ToString<std::type_index>(std::type_index* ti)       { return to_wstring(ti->name()); }
+			template <> std::wstring ToString<std::type_index>(const std::type_index& ti) { return to_wstring(ti.name()); }
+			template <> std::wstring ToString<std::type_index>(const std::type_index* ti) { return to_wstring(ti->name()); }
+			template <> std::wstring ToString<std::type_index>(std::type_index* ti)       { return to_wstring(ti->name()); }
 		}
 	}
 }
