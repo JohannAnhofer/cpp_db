@@ -351,11 +351,6 @@ void test_cpp_db_class::test_conversions_strings()
     TEST_EQUAL(cpp_db::value_of<std::wstring>(val_ws), std::wstring(L"is a wstring"));
     TEST_EQUAL(cpp_db::value_of<std::wstring>(val_cws), std::wstring(L"is a const wchar_t *"));
     TEST_EQUAL(cpp_db::value_of<std::wstring>(val_wcs), std::wstring(L"is a wchar_t *"));
-
-#ifndef USE_BOOST_ANY
-    TEST_EQUAL(strcmp(cpp_db::value_of<const char *>(val_s), "is a string"), 0);
-    TEST_EQUAL(wcscmp(cpp_db::value_of<const wchar_t *>(val_ws), L"is a wstring"), 0);
-#endif
 }
 
 void test_cpp_db_class::test_cast_to()

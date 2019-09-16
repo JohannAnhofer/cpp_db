@@ -3,18 +3,12 @@
 
 #include "usings.h"
 
-#ifdef USE_BOOST_ANY
 #include "value.h"
-#endif
 
 #include <string>
 
 namespace cpp_db
 {
-
-#ifndef USE_BOOST_ANY
-class value;
-#endif
 
 struct result_interface
 {

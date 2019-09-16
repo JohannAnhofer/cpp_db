@@ -44,7 +44,7 @@ namespace unittests
 			Assert::IsFalse(cpp_db::is_null(1));
 
 			cpp_db::value vnull(null);
-			Assert::IsTrue(is_null(vnull));
+			Assert::IsTrue(cpp_db::is_null(vnull));
 
 			cpp_db::parameter pnull(0, null);
 			Assert::IsTrue(is_null(pnull));
