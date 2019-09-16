@@ -6,19 +6,7 @@
 #include "test_sqlite_class.h"
 #include "test_postgres_class.h"
 
-#include "driver_registry.h"
-#include "sqlite_driver.h"
-#include "firebird_driver.h"
-#include "postgres_driver.h"
-
-void register_drivers()
-{
-    cpp_db::driver_registry::register_driver("sqlite", []{return cpp_db::sqlite_driver::create();});
-    cpp_db::driver_registry::register_driver("firebird", []{return cpp_db::firebird_driver::create();});
-    cpp_db::driver_registry::register_driver("postgres", []{return cpp_db::postgres_driver::create();});
-}
-
-BEGIN_DECLARE_TEST_APP(register_drivers)
+BEGIN_DECLARE_TEST_APP([]{})
 	DECLARE_TEST_CLASS(test_test_class)	
     DECLARE_TEST_CLASS(test_tools_class)
     DECLARE_TEST_CLASS(test_cpp_db_class)

@@ -7,9 +7,13 @@
 #include "statement.h"
 #include "parameters.h"
 #include "execute.h"
+#include "driver_registry.h"
+#include "firebird_driver.h"
 
 void test_firebird_class::init_class()
 {
+	cpp_db::driver_registry::register_driver("firebird", [] {return cpp_db::firebird_driver::create(); });
+
     con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection("firebird"));
 
     TEST_FOR_NO_EXCEPTION(con->open("localhost:employee",  \

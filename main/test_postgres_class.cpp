@@ -6,6 +6,8 @@
 #include "execute.h"
 #include "transaction_scope.h"
 #include "postgres_exception.h"
+#include "driver_registry.h"
+#include "postgres_driver.h"
 
 #include <stdlib.h>
 #include <string>
@@ -22,7 +24,9 @@ std::string getUserName()
 
 void test_postgres_class::init_class()
 {
-    con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection("postgres"));
+	cpp_db::driver_registry::register_driver("postgres", []{return cpp_db::postgres_driver::create();});
+
+	con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection("postgres"));
     TEST_FOR_NO_EXCEPTION(con->open(getUserName(), cpp_db::no_authentication{}, cpp_db::key_value_pair{{"host", "localhost"}} ));
 }
 

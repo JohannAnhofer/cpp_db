@@ -5,11 +5,14 @@
 #include "db_exception.h"
 #include "transaction.h"
 #include "execute.h"
+#include "driver_registry.h"
+#include "sqlite_driver.h"
 
 #include <cmath>
 
 void test_sqlite_class::init_class()
 {
+	cpp_db::driver_registry::register_driver("sqlite", [] {return cpp_db::sqlite_driver::create(); });
     con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection("sqlite"));
     TEST_FOR_NO_EXCEPTION(con->open(":memory:", cpp_db::no_authentication{}));
 }
