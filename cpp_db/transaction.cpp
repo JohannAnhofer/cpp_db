@@ -40,7 +40,13 @@ transaction &transaction::operator=(transaction &&other)
 
 transaction::~transaction()
 {
-    rollback();
+	try
+	{
+		rollback();
+	}
+	catch (...)
+	{
+	}
 }
 
 void transaction::begin()
