@@ -8,6 +8,7 @@
 #include "type_mismatch.h"
 
 #include <any>
+#include <cstring>
 
 #include <memory>
 #include <string>
