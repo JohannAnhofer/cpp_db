@@ -25,3 +25,4 @@ build-*-debug/
 /.vs/
 /ipch/
 *.user
+/out/
