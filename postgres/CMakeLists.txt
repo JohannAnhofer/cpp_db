@@ -1,5 +1,3 @@
-# set(PostgreSQL_ROOT /Applications/Postgres.app/Contents/Versions/latest)
-# find_package(PostgreSQL REQUIRED)
 
 add_library(postgres STATIC
     postgres_connection.cpp
@@ -18,7 +16,10 @@ add_library(postgres STATIC
     postgres_transaction.h
 )
 
+find_package(PostgreSQL REQUIRED)
+
 target_link_libraries(postgres PUBLIC tools cpp_db)
-target_link_libraries(postgres PRIVATE pq)
-target_include_directories(postgres PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(postgres PRIVATE /Applications/Postgres.app/Contents/Versions/11/include)
+target_link_libraries(postgres PRIVATE ${PostgreSQL_LIBRARY})
+target_include_directories(postgres PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} PRIVATE ${PostgreSQL_INCLUDE_DIR})
+
+
