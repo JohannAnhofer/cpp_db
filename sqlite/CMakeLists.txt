@@ -1,8 +1,5 @@
 
 add_library(sqlite STATIC
-    sqlite3.c
-    sqlite3.h
-    sqlite3ext.h
     sqlite_connection.cpp
     sqlite_connection.h
     sqlite_driver.cpp
@@ -17,8 +14,20 @@ add_library(sqlite STATIC
     sqlite_statement.h
     sqlite_transaction.cpp
     sqlite_transaction.h
-    #    shell.c
 )
 
-target_link_libraries(sqlite PUBLIC tools cpp_db)
-target_include_directories(sqlite PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+find_package(SQLite3 REQUIRED)
+
+target_link_libraries(sqlite 
+	PUBLIC 
+		tools 
+		cpp_db 
+	PRIVATE
+		${SQLite3_LIBRARY}
+	)
+target_include_directories(sqlite 
+	PUBLIC 
+		${CMAKE_CURRENT_SOURCE_DIR} 
+	PRIVATE
+		${SQLite3_INCLUDE_DIR}
+	)
