@@ -32,3 +32,5 @@ if (MSVC)
 endif()
 
 add_custom_target(todo DEPENDS ALL SOURCES todo.txt)
+
+enable_testing()
