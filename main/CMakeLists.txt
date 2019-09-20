@@ -16,9 +16,11 @@ add_executable(cppdb
 
 target_link_libraries(cppdb PRIVATE
     tools
-    test
+    testframework
     postgres
     firebird
     sqlite
     cpp_db
     )
+
+add_test(cppdb COMMAND cppdb)

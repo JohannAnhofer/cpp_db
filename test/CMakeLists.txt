@@ -1,5 +1,5 @@
 
-add_library(test STATIC
+add_library(testframework STATIC
     abstract_test.cpp
     abstract_test.h
     abstract_test.inl
@@ -19,4 +19,4 @@ add_library(test STATIC
 )
 
 add_custom_target(other_files junit.xsd)
-target_include_directories(test PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(testframework PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
