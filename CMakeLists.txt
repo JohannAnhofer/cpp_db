@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 message("CMake version: ${CMAKE_VERSION} ")
 message("CMake make tool: ${CMAKE_MAKE_PROGRAM}")
