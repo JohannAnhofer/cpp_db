@@ -31,24 +31,22 @@ This module will set the following variables if found:
 #]=======================================================================]
 
 # Look for the necessary header
-find_path(Firebird3_INCLUDE_DIR NAMES ibase.h)
+#find_path(Firebird3_INCLUDE_DIR NAMES ibase.h)
+set(Firebird3_INCLUDE_DIR "/usr/lib/x86_64-linux-gnu/include")
 mark_as_advanced(Firebird3_INCLUDE_DIR)
 
 # Look for the necessary library
-find_library(Firebird3_LIBRARY NAMES fbclient)
+# find_library(Firebird3_LIBRARY NAMES "/usr/lib/x86_64-linux-gnu/libfbclient.so")
+set(Firebird3_LIBRARY "/usr/lib/x86_64-linux-gnu/libfbclient.so.3.0.2")
 mark_as_advanced(Firebird3_LIBRARY)
 
-# Extract version information from the header file
-if(Firebird3_INCLUDE_DIR)
-    file(STRINGS ${Firebird3_INCLUDE_DIR}/ibase.h _ver_line
-         REGEX "^#define Firebird_VERSION  *\"[0-9]+\\.[0-9]+\\.[0-9]+\""
-         LIMIT_COUNT 1)
-    string(REGEX MATCH "[0-9]+\\.[0-9]+\\.[0-9]+"
-           Firebird3_VERSION "${_ver_line}")
-    unset(_ver_line)
+# Extract version information from the library filename
+if(Firebird3_LIBRARY)	  
+	STRING(REGEX REPLACE "^[^.]*[.][sS][oO][.]" "" Firebird3_VERSION ${Firebird3_LIBRARY})
 endif()
 
-include(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)
+find_package(PackageHandleStandardArgs REQUIRED)
+
 find_package_handle_standard_args(Firebird3
     REQUIRED_VARS Firebird3_INCLUDE_DIR Firebird3_LIBRARY
     VERSION_VAR Firebird3_VERSION)
