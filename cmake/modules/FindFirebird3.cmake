@@ -30,20 +30,23 @@ This module will set the following variables if found:
 
 #]=======================================================================]
 
-# Look for the necessary header
-#find_path(Firebird3_INCLUDE_DIR NAMES ibase.h)
-set(Firebird3_INCLUDE_DIR "/usr/lib/x86_64-linux-gnu/include")
-mark_as_advanced(Firebird3_INCLUDE_DIR)
-
-# Look for the necessary library
-# find_library(Firebird3_LIBRARY NAMES "/usr/lib/x86_64-linux-gnu/libfbclient.so")
-set(Firebird3_LIBRARY "/usr/lib/x86_64-linux-gnu/libfbclient.so.3.0.2")
-mark_as_advanced(Firebird3_LIBRARY)
-
-# Extract version information from the library filename
-if(Firebird3_LIBRARY)	  
-	STRING(REGEX REPLACE "^[^.]*[.][sS][oO][.]" "" Firebird3_VERSION ${Firebird3_LIBRARY})
+# Look for the necessary header and library
+if (WIN32)
+	find_path(Firebird3_INCLUDE_DIR NAMES ibase.h HINTS "$ENV{ProgramW6432}/Firebird/Firebird_3_0" PATH_SUFFIXES "include" ENV FIREBIRD_HOME)
+	find_library(Firebird3_LIBRARY NAMES fbclient_ms.lib HINTS "$ENV{ProgramW6432}/Firebird/Firebird_3_0" PATH_SUFFIXES "lib" ENV_FIREBIRD_HOME)
+	get_filename_component(FB_ROOT_PATH "${Firebird3_INCLUDE_DIR}" DIRECTORY)
+	execute_process(COMMAND "${FB_ROOT_PATH}/gbak.exe" -z OUTPUT_VARIABLE FB_VERSION ERROR_VARIABLE FB_ERROR)
+	STRING(REGEX MATCH "([0-9]+[.])+[0-9]+" Firebird3_VERSION "${FB_VERSION}")
+else()
+	find_path(Firebird3_INCLUDE_DIR NAMES ibase.h HINTS "/usr/lib/x86_64-linux-gnu" PATH_SUFFIXES "include" ENV FIREBIRD_HOME)
+	find_library(Firebird3_LIBRARY NAMES libfbclient.so HINTS "/usr/lib/x86_64-linux-gnu" ENV_FIREBIRD_HOME)
+	# Extract version information from the library filename
+	if(Firebird3_LIBRARY)	  
+		STRING(REGEX REPLACE "^[^.]*[.][sS][oO][.]" "" Firebird3_VERSION ${Firebird3_LIBRARY})
+	endif()
 endif()
+mark_as_advanced(Firebird3_INCLUDE_DIR)
+mark_as_advanced(Firebird3_LIBRARY)
 
 find_package(PackageHandleStandardArgs REQUIRED)
 
