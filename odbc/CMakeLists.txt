@@ -14,4 +14,4 @@ add_library(odbc STATIC
     odbc_transaction.h
 )
 
-target_link_libraries(odbc INTERFACE tools cpp_db)
+target_link_libraries(odbc PUBLIC tools cpp_db)
