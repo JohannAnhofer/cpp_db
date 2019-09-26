@@ -15,6 +15,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
+if (MSVC)	
+	string(REGEX REPLACE "/[wW][0-3xX]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+	add_compile_options(/W4)
+endif()
 
 add_subdirectory(tools)
 add_subdirectory(cpp_db)
@@ -32,5 +36,3 @@ if (MSVC)
 endif()
 
 add_custom_target(todo DEPENDS ALL SOURCES todo.txt)
-
-enable_testing()

@@ -1,3 +1,5 @@
+enable_testing()
+
 add_executable(cppdb
     main.cpp
     test_cpp_db_class.cpp
