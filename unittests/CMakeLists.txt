@@ -15,6 +15,7 @@ target_link_directories(vsunittests
 		"$ENV{VSINSTALLDIR}\\VC\\Auxiliary\\VS\\UnitTest\\lib\\"	
 )
 
+target_compile_definitions(vsunittests PRIVATE "_UNICODE" "UNICODE")
 target_link_libraries(vsunittests 
 	PRIVATE
 		tools
