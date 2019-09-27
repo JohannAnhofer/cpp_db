@@ -23,17 +23,27 @@ if (MSVC)
 	add_compile_options(/W4)
 endif()
 
+find_package(PostgreSQL QUIET)
+
 add_subdirectory(tools)
 add_subdirectory(cpp_db)
 add_subdirectory(firebird)
 enable_testing()
 add_subdirectory(main)
+
 if(WIN32)
 	add_subdirectory(odbc)
 endif()
-add_subdirectory(postgres)
+
+if (PostgreSQL_FOUND)
+	add_subdirectory(postgres)
+else()
+	message("PostgreSQL not found, skipping postgres package")
+endif()
+
 add_subdirectory(samples)
 add_subdirectory(sqlite)
+
 add_subdirectory(test)
 if (MSVC)
 	add_subdirectory(unittests)
