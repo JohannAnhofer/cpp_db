@@ -42,12 +42,30 @@ else()
 	message("Firebird 3 not found, skipping firebird tests.")
 endif()
 
+find_package(sqlite3 QUIET)
+
+if (SQLite3_FOUND)
+	add_executable(cppdb_sqlite
+		main_sqlite.cpp     
+		test_sqlite_class.cpp
+		test_sqlite_class.h
+	)
+	target_link_libraries(cppdb_sqlite PRIVATE
+		tools
+		testframework
+		sqlite
+		cpp_db
+	)
+
+	add_test(NAME tst_cppdb_sqlite COMMAND cppdb_sqlite)
+else()
+	message("SQLite 3 not found, skipping sqlite tests.")
+endif()
+
 add_executable(cppdb
     main.cpp
     test_cpp_db_class.cpp
     test_cpp_db_class.h
-    test_sqlite_class.cpp
-    test_sqlite_class.h
     test_test_class.cpp
     test_test_class.h
     test_tools_class.cpp
@@ -57,7 +75,6 @@ add_executable(cppdb
 target_link_libraries(cppdb PRIVATE
     tools
     testframework
-    sqlite
     cpp_db
     )
 
