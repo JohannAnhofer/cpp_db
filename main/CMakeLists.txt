@@ -1,3 +1,23 @@
+find_package(PostgreSQL QUIET)
+if (PostgreSQL_FOUND)
+add_executable(cppdb_postgres 
+	main_pg.cpp     
+	test_postgres_class.cpp
+    test_postgres_class.h
+)
+target_link_libraries(cppdb_postgres PRIVATE
+    tools
+    testframework
+    postgres
+    cpp_db
+    )
+
+add_test(NAME cppdb_postgres COMMAND cppdb_postgres)
+
+else()
+	message("PostgreSQL not found, skipping postgresql tests.")
+endif()
+
 add_executable(cppdb
     main.cpp
     test_cpp_db_class.cpp
