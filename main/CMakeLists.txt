@@ -42,7 +42,7 @@ else()
 	message("Firebird 3 not found, skipping firebird tests.")
 endif()
 
-find_package(sqlite3 QUIET)
+find_package(SQLite3 QUIET)
 
 if (SQLite3_FOUND)
 	add_executable(cppdb_sqlite
