@@ -1,29 +1,51 @@
 find_package(PostgreSQL QUIET)
-if (PostgreSQL_FOUND)
-add_executable(cppdb_postgres 
-	main_pg.cpp     
-	test_postgres_class.cpp
-    test_postgres_class.h
-)
-target_link_libraries(cppdb_postgres PRIVATE
-    tools
-    testframework
-    postgres
-    cpp_db
-    )
 
-add_test(NAME cppdb_postgres COMMAND cppdb_postgres)
+if (PostgreSQL_FOUND)
+
+	add_executable(cppdb_postgres 
+		main_pg.cpp     
+		test_postgres_class.cpp
+		test_postgres_class.h
+	)
+	target_link_libraries(cppdb_postgres PRIVATE
+		tools
+		testframework
+		postgres
+		cpp_db
+		)
+
+	add_test(NAME tst_cppdb_postgres COMMAND cppdb_postgres)
 
 else()
 	message("PostgreSQL not found, skipping postgresql tests.")
+endif()
+
+find_package(Firebird3 QUIET)
+
+if (Firebird3_FOUND)
+
+	add_executable(cppdb_firebird
+		main_firebird.cpp     
+		test_firebird_class.cpp
+		test_firebird_class.h
+	)
+	target_link_libraries(cppdb_firebird PRIVATE
+		tools
+		testframework
+		firebird
+		cpp_db
+	)
+
+	add_test(NAME tst_cppdb_firebird COMMAND cppdb_firebird)
+
+else()
+	message("Firebird 3 not found, skipping firebird tests.")
 endif()
 
 add_executable(cppdb
     main.cpp
     test_cpp_db_class.cpp
     test_cpp_db_class.h
-    test_firebird_class.cpp
-    test_firebird_class.h
     test_sqlite_class.cpp
     test_sqlite_class.h
     test_test_class.cpp
@@ -35,9 +57,8 @@ add_executable(cppdb
 target_link_libraries(cppdb PRIVATE
     tools
     testframework
-    firebird
     sqlite
     cpp_db
     )
 
-add_test(NAME cppdb COMMAND cppdb)
+add_test(NAME tst_cppdb COMMAND cppdb)
