@@ -1,4 +1,6 @@
 
+find_package(PostgreSQL REQUIRED)
+
 add_library(postgres STATIC
     postgres_connection.cpp
     postgres_connection.h
@@ -15,8 +17,6 @@ add_library(postgres STATIC
     postgres_transaction.cpp
     postgres_transaction.h
 )
-
-find_package(PostgreSQL REQUIRED)
 
 target_link_libraries(postgres PUBLIC tools cpp_db)
 target_link_libraries(postgres PRIVATE ${PostgreSQL_LIBRARY})
