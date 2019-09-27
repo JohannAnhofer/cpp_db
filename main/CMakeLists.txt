@@ -4,8 +4,6 @@ add_executable(cppdb
     test_cpp_db_class.h
     test_firebird_class.cpp
     test_firebird_class.h
-    test_postgres_class.cpp
-    test_postgres_class.h
     test_sqlite_class.cpp
     test_sqlite_class.h
     test_test_class.cpp
@@ -17,7 +15,6 @@ add_executable(cppdb
 target_link_libraries(cppdb PRIVATE
     tools
     testframework
-    postgres
     firebird
     sqlite
     cpp_db
