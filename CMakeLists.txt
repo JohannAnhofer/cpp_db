@@ -49,4 +49,9 @@ if (MSVC)
 	add_subdirectory(unittests)
 endif()
 
-add_custom_target(todo DEPENDS ALL SOURCES todo.txt)
+add_custom_target(todo DEPENDS ALL 
+	SOURCES 
+		todo.txt
+		N3886.pdf
+		README.md
+)
