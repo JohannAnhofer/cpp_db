@@ -1,5 +1,3 @@
-enable_testing()
-
 add_library(vsunittests
 	stdafx.h
 	stdafx.cpp
