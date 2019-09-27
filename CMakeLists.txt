@@ -8,8 +8,9 @@ message("CMake version: ${CMAKE_VERSION} ")
 message("CMake make tool: ${CMAKE_MAKE_PROGRAM}")
 message("CMake module path: ${CMAKE_MODULE_PATH}")
 
-project(cppdb VERSION 0.1.0
-                  DESCRIPTION "C++ database abstraction layer")
+project(cppdb 
+	VERSION 0.1.0
+	DESCRIPTION "C++ database abstraction layer")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
