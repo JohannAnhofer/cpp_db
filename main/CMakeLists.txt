@@ -23,4 +23,4 @@ target_link_libraries(cppdb PRIVATE
     cpp_db
     )
 
-add_test(cppdb COMMAND cppdb)
+add_test(NAME cppdb COMMAND cppdb)
