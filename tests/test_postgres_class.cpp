@@ -12,22 +12,12 @@
 #include <stdlib.h>
 #include <string>
 
-std::string getUserName()
-{
-#if defined(_WIN32) || defined(_WIN64)
-    const char VAR_USER[] = "USERNAME";
-#else
-    const char VAR_USER[] = "USER";
-#endif
-    return getenv(VAR_USER);
-}
-
 void test_postgres_class::init_class()
 {
 	cpp_db::driver_registry::register_driver("postgres", []{return cpp_db::postgres_driver::create();});
 
 	con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection("postgres"));
-    TEST_FOR_NO_EXCEPTION(con->open(getUserName(), cpp_db::no_authentication{}, cpp_db::key_value_pair{{"host", "localhost"}} ));
+    TEST_FOR_NO_EXCEPTION(con->open("postgres", cpp_db::user_password_authentication{"postgres", "masterkey"}, cpp_db::key_value_pair{{"host", "localhost"}} ));
 }
 
 void test_postgres_class::cleanup_class()
@@ -95,10 +85,15 @@ void test_postgres_class::test_execute()
 
 void test_postgres_class::test_result_single_row()
 {
-    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(1, 'dad', 46);"));
-    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(2, 'mom', 41);"));
-    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
-    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
+	{
+		cpp_db::transaction tr{ *con };
+		cpp_db::transaction_scope trans{ &tr };
+
+		TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(1, 'dad', 46);"));
+		TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(2, 'mom', 41);"));
+		TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
+		TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
+	}
 
     TEST_EQUAL(cpp_db::value_of<std::string>(cpp_db::execute_scalar(*con, "select name from test_table order by age desc limit 1")), "dad");
 }
