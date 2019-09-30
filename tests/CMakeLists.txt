@@ -63,7 +63,7 @@ else()
 endif()
 
 add_executable(cppdb
-    main.cpp
+    main_cpp_db.cpp
     test_cpp_db_class.cpp
     test_cpp_db_class.h
     test_test_class.cpp
