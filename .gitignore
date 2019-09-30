@@ -26,3 +26,5 @@ build-*-debug/
 /ipch/
 *.user
 /out/
+
+CMakeSettings.json
