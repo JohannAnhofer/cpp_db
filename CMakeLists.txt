@@ -29,7 +29,7 @@ add_subdirectory(tools)
 add_subdirectory(cpp_db)
 add_subdirectory(firebird)
 enable_testing()
-add_subdirectory(main)
+add_subdirectory(tests)
 
 if(WIN32)
 	add_subdirectory(odbc)
@@ -44,9 +44,9 @@ endif()
 add_subdirectory(samples)
 add_subdirectory(sqlite)
 
-add_subdirectory(test)
+add_subdirectory(testframework)
 if (MSVC)
-	add_subdirectory(unittests)
+	add_subdirectory(vsunittests)
 endif()
 
 add_custom_target(todo DEPENDS ALL 
