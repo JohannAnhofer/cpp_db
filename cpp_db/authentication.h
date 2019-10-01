@@ -10,9 +10,7 @@ public:
 	virtual ~authentication() = 0;
 };
 
-inline authentication::~authentication()
-{
-}
+inline authentication::~authentication() = default;
 
 }
 
