@@ -3,6 +3,7 @@
 #include "driver_interface.h"
 #include "check_pointer.h"
 #include "driver_registry.h"
+#include "db_exception.h"
 
 #include <stdexcept>
 
@@ -13,31 +14,11 @@ namespace cpp_db
         , conn_impl(driver_impl->make_connection())
     {
 		if (!conn_impl)
-			throw std::runtime_error("No connection object from driver!");
+			throw db_exception("No connection object from driver!");
 	}
 
-	connection::~connection()
-	{
-	}
-
-#if defined(_MSC_VER) && (_MSC_FULL_VER <= 180021005)
-	connection::connection(connection && other)
-		: driver_impl(std::move(other.driver_impl))
-		, conn_impl(std::move(other.conn_impl))
-	{
-	}
-
-	connection &connection::operator=(connection && other)
-	{
-		if (this != &other)
-		{
-			driver_impl = std::move(other.driver_impl);
-			conn_impl = std::move(other.conn_impl);
-		}
-		return *this;
-	}
-#endif
-
+	connection::~connection() = default;
+	
 	void connection::open(const std::string &database, const authentication &auth, const key_value_pair & options)
 	{
 		conn_impl->open(database, auth, options);
