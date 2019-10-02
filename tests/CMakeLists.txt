@@ -62,20 +62,21 @@ else()
 	message("SQLite 3 not found, skipping sqlite tests.")
 endif()
 
+find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+
 add_executable(cppdb
-    main_cpp_db.cpp
     test_cpp_db_class.cpp
-    test_cpp_db_class.h
-    test_test_class.cpp
-    test_test_class.h
     test_tools_class.cpp
-    test_tools_class.h
+	test_test_class.cpp
 )
+
+target_include_directories(cppdb PRIVATE ${Boost_INCLUDE_DIRS})
 
 target_link_libraries(cppdb PRIVATE
     tools
     testframework
     cpp_db
+	Boost::unit_test_framework
     )
 
 add_test(NAME tst_cppdb COMMAND cppdb)
