@@ -39,7 +39,7 @@ if (Firebird3_FOUND)
 	add_test(NAME tst_cppdb_firebird COMMAND cppdb_firebird)
 
 else()
-	message("Firebird 3 not found, skipping firebird tests.")
+	message("Firebird not found, skipping firebird tests.")
 endif()
 
 find_package(SQLite3 QUIET)
@@ -59,7 +59,7 @@ if (SQLite3_FOUND)
 
 	add_test(NAME tst_cppdb_sqlite COMMAND cppdb_sqlite)
 else()
-	message("SQLite 3 not found, skipping sqlite tests.")
+	message("SQLite not found, skipping sqlite tests.")
 endif()
 
 add_executable(cppdb

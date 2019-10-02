@@ -23,31 +23,37 @@ if (MSVC)
 	add_compile_options(/W4)
 endif()
 
-find_package(PostgreSQL QUIET)
-
 add_subdirectory(tools)
 add_subdirectory(cpp_db)
-add_subdirectory(firebird)
-enable_testing()
-add_subdirectory(tests)
 
 if(WIN32)
 	add_subdirectory(odbc)
 endif()
 
+find_package(Firebird3 QUIET)
+if (Firebird3_FOUND)
+	add_subdirectory(firebird)
+else()
+	message("Firebird not found, skipping firebird package")
+endif()
+
+find_package(PostgreSQL QUIET)
 if (PostgreSQL_FOUND)
 	add_subdirectory(postgres)
 else()
 	message("PostgreSQL not found, skipping postgres package")
 endif()
 
-add_subdirectory(samples)
-add_subdirectory(sqlite)
-
-add_subdirectory(testframework)
-if (MSVC)
-	add_subdirectory(vsunittests)
+find_package(SQLite3 QUIET)
+if (SQLite3_FOUND)
+	add_subdirectory(sqlite)
+	add_subdirectory(samples)
+else()
+	message("SQLite not found, skipping sqlite driver and samples")
 endif()
+
+enable_testing()
+add_subdirectory(tests)
 
 add_custom_target(todo DEPENDS ALL 
 	SOURCES 
