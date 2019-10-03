@@ -1,9 +1,12 @@
+#define BOOST_TEST_MODULE cppdb_test
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 
 #include <stdexcept>
 
-BOOST_AUTO_TEST_SUITE(test_test, *boost::unit_test::expected_failures(8))
+struct TestTestFixture {};
+
+BOOST_FIXTURE_TEST_SUITE(test_test, TestTestFixture, *boost::unit_test::expected_failures(8))
 
 BOOST_AUTO_TEST_CASE(test_test_functions, *boost::unit_test::expected_failures(3))
 {

@@ -1,3 +1,4 @@
+#define BOOST_TEST_MODULE cppdb_tools
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 
@@ -22,7 +23,9 @@ namespace std
     }
 }
 
-BOOST_AUTO_TEST_SUITE(test_tools)
+struct ToolsTestFixture {};
+
+BOOST_FIXTURE_TEST_SUITE(test_tools, ToolsTestFixture)
 
 BOOST_AUTO_TEST_CASE(test_nullable)
 {

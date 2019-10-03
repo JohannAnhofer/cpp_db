@@ -1,4 +1,5 @@
 ﻿#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE cppdb
 #include <boost/test/unit_test.hpp>
 
 #include "null.h"
@@ -25,7 +26,9 @@ namespace std
     }
 }
 
-BOOST_AUTO_TEST_SUITE(test_cpp_db)
+struct CppDbTestFixture {};
+
+BOOST_FIXTURE_TEST_SUITE(test_cpp_db, CppDbTestFixture)
 
 BOOST_AUTO_TEST_CASE(test_is_null)
 {

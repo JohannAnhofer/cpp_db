@@ -59,17 +59,34 @@ else()
 endif()
 
 add_executable(cppdb
-    main_cpp_db.cpp
     test_cpp_db_class.cpp
-    test_tools_class.cpp
-    test_test_class.cpp
 )
-
 target_link_libraries(cppdb
     PRIVATE
         tools
         cpp_db
         Boost::unit_test_framework
 )
-
 add_test(NAME tst_cppdb COMMAND cppdb)
+
+add_executable(cppdb_test
+    test_test_class.cpp
+)
+target_link_libraries(cppdb_test
+    PRIVATE
+        tools
+        cpp_db
+        Boost::unit_test_framework
+)
+add_test(NAME cppdb_test COMMAND cppdb)
+
+add_executable(cppdb_tools
+    test_tools_class.cpp
+)
+target_link_libraries(cppdb_tools
+    PRIVATE
+        tools
+        cpp_db
+        Boost::unit_test_framework
+)
+add_test(NAME tst_cppdb_tools COMMAND cppdb_tools)
