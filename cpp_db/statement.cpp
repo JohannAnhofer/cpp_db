@@ -24,26 +24,6 @@ statement::statement(const std::string &sqlcmd, connection &conn)
     prepare(sqlcmd);
 }
 
-#if defined(_MSC_VER) && (_MSC_FULL_VER <= 180021005)
-
-statement::statement(statement && other)
-    : driver_impl(std::move(other.driver_impl))
-    , stmt_impl(std::move(other.stmt_impl))
-{
-}
-
-statement &statement::operator=(statement &&other)
-{
-    if (this != &other)
-    {
-        driver_impl = std::move(other.driver_impl);
-        stmt_impl = std::move(other.stmt_impl);
-    }
-    return *this;
-}
-
-#endif
-
 statement::~statement()
 {
 }
