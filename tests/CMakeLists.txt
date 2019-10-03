@@ -29,11 +29,12 @@ if (Firebird3_FOUND)
 		test_firebird_class.cpp
 		test_firebird_class.h
 	)
-	target_link_libraries(cppdb_firebird PRIVATE
-		tools
-		testframework
-		firebird
-		cpp_db
+	target_link_libraries(cppdb_firebird 
+		PRIVATE
+			tools
+			testframework
+			firebird
+			cpp_db
 	)
 
 	add_test(NAME tst_cppdb_firebird COMMAND cppdb_firebird)
@@ -67,16 +68,17 @@ find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 add_executable(cppdb
     test_cpp_db_class.cpp
     test_tools_class.cpp
-	test_test_class.cpp
+    test_test_class.cpp
 )
 
 target_include_directories(cppdb PRIVATE ${Boost_INCLUDE_DIRS})
 
-target_link_libraries(cppdb PRIVATE
-    tools
-    testframework
-    cpp_db
-	Boost::unit_test_framework
-    )
+target_link_libraries(cppdb
+    PRIVATE
+        tools
+        testframework
+        cpp_db
+        Boost::unit_test_framework
+)
 
 add_test(NAME tst_cppdb COMMAND cppdb)
