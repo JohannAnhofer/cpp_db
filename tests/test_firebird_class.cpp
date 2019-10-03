@@ -134,19 +134,6 @@ BOOST_AUTO_TEST_CASE(test_execute_non_query_with_parameters)
     BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "delete from test_table where SERIAL = 'xxxx-xxxx'"));
 }
 
-//template<typename T>
-//std::string to_string(const cpp_db::value &val, const std::string &def = "<null>")
-//{
-//    if (cpp_db::is_null(val))
-//        return def;
-//    else
-//    {
-//        std::stringstream s;
-//        s << cpp_db::value_of<T>(val);
-//        return s.str();
-//    }
-//}
-
 BOOST_AUTO_TEST_CASE(test_result_single_row)
 {
     cpp_db::result r(cpp_db::execute(*con, "execute procedure test_proc(?, ?, ?, ?, ?, ?)", "4711.0815", 10.0, 2.0, 3.0, 2, 3));
