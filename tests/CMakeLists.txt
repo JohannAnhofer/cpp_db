@@ -1,3 +1,5 @@
+find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+
 find_package(PostgreSQL QUIET)
 
 if (PostgreSQL_FOUND)
@@ -25,16 +27,14 @@ find_package(Firebird3 QUIET)
 if (Firebird3_FOUND)
 
     add_executable(cppdb_firebird
-        main_firebird.cpp
         test_firebird_class.cpp
-        test_firebird_class.h
     )
     target_link_libraries(cppdb_firebird
         PRIVATE
             tools
-            testframework
             firebird
             cpp_db
+            Boost::unit_test_framework
     )
 
     add_test(NAME tst_cppdb_firebird COMMAND cppdb_firebird)
@@ -62,8 +62,6 @@ if (SQLite3_FOUND)
 else()
     message("SQLite not found, skipping sqlite tests.")
 endif()
-
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 add_executable(cppdb
     main_cpp_db.cpp

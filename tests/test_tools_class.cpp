@@ -8,6 +8,7 @@
 #include <memory>
 #include <functional>
 
+// TODO: check throwing
 
 namespace std
 {
