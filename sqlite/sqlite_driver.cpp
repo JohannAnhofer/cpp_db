@@ -14,37 +14,35 @@ namespace cpp_db
 {
 	//  sqlite_driver
 
-	sqlite_driver::~sqlite_driver()
+    sqlite_driver::~sqlite_driver() = default;
+
+    std::unique_ptr<connection_interface> sqlite_driver::make_connection() const
 	{
+        return std::unique_ptr<connection_interface>(new sqlite_connection);
 	}
 
-	connection_interface *sqlite_driver::make_connection() const 
+    std::unique_ptr<statement_interface> sqlite_driver::make_statement(const shared_connection_ptr &conn) const
 	{
-		return new sqlite_connection;
+        return std::unique_ptr<statement_interface>{new sqlite_statement{conn}};
 	}
 
-    statement_interface *sqlite_driver::make_statement(const shared_connection_ptr &conn) const
+    std::unique_ptr<parameters_interface> sqlite_driver::make_parameters(const shared_statement_ptr &stmt) const
 	{
-        return new sqlite_statement(conn);
+        return std::unique_ptr<parameters_interface>{new sqlite_parameters{stmt}};
 	}
 
-    parameters_interface *sqlite_driver::make_parameters(const shared_statement_ptr &stmt) const
+    std::unique_ptr<result_interface> sqlite_driver::make_result(const shared_statement_ptr &stmt) const
 	{
-        return new sqlite_parameters(stmt);
+        return std::unique_ptr<result_interface>{new sqlite_result{stmt}};
 	}
 
-    result_interface *sqlite_driver::make_result(const shared_statement_ptr &stmt) const
+    std::unique_ptr<transaction_interface> sqlite_driver::make_transaction(const shared_connection_ptr &conn) const
 	{
-        return new sqlite_result(stmt);
-	}
-
-    transaction_interface *sqlite_driver::make_transaction(const shared_connection_ptr &conn) const
-	{
-        return new sqlite_transaction(conn);
+        return std::unique_ptr<transaction_interface>{new sqlite_transaction{conn}};
     }
 
-    sqlite_driver *sqlite_driver::create()
+    std::unique_ptr<sqlite_driver> sqlite_driver::create()
     {
-        return new sqlite_driver;
+        return std::unique_ptr<sqlite_driver>{new sqlite_driver};
     }
 }

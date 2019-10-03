@@ -17,7 +17,7 @@ class postgres_driver;
 class postgres_statement : public statement_interface
 {
 public:
-    ~postgres_statement();
+    ~postgres_statement() override;
 
     void prepare(const std::string &sqlcmd) override;
     bool is_prepared() const override;

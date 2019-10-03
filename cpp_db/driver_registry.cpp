@@ -5,7 +5,7 @@
 namespace cpp_db
 {
 
-using driver_creator_function = std::function<driver_interface *()>;
+using driver_creator_function = std::function<std::unique_ptr<driver_interface>()>;
 
 
 namespace driver_registry

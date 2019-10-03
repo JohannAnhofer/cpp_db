@@ -8,33 +8,34 @@
 namespace cpp_db
 {
 
-connection_interface *odbc_driver::make_connection() const
+std::unique_ptr<connection_interface> odbc_driver::make_connection() const
 {
-    return new odbc_connection;
+    return std::unique_ptr<connection_interface>{new odbc_connection};
 }
 
-statement_interface *odbc_driver::make_statement(const shared_connection_ptr &conn) const
+std::unique_ptr<statement_interface> odbc_driver::make_statement(const shared_connection_ptr &conn) const
 {
-    return new odbc_statement{conn};
+    return std::unique_ptr<statement_interface>{new odbc_statement{conn}};
 }
 
-parameters_interface *odbc_driver::make_parameters(const shared_statement_ptr &stmt) const
+std::unique_ptr<parameters_interface> odbc_driver::make_parameters(const shared_statement_ptr &stmt) const
 {
-    return new odbc_parameters{stmt};
+    return std::unique_ptr<parameters_interface>{new odbc_parameters{stmt}};
 }
 
-result_interface *odbc_driver::make_result(const shared_statement_ptr &stmt) const
+std::unique_ptr<result_interface> odbc_driver::make_result(const shared_statement_ptr &stmt) const
 {
-    return new odbc_result{stmt};
+    return std::unique_ptr<result_interface>{new odbc_result{stmt}};
 }
 
-transaction_interface *odbc_driver::make_transaction(const shared_connection_ptr &conn) const
+std::unique_ptr<transaction_interface> odbc_driver::make_transaction(const shared_connection_ptr &conn) const
 {
-    return new odbc_transaction{conn};
+    return std::unique_ptr<transaction_interface>{new odbc_transaction{conn}};
 }
 
-odbc_driver *odbc_driver::create()
+std::unique_ptr<odbc_driver> odbc_driver::create()
 {
-	return new odbc_driver;
+    return std::unique_ptr<odbc_driver>{new odbc_driver};
 }
+
 } // namespace cpp_db

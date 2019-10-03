@@ -11,7 +11,7 @@ namespace cpp_db
 
     namespace driver_registry
     {
-        void register_driver(const std::string &name, std::function<driver_interface *()> creator);
+        void register_driver(const std::string &name, std::function<std::unique_ptr<driver_interface> ()> creator);
         void unregister_driver(const std::string &name);
         std::shared_ptr<driver_interface> make_driver(const std::string &name);
     }

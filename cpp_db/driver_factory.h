@@ -24,7 +24,7 @@ public:
 
     static driver_factory &instance();
 
-    using driver_creator_function = std::function<driver_interface *()>;
+    using driver_creator_function = std::function<std::unique_ptr<driver_interface>()>;
 
     void register_driver(const std::string &name, driver_creator_function creator);
     void unregister_driver(const std::string &name);
