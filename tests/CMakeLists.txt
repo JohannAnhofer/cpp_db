@@ -43,15 +43,13 @@ endif()
 find_package(SQLite3 QUIET)
 if (SQLite3_FOUND)
     add_executable(cppdb_sqlite
-        main_sqlite.cpp
         test_sqlite_class.cpp
-        test_sqlite_class.h
     )
     target_link_libraries(cppdb_sqlite PRIVATE
         tools
-        testframework
         sqlite
         cpp_db
+        Boost::unit_test_framework
     )
 
     add_test(NAME tst_cppdb_sqlite COMMAND cppdb_sqlite)
