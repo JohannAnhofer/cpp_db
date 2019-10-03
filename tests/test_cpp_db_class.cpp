@@ -1,4 +1,4 @@
-﻿#define BOOST_TEST_MODULE cpp_db
+﻿#define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 
 #include "null.h"
@@ -13,66 +13,66 @@
 
 namespace std
 {
-	ostream& operator << (ostream& os, type_index ti)
-	{
-		os << "{" << ti.name() << ", " << ti.hash_code() << "}";
-		return os;
-	}
+    ostream& operator << (ostream& os, type_index ti)
+    {
+        os << "{" << ti.name() << ", " << ti.hash_code() << "}";
+        return os;
+    }
 
-	ostream& operator << (ostream& os, const std::wstring &ws)
-	{
-		return os;
-	}
+    ostream& operator << (ostream& os, const std::wstring &ws)
+    {
+        return os;
+    }
 }
 
 BOOST_AUTO_TEST_SUITE(test_cpp_db)
 
 BOOST_AUTO_TEST_CASE(test_is_null)
 {
-	cpp_db::null_type null;
+    cpp_db::null_type null;
 
     BOOST_CHECK(cpp_db::is_null(null));
-	BOOST_CHECK(!cpp_db::is_null(1));
+    BOOST_CHECK(!cpp_db::is_null(1));
 
-	cpp_db::value vnull(null);
-	BOOST_CHECK(cpp_db::is_null(vnull));
+    cpp_db::value vnull(null);
+    BOOST_CHECK(cpp_db::is_null(vnull));
 
-	cpp_db::parameter pnull(0, null);
-	BOOST_CHECK(cpp_db::is_null(pnull));
+    cpp_db::parameter pnull(0, null);
+    BOOST_CHECK(cpp_db::is_null(pnull));
 
-	BOOST_CHECK_THROW(cpp_db::type_of(null), std::logic_error);
-	BOOST_CHECK_THROW(cpp_db::type_of(vnull), std::logic_error);
-	BOOST_CHECK_THROW(cpp_db::type_of(pnull), std::logic_error);
+    BOOST_CHECK_THROW(cpp_db::type_of(null), std::logic_error);
+    BOOST_CHECK_THROW(cpp_db::type_of(vnull), std::logic_error);
+    BOOST_CHECK_THROW(cpp_db::type_of(pnull), std::logic_error);
 
-	BOOST_CHECK_THROW(cpp_db::value_of(null), std::logic_error);
-	BOOST_CHECK_THROW(cpp_db::value_of<int>(vnull), std::logic_error);
-	BOOST_CHECK_THROW(cpp_db::value_of<int>(pnull), std::logic_error);
+    BOOST_CHECK_THROW(cpp_db::value_of(null), std::logic_error);
+    BOOST_CHECK_THROW(cpp_db::value_of<int>(vnull), std::logic_error);
+    BOOST_CHECK_THROW(cpp_db::value_of<int>(pnull), std::logic_error);
 }
 
 BOOST_AUTO_TEST_CASE(test_type)
 {
     BOOST_CHECK_EQUAL(cpp_db::type_of(10), typeid(int));
     BOOST_CHECK_EQUAL(cpp_db::type_of(cpp_db::value{10}), typeid(int));
-	BOOST_CHECK_EQUAL(cpp_db::type_of(cpp_db::parameter{ 0, 10 }), typeid(int));
+    BOOST_CHECK_EQUAL(cpp_db::type_of(cpp_db::parameter{ 0, 10 }), typeid(int));
 }
 
 BOOST_AUTO_TEST_CASE(test_parameter)
 {
-	cpp_db::parameter param1(0, std::string("Hello world!")), param2(std::string("@test"), 27.85);
+    cpp_db::parameter param1(0, std::string("Hello world!")), param2(std::string("@test"), 27.85);
 
-	BOOST_CHECK(param1.has_index());
-	BOOST_CHECK(!param1.has_name());
-	BOOST_CHECK(!param2.has_index());
-	BOOST_CHECK(param2.has_name());
+    BOOST_CHECK(param1.has_index());
+    BOOST_CHECK(!param1.has_name());
+    BOOST_CHECK(!param2.has_index());
+    BOOST_CHECK(param2.has_name());
     BOOST_CHECK_EQUAL(cpp_db::type_of(param1), typeid(std::string));
     BOOST_CHECK_NE(cpp_db::type_of(param1), typeid(double));
     BOOST_CHECK_NE(cpp_db::type_of(param2), typeid(std::string));
     BOOST_CHECK_EQUAL(cpp_db::type_of(param2), typeid(double));
 
     BOOST_CHECK_EQUAL(cpp_db::value_of<std::string>(param1), "Hello world!");
-	BOOST_CHECK(std::fabs(cpp_db::value_of<double>(param2) - 27.85) < 0.000001);
+    BOOST_CHECK(std::fabs(cpp_db::value_of<double>(param2) - 27.85) < 0.000001);
 
-	BOOST_CHECK_THROW(cpp_db::value_of<int>(param1), std::runtime_error);
+    BOOST_CHECK_THROW(cpp_db::value_of<int>(param1), std::runtime_error);
 }
 
 BOOST_AUTO_TEST_CASE(test_conversions_i8)
@@ -98,9 +98,9 @@ BOOST_AUTO_TEST_CASE(test_conversions_i8)
     BOOST_CHECK_EQUAL(cpp_db::value_of<uint32_t>(val), vui32);
     BOOST_CHECK_EQUAL(cpp_db::value_of<int64_t>(val), vi64);
     BOOST_CHECK_EQUAL(cpp_db::value_of<uint64_t>(val), vui64);
-	BOOST_CHECK(std::fabs(cpp_db::value_of<float>(val) - vf) < 1e-6);
-	BOOST_CHECK(std::fabs(cpp_db::value_of<double>(val) - vd) < 1e-6);
-	BOOST_CHECK(std::fabs(cpp_db::value_of<long double>(val) - vld) < 1e-6);
+    BOOST_CHECK(std::fabs(cpp_db::value_of<float>(val) - vf) < 1e-6);
+    BOOST_CHECK(std::fabs(cpp_db::value_of<double>(val) - vd) < 1e-6);
+    BOOST_CHECK(std::fabs(cpp_db::value_of<long double>(val) - vld) < 1e-6);
 }
 
 BOOST_AUTO_TEST_CASE(test_conversions_ui8)
