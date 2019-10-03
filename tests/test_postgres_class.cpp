@@ -1,4 +1,8 @@
-#include "test_postgres_class.h"
+#define BOOST_TEST_MODULE cpp_db_postgres
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_NO_MAIN
+#include <boost/test/unit_test.hpp>
+
 #include "connection.h"
 #include "user_password_authentication.h"
 #include "transaction.h"
@@ -9,127 +13,131 @@
 #include "driver_registry.h"
 #include "postgres_driver.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 
-void test_postgres_class::init_class()
+struct PostgresTestFixture
 {
-	cpp_db::driver_registry::register_driver("postgres", []{return cpp_db::postgres_driver::create();});
+    PostgresTestFixture()
+    {
+        con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection("postgres"));
+        BOOST_CHECK_NO_THROW(con->open("postgres", cpp_db::user_password_authentication{"postgres", "masterkey"}, cpp_db::key_value_pair{{"host", "localhost"}} ));
+    }
 
-	con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection("postgres"));
-    TEST_FOR_NO_EXCEPTION(con->open("postgres", cpp_db::user_password_authentication{"postgres", "masterkey"}, cpp_db::key_value_pair{{"host", "localhost"}} ));
+    ~PostgresTestFixture()
+    {
+        BOOST_CHECK_NO_THROW(con->close());
+        BOOST_CHECK(!con->is_open());
+    }
+
+    void setup()
+    {
+        constexpr auto sql = R"(
+                    create table if not exists test_table (
+                        id int primary key,
+                        name varchar(50),
+                        age int
+                    );
+                )";
+
+        BOOST_CHECK_NO_THROW(cpp_db::execute_ddl(*con, sql));
+    }
+
+    void teardown()
+    {
+        BOOST_CHECK_NO_THROW(cpp_db::execute_ddl(*con, "drop table if exists test_table;"));
+    }
+    std::shared_ptr<cpp_db::connection> con;
+};
+
+BOOST_FIXTURE_TEST_SUITE(test_cpp_db_postgres, PostgresTestFixture)
+
+BOOST_AUTO_TEST_CASE(test_connection)
+{
+    BOOST_CHECK(con->is_open());
 }
 
-void test_postgres_class::cleanup_class()
-{
-    TEST_FOR_NO_EXCEPTION(con->close());
-    TEST_VERIFY(!con->is_open());
-}
-
-void test_postgres_class::init()
-{
-    const char *sql = R"(
-                create table if not exists test_table (
-                    id int primary key,
-                    name varchar(50),
-                    age int
-                );
-            )";
-
-    TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, sql));
-}
-
-void test_postgres_class::cleanup()
-{
-    TEST_FOR_NO_EXCEPTION(cpp_db::execute_ddl(*con, "drop table if exists test_table;"));
-}
-
-void test_postgres_class::test_connection()
-{
-    TEST_VERIFY(con->is_open());
-}
-
-void test_postgres_class::test_transaction()
+BOOST_AUTO_TEST_CASE(test_transaction)
 {
     cpp_db::transaction tr(*con);
-    TEST_VERIFY(!tr.is_open());
-    TEST_FOR_NO_EXCEPTION(tr.begin());
-    TEST_VERIFY(tr.is_open());
-    TEST_FOR_NO_EXCEPTION(tr.commit());
-    TEST_VERIFY(!tr.is_open());
-    TEST_FOR_NO_EXCEPTION(tr.begin());
-    TEST_VERIFY(tr.is_open());
-    TEST_FOR_NO_EXCEPTION(tr.rollback());
-    TEST_VERIFY(!tr.is_open());
+    BOOST_CHECK(!tr.is_open());
+    BOOST_CHECK_NO_THROW(tr.begin());
+    BOOST_CHECK(tr.is_open());
+    BOOST_CHECK_NO_THROW(tr.commit());
+    BOOST_CHECK(!tr.is_open());
+    BOOST_CHECK_NO_THROW(tr.begin());
+    BOOST_CHECK(tr.is_open());
+    BOOST_CHECK_NO_THROW(tr.rollback());
+    BOOST_CHECK(!tr.is_open());
 }
 
-void test_postgres_class::test_execute()
+BOOST_AUTO_TEST_CASE(test_execute)
 {
     cpp_db::statement cmd("insert into test_table(id, name, age) values(1, 'dad', 46);", *con);
-    TEST_FOR_NO_EXCEPTION(cmd.execute_non_query());
-    TEST_FOR_NO_EXCEPTION(cmd.prepare("insert into test_table(id, name, age) values(2, 'mom', 41);"));
-    TEST_FOR_NO_EXCEPTION(cmd.execute_non_query());
+    BOOST_CHECK_NO_THROW(cmd.execute_non_query());
+    BOOST_CHECK_NO_THROW(cmd.prepare("insert into test_table(id, name, age) values(2, 'mom', 41);"));
+    BOOST_CHECK_NO_THROW(cmd.execute_non_query());
 
     cpp_db::transaction tr(*con);
     {
         cpp_db::transaction_scope trs(&tr);
-        TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
-        TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
+        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
+        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
     }
     {
         cpp_db::transaction_scope trs(&tr);
-        TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(5, 'xxxxxx', 17);"));
+        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(5, 'xxxxxx', 17);"));
         tr.rollback();
     }
 }
 
-void test_postgres_class::test_result_single_row()
+BOOST_AUTO_TEST_CASE(test_result_single_row)
 {
-	{
-		cpp_db::transaction tr{ *con };
-		cpp_db::transaction_scope trans{ &tr };
+    {
+        cpp_db::transaction tr{ *con };
+        cpp_db::transaction_scope trans{ &tr };
 
-		TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(1, 'dad', 46);"));
-		TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(2, 'mom', 41);"));
-		TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
-		TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
-	}
+        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(1, 'dad', 46);"));
+        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(2, 'mom', 41);"));
+        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
+        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
+    }
 
-    TEST_EQUAL(cpp_db::value_of<std::string>(cpp_db::execute_scalar(*con, "select name from test_table order by age desc limit 1")), "dad");
+    BOOST_CHECK_EQUAL(cpp_db::value_of<std::string>(cpp_db::execute_scalar(*con, "select name from test_table order by age desc limit 1")), "dad");
 }
 
-void test_postgres_class::test_result_properties()
+BOOST_AUTO_TEST_CASE(test_result_properties)
 {
     cpp_db::statement stmt{"select id, name, age from test_table order by age desc", *con};
     cpp_db::result res(stmt.execute());
 
-    TEST_VERIFY(res.is_eof());
-    TEST_EQUAL(res.get_column_count(), 3);
-    TEST_EQUAL(res.get_column_name(1), "name");
-    TEST_EQUAL(res.get_column_index("age"), 2);
+    BOOST_CHECK(res.is_eof());
+    BOOST_CHECK_EQUAL(res.get_column_count(), 3);
+    BOOST_CHECK_EQUAL(res.get_column_name(1), "name");
+    BOOST_CHECK_EQUAL(res.get_column_index("age"), 2);
 
-    TEST_FOR_EXCEPTION(res.is_column_null("name"), cpp_db::postgres_exception);
-    TEST_FOR_EXCEPTION(res.is_column_null(0), cpp_db::postgres_exception);
+    BOOST_CHECK_NO_THROW(res.is_column_null("name"));
+    BOOST_CHECK_NO_THROW(res.is_column_null(0));
 }
 
-void test_postgres_class::test_result_multi_rows()
+BOOST_AUTO_TEST_CASE(test_result_multi_rows)
 {
-    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(1, 'dad', 46);"));
-    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(2, 'mom', 41);"));
-    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
-    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
-    TEST_FOR_NO_EXCEPTION(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(5, null, null);"));
+    BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(1, 'dad', 46);"));
+    BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(2, 'mom', 41);"));
+    BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
+    BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
+    BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(5, null, null);"));
 
     cpp_db::result res{cpp_db::execute(*con, "select name, age from test_table order by age desc")};
 
-    TEST_VERIFY(!res.is_eof());
+    BOOST_CHECK(!res.is_eof());
     std::string names;
     std::string ages;
-    TEST_VERIFY(res.is_column_null("name"));
-    TEST_VERIFY(res.is_column_null(1));
+    BOOST_CHECK(res.is_column_null("name"));
+    BOOST_CHECK(res.is_column_null(1));
     res.move_next();
-    TEST_VERIFY(!res.is_column_null("name"));
-    TEST_VERIFY(!res.is_column_null(1));
+    BOOST_CHECK(!res.is_column_null("name"));
+    BOOST_CHECK(!res.is_column_null(1));
 
     while(!res.is_eof())
     {
@@ -137,6 +145,19 @@ void test_postgres_class::test_result_multi_rows()
         ages += cpp_db::value_of<std::string>(res.get_column_value(1));
         res.move_next();
     }
-    TEST_EQUAL(names, "dadmomsondaughter");
-    TEST_EQUAL(ages, "464131");
+    BOOST_CHECK_EQUAL(names, "dadmomsondaughter");
+    BOOST_CHECK_EQUAL(ages, "464131");
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+bool init_postgres_driver()
+{
+    cpp_db::driver_registry::register_driver("postgres", []{return cpp_db::postgres_driver::create();});
+    return true;
+}
+
+int main(int argc, char* argv[])
+{
+    return boost::unit_test::unit_test_main( &init_postgres_driver, argc, argv );
 }

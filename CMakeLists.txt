@@ -52,8 +52,6 @@ else()
 	message("SQLite not found, skipping sqlite driver and samples")
 endif()
 
-add_subdirectory(testframework)
-
 enable_testing()
 add_subdirectory(tests)
 
