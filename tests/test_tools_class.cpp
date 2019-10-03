@@ -1,4 +1,3 @@
-#define BOOST_TEST_MODULE tools
 #include <boost/test/unit_test.hpp>
 
 #include "coalesce.h"
