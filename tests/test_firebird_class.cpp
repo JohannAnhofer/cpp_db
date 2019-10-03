@@ -14,8 +14,6 @@
 #include "driver_registry.h"
 #include "firebird_driver.h"
 
-BOOST_AUTO_TEST_SUITE(test_cpp_db_firebird)
-
 struct FirebirdTestFixture
 {
     FirebirdTestFixture()
@@ -94,7 +92,9 @@ struct FirebirdTestFixture
     std::shared_ptr<cpp_db::connection> con;
 };
 
-BOOST_FIXTURE_TEST_CASE(test_execute_non_query, FirebirdTestFixture)
+BOOST_FIXTURE_TEST_SUITE(test_cpp_db_firebird, FirebirdTestFixture)
+
+BOOST_AUTO_TEST_CASE(test_execute_non_query)
 {
     cpp_db::transaction tr(*con);
     BOOST_CHECK_NO_THROW(tr.begin());
@@ -104,7 +104,7 @@ BOOST_FIXTURE_TEST_CASE(test_execute_non_query, FirebirdTestFixture)
     BOOST_CHECK_NO_THROW(tr.rollback());
 }
 
-BOOST_FIXTURE_TEST_CASE(test_execute_non_query_with_parameters, FirebirdTestFixture)
+BOOST_AUTO_TEST_CASE(test_execute_non_query_with_parameters)
 {
     cpp_db::statement stmt(*con);
     BOOST_CHECK_NO_THROW(stmt.prepare("insert into test_table(ID, SERIAL, VERSION, TYPE_ID) VALUES(?, ?, ?, ?)"));
@@ -134,20 +134,20 @@ BOOST_FIXTURE_TEST_CASE(test_execute_non_query_with_parameters, FirebirdTestFixt
     BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "delete from test_table where SERIAL = 'xxxx-xxxx'"));
 }
 
-template<typename T>
-std::string to_string(const cpp_db::value &val, const std::string &def = "<null>")
-{
-    if (cpp_db::is_null(val))
-        return def;
-    else
-    {
-        std::stringstream s;
-        s << cpp_db::value_of<T>(val);
-        return s.str();
-    }
-}
+//template<typename T>
+//std::string to_string(const cpp_db::value &val, const std::string &def = "<null>")
+//{
+//    if (cpp_db::is_null(val))
+//        return def;
+//    else
+//    {
+//        std::stringstream s;
+//        s << cpp_db::value_of<T>(val);
+//        return s.str();
+//    }
+//}
 
-BOOST_FIXTURE_TEST_CASE(test_result_single_row, FirebirdTestFixture)
+BOOST_AUTO_TEST_CASE(test_result_single_row)
 {
     cpp_db::result r(cpp_db::execute(*con, "execute procedure test_proc(?, ?, ?, ?, ?, ?)", "4711.0815", 10.0, 2.0, 3.0, 2, 3));
     BOOST_CHECK(!r.is_eof());
@@ -162,7 +162,7 @@ BOOST_FIXTURE_TEST_CASE(test_result_single_row, FirebirdTestFixture)
 
 }
 
-BOOST_FIXTURE_TEST_CASE(test_result_multi_row, FirebirdTestFixture)
+BOOST_AUTO_TEST_CASE(test_result_multi_row)
 {
     cpp_db::result r(cpp_db::execute(*con, "select first(3) * from config_table WHERE NAME = ? order by ID DESC", "settings"));
     BOOST_CHECK_EQUAL(r.get_column_name(0), "ID");
@@ -219,7 +219,7 @@ BOOST_FIXTURE_TEST_CASE(test_result_multi_row, FirebirdTestFixture)
     }
 }
 
-BOOST_FIXTURE_TEST_CASE(test_result_empty, FirebirdTestFixture)
+BOOST_AUTO_TEST_CASE(test_result_empty)
 {
     cpp_db::result r(cpp_db::execute(*con, "select * from config_table WHERE NAME = ? order by ID DESC", "no rows"));
     BOOST_CHECK(r.is_eof());
