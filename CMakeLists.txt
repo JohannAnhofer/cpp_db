@@ -54,6 +54,7 @@ endif()
 
 enable_testing()
 add_subdirectory(tests)
+add_subdirectory(testframework)
 
 add_custom_target(todo DEPENDS ALL 
 	SOURCES 
