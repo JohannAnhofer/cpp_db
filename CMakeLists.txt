@@ -8,9 +8,9 @@ message("CMake version: ${CMAKE_VERSION} ")
 message("CMake make tool: ${CMAKE_MAKE_PROGRAM}")
 message("CMake module path: ${CMAKE_MODULE_PATH}")
 
-project(cppdb 
-	VERSION 0.1.0
-	DESCRIPTION "C++ database abstraction layer")
+project(cppdb
+    VERSION 0.1.0
+    DESCRIPTION "C++ database abstraction layer")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -18,16 +18,16 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
-if (MSVC)	
-	string(REGEX REPLACE "/[wW][0-3xX]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-	add_compile_options(/W4)
+if (MSVC)
+    string(REGEX REPLACE "/[wW][0-3xX]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+    add_compile_options(/W4)
 endif()
 
 add_subdirectory(tools)
 add_subdirectory(cpp_db)
 
 if(WIN32)
-	add_subdirectory(odbc)
+    add_subdirectory(odbc)
 endif()
 
 find_package(Firebird3 QUIET)
@@ -39,9 +39,9 @@ endif()
 
 find_package(PostgreSQL QUIET)
 if (PostgreSQL_FOUND)
-	add_subdirectory(postgres)
+    add_subdirectory(postgres)
 else()
-	message("PostgreSQL not found, skipping postgres package")
+    message("PostgreSQL not found, skipping postgres package")
 endif()
 
 find_package(SQLite3 QUIET)
@@ -51,6 +51,8 @@ if (SQLite3_FOUND)
 else()
 	message("SQLite not found, skipping sqlite driver and samples")
 endif()
+
+add_subdirectory(testframework)
 
 enable_testing()
 add_subdirectory(tests)
