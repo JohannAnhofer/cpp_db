@@ -179,20 +179,26 @@ BOOST_AUTO_TEST_CASE(test_wchar_t_neq_compare)
     BOOST_CHECK_NE(lcwpc4, rcwpc4);
 }
 
+struct A
+{
+    explicit A(bool do_throw)
+    {
+        if (do_throw) throw std::runtime_error("This is a test!");
+    }
+    bool operator==(const A &) const
+    {
+        return true;
+    }
+    friend std::ostream & operator<<(std::ostream &out, const A &a)
+    {
+        out << "A{}";
+        return out;
+    }
+};
+
 BOOST_AUTO_TEST_CASE(test_exceptions, *boost::unit_test::expected_failures(5))
 {
     BOOST_CHECK(true);
-    struct A
-    {
-        explicit A(bool do_throw)
-        {
-            if (do_throw) throw std::runtime_error("This is a test!");
-        }
-        bool operator==(const A &) const
-        {
-            return true;
-        }
-    };
     BOOST_CHECK_EQUAL(A(false), A(true));
     BOOST_CHECK_NE(A(true), A(false));
 	BOOST_CHECK(([]() -> bool {A a(true), b(false); return a == b;}()));
