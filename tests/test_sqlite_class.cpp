@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE cpp_db_postgres
+#define BOOST_TEST_MODULE cpp_db_sqlite
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_NO_MAIN
 #include <boost/test/unit_test.hpp>
