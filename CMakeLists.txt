@@ -55,9 +55,9 @@ endif()
 enable_testing()
 add_subdirectory(tests)
 
-add_custom_target(todo DEPENDS ALL 
-	SOURCES 
-		todo.txt
-		N3886.pdf
-		README.md
+add_custom_target(additional_files DEPENDS ALL
+    SOURCES
+        todo.txt
+        N3886.pdf
+        README.md
 )
