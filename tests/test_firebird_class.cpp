@@ -18,13 +18,13 @@ struct FirebirdTestFixture
 {
     FirebirdTestFixture()
     {
-        con = std::shared_ptr<cpp_db::connection>(new cpp_db::connection("firebird"));
+        con = std::make_shared<cpp_db::connection>("firebird");
 
         BOOST_CHECK_NO_THROW(con->open("localhost:employee",  \
                                 cpp_db::user_password_authentication{ "SYSDBA", "masterkey" }, \
                                 { { "encoding", "UNICODE_FSS" }, {"role", "admin"} } \
                             ));
-        const char *sql_create_test_table = R"(
+        const auto sql_create_test_table = R"(
                             CREATE TABLE test_table
                             (
                                 ID       INTEGER PRIMARY KEY,
@@ -35,7 +35,7 @@ struct FirebirdTestFixture
                 )";
         BOOST_CHECK_NO_THROW(execute_ddl(*con, sql_create_test_table));
 
-        const char * sql_create_config_table = R"(
+        const auto sql_create_config_table = R"(
                             CREATE TABLE config_table
                             (
                                 ID             BIGINT PRIMARY KEY,
@@ -50,7 +50,7 @@ struct FirebirdTestFixture
                 )";
         BOOST_CHECK_NO_THROW(execute_ddl(*con, sql_create_config_table));
 
-        const char * sql_create_test_proc = R"(
+        const auto sql_create_test_proc = R"(
                               create procedure test_proc (
                                   NUMBER varchar(30),
                                   OFFSET1 double precision,
@@ -87,6 +87,7 @@ struct FirebirdTestFixture
         BOOST_CHECK_NO_THROW(execute_ddl(*con, "drop table config_table;"));
         BOOST_CHECK_NO_THROW(execute_ddl(*con, "drop procedure test_proc;"));
         BOOST_CHECK_NO_THROW(con->close());
+        con.reset();
     }
 
     std::shared_ptr<cpp_db::connection> con;
