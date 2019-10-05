@@ -58,7 +58,7 @@ namespace cpp_db
         add_option_to_dpb(option_encoding,  isc_dpb_lc_ctype,      options, params, "UNICODE_FSS");
         add_option_to_dpb(option_role,      isc_dpb_sql_role_name, options, params);
 
-        std::unique_ptr<isc_db_handle> db_handle(new isc_db_handle{ 0 });
+        auto db_handle = std::make_unique<isc_db_handle>(0);
         guarded_execute([&](ISC_STATUS *status)
             {
                 isc_attach_database(status, static_cast<short>(database.length()), database.c_str(), db_handle.get(), static_cast<short>(params.size()), params.data());

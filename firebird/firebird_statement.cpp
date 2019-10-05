@@ -54,7 +54,7 @@ enum class firebird_data_type
 firebird_statement::firebird_statement(const shared_connection_ptr &conn, shared_transaction_ptr trans)
     : conn_impl(conn)
     , tr(trans)
-    , stmt(new isc_stmt_handle{0})
+    , stmt{std::make_unique<isc_stmt_handle>(0)}
     , prepared{false}
     , sqlda_params_in(true)
     , sqlda_fields_out(false)
