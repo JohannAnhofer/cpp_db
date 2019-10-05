@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <stdexcept>
 
 namespace tools
@@ -56,9 +57,9 @@ private:
 };
 
 template<typename K, typename V>
-connection_option *make_key_value_pair(const K &key, const V &value)
+std::unique_ptr<connection_option> make_key_value_pair(const K &key, const V &value)
 {
-    return new key_value_pair<K, V>(key, value);
+    return std::make_unique<key_value_pair<K, V>>(key, value);
 }
 
 

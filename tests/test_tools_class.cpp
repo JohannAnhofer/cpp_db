@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE(test_is_null_tools)
 
 BOOST_AUTO_TEST_CASE(test_key_value_pair)
 {
-    std::unique_ptr<tools::connection_option> p(tools::make_key_value_pair(std::string("driver"), std::string("QIBASE")));
+    auto p{tools::make_key_value_pair(std::string("driver"), std::string("QIBASE"))};
     BOOST_CHECK_EQUAL((p->key<std::string, std::string>()), "driver");
     BOOST_CHECK_EQUAL((p->value<std::string, std::string>()), std::string("QIBASE"));
 }
