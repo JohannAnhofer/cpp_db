@@ -10,7 +10,8 @@ const ISC_SHORT sql_ind_used = 1;
 template<typename T>
 void xsqlvar::write_value_to_sql_var(T value)
 {
-    memcpy(var.sqldata, &value, var.sqllen);
+    if (var.sqldata)
+        memcpy(var.sqldata, &value, var.sqllen);
 }
 
 xsqlvar::xsqlvar(XSQLVAR &var_in)
@@ -120,6 +121,8 @@ void xsqlvar::deallocate()
 {
     delete [] var.sqldata;
     delete var.sqlind;
+    var.sqldata = nullptr;
+    var.sqlind = nullptr;
 }
 
 void xsqlvar::reset_value()
@@ -177,7 +180,6 @@ value xsqlvar::get_column_value() const
             isc_decode_timestamp(reinterpret_cast<ISC_TIMESTAMP *>(var.sqldata), &timestamp);
             return timestamp;
         }
-        break;
     case  SQL_TYPE_TIME:
         {
             tm timestamp;
@@ -190,7 +192,6 @@ value xsqlvar::get_column_value() const
             isc_decode_sql_date(reinterpret_cast<ISC_DATE *>(var.sqldata), &timestamp);
             return timestamp;
         }
-        break;
     case  SQL_D_FLOAT:
     case  SQL_QUAD:
     case  SQL_BLOB:
@@ -245,6 +246,7 @@ void xsqlvar::set_column_value(const value &val)
             tm timestamp = value_of<tm>(val);
             isc_encode_sql_time(&timestamp, reinterpret_cast<ISC_TIME *>(var.sqldata));
         }
+        break;
     case  SQL_TYPE_DATE:
         {
             tm timestamp = value_of<tm>(val);
