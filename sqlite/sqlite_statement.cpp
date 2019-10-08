@@ -56,6 +56,8 @@ void sqlite_statement::execute()
     {
         if (error_code != SQLITE_DONE && error_code != SQLITE_ROW)
             throw sqlite_exception(error_code, get_db_handle());
+        else
+            reset();
     }
 }
 
