@@ -1,7 +1,6 @@
 #define BOOST_TEST_MODULE cpp_db_postgres
-#define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <boost/test/included/unit_test.hpp>
 
 #include "connection.h"
 #include "user_password_authentication.h"
@@ -151,10 +150,10 @@ BOOST_AUTO_TEST_CASE(test_result_multi_rows)
 
 BOOST_AUTO_TEST_SUITE_END()
 
-bool init_postgres_driver()
+boost::unit_test::test_suite *init_postgres_driver(int, char **)
 {
     cpp_db::driver_registry::register_driver("postgres", []{return cpp_db::postgres_driver::create();});
-    return true;
+    return nullptr;
 }
 
 int main(int argc, char* argv[])

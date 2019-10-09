@@ -1,7 +1,6 @@
 #define BOOST_TEST_MODULE cpp_db_firebird
-#define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <boost/test/included/unit_test.hpp>
 
 #include "firebird_driver.h"
 #include "user_password_authentication.h"
@@ -215,10 +214,10 @@ BOOST_AUTO_TEST_CASE(test_result_empty)
 
 BOOST_AUTO_TEST_SUITE_END()
 
-bool init_firebird_driver()
+boost::unit_test::test_suite *init_firebird_driver(int , char **)
 {
     cpp_db::driver_registry::register_driver("firebird", [] {return cpp_db::firebird_driver::create(); });
-    return true;
+    return nullptr;
 }
 
 int main(int argc, char* argv[])

@@ -1,6 +1,5 @@
-﻿#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE cppdb
-#include <boost/test/unit_test.hpp>
+﻿#define BOOST_TEST_MODULE cppdb
+#include <boost/test/included/unit_test.hpp>
 
 #include "null.h"
 #include "value.h"

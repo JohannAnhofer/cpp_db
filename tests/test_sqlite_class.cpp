@@ -1,7 +1,6 @@
 #define BOOST_TEST_MODULE cpp_db_sqlite
-#define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <boost/test/included/unit_test.hpp>
 
 #include "connection.h"
 #include "sqlite_driver.h"
@@ -173,10 +172,10 @@ BOOST_AUTO_TEST_CASE(test_result_emptys)
 
 BOOST_AUTO_TEST_SUITE_END()
 
-bool init_sqlite_driver()
+boost::unit_test::test_suite *init_sqlite_driver(int, char **)
 {
 	cpp_db::driver_registry::register_driver("sqlite", [] {return cpp_db::sqlite_driver::create(); });
-	return true;
+    return nullptr;
 }
 
 int main(int argc, char* argv[])
