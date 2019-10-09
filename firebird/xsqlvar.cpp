@@ -82,7 +82,9 @@ void xsqlvar::write_value_to_sql_var(const std::string &value)
 
 void xsqlvar::allocate(ISC_SHORT is_null)
 {
-    switch (type())
+	deallocate();
+
+	switch (type())
     {
     case SQL_INT64:
     case SQL_LONG:
@@ -97,20 +99,19 @@ void xsqlvar::allocate(ISC_SHORT is_null)
         memset(var.sqldata, 0, var.sqllen);
         break;
     case SQL_VARYING:
-        var.sqldata = new ISC_SCHAR[var.sqllen + sizeof(ISC_SHORT)];
+		var.sqldata = new ISC_SCHAR[var.sqllen + sizeof(ISC_SHORT)];
         memset(var.sqldata, 0, var.sqllen + sizeof(ISC_SHORT));
         break;
     case SQL_ARRAY:
     case SQL_BLOB:
     default:
         // not supported - do not bind.
-        var.sqldata = nullptr;
         break;
     }
 
     if (can_be_null())
     {
-        var.sqlind = new ISC_SHORT;
+		var.sqlind = new ISC_SHORT;
         *var.sqlind = is_null;
     }
     else
