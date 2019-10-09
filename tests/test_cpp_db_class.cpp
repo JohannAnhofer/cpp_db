@@ -21,6 +21,7 @@ namespace std
 
     ostream& operator << (ostream& os, const std::wstring &ws)
     {
+		os << "wide string of " << ws.size() << "characters length.";
         return os;
     }
 }
