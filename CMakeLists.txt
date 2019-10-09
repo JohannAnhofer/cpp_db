@@ -10,7 +10,8 @@ message("CMake module path: ${CMAKE_MODULE_PATH}")
 
 project(cppdb
     VERSION 0.1.0
-    DESCRIPTION "C++ database abstraction layer")
+    DESCRIPTION "C++ database abstraction layer"
+    LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
