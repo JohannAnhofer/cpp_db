@@ -11,6 +11,7 @@
 #include "postgres_exception.h"
 #include "driver_registry.h"
 #include "postgres_driver.h"
+#include "postgres_exception.h"
 
 #include <cstdlib>
 #include <string>
@@ -115,8 +116,8 @@ BOOST_AUTO_TEST_CASE(test_result_properties)
     BOOST_CHECK_EQUAL(res.get_column_name(1), "name");
     BOOST_CHECK_EQUAL(res.get_column_index("age"), 2);
 
-    BOOST_CHECK_NO_THROW(res.is_column_null("name"));
-    BOOST_CHECK_NO_THROW(res.is_column_null(0));
+    BOOST_CHECK_THROW(res.is_column_null("name"), cpp_db::postgres_exception);
+    BOOST_CHECK_THROW(res.is_column_null(0), cpp_db::postgres_exception);
 }
 
 BOOST_AUTO_TEST_CASE(test_result_multi_rows)
