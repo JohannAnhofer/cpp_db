@@ -35,9 +35,7 @@ public:
     }
 };
 
-inline connection_option::~connection_option()
-{
-}
+inline connection_option::~connection_option() = default;
 
 template<typename K, typename V>
 class key_value_pair : public connection_option
@@ -46,7 +44,10 @@ public:
     typedef K key_type;
     typedef V value_type;
 
-    key_value_pair(const K &key, const V &value) : key_(key), value_(value) {}
+    key_value_pair(const K &key, const V &value)
+        : key_(key), value_(value)
+    {
+    }
 
     K key() const {return key_;}
     V value() const {return value_;}

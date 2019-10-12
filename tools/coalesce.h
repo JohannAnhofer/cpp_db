@@ -6,7 +6,7 @@ namespace tools
 {
 
 using null_type = std::nullopt_t;
-inline constexpr std::nullopt_t null = std::nullopt;
+inline constexpr null_type null = std::nullopt;
 
 // first we need a trait structure to deduce the return type of coalesce
 
