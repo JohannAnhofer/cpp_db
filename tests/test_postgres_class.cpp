@@ -97,10 +97,10 @@ BOOST_AUTO_TEST_CASE(test_result_single_row)
         cpp_db::transaction tr{ *con };
         cpp_db::transaction_scope trans{ &tr };
 
-        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(1, 'dad', 46);"));
-        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(2, 'mom', 41);"));
-        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(3, 'son', 3);"));
-        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(4, 'daughter', 1);"));
+        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(1, 'dad', 51);"));
+        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(2, 'mom', 46);"));
+        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(3, 'son', 9);"));
+        BOOST_CHECK_NO_THROW(cpp_db::execute_non_query(*con, "insert into test_table(id, name, age) values(4, 'daughter', 7);"));
     }
 
     BOOST_CHECK_EQUAL(cpp_db::value_of<std::string>(cpp_db::execute_scalar(*con, "select name from test_table order by age desc limit 1")), "dad");
