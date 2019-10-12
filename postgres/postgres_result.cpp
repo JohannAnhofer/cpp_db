@@ -49,7 +49,7 @@ value postgres_result::get_column_value(int column) const
     if (is_eof())
         throw postgres_exception("End of result set reached!");
 
-    return PQgetvalue(get_pg_result(), row_position, column);
+    return std::string(PQgetvalue(get_pg_result(), row_position, column));
 }
 
 int postgres_result::get_column_index(const std::string &column_name) const
