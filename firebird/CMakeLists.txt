@@ -23,15 +23,13 @@ add_library(firebird STATIC
 
 find_package(Firebird3 REQUIRED)
 target_include_directories(firebird 
-	PUBLIC 
-		${CMAKE_CURRENT_SOURCE_DIR} 
-	PRIVATE 
-		${Firebird3_INCLUDE_DIR}
-		)
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
 target_link_libraries(firebird 
-	PUBLIC
-		tools 
-		cpp_db		
-	PRIVATE ${Firebird3_LIBRARY}
-	)
-
+    PUBLIC
+        tools
+        cpp_db
+    PRIVATE
+        Firebird::Firebird3
+)
