@@ -16,18 +16,21 @@ add_library(sqlite STATIC
     sqlite_transaction.h
 )
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 find_package(SQLite3 REQUIRED)
+target_include_directories(sqlite
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+    )
 
 target_link_libraries(sqlite 
-	PUBLIC 
-		tools 
-		cpp_db 
-	PRIVATE
-		${SQLite3_LIBRARY}
-	)
-target_include_directories(sqlite 
-	PUBLIC 
-		${CMAKE_CURRENT_SOURCE_DIR} 
-	PRIVATE
-		${SQLite3_INCLUDE_DIR}
-	)
+    PUBLIC
+        tools
+        cpp_db
+    PRIVATE
+        SQLite::SQLite3
+        ${CMAKE_DL_LIBS}
+        Threads::Threads
+    )
