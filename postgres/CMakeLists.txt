@@ -18,8 +18,18 @@ add_library(postgres STATIC
     postgres_transaction.h
 )
 
-target_link_libraries(postgres PUBLIC tools cpp_db)
-target_link_libraries(postgres PRIVATE ${PostgreSQL_LIBRARY})
-target_include_directories(postgres PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} PRIVATE ${PostgreSQL_INCLUDE_DIR})
+target_link_libraries(postgres
+    PUBLIC
+        tools
+        cpp_db
+    PRIVATE
+        ${PostgreSQL_LIBRARY}
+)
+target_include_directories(postgres
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+    PRIVATE
+        ${PostgreSQL_INCLUDE_DIR}
+)
 
 
