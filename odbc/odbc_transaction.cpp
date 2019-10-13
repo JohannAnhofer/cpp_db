@@ -1,6 +1,8 @@
 #include "db_exception.h"
 #include "odbc_connection.h"
 #include "odbc_transaction.h"
+#include "odbc_handle.h"
+
 #include <sqlext.h>
 #include <sqltypes.h>
 

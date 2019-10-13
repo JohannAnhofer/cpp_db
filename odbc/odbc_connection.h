@@ -16,17 +16,7 @@ namespace cpp_db
 
 class odbc_driver;
 
-struct odbc_handle
-{
-	SQLHANDLE _henv;
-	SQLHANDLE _hdbc;
-
-	odbc_handle();
-	odbc_handle(const odbc_handle &rhs_) = delete;
-	~odbc_handle();
-
-	void close();
-};
+struct odbc_handle;
 
 class odbc_connection : public connection_interface
 {
@@ -43,9 +33,9 @@ public:
 
 private:
 	std::shared_ptr<odbc_handle> _handle;
-	friend class odbc_driver;
 	std::weak_ptr<transaction_interface> current_transaction;
 
+	friend class odbc_driver;
 	odbc_connection();
 };
 

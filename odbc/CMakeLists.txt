@@ -12,6 +12,8 @@ add_library(odbc STATIC
     odbc_statement.h
     odbc_transaction.cpp
     odbc_transaction.h
+	odbc_handle.h
+	odbc_handle.cpp
 )
 
 target_link_libraries(odbc PUBLIC tools cpp_db)

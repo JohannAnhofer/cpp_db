@@ -1,41 +1,13 @@
 #include "db_exception.h"
 #include "odbc_connection.h"
+#include "odbc_handle.h"
+
 #include <sqlext.h>
 
 namespace cpp_db
 {
-odbc_handle::odbc_handle() :
-	_henv(nullptr),
-	_hdbc(nullptr)
-{
-}
 
-odbc_handle::~odbc_handle()
-{
-	close();
-}
-
-void odbc_handle::close()
-{
-	SQLRETURN ret_ = 0;
-
-	if (_hdbc)
-	{
-		ret_ = ::SQLDisconnect(_hdbc);
-		ret_ = ::SQLFreeHandle(SQL_HANDLE_DBC, _hdbc);
-		_hdbc = nullptr;
-	}
-
-	if (_henv)
-	{
-		ret_ = ::SQLFreeHandle(SQL_HANDLE_ENV, _henv);
-		_henv = nullptr;
-	}
-}
-	
-odbc_connection::odbc_connection()
-{
-}
+odbc_connection::odbc_connection() = default;
 
 odbc_connection::~odbc_connection()
 {

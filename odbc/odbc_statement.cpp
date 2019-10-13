@@ -1,12 +1,14 @@
 #include "db_exception.h"
 #include "odbc_connection.h"
 #include "odbc_statement.h"
+#include "odbc_handle.h"
+
 #include <sqlext.h>
 
 namespace cpp_db
 {
-odbc_stmt::odbc_stmt() :
-	_hstmt(nullptr)
+odbc_stmt::odbc_stmt() 
+	: _hstmt(nullptr)
 {
 }
 
@@ -25,15 +27,13 @@ void odbc_stmt::close()
 	_hstmt = nullptr;
 }
 
-odbc_statement::odbc_statement(const shared_connection_ptr &connection) :
-	_prepared(false),
-	conn_impl(connection)
+odbc_statement::odbc_statement(const shared_connection_ptr &connection) 
+	: _prepared(false)
+	, conn_impl(connection)
 {
 }
 
-odbc_statement::~odbc_statement()
-{
-}
+odbc_statement::~odbc_statement() = default;
 
 void odbc_statement::prepare(const std::string &sqlcmd)
 {
