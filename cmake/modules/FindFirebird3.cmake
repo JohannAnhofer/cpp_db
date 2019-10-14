@@ -32,8 +32,13 @@ This module will set the following variables if found:
 
 # Look for the necessary header and library
 if (WIN32)
+    if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
+        set(LIBS_SUB_DIR "lib32")
+    else()
+        set(LIBS_SUB_DIR "lib")
+    endif()
     find_path(Firebird3_INCLUDE_DIR NAMES ibase.h HINTS "$ENV{ProgramW6432}/Firebird/Firebird_3_0" PATH_SUFFIXES "include" ENV FIREBIRD_HOME)
-    find_library(Firebird3_LIBRARY NAMES fbclient_ms.lib HINTS "$ENV{ProgramW6432}/Firebird/Firebird_3_0" PATH_SUFFIXES "lib" ENV_FIREBIRD_HOME)
+    find_library(Firebird3_LIBRARY NAMES fbclient_ms.lib HINTS "$ENV{ProgramW6432}/Firebird/Firebird_3_0" PATH_SUFFIXES "${LIBS_SUB_DIR}" ENV_FIREBIRD_HOME)
     get_filename_component(FB_ROOT_PATH "${Firebird3_INCLUDE_DIR}" DIRECTORY)
     execute_process(COMMAND "${FB_ROOT_PATH}/gbak.exe" -z OUTPUT_VARIABLE FB_VERSION ERROR_VARIABLE FB_ERROR)
     STRING(REGEX MATCH "([0-9]+[.])+[0-9]+" Firebird3_VERSION "${FB_VERSION}")
