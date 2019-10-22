@@ -46,7 +46,7 @@ void odbc_statement::prepare(const std::string &sqlcmd)
 	ret_ = ::SQLAllocHandle(SQL_HANDLE_STMT, db_->_hdbc, &_stmt->_hstmt);
 	ret_ = ::SQLPrepareA(_stmt->_hstmt, const_cast<unsigned char *>
 		(reinterpret_cast<const unsigned char *>(sqlcmd.c_str())),
-		sqlcmd.length());
+        static_cast<SQLINTEGER>(sqlcmd.length()));
 
 	if (ret_ != SQL_SUCCESS && ret_ != SQL_SUCCESS_WITH_INFO)
 	{
@@ -77,7 +77,7 @@ std::string error_msg(const SQLSMALLINT handle_type_,
 	std::string error_;
 	SQLINTEGER num_records_ = 0;
 	SQLRETURN ret_ = ::SQLGetDiagField(handle_type_, handle_, 0,
-		SQL_DIAG_NUMBER, &num_records_, SQL_IS_INTEGER, NULL);
+        SQL_DIAG_NUMBER, &num_records_, SQL_IS_INTEGER, nullptr);
 	SQLCHAR buffer_[SQL_MAX_MESSAGE_LENGTH + 1];
 	SQLCHAR sqlstate_[SQL_SQLSTATE_SIZE + 1] = { 0 };
 	SQLINTEGER sqlcode_ = 0;

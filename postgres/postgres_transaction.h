@@ -16,7 +16,7 @@ class postgres_driver;
 class postgres_transaction : public transaction_interface
 {
 public:
-    ~postgres_transaction();
+    ~postgres_transaction() override;
 
     void begin() override;
     void commit() override;

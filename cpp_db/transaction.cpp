@@ -58,13 +58,13 @@ void transaction::begin()
 void transaction::commit()
 {
 	trans_impl->commit();
-	tools::lock_or_throw(conn_impl, "Invalid database connection")->set_current_transaction(0);
+    tools::lock_or_throw(conn_impl, "Invalid database connection")->set_current_transaction(nullptr);
 }
 
 void transaction::rollback()
 {
 	trans_impl->rollback();
-	tools::lock_or_throw(conn_impl, "Invalid database connection")->set_current_transaction(0);
+    tools::lock_or_throw(conn_impl, "Invalid database connection")->set_current_transaction(nullptr);
 }
 
 bool transaction::is_open() const

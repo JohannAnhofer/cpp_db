@@ -12,7 +12,7 @@ struct connection_interface;
 class odbc_transaction : public transaction_interface
 {
 public:
-    ~odbc_transaction();
+    ~odbc_transaction() override;
 
     void begin() override;
     void commit() override;

@@ -54,13 +54,13 @@ namespace cpp_db
 
 	void xsqlda::allocate(int vars_count)
 	{
-		size_t size_of_xsqlda_in_bytes = XSQLDA_LENGTH(vars_count);
+        auto size_of_xsqlda_in_bytes = XSQLDA_LENGTH(static_cast<std::uint64_t>(vars_count));
         sqlda = reinterpret_cast<XSQLDA *>(malloc(size_of_xsqlda_in_bytes));
 		if (sqlda == nullptr)
 			throw std::runtime_error("Can't allocated XSQLDA!");
 		memset(sqlda, 0, size_of_xsqlda_in_bytes);
         sqlda->version = version;
-		sqlda->sqln = vars_count;
+        sqlda->sqln = static_cast<ISC_SHORT>(vars_count);
 	}
 
     void xsqlda::allocate_vars()

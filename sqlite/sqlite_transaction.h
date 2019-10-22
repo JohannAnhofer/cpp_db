@@ -16,7 +16,7 @@ class sqlite_driver;
 class sqlite_transaction : public transaction_interface
 {
 public:
-    ~sqlite_transaction();
+    ~sqlite_transaction() override;
 
     void begin() override;
     void commit() override;

@@ -11,7 +11,7 @@ template<typename T>
 void xsqlvar::write_value_to_sql_var(T value)
 {
     if (var.sqldata)
-        memcpy(var.sqldata, &value, var.sqllen);
+        memcpy(var.sqldata, &value, static_cast<size_t>(var.sqllen));
 }
 
 xsqlvar::xsqlvar(XSQLVAR &var_in)
@@ -75,9 +75,9 @@ void xsqlvar::write_value_to_sql_var(const std::string &value)
         destination += sizeof(len);
         fill_char = 0;
     }
-    memcpy(destination, value.c_str(), len);
+    memcpy(destination, value.c_str(), static_cast<size_t>(len));
     if (len < var.sqllen)
-        memset(destination + len, fill_char, var.sqllen - len);
+        memset(destination + len, fill_char, static_cast<size_t>(var.sqllen - len));
 }
 
 void xsqlvar::allocate(ISC_SHORT is_null)
@@ -95,12 +95,12 @@ void xsqlvar::allocate(ISC_SHORT is_null)
     case SQL_TYPE_TIME:
     case SQL_TYPE_DATE:
     case SQL_TEXT:
-        var.sqldata = new ISC_SCHAR[var.sqllen];
-        memset(var.sqldata, 0, var.sqllen);
+        var.sqldata = new ISC_SCHAR[static_cast<std::uint64_t>(var.sqllen)];
+        memset(var.sqldata, 0, static_cast<size_t>(var.sqllen));
         break;
     case SQL_VARYING:
-		var.sqldata = new ISC_SCHAR[var.sqllen + sizeof(ISC_SHORT)];
-        memset(var.sqldata, 0, var.sqllen + sizeof(ISC_SHORT));
+        var.sqldata = new ISC_SCHAR[static_cast<std::uint64_t>(var.sqllen) + sizeof(ISC_SHORT)];
+        memset(var.sqldata, 0, static_cast<size_t>(var.sqllen) + sizeof(ISC_SHORT));
         break;
     case SQL_ARRAY:
     case SQL_BLOB:
@@ -142,10 +142,10 @@ void xsqlvar::reset_value()
     case SQL_TYPE_TIME:
     case SQL_TYPE_DATE:
     case SQL_TEXT:
-        memset(var.sqldata, 0, var.sqllen);
+        memset(var.sqldata, 0, static_cast<size_t>(var.sqllen));
         break;
     case SQL_VARYING:
-        memset(var.sqldata, 0, var.sqllen + sizeof(ISC_SHORT));
+        memset(var.sqldata, 0, static_cast<size_t>(var.sqllen) + sizeof(ISC_SHORT));
         break;
     case SQL_ARRAY:
     case SQL_BLOB:
@@ -162,9 +162,9 @@ value xsqlvar::get_column_value() const
     switch(type())
     {
     case  SQL_TEXT:
-        return std::string(var.sqldata, var.sqllen);
+        return std::string(var.sqldata, static_cast<size_t>(var.sqllen));
     case  SQL_VARYING:
-        return std::string(var.sqldata+sizeof(ISC_SHORT), *reinterpret_cast<ISC_SHORT *>(var.sqldata));
+        return std::string(var.sqldata+sizeof(ISC_SHORT), static_cast<size_t>(*reinterpret_cast<ISC_SHORT *>(var.sqldata)));
     case  SQL_SHORT:
         return *reinterpret_cast<int16_t *>(var.sqldata);
     case  SQL_LONG:

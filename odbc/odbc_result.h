@@ -15,7 +15,7 @@ class odbc_statement;
 class odbc_result : public result_interface
 {
 public:
-    ~odbc_result();
+    ~odbc_result() override;
 
     void move_next() override;
     bool is_eof() const override;

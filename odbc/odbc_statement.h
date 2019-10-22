@@ -5,7 +5,7 @@
 #include <memory>
 
 #if defined(WIN32)
-#include <windows.h>
+#include <Windows.h>
 #endif
 
 #include <sql.h>
@@ -32,7 +32,7 @@ struct odbc_stmt
 class odbc_statement : public statement_interface
 {
 public:
-    ~odbc_statement();
+    ~odbc_statement() override;
 
     void prepare(const std::string &sqlcmd) override;
     bool is_prepared() const override;

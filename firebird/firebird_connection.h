@@ -14,7 +14,7 @@ namespace cpp_db
 	class firebird_connection : public connection_interface
 	{
 	public:
-		~firebird_connection();
+        ~firebird_connection() override;
 
 		void open(const std::string &database, const authentication &auth = no_authentication{}, const key_value_pair & = key_value_pair{}) override;
 		void close() override;

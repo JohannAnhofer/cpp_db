@@ -38,7 +38,7 @@ void odbc_transaction::begin()
 		SQLINTEGER isolation_ = 0;
 		SQLUINTEGER ac_ = SQL_AUTOCOMMIT_OFF;
 		SQLRETURN ret_ = ::SQLGetConnectAttr(db_->_hdbc, SQL_ATTR_TXN_ISOLATION,
-			&isolation_, SQL_IS_POINTER, 0);
+            &isolation_, SQL_IS_POINTER, nullptr);
 
 		if (ret_ != SQL_SUCCESS && ret_ != SQL_SUCCESS_WITH_INFO)
 		{

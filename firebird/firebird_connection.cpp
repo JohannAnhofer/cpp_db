@@ -106,7 +106,7 @@ namespace cpp_db
         if (uint8_t len = value.size() > 255 ? 255 : static_cast<uint8_t>(value.size()))
         {
             params.push_back(name);
-            params.push_back(len);
+            params.push_back(static_cast<ISC_SCHAR>(len));
             auto end_it = std::begin(value);
             std::advance(end_it, len);
             std::copy(std::begin(value), end_it, std::back_inserter(params));

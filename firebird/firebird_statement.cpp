@@ -118,7 +118,7 @@ firebird_statement_type firebird_statement::determine_statement_type() const
             isc_dsql_sql_info(status, stmt.get(), 1, &q_type, sizeof(ac_buffer), ac_buffer);
         }, true);
     int i_length = isc_vax_integer(&ac_buffer[1], 2);
-    return static_cast<firebird_statement_type>(isc_vax_integer(&ac_buffer[3], i_length));
+    return static_cast<firebird_statement_type>(isc_vax_integer(&ac_buffer[3], static_cast<short>(i_length)));
 }
 
 void firebird_statement::prepare(const std::string &sqlcmd)

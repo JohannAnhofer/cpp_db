@@ -16,7 +16,7 @@ class firebird_driver;
 class firebird_transaction : public transaction_interface
 {
 public:
-    ~firebird_transaction();
+    ~firebird_transaction() override;
 
     void begin() override;
     void commit() override;

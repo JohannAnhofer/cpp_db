@@ -15,7 +15,7 @@ struct statement_interface;
 class odbc_parameters : public parameters_interface
 {
 public:
-    ~odbc_parameters();
+    ~odbc_parameters() override;
 
     int get_count() const override;
     void bind(const parameter &param) override;

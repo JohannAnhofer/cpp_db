@@ -30,7 +30,7 @@ void odbc_connection::open(const std::string &database, const authentication &au
 	// Not sure this is a good idea. We reverted back to ODBC 2
 	// at work last week in order to be bug compatible with clients.
 	ret_ = ::SQLSetEnvAttr(_handle->_henv, SQL_ATTR_ODBC_VERSION,
-		(SQLPOINTER)SQL_OV_ODBC3, SQL_IS_UINTEGER);
+        reinterpret_cast<SQLPOINTER>(SQL_OV_ODBC3), SQL_IS_UINTEGER);
 
 	if (ret_ != SQL_SUCCESS && ret_ != SQL_SUCCESS_WITH_INFO)
 	{

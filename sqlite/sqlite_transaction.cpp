@@ -36,7 +36,7 @@ sqlite_transaction::~sqlite_transaction()
 void sqlite_transaction::execute(const char *sql)
 {
     const char *tail = nullptr;
-    sqlite3_stmt *stmt = 0;
+    sqlite3_stmt *stmt = nullptr;
 	int status = sqlite3_prepare(get_db_handle(), sql, static_cast<int>(strlen(sql)), &stmt, &tail);
     if (status != SQLITE_OK && status != SQLITE_DONE)
         throw sqlite_exception(status, get_db_handle());

@@ -14,7 +14,7 @@ class sqlite_driver;
 class sqlite_connection : public connection_interface
 {
 public:
-	~sqlite_connection();
+    ~sqlite_connection() override;
 
 	void open(const std::string &database, const authentication &auth = no_authentication{}, const key_value_pair & = key_value_pair{}) override;
     void close() override;

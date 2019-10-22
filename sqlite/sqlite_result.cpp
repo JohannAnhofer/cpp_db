@@ -67,7 +67,8 @@ value sqlite_result::get_column_value(int column) const
         return blob(data, data + sqlite3_column_bytes(pstmt, column));
     }
     case SQLITE_TEXT:		// const char *
-        return std::string(reinterpret_cast<const char *>(sqlite3_column_text(pstmt, column)), sqlite3_column_bytes(pstmt, column));
+        return std::string(reinterpret_cast<const char *>(sqlite3_column_text(pstmt, column))
+                           , static_cast<size_t>(sqlite3_column_bytes(pstmt, column)));
     case SQLITE_NULL:		//
     default:
         break;

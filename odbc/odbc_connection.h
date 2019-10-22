@@ -6,7 +6,7 @@
 #include <memory>
 
 #if defined(WIN32)
-#include <windows.h>
+#include <Windows.h>
 #endif
 
 #include <sql.h>
@@ -22,7 +22,7 @@ class odbc_connection : public connection_interface
 {
 public:
 public:
-    ~odbc_connection();
+    ~odbc_connection() override;
 
     void open(const std::string &database, const authentication &auth = no_authentication{}, const key_value_pair & = key_value_pair{}) override;
     void close() override;

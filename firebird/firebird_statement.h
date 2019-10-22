@@ -18,7 +18,7 @@ class firebird_driver;
 class firebird_statement : public statement_interface
 {
 public:
-	~firebird_statement();
+    ~firebird_statement() override;
 
     void prepare(const std::string &sqlcmd) override;
     bool is_prepared() const override;

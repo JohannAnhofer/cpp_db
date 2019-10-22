@@ -11,7 +11,7 @@ class connection;
 class firebird_driver : public driver_interface
 {
 public:
-    virtual ~firebird_driver();
+    ~firebird_driver() override;
 
     std::unique_ptr<connection_interface> make_connection() const override;
     std::unique_ptr<statement_interface> make_statement(const shared_connection_ptr &conn) const override;

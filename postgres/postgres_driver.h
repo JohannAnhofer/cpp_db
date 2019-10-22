@@ -11,7 +11,7 @@ class connection;
 class postgres_driver : public driver_interface
 {
 public:
-    virtual ~postgres_driver();
+    ~postgres_driver() override;
 
     std::unique_ptr<connection_interface> make_connection() const override;
     std::unique_ptr<statement_interface> make_statement(const shared_connection_ptr &conn) const override;
