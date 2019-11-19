@@ -21,6 +21,7 @@ add_library(cpp_db STATIC
     result.cpp
     result.h
     result_interface.h
+    sql_datatypes.h
     statement.cpp
     statement.h
     statement.inl
