@@ -5,7 +5,6 @@
 #include "driver_registry.h"
 #include "db_exception.h"
 
-#include <stdexcept>
 
 namespace cpp_db
 {
