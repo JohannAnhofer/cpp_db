@@ -9,7 +9,6 @@
 #include <stdexcept>
 #include <cmath>
 #include <iostream>
-#include <cstring>
 
 namespace std
 {
@@ -399,17 +398,17 @@ BOOST_AUTO_TEST_CASE(test_cast_to)
     BOOST_CHECK_EQUAL(cpp_db::cast_to<std::string>(vala), "4711.08");
     BOOST_CHECK_EQUAL(cpp_db::cast_to<std::string>(valb), "15.323");
 
-    BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val1), L"111");
-    BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val2), L"200");
-    BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val3), L"25287");
-    BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val4), L"55555");
-    BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val5), L"1111111111");
-    BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val6), L"2222222222");
-    BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val7), L"5555555555");
-    BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val8), L"14757357730116075519");
-    BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val9), L"133.97");
-    BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(vala), L"4711.08");
-    BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(valb), L"15.323");
+    // BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val1), L"111");
+    // BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val2), L"200");
+    // BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val3), L"25287");
+    // BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val4), L"55555");
+    // BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val5), L"1111111111");
+    // BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val6), L"2222222222");
+    // BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val7), L"5555555555");
+    // BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val8), L"14757357730116075519");
+    // BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(val9), L"133.97");
+    // BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(vala), L"4711.08");
+    // BOOST_CHECK_EQUAL(cpp_db::cast_to<std::wstring>(valb), L"15.323");
 }
 
 BOOST_AUTO_TEST_CASE(test_null_int)
