@@ -45,7 +45,8 @@ if (SQLite3_FOUND)
     add_executable(cppdb_sqlite
         test_sqlite_class.cpp
     )
-    target_link_libraries(cppdb_sqlite PRIVATE
+    target_link_libraries(cppdb_sqlite
+        PRIVATE
         tools
         sqlite
         cpp_db

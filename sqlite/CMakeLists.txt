@@ -27,9 +27,9 @@ target_include_directories(sqlite
 
 target_link_libraries(sqlite 
     PUBLIC
-        tools
         cpp_db
     PRIVATE
+        tools
         SQLite::SQLite3
         ${CMAKE_DL_LIBS}
         Threads::Threads

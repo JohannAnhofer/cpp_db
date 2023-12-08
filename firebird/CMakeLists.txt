@@ -28,8 +28,8 @@ target_include_directories(firebird
 )
 target_link_libraries(firebird 
     PUBLIC
-        tools
         cpp_db
     PRIVATE
+        tools
         Firebird::Firebird3
 )
